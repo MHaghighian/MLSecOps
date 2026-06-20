@@ -1,0 +1,83 @@
+site_name: MLSecOps Guide v0.1
+site_description: Open-source operational guide for securing AI systems across the ML lifecycle
+site_author: Moslem Haghighian
+site_url: https://l4tr0d3ctism.github.io/MLSecOps/
+
+repo_name: l4tr0d3ctism/MLSecOps
+repo_url: https://github.com/l4tr0d3ctism/MLSecOps
+edit_uri: edit/main/
+
+copyright: Copyright &copy; 2025 MLSecOps Guide Contributors — CC BY-SA 4.0
+
+docs_dir: docs
+site_dir: site
+
+theme:
+  name: material
+  language: en
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - navigation.indexes
+    - search.highlight
+    - search.suggest
+    - content.code.copy
+    - content.action.edit
+  icon:
+    repo: fontawesome/brands/github
+
+plugins:
+  - search
+
+markdown_extensions:
+  - tables
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+  - toc:
+      permalink: true
+
+nav:
+  - Home: index.md
+  - Guide:
+      - Introduction: chapters-en/01-intro.md
+      - Scope & Threat Model: chapters-en/02-scope-risk-threat-model.md
+      - Autonomous AI Threats: chapters-en/03-threat-landscape.md
+      - Data Security & Privacy: chapters-en/04-data-security-privacy.md
+      - Model & Supply Chain: chapters-en/05-model-artifact-supply-chain.md
+      - Ten-Stage Pipeline: chapters-en/06-pipeline.md
+      - LLM & RAG Security: chapters-en/07-llm-rag-security.md
+      - Agentic AI Security: chapters-en/08-agentic-ai-security.md
+      - Anti-patterns: chapters-en/09-anti-patterns.md
+      - Monitoring & SOC: chapters-en/10-monitoring-soc-ir.md
+      - Governance & Evidence: chapters-en/11-governance-evidence.md
+      - Threat, Control & Tools: chapters-en/12-threat-control-tools-map.md
+      - Case Studies: chapters-en/13-case-studies.md
+      - Maturity Roadmap: chapters-en/14-maturity-roadmap.md
+      - Conclusion & Appendices: chapters-en/15-conclusion-appendix.md
+  - Contributing: contributing.md
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/l4tr0d3ctism/MLSecOps
