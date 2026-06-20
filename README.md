@@ -106,8 +106,6 @@ Aligned with OWASP LLM Top 10 (2025), MITRE ATLAS, NIST AI RMF, ISO/IEC 42001, O
 
 ## Table of Contents
 
-### English
-
 Full table of contents with section links: **[chapters-en/TABLE-OF-CONTENTS.md](chapters-en/TABLE-OF-CONTENTS.md)**
 
 | # | Chapter |
@@ -127,12 +125,6 @@ Full table of contents with section links: **[chapters-en/TABLE-OF-CONTENTS.md](
 | 13 | [Case Studies and Lessons Learned](chapters-en/13-case-studies.md) |
 | 14 | [MLSecOps Maturity Roadmap](chapters-en/14-maturity-roadmap.md) |
 | 15 | [Conclusion and Appendices](chapters-en/15-conclusion-appendix.md) |
-
-### Persian (فارسی)
-
-- [فصل ۱: چکیده و مقدمه](chapters/01-intro.md)
-- [فصل ۲: Scope، مخاطب و Threat Model](chapters/02-scope-risk-threat-model.md)
-- [فصل ۳ تا ۱۵](chapters/) — see `chapters/` directory
 
 ---
 
