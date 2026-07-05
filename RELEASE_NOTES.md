@@ -4,6 +4,20 @@ Official releases: [GitHub Releases](https://github.com/l4tr0d3ctism/MLSecOps/re
 
 ---
 
+## v1.0.1 — 2026-07-05
+
+**Zenodo archival release** — identical guide content to v1.0.0. Published to assign a [Zenodo](https://zenodo.org) DOI after enabling the GitHub integration.
+
+| Format | Link |
+|--------|------|
+| Source (ZIP) | [Source code (zip)](https://github.com/l4tr0d3ctism/MLSecOps/archive/refs/tags/v1.0.1.zip) |
+| DOCX | [MLSecOps-Practical-Reference-Guide-v1.0.1.docx](https://github.com/l4tr0d3ctism/MLSecOps/releases/download/v1.0.1/MLSecOps-Practical-Reference-Guide-v1.0.1.docx) |
+| PDF | [MLSecOps-Practical-Reference-Guide-v1.0.1.pdf](https://github.com/l4tr0d3ctism/MLSecOps/releases/download/v1.0.1/MLSecOps-Practical-Reference-Guide-v1.0.1.pdf) |
+| Markdown | `chapters-en/` in this repository |
+| Site | https://l4tr0d3ctism.github.io/MLSecOps/ |
+
+---
+
 ## v1.0.0 — 2026-07-05
 
 **MLSecOps Practical Reference Guide** — first stable release.

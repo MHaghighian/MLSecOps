@@ -4,9 +4,11 @@ All notable changes to the MLSecOps Guide are documented here.
 
 ## [Unreleased]
 
-### Changed
+## [1.0.1] — 2026-07-05
 
-- **Diagrams:** chapters use PNG images only (no ` ```mermaid ` fences). GitHub’s renderer fails on long `flowchart LR` chains with *Unable to render rich display*; Mermaid source moved to `assets/diagrams/source/*.mmd`.
+### Added
+
+- **Zenodo archival release** — no guide content changes; triggers DOI assignment after GitHub–Zenodo integration.
 
 ## [1.0.0] — 2026-07-05
 
