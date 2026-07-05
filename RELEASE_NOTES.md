@@ -6,7 +6,9 @@ Official releases: [GitHub Releases](https://github.com/l4tr0d3ctism/MLSecOps/re
 
 ## v1.0.1 — 2026-07-05
 
-**Zenodo archival release** — identical guide content to v1.0.0. Published to assign a [Zenodo](https://zenodo.org) DOI after enabling the GitHub integration.
+**Zenodo archival release** — identical guide content to v1.0.0.
+
+**DOI:** [10.5281/zenodo.21206781](https://doi.org/10.5281/zenodo.21206781) · [Zenodo record](https://zenodo.org/records/21206781)
 
 | Format | Link |
 |--------|------|

@@ -8,7 +8,8 @@ All notable changes to the MLSecOps Guide are documented here.
 
 ### Added
 
-- **Zenodo archival release** — no guide content changes; triggers DOI assignment after GitHub–Zenodo integration.
+- **Zenodo DOI** [10.5281/zenodo.21206781](https://doi.org/10.5281/zenodo.21206781) for long-term citation.
+- **Zenodo archival release** — no guide content changes; triggers DOI after GitHub–Zenodo integration.
 
 ## [1.0.0] — 2026-07-05
 
