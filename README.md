@@ -1,7 +1,8 @@
 # MLSecOps Practical Reference Guide
 
 [![Status](https://img.shields.io/badge/status-v1.0-blue)](CHANGELOG.md)
-[![Version](https://img.shields.io/badge/version-v1.0.0-lightgrey)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-v1.0.1-lightgrey)](CHANGELOG.md)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21206781.svg)](https://doi.org/10.5281/zenodo.21206781)
 [![License: CC BY-SA 4.0](https://img.shields.io/badge/License-CC%20BY--SA%204.0-green.svg)](LICENSE)
 
 Open-source **practical reference** for securing AI systems across the ML lifecycle — from data and training through deployment, runtime, SOC, and governance.
@@ -106,7 +107,7 @@ Executive lifecycle (detail in [Chapter 6](chapters-en/06-pipeline.md)):
 | **Word (DOCX)** | **v1.0.0** | [GitHub Releases — v1.0.0](https://github.com/l4tr0d3ctism/MLSecOps/releases/tag/v1.0.0) |
 | **PDF** | **v1.0.0** | [GitHub Releases — v1.0.0](https://github.com/l4tr0d3ctism/MLSecOps/releases/tag/v1.0.0) |
 
-**Current version:** **`v1.0.0`** — Markdown, [documentation site](https://l4tr0d3ctism.github.io/MLSecOps/), DOCX, and PDF.
+**Current version:** **`v1.0.1`** — Markdown, [documentation site](https://l4tr0d3ctism.github.io/MLSecOps/), DOCX, PDF, and [Zenodo DOI](https://doi.org/10.5281/zenodo.21206781).
 
 ---
 
@@ -115,8 +116,8 @@ Executive lifecycle (detail in [Chapter 6](chapters-en/06-pipeline.md)):
 | Item | Status |
 |------|--------|
 | Content scope | Feature-complete for v1.0 (16 chapters + Appendix E) |
-| Publication | **v1.0.0** — Markdown, site, DOCX, and PDF on [GitHub Releases](https://github.com/l4tr0d3ctism/MLSecOps/releases/tag/v1.0.0) |
-| Zenodo DOI | Planned (post v1.0.0 release) |
+| Publication | **v1.0.1** — [GitHub Releases](https://github.com/l4tr0d3ctism/MLSecOps/releases/tag/v1.0.1) · [Zenodo](https://doi.org/10.5281/zenodo.21206781) |
+| Zenodo DOI | [10.5281/zenodo.21206781](https://doi.org/10.5281/zenodo.21206781) |
 | Community review | [Request feedback](#community-feedback) |
 
 This is a **living document**. Validate controls and templates in your environment before production use.
@@ -135,10 +136,10 @@ This is a **living document**. Validate controls and templates in your environme
 - [x] Kubernetes architecture patterns (Ch.16; no bundled IaC)  
 - [x] Version **v1.0.0** and documentation site  
 - [x] GitHub Release with DOCX + PDF  
+- [x] Zenodo DOI for citation  
 
 ### Next
 
-- [ ] Zenodo DOI for citation  
 - [ ] Standalone diagram assets (optional)  
 
 ### Later (v1.1+)
@@ -170,14 +171,14 @@ If you review the guide and agree to be listed, we can add your name under **Com
 
 ## Cite this work
 
-See [CITATION.cff](CITATION.cff) for machine-readable metadata (Zenodo, GitHub, reference managers).
+See [CITATION.cff](CITATION.cff) for machine-readable metadata.
 
 ```text
-Haghighian, M. MLSecOps Practical Reference Guide (v1.0.0).
-GitHub, 2025–2026. https://github.com/l4tr0d3ctism/MLSecOps
+Haghighian, M. (2026). MLSecOps Practical Reference Guide (v1.0.1).
+Zenodo. https://doi.org/10.5281/zenodo.21206781
 ```
 
-A Zenodo DOI may be added for long-term citation.
+Also on GitHub: https://github.com/l4tr0d3ctism/MLSecOps
 
 ---
 
