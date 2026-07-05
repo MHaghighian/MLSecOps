@@ -1,0 +1,8 @@
+flowchart TB
+    User[Client / Agent] --> GW[AI Gateway namespace]
+    GW --> Inf[ai-inference namespace]
+    Inf --> Reg[Signed model registry]
+    Kyverno[Kyverno admission] -.-> Inf
+    NP[NetworkPolicy default-deny] -.-> Inf
+    SOC[SIEM / runtime monitor] --> Inf
+    GW --> SOC

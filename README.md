@@ -1,221 +1,207 @@
-# MLSecOps Guide v0.1
+# MLSecOps Practical Reference Guide
 
-> **Draft v0.1 — open-source framework guide for securing AI systems across the ML lifecycle.** Not an official industry standard. Reference implementations (CI/CD examples, Evidence Pack automation) are on the [roadmap](#roadmap).
+[![Status](https://img.shields.io/badge/status-v1.0-blue)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-v1.0.0-lightgrey)](CHANGELOG.md)
+[![License: CC BY-SA 4.0](https://img.shields.io/badge/License-CC%20BY--SA%204.0-green.svg)](LICENSE)
 
-**Documentation:** [l4tr0d3ctism.github.io/MLSecOps](https://l4tr0d3ctism.github.io/MLSecOps/) · **Repository:** [github.com/l4tr0d3ctism/MLSecOps](https://github.com/l4tr0d3ctism/MLSecOps)
+Open-source **practical reference** for securing AI systems across the ML lifecycle — from data and training through deployment, runtime, SOC, and governance.
 
-[Read the guide](https://l4tr0d3ctism.github.io/MLSecOps/) · [Quick Start](#quick-start) · [Contribute](CONTRIBUTING.md) · [License](LICENSE)
+**Not** a product user manual, an official industry standard, or affiliated with OpenSSF, OWASP, NIST, or ISO.
 
----
-
-## Why MLSecOps?
-
-AI systems introduce security risks beyond traditional software:
-
-- Training data and dataset lineage
-- Model artifacts and weights
-- Prompts and system instructions
-- Embeddings and vector indexes
-- RAG retrieval pipelines
-- AI agents and tool execution
-- Probabilistic runtime behavior
-
-`MLSecOps` extends `DevSecOps` principles to these AI-native attack surfaces—from data ingest through training, deployment, runtime monitoring, and SOC integration.
-
-> **What this is:** A framework-oriented security guide—not a blog post, checklist, or certified standard. It maps threats and controls to OWASP, MITRE ATLAS, NIST AI RMF, and ISO/IEC 42001, with a 10-stage security pipeline model and an auditable `Evidence Pack` concept.
->
-> **Who it is for:** Security engineers, ML engineers, MLOps teams, platform owners, and governance teams building or operating production AI systems.
-
----
-
-## Architecture Overview
-
-Executive lifecycle view (detailed 10-stage pipeline in [Chapter 6](chapters-en/06-pipeline.md)):
-
-```mermaid
-flowchart LR
-    A[Data Ingest] --> B[Train / Fine-tune]
-    B --> C[Evaluate]
-    C --> D[Security Test]
-    D --> E[Sign & Register]
-    E --> F[Deploy]
-    F --> G[Runtime Monitor]
-    G --> H[SOC / IR]
-    H -.-> A
-```
-
-```mermaid
-flowchart TB
-    DevSecOps[DevSecOps: Code, CI/CD, Infra, Secrets] --> MLSecOps[MLSecOps]
-    MLSecOps --> Data[Data Security]
-    MLSecOps --> Model[Model and Artifact Security]
-    MLSecOps --> Pipeline[Security Gates in ML Pipeline]
-    MLSecOps --> Runtime[AI Runtime Guardrails]
-    MLSecOps --> SOC[Monitoring and SOC]
-```
-
-Full chapter: [Abstract and Introduction](chapters-en/01-intro.md) · Pipeline: [Ten-Stage MLSecOps Pipeline](chapters-en/06-pipeline.md)
-
----
-
-## Capabilities
-
-| Capability | Coverage |
+| | |
 |---|---|
-| AI Supply Chain | Dataset lineage, `SBOM`/`AI-BOM`, model signing, provenance |
-| Model Security | Backdoor detection, poisoning, extraction, adversarial testing |
-| LLM Security | Prompt injection, jailbreak, output handling, guardrails |
-| RAG Security | Retrieval poisoning, embedding risks, ACL at query time |
-| Agent Security | Tool abuse, intent gates, memory poisoning, multi-agent |
-| Pipeline | 10-stage security pipeline with enforceable gates |
-| Runtime | Drift monitoring, inference gateway, telemetry |
-| Governance | `Evidence Pack`, EU AI Act mapping, maturity roadmap |
-| Operations | SOC integration, incident response, case studies |
-
-Aligned with OWASP LLM Top 10 (2025), MITRE ATLAS, NIST AI RMF, ISO/IEC 42001, OpenSSF MLSecOps, and CSA MAESTRO.
+| **Documentation site** | [l4tr0d3ctism.github.io/MLSecOps](https://l4tr0d3ctism.github.io/MLSecOps/) |
+| **Read (Markdown)** | [Table of Contents](chapters-en/TABLE-OF-CONTENTS.md) · [Chapter 1](chapters-en/01-intro.md) |
+| **Summary (Persian)** | [GUIDE-SUMMARY.md](GUIDE-SUMMARY.md) — full section-by-section overview |
+| **Implement** | [Appendix E: Implementation Reference](chapters-en/17-appendix-e-implementation-reference.md) |
+| **Quick paths** | [Getting Started](GETTING-STARTED.md) |
+| **Releases** | [GitHub Releases](https://github.com/l4tr0d3ctism/MLSecOps/releases) · [Downloads](#downloads) |
+| **Contribute** | [CONTRIBUTING.md](CONTRIBUTING.md) · [Issues](https://github.com/l4tr0d3ctism/MLSecOps/issues) · [Discussions](https://github.com/l4tr0d3ctism/MLSecOps/discussions) |
 
 ---
 
-## MLSecOps vs DevSecOps
+## What this guide adds
 
-`DevSecOps` secures code, infrastructure, dependencies, containers, secrets, and `CI/CD`.
+This guide **synthesizes** OWASP, MITRE ATLAS, NIST AI RMF, ISO/IEC 42001, OpenSSF Secure MLOps, and CSA MAESTRO. Its operational additions are:
 
-`MLSecOps` additionally secures data, models, prompts, embeddings, vector databases, RAG, agents, and AI runtime behavior.
+1. **Ten lifecycle control points** — one thread from change initiation through monitoring  
+2. **Explicit release decisions** — separate evidence-producing steps from blocking gates (control points 4, 7, 8) and integrity at 9  
+3. **`Evidence Pack`** — auditable output bundle per release  
+4. **[Implementation Reference](chapters-en/17-appendix-e-implementation-reference.md)** — architecture cards, decision matrix, templates, playbooks  
 
-| Dimension | `DevSecOps` | `MLSecOps` |
-|---|---|---|
-| Primary asset | Code, image, dependency | Data, model, embedding, prompt |
-| Supply chain artifact | Package, container image | Model weights, dataset, vector index |
-| Security testing | SAST, SCA, DAST | Adversarial test, LLM red team, backdoor scan |
-| Attack surface | API, container, IaC | Inference API, RAG, agent tools, GPU memory |
-| Promotion control | Build and deploy gate | Gate before train, evaluate, sign, and deploy |
-| Evidence | SBOM, attestation | SBOM + `AI-BOM`, model signing, `Evidence Pack` |
-
-`MLSecOps` does not replace `DevSecOps`—both must be integrated. See [Chapter 1](chapters-en/01-intro.md) for the full comparison.
+Details: [Chapter 1 — What this guide adds](chapters-en/01-intro.md#what-this-guide-adds-beyond-owasp-openssf-and-nist).
 
 ---
 
-## Quick Start
+## Who it is for
 
-1. Read [Chapter 1: Abstract and Introduction](chapters-en/01-intro.md) — problem statement, principles, and lifecycle overview
-2. Review [Chapter 2: Scope, Audience, and Threat Model](chapters-en/02-scope-risk-threat-model.md) to understand applicability
-3. Explore [Chapter 6: Ten-Stage MLSecOps Pipeline](chapters-en/06-pipeline.md) for implementation
-4. Use [Chapter 12: Threat, Control, and Tool Mapping](chapters-en/12-threat-control-tools-map.md) for tool selection
+| Role | Start here |
+|------|------------|
+| Executive / risk owner | [Ch.1](chapters-en/01-intro.md) → [Ch.2](chapters-en/02-scope-risk-threat-model.md) → [Ch.14](chapters-en/14-maturity-roadmap.md) |
+| Security engineer | [Ch.2](chapters-en/02-scope-risk-threat-model.md) → [Ch.6](chapters-en/06-pipeline.md) → [Ch.12](chapters-en/12-threat-control-tools-map.md) |
+| ML / MLOps | [Ch.6](chapters-en/06-pipeline.md) → [Ch.5](chapters-en/05-model-artifact-supply-chain.md) → [Ch.9](chapters-en/09-anti-patterns.md) |
+| LLM / RAG / Agent | [Ch.7](chapters-en/07-llm-rag-security.md) → [Ch.8](chapters-en/08-agentic-ai-security.md) |
+| Platform / Kubernetes | [Ch.16](chapters-en/16-kubernetes-deployment-reference.md) → [Ch.10](chapters-en/10-monitoring-soc-ir.md) |
+| Production rollout | [Appendix E](chapters-en/17-appendix-e-implementation-reference.md) → [Ch.6](chapters-en/06-pipeline.md) |
+
+Full paths: [GETTING-STARTED.md](GETTING-STARTED.md).
 
 ---
 
-## Table of Contents
+## Architecture overview
 
-Full table of contents with section links: **[chapters-en/TABLE-OF-CONTENTS.md](chapters-en/TABLE-OF-CONTENTS.md)**
+Executive lifecycle (detail in [Chapter 6](chapters-en/06-pipeline.md)):
 
-| # | Chapter |
-|---|---|
+![Executive lifecycle overview](assets/diagrams/01-intro_02.png)
+
+**Coverage:** classic ML · LLM · RAG · managed AI APIs · agents · MCP · Shadow AI · supply chain · runtime · SOC · governance · Kubernetes patterns.
+
+---
+
+## Documentation
+
+| Resource | Description |
+|----------|-------------|
+| [TABLE-OF-CONTENTS.md](chapters-en/TABLE-OF-CONTENTS.md) | Full TOC with section links |
+| [GUIDE-SUMMARY.md](GUIDE-SUMMARY.md) | Complete Persian summary of every section |
+| [17-appendix-e-implementation-reference.md](chapters-en/17-appendix-e-implementation-reference.md) | Templates, matrices, architecture cards |
+| [CHANGELOG.md](CHANGELOG.md) | Version history |
+| [GOVERNANCE.md](GOVERNANCE.md) | Project status and versioning policy |
+
+### Chapters
+
+| # | Title |
+|---|--------|
 | 1 | [Abstract and Introduction](chapters-en/01-intro.md) |
 | 2 | [Scope, Audience, and Threat Model](chapters-en/02-scope-risk-threat-model.md) |
-| 3 | [Autonomous AI Threats and Offensive AI Operations](chapters-en/03-threat-landscape.md) |
+| 3 | [Autonomous AI Threats](chapters-en/03-threat-landscape.md) |
 | 4 | [Data Security and Privacy](chapters-en/04-data-security-privacy.md) |
-| 5 | [Model, Artifact, and Supply Chain Security](chapters-en/05-model-artifact-supply-chain.md) |
-| 6 | [Ten-Stage MLSecOps Pipeline](chapters-en/06-pipeline.md) |
+| 5 | [Model, Artifact, and Supply Chain](chapters-en/05-model-artifact-supply-chain.md) |
+| 6 | [MLSecOps Lifecycle Control Model](chapters-en/06-pipeline.md) |
 | 7 | [LLM and RAG Security](chapters-en/07-llm-rag-security.md) |
 | 8 | [Agentic AI Security](chapters-en/08-agentic-ai-security.md) |
-| 9 | [Anti-patterns in MLSecOps](chapters-en/09-anti-patterns.md) |
-| 10 | [Monitoring, SOC, and Incident Response](chapters-en/10-monitoring-soc-ir.md) |
-| 11 | [Governance, Compliance, and Evidence Pack](chapters-en/11-governance-evidence.md) |
+| 9 | [Anti-patterns](chapters-en/09-anti-patterns.md) |
+| 10 | [Monitoring, SOC, and IR](chapters-en/10-monitoring-soc-ir.md) |
+| 11 | [Governance and Evidence Pack](chapters-en/11-governance-evidence.md) |
 | 12 | [Threat, Control, and Tool Mapping](chapters-en/12-threat-control-tools-map.md) |
-| 13 | [Case Studies and Lessons Learned](chapters-en/13-case-studies.md) |
-| 14 | [MLSecOps Maturity Roadmap](chapters-en/14-maturity-roadmap.md) |
+| 13 | [Case Studies](chapters-en/13-case-studies.md) |
+| 14 | [Maturity Roadmap](chapters-en/14-maturity-roadmap.md) |
 | 15 | [Conclusion and Appendices](chapters-en/15-conclusion-appendix.md) |
+| 16 | [Kubernetes Deployment Reference](chapters-en/16-kubernetes-deployment-reference.md) |
+| E | [Implementation Reference](chapters-en/17-appendix-e-implementation-reference.md) |
+
+**Reading on GitHub:** open any `.md` file under `chapters-en/` — diagrams are embedded **PNG images** (`assets/diagrams/`). Mermaid source for edits: `assets/diagrams/source/*.mmd`.
+
+**Documentation site (MkDocs):** [l4tr0d3ctism.github.io/MLSecOps](https://l4tr0d3ctism.github.io/MLSecOps/) — built from `main` via GitHub Actions.
+
+---
+
+## Downloads
+
+| Format | Status | How to get it |
+|--------|--------|----------------|
+| **Markdown** | Available | This repository (`chapters-en/`) |
+| **Documentation site** | Available | [l4tr0d3ctism.github.io/MLSecOps](https://l4tr0d3ctism.github.io/MLSecOps/) |
+| **Source (ZIP)** | **v1.0.0** | GitHub auto-generated [Source code (zip)](https://github.com/l4tr0d3ctism/MLSecOps/archive/refs/tags/v1.0.0.zip) on each release |
+| **Word (DOCX)** | **v1.0.0** | [GitHub Releases — v1.0.0](https://github.com/l4tr0d3ctism/MLSecOps/releases/tag/v1.0.0) |
+| **PDF** | **v1.0.0** | [GitHub Releases — v1.0.0](https://github.com/l4tr0d3ctism/MLSecOps/releases/tag/v1.0.0) |
+
+**Current version:** **`v1.0.0`** — Markdown, [documentation site](https://l4tr0d3ctism.github.io/MLSecOps/), DOCX, and PDF.
+
+---
+
+## Project status
+
+| Item | Status |
+|------|--------|
+| Content scope | Feature-complete for v1.0 (16 chapters + Appendix E) |
+| Publication | **v1.0.0** — Markdown, site, DOCX, and PDF on [GitHub Releases](https://github.com/l4tr0d3ctism/MLSecOps/releases/tag/v1.0.0) |
+| Zenodo DOI | Planned (post v1.0.0 release) |
+| Community review | [Request feedback](#community-feedback) |
+
+This is a **living document**. Validate controls and templates in your environment before production use.
 
 ---
 
 ## Roadmap
 
-- [x] Lifecycle model and MLSecOps principles
-- [x] Threat taxonomy (classic ML, LLM, RAG, agents)
-- [x] 10-stage security pipeline with gates
-- [x] Threat, control, and tool mapping
-- [x] Governance, Evidence Pack, and maturity model
-- [x] Case studies and operational checklists
-- [x] Documentation site (MkDocs + GitHub Pages)
-- [ ] Architecture diagram assets (`docs/images/`)
-- [ ] CI/CD reference pipeline (GitHub Actions / GitLab CI example)
-- [ ] Kubernetes MLSecOps deployment examples
-- [ ] Automated Evidence Pack collection scripts
-- [ ] Zenodo release with DOI for citation
+### Done (v1.0)
+
+- [x] Ten-point lifecycle control model and release decision model  
+- [x] Threat / control / tool mapping (Ch.12)  
+- [x] LLM, RAG, Agent, MCP, Shadow AI, SOC, governance  
+- [x] Case studies and maturity roadmap  
+- [x] Appendix E: Implementation Reference  
+- [x] Kubernetes architecture patterns (Ch.16; no bundled IaC)  
+- [x] Version **v1.0.0** and documentation site  
+- [x] GitHub Release with DOCX + PDF  
+
+### Next
+
+- [ ] Zenodo DOI for citation  
+- [ ] Standalone diagram assets (optional)  
+
+### Later (v1.1+)
+
+- [ ] OWASP ML Top 10 mapping updates when finalized  
+- [ ] Additional case studies from community  
+
+Track changes: [CHANGELOG.md](CHANGELOG.md).
 
 ---
 
-## Project Status
+## Community feedback
 
-**Version:** v0.1 (draft — last reviewed June 2026)
+We welcome review from practitioners.
 
-This project is a research-driven **operational guide**—not an official industry standard. Content is based on published frameworks and knowledge through the end of 2025. Given the pace of change in LLM and Agentic AI, readers should periodically review new versions of OWASP LLM Top 10, MITRE ATLAS, and related standards.
+- **Bug or typo:** [Open an issue](https://github.com/l4tr0d3ctism/MLSecOps/issues)  
+- **Suggestion / discussion:** [GitHub Discussions](https://github.com/l4tr0d3ctism/MLSecOps/discussions)  
+- **Pull request:** see [CONTRIBUTING.md](CONTRIBUTING.md)  
 
-Community feedback, issues, and contributions are welcome.
+If you review the guide and agree to be listed, we can add your name under **Community reviewers** (with your permission only). Open a discussion or PR to propose an entry.
+
+<!-- Example after v1.0:
+## Community reviewers
+
+- Name, Title, Organization (reviewed v1.0.0, 2026-07)
+-->
 
 ---
 
-## Cite This Work
+## Cite this work
 
-If you reference this guide in research, a resume, or internal documentation:
+See [CITATION.cff](CITATION.cff) for machine-readable metadata (Zenodo, GitHub, reference managers).
 
 ```text
-Haghighian, M. MLSecOps Guide (v0.1): Securing AI Systems Across the Lifecycle.
-GitHub, 2025–2026.
+Haghighian, M. MLSecOps Practical Reference Guide (v1.0.0).
+GitHub, 2025–2026. https://github.com/l4tr0d3ctism/MLSecOps
 ```
 
-A Zenodo DOI will be added in a future release (see [Roadmap](#roadmap)).
-
-**Documentation site:** https://l4tr0d3ctism.github.io/MLSecOps/
+A Zenodo DOI may be added for long-term citation.
 
 ---
 
-## Frameworks Referenced
+## Frameworks referenced
 
-- OWASP Top 10 for LLM Applications (2025)
-- OWASP Machine Learning Security Top 10
-- OWASP Top 10 for Agentic Applications
-- MITRE ATLAS (Adversarial Threat Landscape for AI Systems)
-- NIST AI Risk Management Framework (AI RMF 1.0)
-- ISO/IEC 42001:2023 (Artificial Intelligence Management System)
-- ISO/IEC 23894:2023 (AI Risk Management)
-- EU AI Act
-- OpenSSF MLSecOps Whitepaper
-- Cloud Security Alliance MAESTRO Framework
+OWASP LLM Top 10 (2025) · OWASP ML Top 10 (draft) · OWASP Agentic / MCP · MITRE ATLAS · NIST AI RMF · ISO/IEC 42001 · ISO/IEC 23894 · EU AI Act · OpenSSF MLSecOps Whitepaper · CSA MAESTRO
 
 ---
 
-## Contributing
+## Contributing · License · Security
 
-Contributions are welcome! Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details.
+| | |
+|---|---|
+| [CONTRIBUTING.md](CONTRIBUTING.md) | How to contribute |
+| [LICENSE](LICENSE) | CC BY-SA 4.0 |
+| [CITATION.cff](CITATION.cff) | Citation metadata |
+| [CHANGELOG.md](CHANGELOG.md) | Version history |
+| [RELEASE_NOTES.md](RELEASE_NOTES.md) | Release notes |
+| [SECURITY.md](SECURITY.md) | Report issues in this repo |
+| [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) | Community standards |
+| [RELEASING.md](RELEASING.md) | Maintainer release checklist (v1.0) |
 
-## License
-
-This project is licensed under the Creative Commons Attribution-ShareAlike 4.0 International License (CC BY-SA 4.0). See [LICENSE](LICENSE).
-
-## Acknowledgments
-
-This guide was developed by combining reference frameworks, real-world case studies, and operational implementation patterns. Special thanks to the OWASP community, MITRE ATLAS, NIST, and the broader AI security community.
+---
 
 ## Contact
 
-For questions, feedback, or collaboration opportunities, please open an issue or discussion in this repository.
-
----
-
-## Build documentation locally
-
-For maintainers only — copies chapters into `docs/` and serves the site:
-
-```bash
-pip install -r requirements.txt
-powershell -File scripts/prepare-docs.ps1   # Windows
-# bash scripts/prepare-docs.sh              # Linux / macOS / CI
-mkdocs serve
-```
-
-Open http://127.0.0.1:8000. The site deploys to GitHub Pages on push to `main` via `.github/workflows/deploy-docs.yml`.
-
-**Enable Pages once:** Repository → Settings → Pages → Build and deployment → Source: **GitHub Actions**.
-
-Published URL: https://l4tr0d3ctism.github.io/MLSecOps/
+Questions, feedback, or collaboration: [GitHub Issues](https://github.com/l4tr0d3ctism/MLSecOps/issues) or [Discussions](https://github.com/l4tr0d3ctism/MLSecOps/discussions).

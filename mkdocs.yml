@@ -1,16 +1,10 @@
-site_name: MLSecOps Guide v0.1
-site_description: Open-source operational guide for securing AI systems across the ML lifecycle
-site_author: Moslem Haghighian
+site_name: MLSecOps Practical Reference Guide
 site_url: https://l4tr0d3ctism.github.io/MLSecOps/
-
-repo_name: l4tr0d3ctism/MLSecOps
 repo_url: https://github.com/l4tr0d3ctism/MLSecOps
+repo_name: l4tr0d3ctism/MLSecOps
 edit_uri: edit/main/chapters-en/
 
-copyright: Copyright &copy; 2025–2026 MLSecOps Guide Contributors — CC BY-SA 4.0
-
-docs_dir: docs
-site_dir: site
+copyright: Copyright &copy; 2025–2026 Moslem Haghighian — CC BY-SA 4.0
 
 theme:
   name: material
@@ -21,62 +15,59 @@ theme:
       accent: indigo
       toggle:
         icon: material/brightness-7
-        name: Switch to dark mode
+        name: Dark mode
     - scheme: slate
       primary: indigo
       accent: indigo
       toggle:
         icon: material/brightness-4
-        name: Switch to light mode
+        name: Light mode
   features:
-    - navigation.tabs
     - navigation.sections
+    - navigation.expand
     - navigation.top
-    - navigation.indexes
-    - search.highlight
     - search.suggest
+    - search.highlight
     - content.code.copy
-    - content.action.edit
-  icon:
-    repo: fontawesome/brands/github
+    - toc.follow
 
 plugins:
   - search
 
 markdown_extensions:
-  - tables
   - admonition
   - pymdownx.details
-  - pymdownx.superfences:
-      custom_fences:
-        - name: mermaid
-          class: mermaid
-          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.superfences
   - pymdownx.tabbed:
       alternate_style: true
+  - tables
   - toc:
       permalink: true
 
 nav:
   - Home: index.md
+  - Getting Started: getting-started.md
+  - Summary (Persian): guide-summary.md
+  - Changelog: changelog.md
   - Guide:
       - Table of Contents: chapters-en/TABLE-OF-CONTENTS.md
-      - Introduction: chapters-en/01-intro.md
-      - Scope & Threat Model: chapters-en/02-scope-risk-threat-model.md
-      - Autonomous AI Threats: chapters-en/03-threat-landscape.md
-      - Data Security & Privacy: chapters-en/04-data-security-privacy.md
-      - Model & Supply Chain: chapters-en/05-model-artifact-supply-chain.md
-      - Ten-Stage Pipeline: chapters-en/06-pipeline.md
-      - LLM & RAG Security: chapters-en/07-llm-rag-security.md
-      - Agentic AI Security: chapters-en/08-agentic-ai-security.md
-      - Anti-patterns: chapters-en/09-anti-patterns.md
-      - Monitoring & SOC: chapters-en/10-monitoring-soc-ir.md
-      - Governance & Evidence: chapters-en/11-governance-evidence.md
-      - Threat, Control & Tools: chapters-en/12-threat-control-tools-map.md
-      - Case Studies: chapters-en/13-case-studies.md
-      - Maturity Roadmap: chapters-en/14-maturity-roadmap.md
-      - Conclusion & Appendices: chapters-en/15-conclusion-appendix.md
-  - Contributing: contributing.md
+      - "1 Introduction": chapters-en/01-intro.md
+      - "2 Scope and Threat Model": chapters-en/02-scope-risk-threat-model.md
+      - "3 Autonomous AI Threats": chapters-en/03-threat-landscape.md
+      - "4 Data Security and Privacy": chapters-en/04-data-security-privacy.md
+      - "5 Model and Supply Chain": chapters-en/05-model-artifact-supply-chain.md
+      - "6 Lifecycle Control Model": chapters-en/06-pipeline.md
+      - "7 LLM and RAG Security": chapters-en/07-llm-rag-security.md
+      - "8 Agentic AI Security": chapters-en/08-agentic-ai-security.md
+      - "9 Anti-patterns": chapters-en/09-anti-patterns.md
+      - "10 Monitoring and SOC": chapters-en/10-monitoring-soc-ir.md
+      - "11 Governance and Evidence Pack": chapters-en/11-governance-evidence.md
+      - "12 Threat Control Tool Map": chapters-en/12-threat-control-tools-map.md
+      - "13 Case Studies": chapters-en/13-case-studies.md
+      - "14 Maturity Roadmap": chapters-en/14-maturity-roadmap.md
+      - "15 Conclusion and Appendices": chapters-en/15-conclusion-appendix.md
+      - "16 Kubernetes Reference": chapters-en/16-kubernetes-deployment-reference.md
+      - "Appendix E Implementation Reference": chapters-en/17-appendix-e-implementation-reference.md
 
 extra:
   social:

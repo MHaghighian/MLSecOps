@@ -1,0 +1,8 @@
+flowchart LR
+    TM[Threat Model] --> CD[Control Design]
+    CD --> TH[Test Harness]
+    TH --> AC[Acceptance Criteria]
+    AC --> Deploy[Deploy]
+    Deploy --> Monitor[Runtime Monitor]
+    Monitor --> Measure[Measure]
+    Measure --> Retest[Regression Retest]

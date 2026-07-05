@@ -10,16 +10,12 @@ Monitoring in `MLSecOps` must see three layers simultaneously:
 |---|---|
 | `Model Performance Monitoring` | `Accuracy`, quality metric, latency, `P95/P99`, throughput, error rate, CPU/GPU/Memory consumption |
 | `Data Health Monitoring` | `Data Drift`, `Concept Drift`, `Schema Deviation`, missing values, data distribution change and user behavior patterns |
-| `Security Monitoring` | `Prompt Injection`, `Jailbreak`, `Tool Abuse`, `Model Extraction`, `RAG Poisoning`, `Memory Poisoning`, `Context Poisoning`, and abnormal user or Agent behavior |
+| `Security Monitoring` | `Prompt Injection`, `Jailbreak`, `Tool Abuse`, Shadow AI egress, MCP tool-call anomalies, `Model Extraction`, `RAG Poisoning`, `Memory Poisoning`, `Context Poisoning`, and abnormal user or Agent behavior |
 
-```mermaid
-flowchart TB
-    Monitoring[AI Monitoring] --> Perf[Model Performance]
-    Monitoring --> Data[Data Health and Drift]
-    Monitoring --> Security[Security Monitoring]
-    Security --> SOC[SIEM and SOC]
-    SOC --> IR[Incident Response]
-```
+
+
+![](../assets/diagrams/10-monitoring-soc-ir_01.png)
+
 
 ## Data required for telemetry
 
@@ -38,6 +34,8 @@ flowchart TB
 | `Access Context` | reconstruction of user access level, tenant, role, and request source |
 | `Authentication Event` | analysis of login, token, and authentication state |
 | `Authorization Event` | review of authorization and access decisions |
+
+> **Privacy:** Full prompt/response logging may contain personal data (GDPR, CCPA). Apply data minimization, retention limits, access control, and legal review—see [Chapter 4](04-data-security-privacy.md).
 
 ## SOC integration
 
@@ -72,7 +70,7 @@ Sample detectable cases:
 
 ## Threat analysis with MITRE ATLAS
 
-`MITRE ATLAS` can be a common language for SOC, Blue Team, and Red Team in analyzing AI incidents. Fuller threat mapping to `AML.T...` identifiers is in Chapter 12 and Appendix B of Chapter 15.
+`MITRE ATLAS` can be a common language for SOC, Blue Team, and Red Team in analyzing AI incidents. Primary threat–control mapping is in [Chapter 12](12-threat-control-tools-map.md); this table is a SOC-oriented subset. Full threat–control reference including MCP and Shadow AI rows: [Appendix A of Chapter 15](15-conclusion-appendix.md#appendix-a-threat-control-and-tool-reference-card). MITRE technique summary: [Appendix B of Chapter 15](15-conclusion-appendix.md#appendix-b-mitre-atlas-mapping).
 
 | Threat | ATLAS technique | ID |
 |---|---|---|
@@ -83,7 +81,10 @@ Sample detectable cases:
 | `RAG Poisoning` | `RAG Poisoning` | `AML.T0070` |
 | `Memory Poisoning` | `AI Agent Context Poisoning` | `AML.T0080` |
 | `Tool Abuse` | `AI Agent Tool Invocation` | `AML.T0053` |
-| `Data Exfiltration` | `Exfiltration via AI Agent Tool` | `AML.T0057` |
+| `LLM Data Leakage` | `LLM Data Leakage` | `AML.T0057` |
+| `Agent-tool Exfiltration` | `Exfiltration via AI Agent Tool Invocation` | `AML.T0086` |
+| `AI Reconnaissance` | `Discover AI Agent Configuration` | `AML.T0084` |
+| `Shadow MCP / Tool Poisoning` | Related: `AML.T0110` AI Agent Tool Poisoning | — |
 
 ## Sample SIEM scenarios
 
@@ -91,17 +92,18 @@ Sample detectable cases:
 |---|---|---|
 | `Prompt Injection` attempt | user sends suspicious prompt, gateway blocks it, SIEM counts blocks per user/session. | number of blocked prompts, jailbreak attempt, block rate to total requests |
 | tool abuse | agent invokes multiple or sensitive tools at abnormal volume and SIEM analyzes variety and volume of use. | tool call count, number of tools used, error rate, access to sensitive tool |
+| Shadow AI / consumer LLM | CASB or proxy detects bulk uploads or sustained traffic to `chat.openai.com`, `claude.ai`, or personal API endpoints from corporate identity | egress volume to AI SaaS domains, OAuth to personal tenant, DLP hits on paste events — [Ch.11](11-governance-evidence.md#shadow-ai-governance) |
+| MCP schema rug-pull | gateway logs hash change on `tools/list` for registered MCP server; Agent Scan diff alerts | tool schema hash mismatch, new tool without re-consent, MCP09 shadow server discovery — [Ch.7](07-llm-rag-security.md#model-context-protocol-mcp-security) |
+| GPU / inference anomaly | Falco or GPU telemetry shows cryptomining or unexpected process on inference node | GPU util spike without matching request volume, shell in inference pod — [Ch.16](16-kubernetes-deployment-reference.md) |
 
 Thresholds must be set based on real baseline from staging or production environment. Fixed values without baseline can both create many false positives and hide real attacks.
 
 ## Sample attack chain
 
-```mermaid
-flowchart LR
-    A[Prompt Injection] --> B[Tool Abuse]
-    B --> C[Unauthorized Access]
-    C --> D[Data Exfiltration]
-```
+
+
+![](../assets/diagrams/10-monitoring-soc-ir_02.png)
+
 
 ## Incident response
 
@@ -133,7 +135,7 @@ The rule improvement cycle should include alert generation, SOC review, true/fal
 
 | Level | Sample incident | Acknowledge | Containment | Postmortem |
 |---|---|---|---|---|
-| `P1 Critical` | active data leakage, malicious tool execution or successful Agent abuse | 15 minutes | 1 hour | mandatory, maximum 5 business days |
+| `P1 Critical` | active data leakage, malicious tool execution or successful Agent abuse | **Target:** 15 minutes (adjust for team size, timezone, on-call model) | **Target:** 1 hour | mandatory, maximum 5 business days |
 | `P2 High` | repeated bypass attempts, jailbreak or suspicious adversarial drift | 1 hour | 4 hours | recommended |
 | `P3 Medium` | spike in block rate or anomaly without leakage evidence | 4 hours | 1 business day | if recurring |
 | `P4 Low` | single block or internal test | 1 business day | not required | optional |
@@ -203,7 +205,7 @@ Many incidents arise from post-deploy neglect, not only model weakness.
 
 ## Practical principle
 
-If AI behavior is not seen at `Runtime`, its security cannot be managed. Monitoring must be part of design from day one—not an add-on after deployment.
+If AI behavior is not seen at `Runtime`, its security cannot be managed. Monitoring must be part of design from day one—not an add-on after deployment. For agent-specific KPIs (tool policy blocks, anomaly rate, MTTR), see [Chapter 8 — Agent security metrics](08-agentic-ai-security.md#agent-security-metrics).
 
 ## Practical summary
 

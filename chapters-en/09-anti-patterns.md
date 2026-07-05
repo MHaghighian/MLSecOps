@@ -13,11 +13,15 @@ Many security failures in AI systems do not stem from lack of advanced tools; th
 | using real data in testing | data leakage and privacy violation | masked or controlled synthetic data |
 | model without signature | possibility of substitution or tampering | `Model Signing` and attestation |
 | RAG without ACL | disclosure of internal documents | authorization at retrieval time |
-| Agent with many tools | tool abuse and privilege escalation | `Scoped Tool Access` |
+| Agent with many tools | tool abuse and privilege escalation | `Scoped Tool Access` and [Ch.8 DO/DON'Ts](08-agentic-ai-security.md#agent-security-dos-and-donts) |
 | no Evidence Pack | inability to audit or analyze incidents | automatic evidence recording |
+| SBOM-only scan without release decision | missing stop point for critical vulns | dependency vulns at control point 4; SBOM/AI-BOM completeness at control point 8 |
+| personal ChatGPT/Copilot with prod data | Shadow AI data exfiltration; lifecycle controls give false confidence because unapproved tools bypass them | enterprise AI gateway + AI-AUP — [Ch.11](11-governance-evidence.md#shadow-ai-governance) |
+| ungoverned MCP in IDE | tool poisoning, shadow MCP (`MCP09`), rug-pull | MCP allowlist, gateway, `mcps-audit` / Agent Scan — [Ch.7](07-llm-rag-security.md#model-context-protocol-mcp-security) |
+| signed model in open K8s namespace | lateral movement, unsigned sidecars, GPU abuse | RBAC, NetworkPolicy, Kyverno — [Ch.16](16-kubernetes-deployment-reference.md) |
 | shared `Vector DB` across tenants | information leakage between customers | separate physical index or strict isolation |
 | direct Agent connection to `Production DB` | unauthorized data manipulation or export | limited tool, read-only view and `Intent Gate` |
-| `Auto-Retrain` without security gate | release of poisoned or degraded model to production | full CT stages and gates |
+| `Auto-Retrain` without security validation | release of poisoned or degraded model to production | full CT cycle with decision points 4, 7, 8 — [Ch.6](06-pipeline.md) |
 | running tools without `Sandbox` | `RCE` or API abuse | separate container, limited egress and allowlist |
 | using `Pickle` without scan | deserialization attack and malicious code execution | `ModelScan` and prohibition of unsafe formats |
 | no prompt/response logging | inability to analyze incidents | runtime telemetry and controlled retention |
@@ -48,14 +52,12 @@ Correct controls:
 
 ## Agent without tool control
 
-An intelligent agent with access to many sensitive tools can, under `Prompt Injection` or planning error, turn from assistant into an internal attacker.
+An intelligent agent with access to many sensitive tools can, under `Prompt Injection` or planning error, turn from assistant into an internal attacker. The [agent DO's and DON'Ts checklist in Chapter 8](08-agentic-ai-security.md#agent-security-dos-and-donts) and [six attack domains](08-agentic-ai-security.md#six-attack-domains) provide the positive control model for this anti-pattern.
 
-```mermaid
-flowchart LR
-    PromptInjection[Prompt Injection] --> Agent[Over-privileged Agent]
-    Agent --> Tool[Dangerous Tool]
-    Tool --> Impact[Data Leak or Destructive Action]
-```
+
+
+![](../assets/diagrams/09-anti-patterns_01.png)
+
 
 ## One-time security testing
 

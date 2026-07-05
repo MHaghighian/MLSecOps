@@ -1,0 +1,14 @@
+flowchart LR
+    subgraph shadow [Shadow AI — ungoverned]
+        U1[Personal ChatGPT]
+        U2[Browser extension]
+        U3[Personal API key]
+    end
+    subgraph sanctioned [Sanctioned MLSecOps]
+        GW[Enterprise AI Gateway]
+        GW --> Policy[Policy + DLP]
+        Policy --> LLM[Approved model tenant]
+        GW --> EP[Evidence Pack / audit log]
+    end
+    User[Employee] --> shadow
+    User --> sanctioned

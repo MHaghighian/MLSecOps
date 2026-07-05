@@ -4,9 +4,11 @@
 
 Case studies show that `MLSecOps` risks are not theoretical. Many incidents arise from the combination of data, model, supply chain, access, and runtime.
 
-> **Sources:** Primary references for each case appear inline below and in the [Claims & Evidence](15-conclusion-appendix.md#appendix-claims--evidence) appendix (Chapter 15).
+> **Sources:** Primary references for each case appear inline below and in the [Claims & Evidence](15-conclusion-appendix.md#appendix-claims-evidence) appendix (Chapter 15).
 
-## LeftoverLocals (CVE-2023-4969)
+**Legend:** **Documented incident** = published CVE, vendor research, or widely cited report with primary source. **Illustrative pattern** = design anti-pattern for threat modeling, not a single vendor CVE.
+
+## LeftoverLocals (CVE-2023-4969) — **Documented incident**
 
 `Trail of Bits` reported the `LeftoverLocals` vulnerability in January 2024: leftover LLM response data in GPU memory was readable across processes, leading to cross-application data leakage (Apple, Qualcomm, AMD, and Imagination GPUs).
 
@@ -18,9 +20,11 @@ Lessons learned:
 - Memory sanitization after inference
 - Process isolation in multi-tenant GPU environments
 
-## MLflow and MLOps platform vulnerabilities
+## MLflow and MLOps platform vulnerabilities — **Documented incident**
 
-Vulnerabilities in `MLflow` (including path traversal and credential access) show that registry and experiment tracking without hardening can expose the entire cloud account to risk.
+Multiple CVEs affect `MLflow` (e.g. path traversal and authentication weaknesses in historical versions). Unpatched registry and experiment tracking without hardening can expose cloud credentials and artifacts.
+
+**Reference:** [NVD — MLflow CVE list](https://nvd.nist.gov/vuln/search/results?query=mlflow); [MLflow security advisories](https://github.com/mlflow/mlflow/security/advisories)
 
 Lessons learned:
 
@@ -28,7 +32,7 @@ Lessons learned:
 - Authentication and network segmentation
 - Do not expose MLflow to the internet without auth
 
-## ClearML and Confused Learning
+## ClearML and Confused Learning — **Documented incident**
 
 `HiddenLayer` research on the `ClearML` platform showed that an attacker who compromises an agent or manipulates metadata can poison the entire training pipeline (an attack known as `Confused Learning`).
 
@@ -40,7 +44,7 @@ Lessons learned:
 - Use allowlists for artifacts
 - Separate training environments from one another
 
-## SILENT SABOTAGE (HuggingFace Conversion Bot)
+## SILENT SABOTAGE (HuggingFace Conversion Bot) — **Documented incident**
 
 In a real supply chain attack, attackers abused a public bot on HuggingFace whose job was converting `pickle` models to `safetensors` to embed malicious code in seemingly safe artifacts.
 
@@ -52,9 +56,11 @@ Lessons learned:
 - Conversion tools and bots are attack surfaces in their own right.
 - Artifact scanning must be performed even on safe formats.
 
-## BentoML, LangChain, and RCE
+## BentoML and LangChain deserialization RCE — **Documented incident**
 
-Deserialization vulnerabilities in `BentoML` and `LangChain` led to `RCE` on inference servers. Common pattern: unsafe artifact or pickle load without sandbox.
+Historical CVEs in `BentoML` and `LangChain` allowed unsafe deserialization paths leading to `RCE` on inference or tooling hosts when malicious artifacts were loaded.
+
+**Reference:** [CVE-2025-27520 (BentoML deserialization RCE)](https://nvd.nist.gov/vuln/detail/CVE-2025-27520); [LangChain security advisories](https://github.com/langchain-ai/langchain/security/advisories)
 
 Lessons learned:
 
@@ -62,7 +68,7 @@ Lessons learned:
 - Sandbox for model serving
 - Immediate update after CVE
 
-## HuggingFace: more than 3,300 unsafe models
+## HuggingFace: unsafe models at scale — **Documented incident**
 
 `ModelScan` and ReversingLabs research (February 2025) identified more than 3,300 unsafe models on HuggingFace—primarily pickle-based RCE.
 
@@ -74,7 +80,7 @@ Lessons learned:
 - Prefer `safetensors` over pickle
 - Model source allowlist
 
-## Agent API key exposure pattern (illustrative)
+## Agent API key exposure pattern — **Illustrative pattern**
 
 In agent architectures, storing provider API keys in prompts, tool configs, or agent memory creates a realistic exposure path: an attacker who achieves prompt injection or tool-output manipulation may cause the agent to leak credentials from context. This is a **design pattern to avoid**, not a single documented vendor incident.
 
@@ -84,9 +90,9 @@ Lessons learned:
 - Immediate key rotation after an incident
 - Credential isolation from model context
 
-## Pickle-based RCE in model repositories
+## Pickle-based RCE in model repositories — **Documented incident (pattern class)**
 
-Some published models in unsafe formats such as `pickle` can execute code when loaded. If a team loads a model from a public repository without scanning and isolation, malicious code execution is possible in the training or inference environment. (Technical details on unsafe formats and controls appear in Chapter 5.)
+Published models in unsafe formats such as `pickle` can execute code when loaded. Research and scanning campaigns (see HuggingFace case above and Chapter 5) document widespread exposure.
 
 Lessons learned:
 
@@ -94,7 +100,7 @@ Lessons learned:
 - Unsafe formats must be restricted or prohibited.
 - `ModelScan` and artifact controls must run before load.
 
-## PoisonGPT and the AI supply chain
+## PoisonGPT and the AI supply chain — **Documented incident (research demo)**
 
 In the `PoisonGPT` demonstration (Mithril Security, 2023), researchers intentionally uploaded a poisoned GPT-2 model to Hugging Face to show that a public registry can deliver a backdoored model that generates attacker-controlled output while appearing legitimate. The risk is supply-chain trust in public model hubs—not name typosquatting alone.
 
@@ -107,9 +113,11 @@ Lessons learned:
 - Record base model hash
 - Control for similar names and typosquatting (supplementary; PoisonGPT itself was a deliberate poisoned upload, not a naming collision)
 
-## Prompt injection in public systems
+## Prompt injection in public systems — **Documented incident (class)**
 
-Incidents related to `Prompt Injection` have shown that language models may ignore system instructions, bypass restrictions, or disclose information that should not appear in the output.
+Public reports include bypass of chatbot guardrails, instruction leakage, and jailbreaks affecting customer-facing LLM products (e.g. early Bing/Sydney interactions, ChatGPT plugin abuse patterns). Specific CVEs are rare; treat as an operational threat class requiring continuous red team.
+
+**Reference:** OWASP LLM Top 10 `LLM01`; [AI Incident Database](https://incidentdatabase.ai/) (search: prompt injection)
 
 Lessons learned:
 
@@ -117,9 +125,11 @@ Lessons learned:
 - `Gateway` and `Output Gate` are essential.
 - Red team testing must be performed continuously.
 
-## Data leakage from organizational use of public LLMs
+## Shadow LLM usage and data boundary — **Documented incident**
 
-In some organizations, employees entered source code, logs, customer data, or internal documents into public LLM tools. This moves data outside the organization's control boundary. Widely reported examples include Samsung's 2023 ChatGPT data-leak policy response and similar enterprise incidents.
+Employees entering source code, logs, or customer data into public LLM tools moves data outside the organizational boundary. Samsung publicly reported restricting ChatGPT use after sensitive code was pasted into the service (2023); similar patterns affect many enterprises.
+
+**Reference:** [Reuters — Samsung ChatGPT leak policy (2023)](https://www.reuters.com/technology/samsung-bans-use-generative-ai-tools-like-chatgpt-after-april-internal-data-leak-2023-05-02/)
 
 Lessons learned:
 
@@ -127,9 +137,11 @@ Lessons learned:
 - Production data must not enter public services.
 - Organizational gateway and output `DLP` must be enabled.
 
-## Indirect prompt injection in Copilot and RAG
+## Indirect prompt injection in Copilot and RAG — **Documented incident (research)**
 
-In an indirect attack, a malicious instruction is placed inside an email, document, web page, or ticket. The `RAG` system or copilot retrieves that document and the model accepts the hidden instruction as context.
+Greshake et al. (2023) demonstrated indirect injection via retrieved content in LLM-integrated applications; Microsoft Copilot and similar tools have since been studied for retrieval-mediated manipulation.
+
+**Reference:** Greshake, K. et al. (2023). *Not What You've Signed Up For: Compromising Real-World LLM-Integrated Applications with Indirect Prompt Injection*; [Microsoft Copilot security guidance](https://learn.microsoft.com/en-us/copilot/microsoft-365/microsoft-365-copilot-privacy)
 
 Lessons learned:
 
@@ -137,7 +149,7 @@ Lessons learned:
 - Retrieval output must be sanitized.
 - Context must not enter the model without control.
 
-## AI tools inside DevOps
+## AI tools inside DevOps — **Illustrative pattern**
 
 Integrating AI into the development workflow—such as code suggestions or chat on a repository—expands the attack surface to code, secrets, and repository permissions. AI-assisted IDE and CI integrations require a separate threat model from production LLM APIs.
 
@@ -147,7 +159,7 @@ Lessons learned:
 - Context sent to the model must not include secrets or sensitive data.
 - Secret scanning remains a mandatory `DevSecOps` and `MLSecOps` control.
 
-## RAG in organizational knowledge base
+## RAG in organizational knowledge base — **Illustrative pattern**
 
 When all organizational knowledge is ingested into a `Vector DB` without filtering, internal chat can become a path to document disclosure. If ACL is not applied at retrieval time, a user may receive answers based on documents they are not authorized to view.
 
@@ -156,6 +168,12 @@ Lessons learned:
 - ACL must be applied at query time.
 - A shared index across tenants is dangerous.
 - Retrieval leakage testing must be part of the pipeline.
+
+## MCP red team lab — **Illustrative pattern**
+
+Use [Damn Vulnerable MCP Server](https://github.com/harishsg993010/damn-vulnerable-MCP-server) and [mcp-injection-experiments](https://github.com/invariantlabs-ai/mcp-injection-experiments) to train teams on tool poisoning, rug pulls, and cross-server shadowing before production MCP rollout. Pair lab exercises with **Snyk Agent Scan** or **mcps-audit** so participants see scanner output on vulnerable configs.
+
+Validate fixes using the [SlowMist MCP Security Checklist](https://github.com/slowmist/MCP-Security-Checklist) as a self-assessment worksheet.
 
 ## Summary of lessons
 
@@ -166,6 +184,7 @@ Lessons learned:
 | Data leakage to public LLM | Policy, DLP, employee training |
 | RAG without ACL | Authorization at retrieval |
 | Agent with excessive access | Scoped tool access and intent gate |
+| Ungoverned MCP servers | Allowlist, gateway, Agent Scan / mcps-audit |
 
 ## Practical principle
 

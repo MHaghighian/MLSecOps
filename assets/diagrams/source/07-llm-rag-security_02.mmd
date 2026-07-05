@@ -1,0 +1,11 @@
+sequenceDiagram
+    participant A as Attacker
+    participant D as External Document
+    participant R as RAG System
+    participant L as LLM
+    participant U as User
+    A->>D: Inject malicious instruction
+    U->>R: Ask normal question
+    R->>D: Retrieve document
+    R->>L: Send context with hidden instruction
+    L->>U: Produce unsafe or manipulated answer

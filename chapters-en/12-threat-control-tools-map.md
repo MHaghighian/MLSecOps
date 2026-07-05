@@ -2,11 +2,13 @@
 
 ## Purpose of Mapping
 
-Threat, control, and tool mapping helps teams understand which control is required for each risk and which tools can implement or support that control. Tools do not replace secure architecture, but they make control execution repeatable and auditable.
+Threat, control, and capability mapping helps teams understand which control is required for each risk and what type of implementation can support it. Specific tools are listed only as **informative examples**. They are not endorsed by this guide, may change over time, and must be validated in the reader's environment before being used for release decisions.
+
+> **Reading note:** The [Primary Mapping](#primary-mapping) and [layered architecture](#layered-tool-architecture) sections are the main reference for threat modeling. Detailed CLI examples are optional and live in the [appendix below](#appendix-informative-tool-command-reference)—skip them unless you are implementing evidence collection.
 
 ## Primary Mapping
 
-| Threat | Control | Tool or Example Capability |
+| Threat | Control | Example capability / non-endorsed tool examples |
 | --- | --- | --- |
 | `Data Poisoning` | Data validation, lineage, anomaly detection | `Great Expectations`, `Evidently` |
 | `PII` leakage | Sensitive data identification and masking | `Presidio`, enterprise `DLP` |
@@ -14,55 +16,53 @@ Threat, control, and tool mapping helps teams understand which control is requir
 | Vulnerable dependency | `SCA` and container scan | `Trivy`, `Syft`, `Grype` |
 | Secret in code or notebook | Secret scanning | `Gitleaks`, `TruffleHog` |
 | `Prompt Injection` | Gateway, red team test, guardrail | `Promptfoo`, `Garak`, internal gateway |
-| `RAG Poisoning` | Ingest and retrieval ACL control | Internal pipeline, policy engine |
+| `RAG Poisoning` | Ingest and retrieval ACL control | Ingest review, policy engine, access-controlled retriever |
 | `Tool Abuse` | Intent gate and scoped access | Policy engine, IAM |
 | `Memory Poisoning` | Sanitization, TTL, and provenance | Internal memory gateway |
 | Runtime leakage | Telemetry and output DLP | `SIEM`, `DLP`, `AI Gateway` |
 | `Gradient Leakage` (federated) | Secure aggregation, DP | `TensorFlow Privacy`, `OpenDP` |
 | Attack on ML security (IDS/malware) | Adversarial robustness in detection model | `ART`, retraining |
 | Multimodal injection | OCR/audio moderation | Multimodal gateway |
-| API key for LLM | Proxy gateway, kill switch | `BlackVault`, `Vault` |
+| API key for LLM | Proxy gateway, kill switch | HashiCorp `Vault`, cloud secret manager, internal API proxy |
 | Autonomous AI Malware | Agent behavior monitoring, sandboxing, runtime restriction | AI Gateway, Agent Monitoring |
-| AI Worm | Propagation detection, isolation, trust boundaries | Runtime monitoring, EDR/XDR |
+| AI Worm Propagation *(emerging)* | Propagation detection, isolation, trust boundaries | Runtime monitoring, EDR/XDR; map to `AML.T0070` / `AML.T0080` patterns—not a single ATLAS worm ID |
 | AI-driven Reconnaissance | Asset discovery monitoring, attack surface management | ASM tools, SIEM analytics |
 | Autonomous Exploit Generation | Vulnerability intelligence, exploit detection | Threat intelligence platform |
 | AI-driven Lateral Movement | Least privilege, segmentation, agent authorization | IAM, Policy Engine |
 | Compute Hijacking | GPU workload monitoring, resource anomaly detection | GPU telemetry, infrastructure monitoring |
+| MCP tool poisoning | Gateway; schema pin; static + host scan | `mcps-audit`, `mcp-scan` (Snyk Agent Scan), MCP-Shield |
+| MCP09 Shadow MCP server | IDE allowlist; registry; Shadow AI program | Ch.11, enterprise MCP gateway |
+| MCP rug pull / schema change | Hash pin on `tools/list`; re-consent on change | Gateway + CI scan |
+| MCP token exposure | Short-lived OAuth; no secrets in mcp.json | Vault, ThinkWatch, gateway |
 | Agent Persistence | Memory validation, session control | Agent gateway, memory security layer |
 
 ## Tool Layers
 
-```mermaid
-flowchart TB
-    L1[L1 Data Controls] --> L2[L2 Scanning and Validation]
-    L2 --> L3[L3 Supply Chain Security]
-    L3 --> L4[L4 Policy as Code]
-    L4 --> L5[L5 Registry and Signing]
-    L5 --> L6[L6 Runtime Guardrails]
-    L6 --> L7[L7 Observability and SOC]
 
-```
 
-## Tools by Pipeline Stage
+![](../assets/diagrams/12-threat-control-tools-map_01.png)
 
-| Stage | Control | Example Tool |
+
+## Capabilities by lifecycle area
+
+| Lifecycle area | Control capability | Example implementation |
 | --- | --- | --- |
 | Data ingestion | Schema, PII, quality | `Great Expectations`, `Presidio` |
 | Code and notebook | Secret and dependency scan | `Gitleaks`, `Trivy`, `NB Defense` |
 | Model | Artifact scan, adversarial test | `ModelScan`, `ART` |
 | Supply chain | `SBOM` and signing | `Syft`, `CycloneDX`, `Cosign` |
-| Gates | Policy-as-code | `OPA`, `Conftest` |
+| Release decisions | Policy-as-code | `OPA`, `Conftest`, internal policy engine |
 | Runtime | Guardrail and gateway | `NeMo Guardrails`, `Llama Guard`, internal gateway |
 | SOC | Telemetry and detection | `ELK`, `Grafana`, `SIEM` |
 
 ## Layered Tool Architecture
 
-| Layer | Role | Pipeline Stage | Example Tool |
+| Layer | Role | Lifecycle area | Example tool |
 | --- | --- | --- | --- |
 | `L1 — Data and Experimentation` | Lineage, versioning, and reproducibility | 2, 5 | `MLflow`, `DVC`, `Great Expectations` |
 | `L2 — Security Scanning and Testing` | `SAST/SCA`, artifact scan, IaC, adversarial and LLM testing | 3, 7 | `Gitleaks`, `Trivy`, `Checkov`, `tfsec`, `SonarQube`, `lintML`, `ModelScan`, `ART`, `Garak`, `PyRIT`, `Promptfoo`, `Agentic Security`, `PurpleLlama`, `Mindgard`, `AI-exploits`, `AI-Infra-Guard` |
 | `L3 — AI Supply Chain` | `SBOM/AI-BOM`, signing, and provenance | 2, 9 | `Syft`, `CycloneDX`, `Cosign`, `Sigstore`, `SLSA` |
-| `L4 — Policy-as-Code` | Quality gate and dataset compliance | 4, 8 | `OPA`, `Conftest`, `Kyverno` |
+| `L4 — Policy-as-Code` | Release decision and dataset compliance | 4, 8 | `OPA`, `Conftest`, `Kyverno` |
 | `L5 — Registry and Deployment` | Signed model storage, secret, and key | 9, 10 | `Model Registry`, `S3/Nexus`, `Vault/KMS` |
 | `L6 — Runtime and Guardrails` | Prompt filtering, moderation, and AI gateway | Production | Internal gateway, `NeMo Guardrails`, `Llama Guard`, `Lakera Guard`, `Patronus` |
 | `L7 — Observability and SOC` | Drift, alert, and SIEM | 10 | `ELK`, `Grafana`, `Evidently`, `WhyLabs`, `HiddenLayer`, `Protect AI AIRS` |
@@ -77,20 +77,18 @@ flowchart TB
 | Resource Monitoring | Detect unauthorized AI workloads |
 | Session Analysis | Detect multi-step attack behavior |
 
-## Practical Tool Guide for Building a Security Pipeline
+## Appendix: Informative tool command reference
 
-> The commands and parameters provided in this section are common examples at the time of writing only. Tool versions, parameters, and `exit code` behavior may change; therefore, always refer to the official tool documentation and validate each tool's output in your real environment.
+> **Optional section.** The mappings and lifecycle layers above are sufficient for architecture and governance reviews. Use this appendix when selecting tools and drafting evidence-collection commands.
 
-This section is the practical reference for building an `MLSecOps` security pipeline. For each tool: purpose, installation, basic command, gate behavior (i.e., when the `build` should fail), and output suitable for logging in the `Evidence Pack` are provided. The key principle is that every tool must produce an **exit code** or structured output so the pipeline can automatically make a `Go/No-Go` decision.
-
-### Design Principle: Every Control Must Be Able to Stop the Pipeline
+### Design principle: controls must support a documented decision
 
 ```text
-scan → parse result → decision (pass/fail) → evidence → (block on fail)
+observe → parse result → decision (pass/fail/exception) → evidence → review
 
 ```
 
-A tool that only reports but does not stop the pipeline is an `Anti-pattern` (Chapter 9). Each stage must either return `exit code != 0` or have its `JSON` output evaluated by a policy engine.
+A tool that only reports but is never reviewed or tied to a release decision is an `Anti-pattern` (Chapter 9). In automated environments, tools may return `exit code != 0` or structured `JSON`; in manual or managed-service environments, outputs may be reviewed by an approver or GRC workflow. The requirement is **documented decision-making**, not a specific automation mechanism.
 
 ### L2 — Model Artifact Scan: ModelScan
 
@@ -105,29 +103,29 @@ modelscan -p ./models/ -r json -o modelscan-report.json
 
 ```
 
-Gate behavior: `modelscan` returns these exit codes, which can be used directly in the pipeline:
+Decision behavior: `modelscan` returns exit codes that can support an automated or manual release decision:
 
-| Exit Code | Meaning | Pipeline Action |
+| Exit Code | Meaning | Recommended decision |
 | --- | --- | --- |
 | `0` | Clean, no vulnerabilities | Continue |
-| `1` | Scan successful, **vulnerability found** | `fail build` |
+| `1` | Scan successful, **vulnerability found** | Reject or escalate release |
 | `2` | Scan error | Investigate and stop |
 | `3` | Unsupported file | Warning |
 | `4` | Usage error | Fix command |
 
-Evidence: `modelscan-report.json` file. This control is mandatory at stage 2 (`Load Artifacts`).
+Evidence: `modelscan-report.json` file. This control maps to lifecycle control point 2 (`Load Artifacts`).
 
 ### L2 — Secret Scanning: Gitleaks
 
 Purpose: Find API keys, tokens, and credentials in code, notebooks, and git history.
 
 ```bash
-# Scan repository and fail if a secret is found
+# Scan repository and return non-zero if a secret is found
 gitleaks detect --source . --report-format json --report-path gitleaks-report.json --exit-code 1
 
 ```
 
-Gate behavior: With `--exit-code 1`, finding any secret stops the pipeline. Evidence: `gitleaks-report.json`.
+Decision behavior: With `--exit-code 1`, finding any secret should reject or escalate the release decision. Evidence: `gitleaks-report.json`.
 
 ### L2 — Dependency and Container Scan: Trivy
 
@@ -141,7 +139,7 @@ trivy image --severity CRITICAL --exit-code 1 myorg/llm-serving:1.4.0
 
 ```
 
-Gate behavior: `--exit-code 1` combined with `--severity CRITICAL` causes only critical vulnerabilities to stop the build. Evidence: output with `--format json`.
+Decision behavior: `--exit-code 1` combined with `--severity CRITICAL` identifies findings that should block or escalate release. Evidence: output with `--format json`.
 
 ### L2 — Notebook Scan: NB Defense and lintML
 
@@ -155,7 +153,7 @@ pipx run lintml ./src/
 
 ```
 
-Gate behavior: Finding a secret or high-risk pattern must fail the build. This control runs at stage 3.
+Decision behavior: Finding a secret or high-risk pattern should block or escalate release. This control maps to lifecycle control point 3.
 
 ### L2 — Classic Model Adversarial Test: ART
 
@@ -163,22 +161,24 @@ Purpose: Measure resistance of `Tabular/Vision/Speech` models against manipulate
 
 ```python
 from art.estimators.classification import SklearnClassifier
+# Use vision/tabular-appropriate attacks only (PGD/FGSM are typical for image models;
+# for tabular/text models, select attack classes supported by ART for your modality)
 from art.attacks.evasion import FastGradientMethod, ProjectedGradientDescent
 
 classifier = SklearnClassifier(model=model)
 attack = ProjectedGradientDescent(estimator=classifier, eps=0.1)
 x_adv = attack.generate(x=x_test)
 asr = compute_attack_success_rate(model, x_test, x_adv, y_test)
-assert asr <= BASELINE_ASR + 0.02, "ASR exceeded threat model threshold"  # fail Gate 7
+assert asr <= BASELINE_ASR + 0.02, "ASR exceeded threat model threshold"
 
 ```
 
 
-Gate behavior: Compare `ASR` with baseline; exceeding threshold = fail at Gate 7. Evidence: `ASR @ epsilon` report and test set hash.
+Decision behavior: Compare `ASR` with baseline; exceeding the threat-model threshold should block or escalate release. Evidence: `ASR @ epsilon` report and test set hash.
 
 ### L2 — LLM Security Test: Garak
 
-Purpose: Scan `LLM` vulnerabilities with 50+ probes (prompt injection, jailbreak, encoding, leakage, toxicity).
+Purpose: Scan `LLM` vulnerabilities with configurable probe plugins (prompt injection, jailbreak, encoding, leakage, toxicity). Probe count varies by version and configuration—see [Garak documentation](https://github.com/NVIDIA/garak) for the current probe list.
 
 ```bash
 python -m pip install -U garak
@@ -191,11 +191,11 @@ python -m garak --target_type huggingface --target_name my-model --probe_tags ow
 
 ```
 
-Gate behavior: `garak` produces a `JSONL` report with success rate per probe; a script must compare `bypass rate` with the threat model threshold and fail the build if exceeded. Evidence: `garak-ci.report.jsonl`.
+Decision behavior: `garak` produces a `JSONL` report with success rate per probe; reviewers or automation must compare `bypass rate` with the threat model threshold and block or escalate release if exceeded. Evidence: `garak-ci.report.jsonl`.
 
 ### L2 — Red Team and LLM/RAG/Agent Evaluation: Promptfoo
 
-Purpose: Framework-based automated red team (`owasp:llm`, `mitre:atlas`, `eu:ai-act`) and `CI` integration.
+Purpose: Framework-based automated red team with pluggable frameworks (e.g. `owasp:llm`, custom suites). Map organizational policies to tests; **EU AI Act** coverage depends on your own test corpus—do not assume a built-in legal compliance pack without verifying Promptfoo plugin docs for your version.
 
 Example `promptfooconfig.yaml`:
 
@@ -204,7 +204,7 @@ targets:
   - id: https
     label: prod-assistant
     config:
-      url: https://api.internal/llm
+      url: https://api.staging.example/llm   # use staging endpoint; authenticate via CI secret
       method: POST
       headers: { 'Content-Type': 'application/json' }
       body: { prompt: '{{prompt}}' }
@@ -229,7 +229,7 @@ npx promptfoo@latest redteam run -c promptfooconfig.yaml -o results.json \
 
 ```
 
-Gate behavior: `results.json` output is compared with acceptance threshold (e.g., zero critical bypass). Evidence: `results.json` + commit tag.
+Decision behavior: `results.json` output is compared with acceptance threshold (e.g., zero critical bypass). Evidence: `results.json` + commit tag.
 
 ### L2 — Multi-Stage Red Team: Microsoft PyRIT
 
@@ -242,7 +242,41 @@ python redteam/pyrit_orchestrator.py --target prod-assistant --strategy crescend
 
 ```
 
-Gate behavior: Suitable for deep seasonal testing or before major release, not every build. Evidence: conversation report and outcome.
+Decision behavior: Suitable for deep seasonal testing or before major release, not every build. Evidence: conversation report and outcome.
+
+### L2 — MCP Server Static Scan: mcps-audit
+
+Purpose: Scan MCP server source (`.js`, `.ts`, `.py`, `.json`) for OWASP MCP Top 10 and Agentic AI Top 10 anti-patterns before deploy.
+
+```bash
+npm install -g mcps-audit
+mcps-audit ./services/my-mcp-server
+mcps-audit ./services/my-mcp-server --json > mcp-audit.json
+```
+
+Decision behavior: Parse CLI exit status and `--json` output; critical MCP01/MCP03/MCP04/MCP05/MCP07 class findings should block or escalate release. Evidence: `mcp-audit.json` in Evidence Pack. Run as part of lifecycle control point 3 for repos that ship MCP servers; pair with MCP gateway at runtime (Ch.7).
+
+Reference: [razashariff/mcps-audit](https://github.com/razashariff/mcps-audit)
+
+### L2 — Installed MCP Config Scan: Snyk Agent Scan (mcp-scan)
+
+Purpose: Discover and scan **installed** MCP configurations (Cursor, Claude Desktop, VS Code, Windsurf, etc.) for tool poisoning, shadowing, and prompt injection in live `tools/list` output.
+
+```bash
+export SNYK_TOKEN=your-token
+uvx snyk-agent-scan@latest --json > agent-scan.json
+uvx snyk-agent-scan@latest ~/.cursor/mcp.json
+```
+
+Decision behavior: **Not a model release control** — use for developer workstation audits, MCP09 discovery, and SOC hygiene. Parsing `--json` output is experimental; do not hard-code on issue codes without version pinning. Run inside a **sandbox** when configs are untrusted.
+
+Reference: [invariantlabs-ai/mcp-scan](https://github.com/invariantlabs-ai/mcp-scan) (Snyk Agent Scan)
+
+### L2 — Installed MCP Scan (alternative): MCP-Shield
+
+Purpose: Scan installed MCP servers for tool poisoning, exfiltration channels, and cross-origin escalation — complementary to Agent Scan.
+
+Reference: [riseandignite/mcp-shield](https://github.com/riseandignite/mcp-shield)
 
 ### L3 — SBOM Generation: Syft
 
@@ -290,11 +324,11 @@ model_signing verify ./models/model.safetensors \
 
 ```
 
-Gate behavior: If `verify` fails, deployment must stop. Evidence: `model.sig` + Rekor record. `Cosign` can also be used for container and general artifact signing.
+Decision behavior: If `verify` fails, deployment must stop or be formally escalated. Evidence: `model.sig` + Rekor record (where used). **Confidentiality:** public transparency logs may not be acceptable for proprietary models—use private attestation storage or organization-controlled logs when required; see Chapter 5. `Cosign` can also be used for container and general artifact signing.
 
 ### L4 — Policy-as-Code: OPA / Conftest
 
-Purpose: Convert security policies into executable code in `Quality Gate`s (stages 4 and 8).
+Purpose: Convert security policies into executable code for lifecycle decision points such as control points 4 and 8.
 
 Example policy (`Rego`) requiring signature and absence of critical vulnerabilities:
 
@@ -324,7 +358,7 @@ conftest test evidence-bundle.json --policy ./policies/
 
 ```
 
-Gate behavior: Any `deny` causes the gate to fail. Evidence: `OPA/Conftest` decision log.
+Decision behavior: Any `deny` should block or escalate the release decision. Evidence: `OPA/Conftest` decision log.
 
 ### L6 — Runtime Guardrail: NeMo Guardrails
 
@@ -378,13 +412,13 @@ pip install ml-privacy-meter
 
 ```
 
-Gate behavior: If membership inference success rate exceeds the threat model threshold, the model must be retrained with `DP-SGD` or hardened. Evidence: privacy risk report.
+Decision behavior: If membership inference success rate exceeds the threat model threshold, the model should be retrained with `DP-SGD`, hardened, or escalated for risk acceptance. Evidence: privacy risk report.
 
-### Summary Table: Tool, Command, and Gate Behavior
+### Summary table: tool, command, and decision behavior
 
-| Tool | Stage | Key Command | Build Stop Criterion |
+| Tool | Control point / area | Representative command | Decision criterion |
 | --- | --- | --- | --- |
-| `ModelScan` | 2 Load | `modelscan -p model.pkl -r json` | exit code `1` |
+| `ModelScan` | 2 Load | `modelscan -p model.pkl -r json` | Unsafe artifact finding |
 | `Gitleaks` | 3 Scan | `gitleaks detect --exit-code 1` | Any secret found |
 | `Trivy` | 3 Scan | `trivy fs --exit-code 1 --severity CRITICAL` | Critical CVE |
 | `lintML` / `NB Defense` | 3 Scan | `lintml ./src` / `nbdefense scan` | Unsafe pattern/secret |
@@ -394,8 +428,11 @@ Gate behavior: If membership inference success rate exceeds the threat model thr
 | `Syft` | 2, 9 | `syft dir:. -o cyclonedx-json` | — (evidence generation) |
 | `cdxgen aibom` | 2, 9 | `aibom .` | — (evidence generation; enforce completeness via `Conftest/OPA`) |
 | `model-signing` | 9 Sign | `model_signing sign/verify` | Verify failure |
-| `Conftest/OPA` | 4, 8 Gate | `conftest test evidence.json` | Any `deny` |
-| `NeMo Guardrails` | Runtime | config rails | Block in production |
+| `Conftest/OPA` | 4, 8 Decision | `conftest test evidence.json` | Any `deny` |
+| `mcps-audit` | 3 Scan (MCP repos) | `mcps-audit scan ./mcp-server --json` | Critical MCP01/MCP03/MCP04/MCP05/MCP07 |
+| `mcp-scan` (Snyk Agent Scan) | Workstation / SOC hygiene | `mcp-scan --json` | Shadow MCP / tool poisoning (not CI gate) |
+| `MCP-Shield` | Workstation / SOC hygiene | per tool docs | Tool poisoning / exfil channel |
+| `NeMo Guardrails` | Runtime | config rails | N/A (runtime; block metrics to SIEM) |
 
 ## OWASP ML Top 10 Mapping to MLOps Stages
 
@@ -430,8 +467,10 @@ The consolidated and complete version of this card (with a `Phase` column and ad
 | `Retrieval Content Crafting` | `Retrieval Content Crafting` | `AML.T0066` |
 | `Memory Poisoning` | `AI Agent Context Poisoning` | `AML.T0080` |
 | `Tool Abuse` | `AI Agent Tool Invocation` | `AML.T0053` |
-| AI Reconnaissance | `Discover AI Agent Configuration` | `AML.T0067` |
-| AI Worm Propagation | `AI Agent Context Poisoning` (propagation via shared context) | `AML.T0080` |
+| AI Reconnaissance | `Discover AI Agent Configuration` | `AML.T0084` |
+| LLM data leakage | `LLM Data Leakage` | `AML.T0057` |
+| Agent-tool exfiltration | `Exfiltration via AI Agent Tool Invocation` | `AML.T0086` |
+| AI Worm Propagation *(emerging)* | Related: `AML.T0070`, `AML.T0080` (see Chapter 3 Morris II note) | — |
 | Model Resource Abuse | `Cost Harvesting` | `AML.T0034` |
 
 ## Commercial Tool Market Map
@@ -455,7 +494,7 @@ A suitable tool should have several characteristics:
 
 * Integrate with existing `CI/CD`.
 * Provide structured output for the `Evidence Pack`.
-* Be capable of failing the pipeline.
+* Be capable of producing a clear pass/fail/exception signal for release decisions.
 * Be versionable and auditable.
 * Align with organizational policies.
 * Not require permanent manual exceptions.
@@ -464,7 +503,7 @@ A suitable tool should have several characteristics:
 
 Modern MLSecOps must consider threats beyond traditional ML attacks. AI-native threats introduce autonomous behavior, where attackers can use AI systems to discover targets, generate attack strategies, move through connected environments, and abuse AI infrastructure.
 
-Therefore, future MLSecOps pipelines must include:
+Therefore, future MLSecOps programs must include:
 
 * Agent behavior security
 * Runtime autonomy control

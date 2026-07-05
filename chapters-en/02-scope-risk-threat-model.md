@@ -14,21 +14,71 @@ The scope of the article can be explained more clearly through several specific 
 |---|---|
 | Classic `ML` models | Data integrity, `Artifact` security, `Adversarial` attacks, and protection of training and deployment pipelines |
 | `LLM` and `RAG` systems | `Runtime` risks such as `Prompt Injection`, `Retrieval Poisoning`, data leakage, and unsafe output |
-| `Agentic AI` | Tools, memory, automated workflows, inter-agent communication, and risks such as `Tool Abuse` and privilege escalation |
-| Enterprise and multi-tenant architectures | Tenant isolation, access control, network segmentation, inference isolation, and data governance |
+| Managed AI services | Shared responsibility for Azure OpenAI, Amazon Bedrock, Vertex AI, or similar APIs; customer-side controls such as gateway, data boundary, key management, logging, and RAG authorization |
+| `Agentic AI` | Tools, memory, automated workflows, inter-agent communication, and risks such as `Tool Misuse`/`Tool Abuse` (`ASI02`) and privilege escalation — see [Chapter 8 reference architecture and six-domain model](08-agentic-ai-security.md#agent-reference-architecture) |
+| `MCP` tool servers and IDE agents | Tool poisoning, shadow MCP (`MCP09`), schema rug-pull, token exposure — see [Chapter 7 — MCP security](07-llm-rag-security.md#model-context-protocol-mcp-security) |
+| Shadow AI (unsanctioned LLM use) | Data exfiltration via consumer ChatGPT/Copilot, personal API keys, ungoverned browser extensions — see [Chapter 11 — Shadow AI governance](11-governance-evidence.md#shadow-ai-governance) |
+| Enterprise and multi-tenant architectures | Tenant isolation, access control, network segmentation, inference isolation, and data governance — see [Chapter 16](16-kubernetes-deployment-reference.md) for K8s patterns |
 | `Edge / IoT / TinyML` | Resource constraints, physical device security, secure model updates (`OTA`), and on-device model protection |
 | Cyber-physical systems (`CPS/ICS`) | Safety impact, adversarial attacks on sensors, and decision integrity in industrial control |
 
 For `Edge`, `IoT`, and `CPS` systems, in addition to the controls in this guide, physical risks, safety, and resource constraints must be assessed separately using specialized frameworks. This guide primarily focuses on cloud-native and enterprise architectures.
 
+**Out of scope for v1.0:** localized non-English editions; full legal interpretation of sector regulations; hardware TEE/confidential-GPU deployment patterns (see vendor docs); exhaustive Shadow-AI or MCP product catalog. **Shadow AI governance** (Ch.11), **MCP security** (Ch.7), and **Kubernetes deployment reference** (Ch.16) are in scope as operational patterns—not as vendor surveys. Case studies: [Chapter 13](13-case-studies.md).
+
 Not every topic in this guide is equally mandatory for every team. For example, numerical `Adversarial Robustness` tests are highly important for `Tabular` or `Vision` models, but for a `Pure LLM API` without proprietary data, some of that work has more limited applicability.
+
+### Managed AI service scope
+
+Many organizations consume AI through managed services rather than training and hosting model weights directly. In these cases, the organization usually cannot sign or scan the provider's base model weights. MLSecOps still applies, but the evidence changes:
+
+| Provider-managed area | Customer-managed area |
+|---|---|
+| Base model weights, provider training infrastructure, provider-side model patching | Prompt and system instruction design, RAG sources, tenant authorization, gateway policy, logging, DLP, key management, incident response, vendor configuration review |
+| Provider content safety features and platform logs, where available | Verification that provider controls are enabled, configured, monitored, and included in the organization's evidence record |
+
+For managed AI APIs, the organization should document the shared-responsibility boundary in the threat model. When model signing or artifact scanning is not possible, collect alternative evidence such as approved model/service identifier, region, tenant, API version, configuration snapshot, access policy, gateway controls, red-team test results, and runtime telemetry.
+
+## Managed AI services security reference
+
+Organizations that consume Azure OpenAI, Amazon Bedrock, Google Vertex AI, or similar APIs rarely control base model weights. MLSecOps still applies on the **customer side** of the shared-responsibility boundary. Use this section when [Chapter 6](06-pipeline.md) control points 5–9 refer to "configure" or "integrity evidence" instead of train/sign.
+
+### Customer control stack
+
+| Layer | What to control | Lifecycle control points | Guide reference |
+|---|---|---|---|
+| Identity and access | API keys, OAuth, RBAC, tenant isolation | 1, 3, 8 | [Ch.5 secrets](05-model-artifact-supply-chain.md), [Ch.16](16-kubernetes-deployment-reference.md) |
+| Data boundary | What may enter prompts/RAG; DLP on ingress/egress | 4, 7, 10 | [Ch.4](04-data-security-privacy.md), [Ch.7 gateway](07-llm-rag-security.md) |
+| Configuration | Approved model/deployment ID, region, API version, safety settings | 5, 8, 9 | [Evidence Pack](11-governance-evidence.md#what-is-an-evidence-pack) |
+| RAG on managed API | Ingest ACL, retrieval authz, re-index on source change | 4, 5, 7 | [Ch.7 RAG](07-llm-rag-security.md#secure-architecture-for-rag) |
+| Runtime | Gateway, guardrails, logging, rate limits | 10 | [Ch.7](07-llm-rag-security.md), [Ch.10 SOC](10-monitoring-soc-ir.md) |
+| Agents on managed models | Scoped tools, Intent Gate, MCP allowlist | 7, 10 | [Ch.8](08-agentic-ai-security.md) |
+
+### Evidence when you cannot sign model weights
+
+| Instead of… | Record… |
+|---|---|
+| Model weight hash + signature | Approved provider, model/deployment name, region, API version, configuration snapshot |
+| Training data lineage | RAG source manifest, ingest approvals, index version |
+| Backdoor scan on weights | Prompt-injection suite, RAG leakage tests, output policy tests ([Ch.7 verification](07-llm-rag-security.md#llm-verification-approach)) |
+| Registry promotion | Documented release decision at control points **4, 7, 8** plus configuration evidence at **9** |
+
+### Minimum baseline for managed AI
+
+1. Enterprise gateway or proxy in front of provider API (no raw keys in apps).
+2. DLP on prompt ingress and response egress.
+3. RAG ingest allowlist and ACL at retrieval.
+4. Runtime logging to SIEM with retention policy.
+5. Documented shared-responsibility record in threat model and `Evidence Pack`.
+
+Extended checklist: [Appendix D — Managed AI Services](15-conclusion-appendix.md#appendix-d-managed-ai-services-security-reference).
 
 ## Primary audiences
 
 | Audience | Primary need |
 |---|---|
 | `ML` and `MLOps` teams | Building secure pipelines, model testing, and `Artifact` control |
-| Security teams | Threat modeling, defining `Security Gate`s, and monitoring AI attacks |
+| Security teams | Threat modeling, defining lifecycle release decision criteria, and monitoring AI attacks |
 | Platform teams | Infrastructure isolation, access control, and secure integration with `CI/CD` |
 | Governance and risk teams | Recording evidence, framework compliance, and risk management |
 | Product teams | Understanding limitations, user risks, and secure release requirements |
@@ -41,7 +91,7 @@ In many projects, a few simple but correctly implemented controls are worth more
 
 - Data and `Artifact` scanning
 - Model signing and `Provenance` recording
-- `Policy Gate` enforcement
+- Release decision enforcement
 - Access control at `Runtime`
 - Evidence recording in `Evidence Pack`
 
@@ -53,7 +103,7 @@ Risk management determines which assets matter most to the organization, what le
 
 Threat modeling is a more technical layer. At this stage, it is determined how an attacker can approach the system, which components lie on the attack surface, and which controls must be applied to data, pipeline, model, `Runtime`, or infrastructure.
 
-At this layer, resources such as `OWASP ML Top 10`, `OWASP LLM Top 10`, `MITRE ATLAS`, and methods such as `STRIDE` are typically used so threats can be described in a shared technical and operational language.
+At this layer, resources such as `OWASP ML Top 10`, `OWASP LLM Top 10`, `OWASP MCP Top 10`, `MITRE ATLAS`, and methods such as `STRIDE` are typically used so threats can be described in a shared technical and operational language. Include **Shadow AI**, **MCP servers**, and **Kubernetes inference** rows from the [attack surface matrix](#attack-surface-matrix) when they apply to your architecture.
 
 > Version note: `OWASP LLM Top 10` version 2025 has been published and finalized, but `OWASP Machine Learning Security Top 10` remains in draft status (approximately version `v0.3`). Therefore, identifiers `ML01`–`ML10` in this guide are used as working references and may change in the final OWASP release.
 
@@ -62,10 +112,14 @@ At this layer, resources such as `OWASP ML Top 10`, `OWASP LLM Top 10`, `MITRE A
 | Attack surface | Example threat | Recommended control |
 |---|---|---|
 | Data | `Data Poisoning`, data leakage, quality weakness | Validation, `PII Masking`, `Lineage` |
-| Model | `Backdoor`, model theft, `Model Inversion` | Security testing, signing, access control |
+| Model | `Backdoor`, model theft, `Model Inversion` | Security testing, signing where the organization controls artifacts, access control |
+| Managed AI API | Provider misconfiguration, unsafe prompt path, weak tenant boundary, unmanaged API keys | Shared-responsibility record, gateway, DLP, key proxy, vendor configuration review |
 | Supply chain | Poisoned model or package, `Typosquatting` | `SBOM`, `AI-BOM`, `Allowlist`, scanning |
 | `RAG` | `Retrieval Poisoning`, document disclosure | `Ingest` control, tenant isolation, leakage testing |
-| Intelligent agent | Tool abuse, privilege escalation | `Intent Gate`, tool restriction, human approval |
+| Intelligent agent | Tool misuse/abuse (`ASI02`), privilege escalation, memory poisoning, poisoned files | Six-domain agent model, `Intent Gate`, scoped tools, HITL — [Ch.8](08-agentic-ai-security.md#agent-attack-surface) |
+| MCP / IDE tools | Tool poisoning, shadow MCP (`MCP09`), schema rug-pull | MCP gateway, allowlist, `mcps-audit` / Agent Scan — [Ch.7](07-llm-rag-security.md#model-context-protocol-mcp-security) |
+| Shadow AI | Paste of prod data into consumer LLM, personal API keys | AI-AUP, enterprise gateway, CASB/DLP — [Ch.11](11-governance-evidence.md#shadow-ai-governance) |
+| Infrastructure / K8s | Open namespace, unsigned images, GPU memory leak | RBAC, NetworkPolicy, Kyverno, MIG — [Ch.16](16-kubernetes-deployment-reference.md) |
 | Execution | `Prompt Injection`, unsafe output | `Gateway`, `Guardrail`, logging and monitoring |
 
 ## Expected output of threat modeling

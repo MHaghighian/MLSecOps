@@ -1,0 +1,9 @@
+flowchart LR
+    User[User] --> A1[Agent A]
+    A1 --> A2[Agent B]
+    A2 --> Tools[Shared tools]
+    A1 --> Bus[Message bus]
+    A2 --> Bus
+    Policy[Policy engine] --> A1
+    Policy --> A2
+    Bus --> SOC[Trace ID]

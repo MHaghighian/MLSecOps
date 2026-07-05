@@ -1,0 +1,9 @@
+flowchart TB
+    User --> Orchestrator
+    Orchestrator --> PEP1[Policy Enforcement Point]
+    PEP1 --> SubAgentA
+    PEP1 --> SubAgentB
+    SubAgentA --> PEP2[Policy Enforcement Point]
+    SubAgentB --> PEP3[Policy Enforcement Point]
+    PEP2 --> ToolA
+    PEP3 --> ToolB

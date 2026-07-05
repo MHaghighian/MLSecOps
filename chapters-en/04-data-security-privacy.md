@@ -32,7 +32,7 @@ Important privacy risks include:
 
 ## Sensitive data classification for scanning
 
-Before a dataset enters training, it must be defined which categories of information should be identified, masked, or removed. This classification is the basis for the data `Quality Gate` (Chapter 6):
+Before a dataset enters training, it must be defined which categories of information should be identified, masked, or removed. This classification is the basis for the data decision point in the lifecycle control model (Chapter 6):
 
 | Category | Example | Recommended action |
 |---|---|---|
@@ -67,7 +67,7 @@ A common misconception is that `Embedding` vectors stored in a `Vector DB` are n
 
 - `Vector DB` must be protected like a sensitive data store (access control, encryption at-rest, tenant isolation).
 - Storing embeddings instead of text alone is not considered a privacy control.
-- Long-term agent memory (`Agent Memory`) is also exposed to the same leakage (Chapter 8).
+- Long-term agent memory (`Agent Memory`) is also exposed to the same leakage and [memory poisoning](08-agentic-ai-security.md#memory-poisoning) paths (Chapter 8).
 
 ## Privacy audit tools
 
@@ -80,7 +80,7 @@ To practically measure `Membership Inference` and `Model Inversion` risk, these 
 | `TensorFlow Privacy` | Training with `DP-SGD` and membership inference tools |
 | `OpenDP` | Implementation of differential privacy algorithms |
 
-> Warning about Synthetic data: Model-generated synthetic data is not necessarily secure. Research *The Canary's Echo* showed synthetic text can reveal traces of real training data; therefore synthetic data must also be tested for leakage.
+> Warning about Synthetic data: Model-generated synthetic data is not necessarily secure. Meeus et al. (2025), *The Canary's Echo: Auditing Privacy Risks of LLM-Generated Synthetic Text* (ICML 2025), showed synthetic text can reveal traces of real training data; therefore synthetic data must also be tested for leakage.
 
 ## Experimentation environment security
 
@@ -121,3 +121,32 @@ In `RAG` systems, data matters not only at training time; documents retrieved at
 ## Practical principle
 
 Every piece of data entering the AI lifecycle must have defined origin, owner, version, sensitivity level, and usage authorization. Without this information, model output will not be defensible or auditable.
+
+## Feature Store security
+
+When a `Feature Store` is used, features are long-lived training and serving assets—not ephemeral pipeline outputs. Minimum controls:
+
+| Risk | Control |
+|---|---|
+| PII or secrets in feature values | Scan and classify at write; block unmasked sensitive features |
+| Stale or poisoned features | Versioning, lineage, and schema validation on publish |
+| Cross-team leakage | RBAC on feature groups; separate online/offline stores per tenant where required |
+| Serving skew | Align training-serving feature definitions; audit transformations |
+
+## Training data licensing and copyright
+
+Public or scraped datasets may impose license, attribution, or use restrictions. Record **license type, provenance, and permitted use** in the `Evidence Pack` and block training when license or contractual scope is unclear—this is a supply-chain and legal risk, not only a quality issue.
+
+## Prompt and telemetry logging vs privacy (GDPR / CCPA)
+
+Production logging of full prompts and responses (Chapter 10) can contain personal data. Before enabling SIEM export:
+
+| Requirement | Practice |
+|---|---|
+| Data minimization | Log hashes, truncated text, or tokenized fields where full content is not required for IR |
+| Lawful basis / notice | Align with privacy policy and employment agreements; involve DPO/legal for EU/UK |
+| Retention | Time-bound retention and deletion; separate security logs from analytics |
+| Access control | Restrict SIEM views; mask PII in dashboards |
+| Cross-border transfer | Document regions for LLM providers and log storage |
+
+See also [Chapter 10](10-monitoring-soc-ir.md) for operational telemetry guidance.
