@@ -1,0 +1,9 @@
+flowchart TB
+    User[User or App] --> Proxy[Enterprise gateway]
+    Proxy --> DLP[DLP ingress]
+    DLP --> API[Provider API]
+    API --> Safety[Provider safety]
+    Safety --> Proxy
+    Proxy --> Log[SIEM and Evidence]
+    RAG[RAG customer data] --> Proxy
+    Keys[Vault creds] --> Proxy

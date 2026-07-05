@@ -1,0 +1,6 @@
+flowchart TB
+    Monitoring[AI Monitoring] --> Perf[Model Performance]
+    Monitoring --> Data[Data Health and Drift]
+    Monitoring --> Security[Security Monitoring]
+    Security --> SOC[SIEM and SOC]
+    SOC --> IR[Incident Response]

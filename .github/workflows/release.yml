@@ -1,0 +1,47 @@
+name: Create Release
+
+# Manual only until DOCX/PDF are ready — see RELEASING.md
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Tag to publish (e.g. v1.0.0)"
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Build release notes
+        run: |
+          TAG="${{ inputs.tag }}"
+          {
+            echo "# MLSecOps Practical Reference Guide ${TAG}"
+            echo ""
+            echo "Public release of the practical reference guide."
+            echo ""
+            echo "## Downloads"
+            echo "- **Documentation:** https://l4tr0d3ctism.github.io/MLSecOps/"
+            echo "- **Source:** this repository (\`chapters-en/\`)"
+            echo "- Attach DOCX and PDF manually when uploading assets"
+            echo ""
+            echo "## Changelog"
+            sed -n '/^## \[/,$p' CHANGELOG.md | head -n 40
+          } > release-notes.md
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ inputs.tag }}
+          name: MLSecOps Guide ${{ inputs.tag }}
+          body_path: release-notes.md
+          draft: true
+          prerelease: ${{ contains(inputs.tag, '-') }}

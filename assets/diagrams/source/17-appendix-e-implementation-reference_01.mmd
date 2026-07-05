@@ -1,0 +1,11 @@
+flowchart LR
+    User[User] --> GW[AI Gateway]
+    GW --> AuthZ[AuthZ and DLP ingress]
+    AuthZ --> Ret[Retriever with ACL]
+    Ret --> VDB[Vector DB]
+    VDB --> Ctx[Filtered context]
+    Ctx --> LLM[LLM]
+    LLM --> Out[Output gate and DLP]
+    Out --> User
+    Ingest[Ingest pipeline] --> Scan[Ingest scan]
+    Scan --> VDB

@@ -4,27 +4,144 @@
 
 Governance means that decisions related to the model, data, risk, and release are explainable, traceable, and auditable. In AI systems, the absence of governance prevents teams from explaining how a model was built, why it was released, and what should be investigated in a security incident.
 
+## Shadow AI governance
+
+**Shadow AI** is the use of AI tools (ChatGPT, Claude, Copilot, browser extensions, personal API keys, embedded SaaS AI features) **without IT/security approval, monitoring, or contractual coverage**. It is distinct from shadow IT: the risk is not only unauthorized infrastructure but **data in prompts**, **unaudited model outputs**, and **supply-chain features inside approved SaaS** (Notion AI, Slack AI, M365 Copilot on personal seats).
+
+> **Field reality:** Industry surveys report high employee AI adoption with low formal AI security policy coverage (e.g., Salesforce workforce AI surveys cited in 2025–2026 governance literature). Treat shadow AI as a **governance + data-exfiltration** problem, not a blocking-only problem.
+
+### Why shadow AI matters for MLSecOps
+
+| Risk | Example | Framework mapping |
+|---|---|---|
+| Regulated data in consumer LLM | PII/PHI/source code pasted into personal ChatGPT | GDPR, HIPAA, EU AI Act literacy (Art. 4) |
+| No DPA / vendor review | Consumer-tier tool processes customer data | SOC 2 CC9, ISO 42001 supplier control |
+| Unmonitored agent plugins | IDE extension calls external model with repo context | OWASP LLM03 supply chain, LLM02 disclosure |
+| Personal API keys in code | Developer key in notebook touching prod data | Ch.6 control point 3 secrets review + shadow key discovery |
+| Embedded AI in sanctioned SaaS | Copilot on personal M365 vs corporate tenant | CASB/SSPM gap — traffic looks "approved" |
+
+**Documented pattern:** Samsung restricted generative AI tools after internal data was pasted into ChatGPT (2023). See [Chapter 13 — Shadow LLM usage](13-case-studies.md#shadow-llm-usage-and-data-boundary-documented-incident).
+
+### Shadow AI vs sanctioned MLSecOps path
+
+
+
+![](../assets/diagrams/11-governance-evidence_01.png)
+
+
+MLSecOps lifecycle controls (Ch.6) do **not** protect data sent to shadow tools. Shadow AI controls are **parallel**: discovery, acceptable use policy, enterprise gateway, and DLP.
+
+### Five-layer detection stack
+
+Based on enterprise governance patterns ([CTAIO Shadow AI guide](https://ctaio.dev/en/ai-security/shadow-ai/), [systemprompt.io governance guide](https://systemprompt.io/guides/shadow-ai-governance), [Proofpoint shadow AI reference](https://www.proofpoint.com/us/threat-reference/shadow-ai)):
+
+| Layer | What it catches | Tooling examples |
+|---|---|---|
+| L1 — Network / CASB | Traffic to `api.openai.com`, Claude, Gemini, etc.; corporate vs personal OAuth tenant | Netskope, Zscaler, Prisma Access, Cloudflare SWG |
+| L2 — SaaS / SSPM | AI features inside approved apps (Notion AI, Slack AI, Salesforce Einstein) | CASB, SSPM (Obsidian, Valence, etc.) |
+| L3 — Endpoint / browser | Extensions, desktop apps, clipboard → AI upload | EDR, browser extension inventory, endpoint DLP |
+| L4 — Developer environment | Personal Copilot seats, API keys in IDE, `.env` with `OPENAI_API_KEY` | Gitleaks, secret scan (Ch.12), internal dev survey |
+| L5 — AI gateway (sanctioned path) | All approved traffic with prompt logging, PII scrub, budget | LiteLLM, Kong AI Gateway, ToTra, ThinkWatch, internal gateway (Ch.7) |
+
+**Gap to document explicitly:** L1–L3 rarely cover 100% of shadow usage (personal devices, embedded SaaS AI, offline local models). Residual risk should be accepted only with **sanctioned alternatives** and executive acknowledgment.
+
+### AI Acceptable Use Policy (AI-AUP) — minimum contents
+
+| Section | Requirement |
+|---|---|
+| Approved tools | Named list (e.g., ChatGPT Enterprise, Claude for Work, internal RAG) with owners |
+| Prohibited data classes | Regulated PII/PHI, credentials, unreleased source, customer contracts in **consumer-tier** tools |
+| Account type | **Corporate tenant / SSO only** for work-related AI; personal accounts discouraged or blocked on corp devices |
+| Approval process | Fast-track request for new tools (reduces bypass motivation) |
+| Incident reporting | How to report accidental paste/leak |
+| Training | EU AI Act Art. 4 AI literacy where applicable |
+
+Publish AI-AUP **before** wide blocking — bans without alternatives typically increase underground usage ([systemprompt.io](https://systemprompt.io/guides/shadow-ai-governance)).
+
+### 30-day shadow AI rollout (operational)
+
+| Week | Activity |
+|---|---|
+| 1 — Discover | Inventory from CASB/SWG/IdP logs; developer survey; extension audit; map personal vs corporate OAuth |
+| 2 — Classify | Risk-tier each tool (public LLM, IDE plugin, embedded SaaS AI, local model) |
+| 3 — Enable | Launch sanctioned enterprise AI + gateway; SSO; DPA/sub-processor review for regulated data |
+| 4 — Enforce | SWG allow/warn/block; DLP in **monitor** mode first, then block for highest-sensitivity classes; tune false positives |
+
+### Technical controls (map to MLSecOps)
+
+| Control | Shadow AI mitigation | Guide reference |
+|---|---|---|
+| Enterprise AI gateway | Route all approved LLM/API traffic; log prompts; kill switch | Ch.7 gateway, Ch.10 telemetry |
+| Presidio / DLP at gateway | Block/mask PII before outbound prompt | Ch.4, Ch.12 |
+| SSO + corporate tenant only | Block personal ChatGPT on corp network where policy allows | Governance + IT identity |
+| Secret scanning | Find `OPENAI_API_KEY`, Anthropic keys in repos | Ch.6 control point 3, Ch.12 Gitleaks |
+| Centralized API proxy | Developers use org proxy, not raw provider keys | Ch.5 key management |
+| SIEM correlation | Alert on bulk uploads to AI domains | Ch.10 |
+
+### Open-source gateway references (sanctioned path)
+
+The projects below are non-endorsed examples of open-source gateway patterns. Validate maturity, licensing, and operational fit before use.
+
+| Project | Role in shadow AI reduction |
+|---|---|
+| [LiteLLM](https://github.com/BerriAI/litellm) | Self-hosted proxy; virtual keys; team budgets; 100+ providers |
+| [Kong AI Gateway](https://github.com/Kong/kong) | Enterprise API management + AI plugins on existing Kong |
+| [ToTra](https://github.com/SugaC-275/ToTra) | Go gateway; PII blocking; quota; audit log |
+| [ThinkWatch](https://github.com/ThinkWatchProject/ThinkWatch) | Enterprise AI bastion; MCP + API proxy; RBAC; audit |
+
+Providing a **sanctioned, productive alternative** reduces shadow demand more than blocking alone ([CTAIO AI security stack](https://ctaio.dev/en/ai-security/ai-security-stack/)).
+
+### Evidence Pack fields for shadow AI program
+
+| Field | Example |
+|---|---|
+| `shadow_ai.inventory_date` | 2026-06-01 |
+| `shadow_ai.tools_discovered` | 12 unsanctioned destinations |
+| `shadow_ai.sanctioned_gateway` | LiteLLM prod URL |
+| `shadow_ai.dlp_mode` | monitor → enforce schedule |
+| `shadow_ai.ai_aup_version` | v1.2 |
+| `shadow_ai.residual_risk_accepted` | personal mobile — documented exception |
+
+### Anti-patterns
+
+| Anti-pattern | Consequence | Alternative |
+|---|---|---|
+| Blanket ban without enterprise AI | Underground usage increases | Sanctioned ChatGPT Enterprise / internal RAG + gateway |
+| DLP block-only on day one | Workarounds (mobile hotspot, personal laptop) | Monitor → tune → enforce high-sensitivity only |
+| Ignoring embedded SaaS AI | "Approved" Notion/Slack with ungoverned AI feature | SSPM + feature-level policy |
+| No personal vs corporate account distinction | OAuth to personal Google/OpenAI | CASB tenant enforcement |
+| Shadow AI excluded from threat model | Lifecycle controls give false confidence because unapproved tools bypass them | Include Shadow AI row in [Ch.2 attack surface](02-scope-risk-threat-model.md#attack-surface-matrix); govern in Ch.11 |
+
 ## OpenSSF MLSecOps Mapping (Whitepaper 2025)
 
-`OpenSSF` mapped 22 security controls across three domains—`Data`, `Model`, and `DevOps`—in the whitepaper "Visualizing Secure MLOps." This document is the architectural reference for data scientist, ML engineer, and security team personas. Summary mapping:
+> **Affiliation:** This guide is **not** published or endorsed by OpenSSF. The table below maps the [OpenSSF Secure MLOps whitepaper](https://openssf.org/wp-content/uploads/2025/08/OpenSSF_MLSecOps_Whitepaper.pdf) lifecycle stages and security measures to chapters in **this** community reference. Use the OpenSSF document as the authoritative source for their architecture; use this guide for lifecycle decision and evidence patterns.
 
-| Domain | Example controls |
-|---|---|
-| Data | validation, anonymization, access control, lineage |
-| Model | artifact scan, adversarial test, signing, registry hardening |
-| DevOps | secret management, IaC scan, CI/CD attestation, runtime monitoring |
+| # | OpenSSF lifecycle stage | OpenSSF security measures (summary) | This guide — chapter / artifact |
+|---|---|---|---|
+| 1 | Planning and design | Threat modeling, secure design, SBOM visibility | Ch. 2, 6 (prerequisite); Ch. 5 (`AI-BOM`) |
+| 2 | Data engineering | Validation, versioning, lineage, anomaly detection, encryption | Ch. 4; control point 4 |
+| 3 | Experimentation | Supply chain security, poisoned data detection, experiment tracking | Ch. 4, 6 (stages 2–5) |
+| 4 | ML pipeline dev & test | Reproducibility, secure artifact validation, pipeline testing | Ch. 6 (control points 3, 7) |
+| 5 | Continuous integration | SAST/SCA, policy enforcement, dependency scan | Ch. 6 (control point 3); Ch. 12 |
+| 6 | Continuous deployment | Secure deploy automation, artifact checks, trusted packages | Ch. 6 (control points 8–10); signing |
+| 7 | Continuous training | Drift detection, re-validation, authenticated feedback data | Ch. 6 (CT cycle) |
+| 8 | Model serving | Input validation, access control, output filtering | Ch. 7, 8; runtime gateway |
+| 9 | Continuous monitoring | Drift, anomaly, alerting, adversarial monitoring | Ch. 10; SOC |
+| — | Cross-cutting (OpenSSF tools) | Sigstore, SLSA, Scorecard, GUAC | Ch. 5, 12 |
+| — | Cross-cutting (DevOps) | Secrets, IaC scan, CI attestation | Ch. 6 control point 3; Ch. 12 |
+| — | Evidence | Audit trail of which measures are implemented | `Evidence Pack` (this guide) |
 
-The organization's Evidence Pack must show which of these 22 controls—aligned with the threat model—have been implemented.
+The organization's `Evidence Pack` should record which OpenSSF-aligned measures—plus LLM/RAG/agent controls from OWASP and ATLAS—are implemented for each deployment, aligned with the threat model.
 
-## AI Design Assurance Level (AI-DAL) — illustrative only
+## Optional assurance tiering — illustrative only
 
-> **Non-standard concept:** `AI-DAL` is an author-adapted planning aid inspired by design assurance levels in safety-critical software engineering. It is **not** a published industry standard. For formal compliance, use `ISO/IEC 42001` and the `EU AI Act`; treat the table below as an optional severity ladder only.
+> **Non-standard concept:** The tiering below is an optional organizational planning aid. It is **not** an OWASP, ISO, EU, or industry standard. For formal compliance, use `ISO/IEC 42001`, `ISO/IEC 23894`, the `EU AI Act`, and the organization's legal/compliance process.
 
 | Level | Example context | Minimum evidence expectations |
 |---|---|---|
-| `AI-DAL 1` | Internal low-impact assistants | Basic threat model, artifact scan at load, runtime logging |
-| `AI-DAL 2` | Customer-facing LLM/RAG services | Full pipeline gates, red team suite, signed `Evidence Pack` |
-| `AI-DAL 3` | High-risk domains (medical, finance, critical infrastructure) | Independent security review, continuous monitoring, formal risk register, human oversight |
+| Tier 1 | Internal low-impact assistants | Basic threat model, artifact review where applicable, runtime logging |
+| Tier 2 | Customer-facing LLM/RAG services | Lifecycle decision evidence, red team suite, signed or tamper-evident evidence bundle |
+| Tier 3 | High-risk domains (medical, finance, critical infrastructure) | Independent security review, continuous monitoring, formal risk register, human oversight |
 
 ## STRIDE and FMEA applied to ML assets
 
@@ -51,7 +168,7 @@ The methods below apply established threat-modeling techniques to ML/AI assets. 
 
 ## What is an Evidence Pack?
 
-An `Evidence Pack` is a bundle of technical and managerial evidence showing how a model was built, evaluated, controlled, and released. This bundle should be generated automatically in the production pipeline.
+An `Evidence Pack` is a bundle of technical and managerial evidence showing how an AI system, model, RAG index, agent configuration, or managed AI service configuration was built, evaluated, controlled, and released. It is an **audit evidence pattern**, not a mandatory OWASP file format. Organizations may implement it as signed JSON, a document bundle, a GRC record, an artifact registry entry, or another tamper-evident evidence mechanism.
 
 ## Recommended Evidence Pack contents
 
@@ -71,9 +188,9 @@ An `Evidence Pack` is a bundle of technical and managerial evidence showing how 
 |---|---|---|
 | Model identity | hash, version, source, and build date | Tracking in incidents and rollback |
 | Supply chain | `SBOM/AI-BOM`, `SLSA`, `in-toto`, and provenance | Supply chain audit |
-| Integrity | Digital signature with `Cosign/Sigstore` and verify result | Preventing artifact substitution |
+| Integrity | Digital signature with `Cosign/Sigstore` and verify result where artifacts are controlled; managed-service configuration snapshot where model weights are provider-managed | Preventing artifact substitution or unreviewed configuration drift |
 | Security testing | Reports from `ModelScan`, `ART`, prompt injection, and poisoning | Demonstrating due diligence |
-| policy | Quality gate log, `OPA/Conftest`, exceptions, and approver | Transparency of `Go/No-Go` decisions |
+| policy | Quality decision log, `OPA/Conftest`, exceptions, and approver | Transparency of `Go/No-Go` decisions |
 | runtime | Telemetry, alerts, and prompt trace in incidents | Incident response and postmortem |
 
 ## Relationship to compliance
@@ -92,7 +209,7 @@ An `Evidence Pack` is a bundle of technical and managerial evidence showing how 
 | `Data Governance` (Art. 10) | Data control, lineage, PII masking (Chapter 4) |
 | `Technical Documentation` (Art. 11) | `Evidence Pack` and `AI-BOM` (Chapters 5, 11) |
 | `Record-Keeping / Logging` (Art. 12) | Telemetry, prompt/tool logging (Chapter 10) |
-| `Transparency` (Art. 13) | Model documentation, provenance, watermark |
+| `Transparency` (Art. 13) | Model documentation, provenance, user-facing instructions (watermarking only where legally required for specific AI outputs) |
 | `Human Oversight` (Art. 14) | `HITL` and `Intent Gate` (Chapter 8) |
 | `Accuracy, Robustness, Cybersecurity` (Art. 15) | Adversarial testing, signing, runtime guardrail (Chapters 5, 6, 7) |
 | `Post-Market Monitoring` (Art. 72) | Runtime monitoring and SOC (Chapter 10) |
@@ -109,7 +226,7 @@ The table below shows which section of the `Evidence Pack` (Chapter 11) and what
 | `Data Governance` (Art. 10) | Data | Lineage, data contract, PII scan report, dataset version |
 | `Technical Documentation` (Art. 11) | Full bundle | Signed Evidence Pack for each deploy |
 | `Record-Keeping / Logging` (Art. 12) | runtime + policy | Prompt/tool/retrieval log, retention policy, gate audit log |
-| `Transparency` (Art. 13) | Model identity + supply chain | Provenance, `AI-BOM`, model documentation, and watermark (if applicable) |
+| `Transparency` (Art. 13) | Model identity + supply chain | Provenance, `AI-BOM`, model documentation, deploy instructions (watermark if legally required) |
 | `Human Oversight` (Art. 14) | policy + runtime | `HITL` log, human approval runbook, kill switch |
 | `Accuracy, Robustness, Cybersecurity` (Art. 15) | Security testing + integrity | `ART`/red team report, `ASR` relative to baseline, signature and verify |
 | `Post-Market Monitoring` (Art. 72) | runtime | Telemetry, SOC alerts, drift report, postmortem |
@@ -118,7 +235,7 @@ The table below shows which section of the `Evidence Pack` (Chapter 11) and what
 
 ## Policy-as-Code
 
-Security policies should not remain only in documents. They must be applied in an executable form in the pipeline and at runtime. Tools such as `OPA`, `Conftest`, or an internal policy engine can perform this work.
+Security policies should not remain only in documents. Where practical, they should be applied in executable form in release workflows and at runtime. Tools such as `OPA`, `Conftest`, or an internal policy engine can perform this work, but the control objective is policy enforcement and auditable decision-making—not any specific tool.
 
 Example policies:
 
@@ -142,11 +259,11 @@ Example policies:
 
 | Persona | Security focus | Area of responsibility |
 |---|---|---|
-| `Solution / ML Architect` | Secure architecture and service boundary | Introduction, pipeline, and MLOps alignment |
-| `MLOps / AI Engineer` | Pipeline, deploy, and CT | Pipeline and tools |
+| `Solution / ML Architect` | Secure architecture and service boundary | Introduction, lifecycle controls, and MLOps alignment |
+| `MLOps / AI Engineer` | Release workflow, deploy, and CT | Lifecycle controls and tools |
 | `Data Scientist / Engineer` | Data quality and experimentation | Data and experimentation |
 | `Data Governance` | `PII`, compliance, and lineage | Data and compliance |
-| `Product Security` | Threat model, gate, and assurance | Threats and pipeline |
+| `Product Security` | Threat model, release decisions, and assurance | Threats and lifecycle controls |
 | `SOC / IR` | Runtime, alerts, and incident evidence | SOC and evidence pack |
 
 ## Tamper-evident storage
@@ -164,21 +281,15 @@ For organizations with strict audit requirements, an advanced option is to use `
 
 A control without measurement of effectiveness is only a checkbox. The assurance loop must show that gates are actually effective and that deploy decisions are made based on numeric criteria.
 
-```mermaid
-flowchart LR
-    TM[Threat Model] --> CD[Control Design]
-    CD --> TH[Test Harness]
-    TH --> AC[Acceptance Criteria]
-    AC --> Deploy[Deploy]
-    Deploy --> Monitor[Runtime Monitor]
-    Monitor --> Measure[Measure]
-    Measure --> Retest[Regression Retest]
-```
+
+
+![](../assets/diagrams/11-governance-evidence_02.png)
+
 
 | Stage | Output | Owner |
 |---|---|---|
 | `Test Harness` | Versioned suite in Git | Security + MLOps |
-| Gate 7 | Metric report and suite hash | MLOps |
+| Security validation | Metric report and suite hash | MLOps |
 | Deploy decision | pass/fail relative to baseline | Model Owner |
 | Production | Telemetry and feedback related to FP/FN | SOC |
 | CT / retrain | Full suite regression | MLOps |
@@ -189,14 +300,16 @@ flowchart LR
 
 | Control | Metric | Example acceptance | Frequency |
 |---|---|---|---|
-| `Policy Gate / OPA` | Violation detection rate in red team | 100% on critical rules | Every release |
+| `Policy-as-Code` | Violation detection rate in red team | 100% on critical rules | Every release |
 | `LLM Gateway` | False negative on injection suite | Maximum 5% critical prompts | Monthly and after tune |
 | `LLM Gateway` | False positive on benign suite | Maximum 2% | Monthly |
 | `ART` | `ASR @ epsilon` | Maximum baseline + 2% | Every new model |
 | `RAG Ingest` | Poison doc retrieval rate | Zero percent in regression set | Every index change |
 | `Agent Output Gate` | Bypass in output-injection cases | Zero critical | Every agent release |
 
-## Regression Security Score
+## Optional regression scoring pattern — illustrative only
+
+> **Non-standard concept:** The formula below is an **optional internal planning aid**, not a published metric and not an OWASP standard. Do not use it as a compliance score, public maturity claim, or cross-organization benchmark. Weights (`w1`–`w3`) must be defined per organization; metrics are not directly comparable without normalization.
 
 For decision-making, a conceptual score can be defined:
 
@@ -204,13 +317,13 @@ For decision-making, a conceptual score can be defined:
 score = w1 * clean_metric + w2 * (1 - ASR_or_bypass_rate) + w3 * gate_pass_rate
 ```
 
-Deploy is allowed only when:
+One possible internal decision rule is:
 
 ```text
 score(new) >= score(baseline_signed) - delta
 ```
 
-The value of `delta` should be set in the organization's threat model; for example, `0.02`.
+The value of `delta` should be set in the organization's threat model. This example should not replace explicit release criteria for critical controls.
 
 ## Governance Benchmark Suite
 
@@ -227,7 +340,7 @@ For assurance to be repeatable, the security benchmark must be versioned and tra
 |---|---|---|
 | Question | Is the control implemented correctly? | Is the model or system sufficient for production? |
 | Example | OPA rule deployed and gateway is in the traffic path | `ASR`, bypass rate, and accuracy are acceptable |
-| Location | Infrastructure audit and production checklist | Gate 7 and Canary |
+| Location | Infrastructure audit and production checklist | Security validation and Canary |
 
 Maturity level 2 means a stable gate and suite exist. Maturity level 3 means automated regression score and false negative error tracking in the SOC are in place.
 

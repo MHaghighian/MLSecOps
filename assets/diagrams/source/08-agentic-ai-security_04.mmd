@@ -1,0 +1,11 @@
+sequenceDiagram
+    participant U as User
+    participant A as Agent
+    participant T as Tool
+    participant G as Output Gate
+    U->>A: Summarize ticket
+    A->>T: get_ticket(12345)
+    T->>A: JSON with hidden malicious instruction
+    A->>G: Validate tool output
+    G-->>A: Strip instruction or block
+    A->>U: Safe summary

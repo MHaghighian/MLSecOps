@@ -1,0 +1,8 @@
+flowchart LR
+    User[User] --> Host[MCP Host / IDE]
+    Host --> Client[MCP Client]
+    Client --> GW[MCP Gateway optional]
+    GW --> S1[MCP Server A]
+    GW --> S2[MCP Server B]
+    S1 --> Tools[Tools / APIs / Data]
+    S2 --> Tools

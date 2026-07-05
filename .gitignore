@@ -1,4 +1,6 @@
-site/
 .venv/
 __pycache__/
 *.pyc
+docs/
+site/
+dist/

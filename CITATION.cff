@@ -1,0 +1,31 @@
+cff-version: 1.2.0
+title: "MLSecOps Practical Reference Guide"
+message: "If you use this guide, please cite it as below."
+type: book
+authors:
+  - family-names: Haghighian
+    given-names: Moslem
+repository-code: "https://github.com/l4tr0d3ctism/MLSecOps"
+url: "https://github.com/l4tr0d3ctism/MLSecOps"
+repository-artifact: "https://github.com/l4tr0d3ctism/MLSecOps/releases/tag/v1.0.0"
+license: CC-BY-SA-4.0
+version: 1.0.0
+date-released: 2026-07-05
+keywords:
+  - MLSecOps
+  - LLM security
+  - RAG security
+  - agentic AI security
+  - MLOps security
+  - AI governance
+  - evidence pack
+preferred-citation:
+  type: book
+  authors:
+    - family-names: Haghighian
+      given-names: Moslem
+  title: "MLSecOps Practical Reference Guide"
+  version: 1.0.0
+  year: 2026
+  url: "https://github.com/l4tr0d3ctism/MLSecOps"
+  notes: "Open practical reference guide. Not an official industry standard."

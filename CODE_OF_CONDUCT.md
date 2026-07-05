@@ -24,7 +24,12 @@ Examples of unacceptable behavior:
 
 Project maintainers may remove, edit, or reject comments, commits, issues, and other contributions that are not aligned to this Code of Conduct.
 
-Instances of abusive, harassing, or otherwise unacceptable behavior may be reported by opening an issue or contacting the repository owner.
+Instances of abusive, harassing, or otherwise unacceptable behavior may be reported by:
+
+- Opening a **private** security-sensitive report via [GitHub private vulnerability reporting](https://github.com/l4tr0d3ctism/MLSecOps/security/advisories/new) when the concern involves harassment tied to security reports, or
+- Emailing the repository owner (see GitHub profile contact) for CoC matters you do not wish to discuss publicly.
+
+Public issues may be used for general CoC reports when privacy is not required.
 
 ## Attribution
 

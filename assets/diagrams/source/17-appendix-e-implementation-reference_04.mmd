@@ -1,0 +1,10 @@
+flowchart TB
+    User[User goals] --> Orch[Agent orchestrator]
+    Orch --> LLM[LLM]
+    Orch --> Mem[Memory]
+    Orch --> IG[Intent Gate]
+    IG --> Tools[MCP APIs scoped]
+    Tools --> Act[Actions]
+    Act --> OG[Output Gate]
+    OG --> User
+    Tools --> SOC[Tool telemetry]

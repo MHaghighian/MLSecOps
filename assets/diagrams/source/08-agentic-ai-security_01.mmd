@@ -1,0 +1,11 @@
+flowchart TB
+    User[User / Goals] --> Agent[Agent orchestrator]
+    Agent --> LLM[LLM brain]
+    Agent --> Memory["Memory: STM / LTM / vector"]
+    Agent --> DataSources["Data sources: RAG / DB / web"]
+    Agent --> Tools["Tools: MCP / APIs / plugins"]
+    LLM --> Agent
+    Memory --> Agent
+    DataSources --> Agent
+    Tools --> Actions[Actions and results]
+    Actions --> User

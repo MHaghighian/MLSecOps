@@ -1,0 +1,4 @@
+flowchart LR
+    A[Access sensitive data] --> B[Process in agent context]
+    B --> C[Disclose in output or tool args]
+    C --> D[Exfiltrate to attacker destination]

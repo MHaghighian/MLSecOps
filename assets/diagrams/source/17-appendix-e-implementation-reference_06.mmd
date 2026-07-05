@@ -1,0 +1,11 @@
+flowchart TB
+    Change[Approved change] --> Load[Load artifacts]
+    Load --> Scan[Security scan]
+    Scan --> Tests[Security validation]
+    Tests --> Policy[Policy decision]
+    Policy -->|Pass| Integrity[Integrity check]
+    Policy -->|Fail| Block[Block or exception]
+    Integrity --> Pack[Evidence Pack]
+    Pack --> Release[Release decision]
+    Release --> Deploy[Deploy]
+    Deploy --> Monitor[Runtime monitor]

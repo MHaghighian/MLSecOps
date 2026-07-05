@@ -1,0 +1,7 @@
+flowchart LR
+    User[User] --> Agent[Agent]
+    Agent --> IntentGate[Intent Gate]
+    IntentGate --> Tool[Tool]
+    Tool --> OutputGate[Output Gate]
+    OutputGate --> Agent
+    Agent --> Response[Final Response]

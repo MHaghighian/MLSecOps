@@ -1,0 +1,9 @@
+flowchart LR
+    User[User Query] --> Gateway[AI Gateway]
+    Gateway --> Policy[Policy and AuthZ]
+    Policy --> Retriever[Retriever]
+    Retriever --> VectorDB[Vector DB]
+    VectorDB --> Context[Filtered Context]
+    Context --> LLM[LLM]
+    LLM --> OutputGate[Output Gate]
+    OutputGate --> User

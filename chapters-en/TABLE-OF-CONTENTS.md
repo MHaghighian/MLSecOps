@@ -1,6 +1,6 @@
 # Table of Contents
 
-**MLSecOps Guide v0.1** — Securing AI Systems Across the Lifecycle
+**MLSecOps Practical Reference Guide v1.0.0** — Securing AI Systems Across the Lifecycle
 
 ---
 
@@ -8,6 +8,7 @@
 
 - [Abstract](01-intro.md#abstract)
 - [Introduction](01-intro.md#introduction)
+- [How to use this guide](01-intro.md#how-to-use-this-guide)
 - [Why DevSecOps Is Insufficient](01-intro.md#why-devsecops-is-insufficient)
 - [AI Threat Surface (Executive Overview)](01-intro.md#ai-threat-surface-executive-overview)
 - [MLSecOps Principles](01-intro.md#mlsecops-principles)
@@ -20,6 +21,8 @@
 
 - [Scope of the article](02-scope-risk-threat-model.md#scope-of-the-article)
 - [Scenarios covered](02-scope-risk-threat-model.md#scenarios-covered)
+  - [Managed AI service scope](02-scope-risk-threat-model.md#managed-ai-service-scope)
+  - [Managed AI services security reference](02-scope-risk-threat-model.md#managed-ai-services-security-reference)
 - [Primary audiences](02-scope-risk-threat-model.md#primary-audiences)
 - [Selecting controls based on threat model](02-scope-risk-threat-model.md#selecting-controls-based-on-threat-model)
 - [Risk management](02-scope-risk-threat-model.md#risk-management)
@@ -28,20 +31,16 @@
 
 ## Chapter 3: [Autonomous AI Threats and Offensive AI Operations](03-threat-landscape.md)
 
+- [Reading priority](03-threat-landscape.md#reading-priority)
 - [Overview](03-threat-landscape.md#overview)
-- [Autonomous AI Malware](03-threat-landscape.md#autonomous-ai-malware)
-- [AI-driven Reconnaissance](03-threat-landscape.md#ai-driven-reconnaissance)
-- [Autonomous Exploit Generation](03-threat-landscape.md#autonomous-exploit-generation)
-- [AI-driven Lateral Movement](03-threat-landscape.md#ai-driven-lateral-movement)
-- [AI Worms and Autonomous Propagation](03-threat-landscape.md#ai-worms-and-autonomous-propagation)
-- [Agent Tool Abuse](03-threat-landscape.md#agent-tool-abuse)
-- [Memory Poisoning](03-threat-landscape.md#memory-poisoning)
-- [Autonomous Permission Escalation](03-threat-landscape.md#autonomous-permission-escalation)
-- [AI Compute Hijacking](03-threat-landscape.md#ai-compute-hijacking)
-- [Autonomous Data Exfiltration](03-threat-landscape.md#autonomous-data-exfiltration)
-- [AI-assisted Persistence](03-threat-landscape.md#ai-assisted-persistence)
-- [AI-assisted Defensive Evasion](03-threat-landscape.md#ai-assisted-defensive-evasion)
-- [Runtime Behavioral Threats](03-threat-landscape.md#runtime-behavioral-threats)
+- [Agent Tool Abuse](03-threat-landscape.md#agent-tool-abuse-demonstrated-active-patterns)
+- [Memory Poisoning](03-threat-landscape.md#memory-poisoning-demonstrated-active-patterns)
+- [AI-driven Reconnaissance](03-threat-landscape.md#ai-driven-reconnaissance-demonstrated-active-patterns)
+- [AI-driven Lateral Movement](03-threat-landscape.md#ai-driven-lateral-movement-demonstrated-active-patterns)
+- [AI Compute Hijacking](03-threat-landscape.md#ai-compute-hijacking-demonstrated-active-patterns)
+- [Autonomous Data Exfiltration](03-threat-landscape.md#autonomous-data-exfiltration-demonstrated-active-patterns)
+- [Runtime Behavioral Threats](03-threat-landscape.md#runtime-behavioral-threats-demonstrated-active-patterns)
+- [Emerging and research-stage threats (summary)](03-threat-landscape.md#emerging-and-research-stage-threats-summary)
 - [MLSecOps Threat Modeling Considerations](03-threat-landscape.md#mlsecops-threat-modeling-considerations)
 - [Relationship to Existing Frameworks](03-threat-landscape.md#relationship-to-existing-frameworks)
 - [Chapter Summary](03-threat-landscape.md#chapter-summary)
@@ -79,26 +78,26 @@
 - [Key and secret management](05-model-artifact-supply-chain.md#key-and-secret-management)
 - [Practical principle](05-model-artifact-supply-chain.md#practical-principle)
 
-## Chapter 6: [Ten-Stage MLSecOps Pipeline](06-pipeline.md)
+## Chapter 6: [MLSecOps Lifecycle Control Model](06-pipeline.md)
 
-- [Pipeline objective](06-pipeline.md#pipeline-objective)
-- [Pipeline overview](06-pipeline.md#pipeline-overview)
+- [Control model objective](06-pipeline.md#control-model-objective)
+- [Control model overview](06-pipeline.md#control-model-overview)
 - [Prerequisite: Planning and Threat Modeling](06-pipeline.md#prerequisite-planning-and-threat-modeling)
-- [Pipeline stages](06-pipeline.md#pipeline-stages)
-- [Practical notes for each stage](06-pipeline.md#practical-notes-for-each-stage)
-- [Security Gates](06-pipeline.md#security-gates)
+- [Lifecycle control points](06-pipeline.md#lifecycle-control-points)
+- [Practical notes for each control point](06-pipeline.md#practical-notes-for-each-control-point)
+- [Release decision model](06-pipeline.md#release-decision-model)
 - [Continuous Training cycle](06-pipeline.md#continuous-training-cycle)
 - [CT cycle risks](06-pipeline.md#ct-cycle-risks)
-- [Execution stages in CT cycle](06-pipeline.md#execution-stages-in-ct-cycle)
+- [Control points in CT cycle](06-pipeline.md#control-points-in-ct-cycle)
 - [Secure deployment methods for retrained models](06-pipeline.md#secure-deployment-methods-for-retrained-models)
 - [Difference between Data Drift and Adversarial Drift](06-pipeline.md#difference-between-data-drift-and-adversarial-drift)
-- [Alignment with MLOps lifecycle](06-pipeline.md#alignment-with-mlops-lifecycle)
+- [Alignment with MLOps lifecycle](06-pipeline.md#alignment-with-mlops-lifecycle-and-openssf)
 - [Common implementation challenges](06-pipeline.md#common-implementation-challenges)
 - [Minimum security baseline](06-pipeline.md#minimum-security-baseline)
-- [Pipeline control prioritization](06-pipeline.md#pipeline-control-prioritization)
+- [Lifecycle control prioritization](06-pipeline.md#lifecycle-control-prioritization)
 - [Stage 7 test acceptance conditions](06-pipeline.md#stage-7-test-acceptance-conditions)
 - [Red Team program and security test cadence](06-pipeline.md#red-team-program-and-security-test-cadence)
-- [Expected pipeline behavior pattern](06-pipeline.md#expected-pipeline-behavior-pattern)
+- [Implementation note](06-pipeline.md#implementation-note)
 - [Golden rule](06-pipeline.md#golden-rule)
 - [Operational summary](06-pipeline.md#operational-summary)
 
@@ -114,6 +113,7 @@
 - [Embedding Poisoning](07-llm-rag-security.md#embedding-poisoning)
 - [Reindex Playbook](07-llm-rag-security.md#reindex-playbook)
 - [Cloud Native and Multi-Tenant deployment](07-llm-rag-security.md#cloud-native-and-multi-tenant-deployment)
+- [Model Context Protocol (MCP) security](07-llm-rag-security.md#model-context-protocol-mcp-security)
 - [Advanced Multi-Tenant hardening](07-llm-rag-security.md#advanced-multi-tenant-hardening)
 - [Fine-tuning risks](07-llm-rag-security.md#fine-tuning-risks)
 - [System Prompt Leakage (LLM07)](07-llm-rag-security.md#system-prompt-leakage-llm07)
@@ -123,14 +123,20 @@
 - [Guardrail limitations](07-llm-rag-security.md#guardrail-limitations)
 - [If only three LLM/RAG controls can be implemented](07-llm-rag-security.md#if-only-three-llmrag-controls-can-be-implemented)
 - [LLM and RAG control prioritization](07-llm-rag-security.md#llm-and-rag-control-prioritization)
+- [LLM verification approach](07-llm-rag-security.md#llm-verification-approach)
 - [Practical principle](07-llm-rag-security.md#practical-principle)
 - [Practical summary](07-llm-rag-security.md#practical-summary)
 
 ## Chapter 8: [Agentic AI Security](08-agentic-ai-security.md)
 
 - [Why Agentic AI poses a different risk](08-agentic-ai-security.md#why-agentic-ai-poses-a-different-risk)
+- [Chatbot vs AI agent](08-agentic-ai-security.md#chatbot-vs-ai-agent)
+- [Agent reference architecture](08-agentic-ai-security.md#agent-reference-architecture)
+- [Agent think–act cycle and control points](08-agentic-ai-security.md#agent-thinkact-cycle-and-control-points)
 - [MAESTRO framework (CSA)](08-agentic-ai-security.md#maestro-framework-csa)
 - [Agent attack surface](08-agentic-ai-security.md#agent-attack-surface)
+  - [Six attack domains](08-agentic-ai-security.md#six-attack-domains)
+  - [Internal components](08-agentic-ai-security.md#internal-components)
 - [Tool trust boundary](08-agentic-ai-security.md#tool-trust-boundary)
 - [Intent Gate](08-agentic-ai-security.md#intent-gate)
 - [Intent Gate implementation components](08-agentic-ai-security.md#intent-gate-implementation-components)
@@ -140,12 +146,20 @@
 - [Memory Poisoning](08-agentic-ai-security.md#memory-poisoning)
   - [Memory contamination path](08-agentic-ai-security.md#memory-contamination-path)
   - [Real-world context poisoning example](08-agentic-ai-security.md#real-world-context-poisoning-example)
+  - [Vendor and payment approval poisoning example](08-agentic-ai-security.md#vendor-and-payment-approval-poisoning-example)
+  - [Conversation manipulation](08-agentic-ai-security.md#conversation-manipulation)
+- [Data exfiltration model](08-agentic-ai-security.md#data-exfiltration-model)
 - [Multi-Agent](08-agentic-ai-security.md#multi-agent)
 - [Multi-Agent principles](08-agentic-ai-security.md#multi-agent-principles)
+- [Agent defense layers](08-agentic-ai-security.md#agent-defense-layers)
+- [Secure agent lifecycle](08-agentic-ai-security.md#secure-agent-lifecycle)
 - [Runtime controls for Agent](08-agentic-ai-security.md#runtime-controls-for-agent)
 - [Three critical controls](08-agentic-ai-security.md#three-critical-controls)
 - [Agent control prioritization](08-agentic-ai-security.md#agent-control-prioritization)
+- [Agent security metrics](08-agentic-ai-security.md#agent-security-metrics)
+- [Agent security DO's and DON'Ts](08-agentic-ai-security.md#agent-security-dos-and-donts)
 - [Practical principle](08-agentic-ai-security.md#practical-principle)
+- [MCP tool connections](08-agentic-ai-security.md#mcp-tool-connections)
 
 ## Chapter 9: [Anti-patterns in MLSecOps](09-anti-patterns.md)
 
@@ -181,9 +195,10 @@
 ## Chapter 11: [Governance, Compliance, and Evidence Pack](11-governance-evidence.md)
 
 - [Governance in MLSecOps](11-governance-evidence.md#governance-in-mlsecops)
+- [Shadow AI governance](11-governance-evidence.md#shadow-ai-governance)
 - [OpenSSF MLSecOps Mapping (Whitepaper 2025)](11-governance-evidence.md#openssf-mlsecops-mapping-whitepaper-2025)
-- [AI Design Assurance Level (AI-DAL)](11-governance-evidence.md#ai-design-assurance-level-ai-dal)
-- [FMEA-AI and STRIDE-AI](11-governance-evidence.md#fmea-ai-and-stride-ai)
+- [Optional assurance tiering](11-governance-evidence.md#optional-assurance-tiering-illustrative-only)
+- [STRIDE and FMEA applied to ML assets](11-governance-evidence.md#stride-and-fmea-applied-to-ml-assets)
 - [Reference frameworks](11-governance-evidence.md#reference-frameworks)
 - [What is an Evidence Pack?](11-governance-evidence.md#what-is-an-evidence-pack)
 - [Recommended Evidence Pack contents](11-governance-evidence.md#recommended-evidence-pack-contents)
@@ -197,7 +212,7 @@
 - [Tamper-evident storage](11-governance-evidence.md#tamper-evident-storage)
 - [Security validation and assurance](11-governance-evidence.md#security-validation-and-assurance)
 - [Assurance metrics](11-governance-evidence.md#assurance-metrics)
-- [Regression Security Score](11-governance-evidence.md#regression-security-score)
+- [Optional regression scoring pattern](11-governance-evidence.md#optional-regression-scoring-pattern-illustrative-only)
 - [Governance Benchmark Suite](11-governance-evidence.md#governance-benchmark-suite)
 - [Verification vs. validation](11-governance-evidence.md#verification-vs-validation)
 - [Vulnerability disclosure and external intelligence sources](11-governance-evidence.md#vulnerability-disclosure-and-external-intelligence-sources)
@@ -208,14 +223,9 @@
 - [Purpose of Mapping](12-threat-control-tools-map.md#purpose-of-mapping)
 - [Primary Mapping](12-threat-control-tools-map.md#primary-mapping)
 - [Tool Layers](12-threat-control-tools-map.md#tool-layers)
-- [Tools by Pipeline Stage](12-threat-control-tools-map.md#tools-by-pipeline-stage)
+- [Capabilities by lifecycle area](12-threat-control-tools-map.md#capabilities-by-lifecycle-area)
 - [Layered Tool Architecture](12-threat-control-tools-map.md#layered-tool-architecture)
-- [Practical Tool Guide for Building a Security Pipeline](12-threat-control-tools-map.md#practical-tool-guide-for-building-a-security-pipeline)
-  - ModelScan, Gitleaks, Trivy, NB Defense, lintML, ART, Garak, Promptfoo, PyRIT
-  - Syft, CycloneDX / cdxgen, Sigstore model-signing
-  - OPA / Conftest, NeMo Guardrails
-  - AI-exploits, AI-Infra-Guard, Agentic Security, PrivacyRaven, ML Privacy Meter
-- [Summary Table: Tool, Command, and Gate Behavior](12-threat-control-tools-map.md#summary-table-tool-command-and-gate-behavior)
+- [Appendix: Informative tool command reference](12-threat-control-tools-map.md#appendix-informative-tool-command-reference)
 - [OWASP ML Top 10 Mapping to MLOps Stages](12-threat-control-tools-map.md#owasp-ml-top-10-mapping-to-mlops-stages)
 - [Threat, Control, and Tool Reference Card](12-threat-control-tools-map.md#threat-control-and-tool-reference-card)
 - [MITRE ATLAS Mapping](12-threat-control-tools-map.md#mitre-atlas-mapping)
@@ -227,20 +237,21 @@
 ## Chapter 13: [Case Studies and Lessons Learned](13-case-studies.md)
 
 - [Chapter objective](13-case-studies.md#chapter-objective)
-- [LeftoverLocals (CVE-2023-4969)](13-case-studies.md#leftoverlocals-cve-2023-4969)
-- [MLflow and MLOps platform vulnerabilities](13-case-studies.md#mlflow-and-mlops-platform-vulnerabilities)
-- [ClearML and Confused Learning](13-case-studies.md#clearml-and-confused-learning)
-- [SILENT SABOTAGE (HuggingFace Conversion Bot)](13-case-studies.md#silent-sabotage-huggingface-conversion-bot)
-- [BentoML, LangChain, and RCE](13-case-studies.md#bentoml-langchain-and-rce)
-- [HuggingFace: more than 3,300 unsafe models](13-case-studies.md#huggingface-more-than-3300-unsafe-models)
-- [Agent API key exposure pattern (illustrative)](13-case-studies.md#agent-api-key-exposure-pattern-illustrative)
-- [Pickle-based RCE in model repositories](13-case-studies.md#pickle-based-rce-in-model-repositories)
-- [PoisonGPT and the AI supply chain](13-case-studies.md#poisongpt-and-the-ai-supply-chain)
-- [Prompt injection in public systems](13-case-studies.md#prompt-injection-in-public-systems)
-- [Data leakage from organizational use of public LLMs](13-case-studies.md#data-leakage-from-organizational-use-of-public-llms)
-- [Indirect prompt injection in Copilot and RAG](13-case-studies.md#indirect-prompt-injection-in-copilot-and-rag)
-- [AI tools inside DevOps](13-case-studies.md#ai-tools-inside-devops)
-- [RAG in organizational knowledge base](13-case-studies.md#rag-in-organizational-knowledge-base)
+- [LeftoverLocals (CVE-2023-4969)](13-case-studies.md#leftoverlocals-cve-2023-4969-documented-incident)
+- [MLflow and MLOps platform vulnerabilities](13-case-studies.md#mlflow-and-mlops-platform-vulnerabilities-documented-incident)
+- [ClearML and Confused Learning](13-case-studies.md#clearml-and-confused-learning-documented-incident)
+- [SILENT SABOTAGE (HuggingFace Conversion Bot)](13-case-studies.md#silent-sabotage-huggingface-conversion-bot-documented-incident)
+- [BentoML and LangChain deserialization RCE](13-case-studies.md#bentoml-and-langchain-deserialization-rce-documented-incident)
+- [HuggingFace: unsafe models at scale](13-case-studies.md#huggingface-unsafe-models-at-scale-documented-incident)
+- [Agent API key exposure pattern (illustrative)](13-case-studies.md#agent-api-key-exposure-pattern-illustrative-pattern)
+- [Pickle-based RCE in model repositories](13-case-studies.md#pickle-based-rce-in-model-repositories-documented-incident-pattern-class)
+- [PoisonGPT and the AI supply chain](13-case-studies.md#poisongpt-and-the-ai-supply-chain-documented-incident-research-demo)
+- [Prompt injection in public systems](13-case-studies.md#prompt-injection-in-public-systems-documented-incident-class)
+- [Shadow LLM usage and data boundary](13-case-studies.md#shadow-llm-usage-and-data-boundary-documented-incident)
+- [Indirect prompt injection in Copilot and RAG](13-case-studies.md#indirect-prompt-injection-in-copilot-and-rag-documented-incident-research)
+- [AI tools inside DevOps](13-case-studies.md#ai-tools-inside-devops-illustrative-pattern)
+- [RAG in organizational knowledge base](13-case-studies.md#rag-in-organizational-knowledge-base-illustrative-pattern)
+- [MCP red team lab — Illustrative pattern](13-case-studies.md#mcp-red-team-lab-illustrative-pattern)
 - [Summary of lessons](13-case-studies.md#summary-of-lessons)
 - [Practical principle](13-case-studies.md#practical-principle)
 
@@ -266,21 +277,56 @@
   - [Minimum RACI](15-conclusion-appendix.md#minimum-raci)
   - [Data and Privacy](15-conclusion-appendix.md#data-and-privacy)
   - [Model and Supply Chain](15-conclusion-appendix.md#model-and-supply-chain)
-  - [Pipeline, CT, RAG, and Agent](15-conclusion-appendix.md#pipeline-ct-rag-and-agent)
+  - [Lifecycle Controls, CT, RAG, and Agent](15-conclusion-appendix.md#lifecycle-controls-ct-rag-and-agent)
   - [Runtime, Cloud-native, and SOC](15-conclusion-appendix.md#runtime-cloud-native-and-soc)
   - [Governance and Evidence Pack](15-conclusion-appendix.md#governance-and-evidence-pack)
 - [Short Glossary](15-conclusion-appendix.md#short-glossary)
 - [Appendix A: Threat, Control, and Tool Reference Card](15-conclusion-appendix.md#appendix-a-threat-control-and-tool-reference-card)
 - [Appendix B: MITRE ATLAS Mapping](15-conclusion-appendix.md#appendix-b-mitre-atlas-mapping)
+- [Appendix D: Managed AI Services Security Reference](15-conclusion-appendix.md#appendix-d-managed-ai-services-security-reference)
 - [References](15-conclusion-appendix.md#references)
   - [Frameworks and Standards](15-conclusion-appendix.md#frameworks-and-standards)
   - [Threat Taxonomy and Security Guides](15-conclusion-appendix.md#threat-taxonomy-and-security-guides)
   - [Open-Source Tools and Projects](15-conclusion-appendix.md#open-source-tools-and-projects)
   - [Reference Papers and Reports](15-conclusion-appendix.md#reference-papers-and-reports)
-- [Appendix: Claims & Evidence](15-conclusion-appendix.md#appendix-claims--evidence)
+- [Appendix: Claims & Evidence](15-conclusion-appendix.md#appendix-claims-evidence)
 - [Mermaid Diagram Guide](15-conclusion-appendix.md#mermaid-diagram-guide)
 - [GitHub Version](15-conclusion-appendix.md#github-version)
 - [Final Conclusion](15-conclusion-appendix.md#final-conclusion)
+
+## Chapter 16: [Kubernetes Deployment Reference](16-kubernetes-deployment-reference.md)
+
+- [Purpose](16-kubernetes-deployment-reference.md#purpose)
+- [Reference architecture](16-kubernetes-deployment-reference.md#reference-architecture)
+- [Namespace isolation and RBAC](16-kubernetes-deployment-reference.md#namespace-isolation-and-rbac)
+- [Network policy — default deny](16-kubernetes-deployment-reference.md#network-policy-default-deny)
+- [Admission control — verify signed images](16-kubernetes-deployment-reference.md#admission-control-verify-signed-images)
+- [vLLM on Kubernetes — secure deployment pattern](16-kubernetes-deployment-reference.md#vllm-on-kubernetes-secure-deployment-pattern)
+- [KServe and generic model serving](16-kubernetes-deployment-reference.md#kserve-and-generic-model-serving)
+- [GPU isolation and shared inference](16-kubernetes-deployment-reference.md#gpu-isolation-and-shared-inference)
+- [Runtime security on the cluster](16-kubernetes-deployment-reference.md#runtime-security-on-the-cluster)
+- [Egress control for agentic workloads](16-kubernetes-deployment-reference.md#egress-control-for-agentic-workloads)
+- [MCP servers on Kubernetes](16-kubernetes-deployment-reference.md#mcp-servers-on-kubernetes)
+- [Mapping to lifecycle control points](16-kubernetes-deployment-reference.md#mapping-to-lifecycle-control-points)
+- [Tool and reference index](16-kubernetes-deployment-reference.md#tool-and-reference-index)
+- [Minimum baseline checklist (Level 2 production)](16-kubernetes-deployment-reference.md#minimum-baseline-checklist-level-2-production)
+- [Practical summary](16-kubernetes-deployment-reference.md#practical-summary)
+
+## Appendix E: [Implementation Reference](17-appendix-e-implementation-reference.md)
+
+- [E.1 Architecture Cards](17-appendix-e-implementation-reference.md#e1-architecture-cards)
+  - [Enterprise RAG](17-appendix-e-implementation-reference.md#e11-enterprise-rag-internal-knowledge-base)
+  - [Managed AI API](17-appendix-e-implementation-reference.md#e12-managed-ai-api-azure-openai-amazon-bedrock-google-vertex-ai)
+  - [Self-hosted LLM](17-appendix-e-implementation-reference.md#e13-self-hosted-llm-vllm-kserve-on-kubernetes)
+  - [Agent with tools](17-appendix-e-implementation-reference.md#e14-agent-with-tools-mcp-apis)
+  - [Multi-agent](17-appendix-e-implementation-reference.md#e15-multi-agent-system)
+  - [Classic ML](17-appendix-e-implementation-reference.md#e16-classic-ml-tabular-vision-no-llm)
+- [E.2 Decision Matrix](17-appendix-e-implementation-reference.md#e2-decision-matrix)
+- [E.3 Threat Model Template](17-appendix-e-implementation-reference.md#e3-threat-model-template)
+- [E.4 Evidence Pack Template](17-appendix-e-implementation-reference.md#e4-evidence-pack-template)
+- [E.5 Operational Playbooks](17-appendix-e-implementation-reference.md#e5-operational-playbooks)
+- [E.6 Master Control Matrix](17-appendix-e-implementation-reference.md#e6-master-control-matrix)
+- [Practical summary](17-appendix-e-implementation-reference.md#practical-summary)
 
 ---
 
@@ -289,7 +335,12 @@
 | Goal | Start here |
 |---|---|
 | Executive overview | Ch. 1 → Ch. 2 → Ch. 14 |
-| Threat understanding | Ch. 3 → Ch. 13 |
-| Implementation | Ch. 6 → Ch. 12 → Ch. 15 (checklists) |
+| Threat understanding | Ch. 3 (demonstrated first) → Ch. 2 (attack surface) → Ch. 13 |
+| Implementation | Ch. 6 → Ch. 12 (mapping; CLI appendix optional) → Ch. 15 (checklists) |
 | LLM / RAG / Agent | Ch. 7 → Ch. 8 → Ch. 9 |
+| Managed AI API only | Ch. 2 (managed AI) → Ch. 7 → Appendix D |
+| Shadow AI / governance | Ch. 2 → Ch. 11 → Ch. 13 (Samsung) → Ch. 9 (anti-patterns) |
+| MCP security | Ch. 7 → Ch. 8 (MCP tools) → Ch. 12 (scan tools) → Ch. 13 (lab) |
 | Operations & SOC | Ch. 10 → Ch. 11 |
+| Implementation in production | [Appendix E](17-appendix-e-implementation-reference.md) → Ch. 6 → Ch. 12 |
+| Kubernetes deployment | Ch. 16 (architecture patterns; test IaC in your cluster) |

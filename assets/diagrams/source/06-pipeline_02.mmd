@@ -1,0 +1,8 @@
+flowchart TB
+    Monitor[Runtime Monitoring] --> Drift[Drift or New Data Detected]
+    Drift --> Trigger[Trigger CT Review]
+    Trigger --> Controls[Apply Lifecycle Control Points]
+    Controls --> Canary[Canary or Shadow Deployment]
+    Canary --> Decision{Metrics OK?}
+    Decision -->|Yes| Promote[Promote Signed Model]
+    Decision -->|No| Rollback[Rollback to Previous Signed Model]

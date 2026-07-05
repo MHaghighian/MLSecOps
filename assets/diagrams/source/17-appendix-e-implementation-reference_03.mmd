@@ -1,0 +1,8 @@
+flowchart TB
+    User[Client] --> GW[AI Gateway]
+    GW --> Inf[Inference namespace]
+    Inf --> vLLM[vLLM or KServe]
+    vLLM --> Reg[Signed model registry]
+    Admit[Kyverno admission] --> Inf
+    Net[NetworkPolicy] --> Inf
+    SOC[SIEM Falco] --> Inf

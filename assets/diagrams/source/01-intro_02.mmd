@@ -1,0 +1,9 @@
+flowchart LR
+    A[Data Ingest] --> B["Train / Fine-tune"]
+    B --> C[Evaluate]
+    C --> D[Security Test]
+    D --> E["Sign & Register"]
+    E --> F[Deploy]
+    F --> G[Runtime Monitor]
+    G --> H[SOC / IR]
+    H -.-> A
