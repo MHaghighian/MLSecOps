@@ -18,13 +18,47 @@ This guide focuses on AI supply chain threats, `Adversarial ML` attacks, large l
 
 **Keywords:** `MLSecOps`, `LLM Security`, `RAG Security`, `Agentic AI`, `Adversarial ML`, `AI Supply Chain`, `Model Signing`, `Lifecycle Security Controls`, `Evidence Pack`, `AI Governance`.
 
+### Guide at a glance
+
+| | |
+|---|---|
+| **Audience** | AI Security, `AppSec`, `DevSecOps`, ML / `MLOps` engineers, architects, governance stakeholders |
+| **Goal** | Translate AI security frameworks into practical lifecycle controls |
+| **Key outputs** | Lifecycle control points, release gates, `Evidence Pack`, threat–control mappings, architecture references ([Appendix E](17-appendix-e-implementation-reference.md)) |
+| **Scope** | Enterprise ML, LLM, and agent systems in production |
+| **Not covered in depth** | Safety engineering, sector-specific regulations, `Edge`/`IoT`/`CPS` (see [Limitations](#abstract) above) |
+
 ## Introduction
 
 In classic software, `DevSecOps` successfully narrowed the gap between development, operations, and security. However, AI systems have several fundamental characteristics that make the same security model insufficient for them.
 
+Despite the growing number of AI security frameworks, practitioners still lack a single implementation-oriented reference that connects threats, controls, governance, and operational deployment across the entire AI lifecycle.
+
+## Why this guide matters
+
+**Who this is for:** security engineers, `AppSec` teams, `DevSecOps` practitioners, ML and `MLOps` engineers, platform owners, and governance stakeholders responsible for AI systems in production.
+
+AI systems introduce security risks that traditional `DevSecOps` and `MLOps` practices do not fully address—model artifacts, training data, prompts, `RAG` pipelines, agents, runtime behavior, and AI supply-chain dependencies.
+
+Security guidance for these topics is spread across multiple frameworks and publications (`OWASP`, `MITRE ATLAS`, `NIST AI RMF`, `ISO/IEC 42001`, `OpenSSF`, `CSA MAESTRO`). This guide helps practitioners translate that guidance into **lifecycle controls** they can apply in real deployments.
+
+**What problem it helps solve:** teams need a single, implementation-oriented reference to identify AI-specific risks, select controls, define release gates, and produce auditable evidence—without treating any one framework as the only source of truth.
+
+**After reading this guide, you should be able to:**
+
+- identify AI-specific security risks across the ML lifecycle;
+- map threats to concrete security controls and framework references;
+- define release gates and evidence requirements for AI systems;
+- build auditable `Evidence Pack` outputs for governance or security review;
+- prioritize controls based on risk, maturity, and deployment context.
+
+**Practical takeaways:** lifecycle control points and release decisions ([Chapter 6](06-pipeline.md)), threat–control–tool mappings ([Chapter 12](12-threat-control-tools-map.md)), architecture cards and playbooks ([Appendix E](17-appendix-e-implementation-reference.md)), and role-based reading paths ([How to use this guide](#how-to-use-this-guide), [GETTING-STARTED.md](../GETTING-STARTED.md)).
+
+Rather than introducing another framework, this guide focuses on helping practitioners operationalize and connect existing guidance into a coherent MLSecOps lifecycle.
+
 ## What this guide adds beyond OWASP, OpenSSF, and NIST
 
-This guide **synthesizes** published frameworks; it does not replace them. Its operational contribution is a single, auditable lifecycle view. In an interview or design review, the distinct additions are:
+This guide **synthesizes** published frameworks; it does not replace them. Its operational contribution is a single, auditable lifecycle view. Compared with existing references, this guide contributes the following operational additions:
 
 | # | Contribution | Where to read |
 |---|---|---|
@@ -37,7 +71,7 @@ For architecture-specific controls, decision matrices, templates, and playbooks,
 
 ## How to use this guide
 
-This guide is long by design. Use the paths below based on role and architecture—not every chapter applies to every deployment.
+Readers are not expected to read every chapter sequentially. Use the paths below based on role and architecture—not every chapter applies to every deployment.
 
 | If you are… | Start here | Then read |
 |---|---|---|
@@ -121,6 +155,7 @@ These principles define how security decisions are made across the AI lifecycle:
 
 ## Lifecycle Overview
 
+The following lifecycle provides the conceptual foundation for the remainder of this guide.
 
 
 ![](../assets/diagrams/01-intro_02.png)

@@ -4,6 +4,17 @@ All notable changes to the MLSecOps Guide are documented here.
 
 ## [Unreleased]
 
+### Added
+
+- **Ch.1 — Why this guide matters** — explicit reader value proposition, learning outcomes, and practical takeaways ([Issue #2](https://github.com/l4tr0d3ctism/MLSecOps/issues/2)).
+- **Ch.1 — Guide at a glance** — audience, goal, outputs, and scope summary after Abstract.
+
+### Changed
+
+- **Ch.1** — intro polish: transition sentence, split paragraphs, lifecycle lead-in, wording fixes per community review.
+- **GETTING-STARTED.md** — Quick Start (5 Minutes), *New to AI Security?* path, renamed production baseline section.
+- **TABLE-OF-CONTENTS.md** — Ch.1 entries for *Why this guide matters* and *What this guide adds*.
+
 ## [1.0.1] — 2026-07-05
 
 ### Added

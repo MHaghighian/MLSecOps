@@ -7,7 +7,10 @@
 ## Chapter 1: [Abstract and Introduction](01-intro.md)
 
 - [Abstract](01-intro.md#abstract)
+  - [Guide at a glance](01-intro.md#guide-at-a-glance)
 - [Introduction](01-intro.md#introduction)
+- [Why this guide matters](01-intro.md#why-this-guide-matters)
+- [What this guide adds beyond OWASP, OpenSSF, and NIST](01-intro.md#what-this-guide-adds-beyond-owasp-openssf-and-nist)
 - [How to use this guide](01-intro.md#how-to-use-this-guide)
 - [Why DevSecOps Is Insufficient](01-intro.md#why-devsecops-is-insufficient)
 - [AI Threat Surface (Executive Overview)](01-intro.md#ai-threat-surface-executive-overview)

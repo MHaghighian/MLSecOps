@@ -5,12 +5,28 @@ Full section list: [TABLE-OF-CONTENTS.md](chapters-en/TABLE-OF-CONTENTS.md) · P
 
 ---
 
-## 5-minute path (first visit)
+## Quick Start (5 Minutes)
 
-1. Read [What this guide adds](chapters-en/01-intro.md#what-this-guide-adds-beyond-owasp-openssf-and-nist) (Chapter 1)  
-2. Skim [Attack surface matrix](chapters-en/02-scope-risk-threat-model.md#attack-surface-matrix) (Chapter 2)  
-3. Review [Lifecycle control points](chapters-en/06-pipeline.md#lifecycle-control-points) (Chapter 6)  
-4. Open [Primary Mapping](chapters-en/12-threat-control-tools-map.md#primary-mapping) (Chapter 12)  
+1. Read [Why this guide matters](chapters-en/01-intro.md#why-this-guide-matters) (Chapter 1)
+2. Skim [What this guide adds](chapters-en/01-intro.md#what-this-guide-adds-beyond-owasp-openssf-and-nist) (Chapter 1)  
+3. Skim [Attack surface matrix](chapters-en/02-scope-risk-threat-model.md#attack-surface-matrix) (Chapter 2)  
+4. Review [Lifecycle control points](chapters-en/06-pipeline.md#lifecycle-control-points) (Chapter 6)  
+5. Open [Primary Mapping](chapters-en/12-threat-control-tools-map.md#primary-mapping) (Chapter 12)  
+
+---
+
+## New to AI Security?
+
+Recommended reading order for a first pass:
+
+1. [Chapter 1 — Introduction](chapters-en/01-intro.md)
+2. [Chapter 2 — Scope and threat model](chapters-en/02-scope-risk-threat-model.md)
+3. [Chapter 3 — Threat landscape](chapters-en/03-threat-landscape.md)
+4. [Chapter 6 — Lifecycle pipeline](chapters-en/06-pipeline.md)
+5. [Chapter 7 — LLM and RAG security](chapters-en/07-llm-rag-security.md)
+6. [Chapter 12 — Threat, control, and tool mapping](chapters-en/12-threat-control-tools-map.md)
+
+Then branch by role or goal using the tables below.
 
 ---
 
@@ -43,7 +59,7 @@ Full section list: [TABLE-OF-CONTENTS.md](chapters-en/TABLE-OF-CONTENTS.md) · P
 
 ---
 
-## Minimum production baseline
+## Minimum Production Security Baseline
 
 From Chapter 6 and Appendix E:
 
@@ -61,7 +77,7 @@ Maturity detail: [Chapter 14](chapters-en/14-maturity-roadmap.md).
 | Format | Location |
 |--------|----------|
 | Markdown (source) | `chapters-en/*.md` in this repo |
-| Word / PDF | [GitHub Releases v1.0.0](https://github.com/l4tr0d3ctism/MLSecOps/releases/tag/v1.0.0) |
+| Word / PDF | [GitHub Releases v1.0.1](https://github.com/l4tr0d3ctism/MLSecOps/releases/tag/v1.0.1) |
 | Summary (Persian) | [GUIDE-SUMMARY.md](GUIDE-SUMMARY.md) |
 
 ---
