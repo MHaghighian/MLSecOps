@@ -37,6 +37,7 @@ LINK_REWRITES = {
     "releases/README.md": "releases-notes.md",
     "../CHANGELOG.md": "changelog.md",
     "../RELEASING.md": "releasing.md",
+    "../GETTING-STARTED.md": "../getting-started.md",
 }
 
 
