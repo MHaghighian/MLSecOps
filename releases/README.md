@@ -26,4 +26,4 @@ Zenodo archival tag — identical guide content to v1.0.0.
 
 First stable release (2026-07-05).
 
-See [RELEASE_NOTES.md](../RELEASE_NOTES.md) and [CHANGELOG.md](../CHANGELOG.md).
+See [RELEASE_NOTES.md](RELEASE_NOTES.md) and [CHANGELOG.md](CHANGELOG.md).
