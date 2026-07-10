@@ -26,8 +26,8 @@ For vulnerabilities in **your** production AI systems, maintain your own disclos
 
 | Version | Supported |
 |---------|-----------|
-| v1.0.0 | Yes |
-| v1.0.x (when released) | Yes — latest patch only |
+| v1.1.0 | Yes |
+| v1.0.x | Yes — security fixes only; use v1.1.0 for current content |
 
 Older draft tags may not receive updates.
 

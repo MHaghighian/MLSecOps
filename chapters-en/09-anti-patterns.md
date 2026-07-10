@@ -4,6 +4,15 @@
 
 Many security failures in AI systems do not stem from lack of advanced tools; they arise from wrong architectural decisions, excessive trust in the model, removal of simple controls, and lack of auditable evidence. This chapter summarizes the most common wrong patterns.
 
+### References / Source mapping
+
+**Frameworks and standards**
+- NIST AI RMF: Govern / Map (architecture and control decisions)
+- OWASP AI Exchange: [Risk analysis](https://owaspai.org/go/riskanalysis/) — residual risk from missing controls
+
+**Implementation guidance (this guide)**
+- [Common anti-patterns](#common-anti-patterns); [Practical principle](#practical-principle)
+
 ## Common anti-patterns
 
 | Anti-pattern | Consequence | Correct alternative |
@@ -27,6 +36,19 @@ Many security failures in AI systems do not stem from lack of advanced tools; th
 | no prompt/response logging | inability to analyze incidents | runtime telemetry and controlled retention |
 | replacing controls with tools | false sense of security | threat model, policy and evidence |
 
+### References / Source mapping
+
+**Frameworks and standards**
+- OWASP LLM Top 10 (2025): `LLM01`–`LLM10` themes in table
+- OWASP Agentic: `ASI02` Tool Misuse; OWASP MCP Top 10 (2025): `MCP03`, `MCP09`
+- MITRE ATLAS: `AML.T0053` AI Agent Tool Invocation; `AML.T0080` AI Agent Context Poisoning; `AML.T0110` AI Agent Tool Poisoning
+
+**Implementation guidance (this guide)**
+- Cross-references in table above map to Chapters 2, 4–8, 11, 16
+
+**Author practical guidance**
+- *Anti-pattern catalog synthesizes recurring field failures; not a normative standard checklist.*
+
 ## Model without provenance
 
 One of the most dangerous states is when the team does not know exactly what data, code, dependencies, and parameters were used to build the model. In such a case, even if the model works well, it is not defensible from a security standpoint.
@@ -37,6 +59,16 @@ Signs:
 - training code version is not recorded.
 - security test results do not exist.
 - model hash and signature are not stored.
+
+### References / Source mapping
+
+**Frameworks and standards**
+- OWASP ML Top 10 (draft): `ML06` supply chain, `ML10` model poisoning
+- OpenSSF MLSecOps whitepaper (2025): artifact provenance and signing
+- MITRE ATLAS: `AML.T0058` publish poisoned models; `AML.T0020` poison training data
+
+**Implementation guidance (this guide)**
+- [Model signing and provenance](05-model-artifact-supply-chain.md#provenance-and-signing) (Chapter 5); [Lifecycle control points 2, 8, 9](06-pipeline.md#lifecycle-control-points) (Chapter 6)
 
 ## RAG without security boundary
 
@@ -50,6 +82,15 @@ Correct controls:
 - removal of sensitive or unauthorized documents
 - `Retrieval Leakage` testing
 
+### References / Source mapping
+
+**Frameworks and standards**
+- OWASP LLM Top 10 (2025): `LLM02` sensitive information disclosure
+- MITRE ATLAS: `AML.T0070` RAG poisoning; `AML.T0066` retrieval content crafting
+
+**Implementation guidance (this guide)**
+- [RAG security](07-llm-rag-security.md) (Chapter 7); [Data access control](04-data-security-privacy.md) (Chapter 4)
+
 ## Agent without tool control
 
 An intelligent agent with access to many sensitive tools can, under `Prompt Injection` or planning error, turn from assistant into an internal attacker. The [agent DO's and DON'Ts checklist in Chapter 8](08-agentic-ai-security.md#agent-security-dos-and-donts) and [six attack domains](08-agentic-ai-security.md#six-attack-domains) provide the positive control model for this anti-pattern.
@@ -58,6 +99,15 @@ An intelligent agent with access to many sensitive tools can, under `Prompt Inje
 
 ![](../assets/diagrams/09-anti-patterns_01.png)
 
+### References / Source mapping
+
+**Frameworks and standards**
+- OWASP Agentic: `ASI02` Tool Misuse
+- OWASP LLM Top 10 (2025): `LLM01` Prompt Injection; `LLM06` Excessive Agency
+- MITRE ATLAS: `AML.T0053` AI Agent Tool Invocation; `AML.T0051` LLM Prompt Injection; `AML.T0110` AI Agent Tool Poisoning
+
+**Implementation guidance (this guide)**
+- [Agent DO's and DON'Ts](08-agentic-ai-security.md#agent-security-dos-and-donts) (Chapter 8); [Six attack domains](08-agentic-ai-security.md#six-attack-domains) (Chapter 8)
 
 ## One-time security testing
 
@@ -70,6 +120,24 @@ Correct pattern:
 - signed baseline
 - monitoring at `Runtime`
 
+### References / Source mapping
+
+**Frameworks and standards**
+- OWASP AI Exchange: [Continuous validation](https://owaspai.org/go/continuousvalidation/)
+- NIST AI RMF: Measure / Manage (ongoing assurance)
+- ISO/IEC 42001: change and monitoring themes
+
+**Implementation guidance (this guide)**
+- [Red Team program and security test cadence](06-pipeline.md#red-team-program-and-security-test-cadence) (Chapter 6); [Monitoring](10-monitoring-soc-ir.md) (Chapter 10)
+
 ## Practical principle
 
 Wherever the system operates on implicit trust, a likely `Anti-pattern` exists. In `MLSecOps`, trust must be replaced with control, evidence, and limits.
+
+### References / Source mapping
+
+**Frameworks and standards**
+- OWASP LLM Top 10 (2025): patterns map to `LLM01`–`LLM10` themes
+
+**Implementation guidance (this guide)**
+- [Maturity roadmap — Common mistakes](14-maturity-roadmap.md#common-mistakes-on-the-maturity-path) (Chapter 14)

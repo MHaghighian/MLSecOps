@@ -30,6 +30,18 @@ Then branch by role or goal using the tables below.
 
 ---
 
+## When to use this guide vs. OWASP AI Exchange
+
+| You need… | Start here |
+|-----------|------------|
+| Threat/control taxonomy for any AI type, risk-analysis decision tree, deep testing methodology | [OWASP AI Exchange](https://owaspai.org) |
+| Lifecycle control points, release gates, `Evidence Pack`, K8s/MCP ops patterns | **This guide** ([Chapter 6](chapters-en/06-pipeline.md), [Appendix E](chapters-en/17-appendix-e-implementation-reference.md)) |
+| Both | Exchange for *what* threats/controls apply → this guide for *when* to implement and *what evidence* to keep |
+
+Relationship detail: [Chapter 1 — Relationship to OWASP AI Exchange](chapters-en/01-intro.md#relationship-to-owasp-ai-exchange).
+
+---
+
 ## By goal
 
 | Goal | Path |
@@ -77,11 +89,11 @@ Maturity detail: [Chapter 14](chapters-en/14-maturity-roadmap.md).
 | Format | Location |
 |--------|----------|
 | Markdown (source) | `chapters-en/*.md` in this repo |
-| Word / PDF | [GitHub Releases v1.0.1](https://github.com/l4tr0d3ctism/MLSecOps/releases/tag/v1.0.1) |
+| Word / PDF | [GitHub Releases v1.1.0](https://github.com/l4tr0d3ctism/MLSecOps/releases/tag/v1.1.0) |
 | Summary (Persian) | [GUIDE-SUMMARY.md](GUIDE-SUMMARY.md) |
 
 ---
 
 ## Give feedback
 
-Help improve v1.0: [open an issue](https://github.com/l4tr0d3ctism/MLSecOps/issues) or [start a discussion](https://github.com/l4tr0d3ctism/MLSecOps/discussions).
+Help improve v1.1: [open an issue](https://github.com/l4tr0d3ctism/MLSecOps/issues) or [start a discussion](https://github.com/l4tr0d3ctism/MLSecOps/discussions).

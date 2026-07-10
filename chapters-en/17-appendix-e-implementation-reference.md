@@ -4,6 +4,15 @@
 >
 > **Relationship to other appendices:** Appendix A/B summarize threat and ATLAS mappings; Appendix D covers managed AI checklists. This appendix ties them to **your architecture choice**.
 
+### References / Source mapping
+
+**Implementation guidance (this guide)**
+- [Traceability convention](15-conclusion-appendix.md#traceability-and-source-mapping-convention) (Chapter 15)
+- [Master control matrix](#e6-master-control-matrix) maps to [lifecycle control points](06-pipeline.md#lifecycle-control-points) (Chapter 6)
+
+**Author practical guidance**
+- *Architecture cards, templates, and matrices are operational aids—not normative standard text.*
+
 ---
 
 ## E.1 Architecture Cards
@@ -119,6 +128,17 @@ Each card lists minimum security boundaries, primary control points ([Chapter 6]
 
 ---
 
+### References / Source mapping
+
+**Frameworks and standards**
+- NIST AI RMF: Map (architecture-dependent controls); OWASP LLM Top 10 / ASI / MCP themes per card
+
+**Implementation guidance (this guide)**
+- Architecture cards E.1.1–E.1.6 cross-link Chapters 2, 4–8, 10–11, 16, and [Appendix D](15-conclusion-appendix.md#appendix-d-managed-ai-services-security-reference)
+
+**Author practical guidance**
+- *Cards are fill-in operational patterns—not normative standard text.*
+
 ## E.2 Decision Matrix
 
 Use this matrix to select **mandatory control themes** by architecture. Map each row to control points in [Chapter 6](06-pipeline.md) and evidence in E.4.
@@ -154,6 +174,17 @@ Organizations often implement the lifecycle through existing delivery tooling. A
 
 ---
 
+### References / Source mapping
+
+**Frameworks and standards**
+- OpenSSF MLSecOps whitepaper (2025): lifecycle stage mapping (informative)
+
+**Implementation guidance (this guide)**
+- [Lifecycle control points](06-pipeline.md#lifecycle-control-points) (Chapter 6); [Release decision model](06-pipeline.md#release-decision-model) (Chapter 6)
+
+**Author practical guidance**
+- *Decision matrix rows and example CI/CD stages are illustrative—mandatory themes vary by threat model.*
+
 ## E.3 Threat Model Template
 
 Copy this table per system or architecture card. Replace placeholders. Output should feed control point criteria and Evidence Pack requirements ([Chapter 2](02-scope-risk-threat-model.md#expected-output-of-threat-modeling)).
@@ -179,6 +210,17 @@ Copy this table per system or architecture card. Replace placeholders. Output sh
 - [ ] Missing signature or config snapshot → block at **9**
 
 ---
+
+### References / Source mapping
+
+**Frameworks and standards**
+- OWASP LLM Top 10 (`LLM01`); OWASP ML Top 10 (`ML01`, `ML02`); MITRE ATLAS technique IDs in table placeholders; STRIDE (informative)
+
+**Implementation guidance (this guide)**
+- [Expected output of threat modeling](02-scope-risk-threat-model.md#expected-output-of-threat-modeling) (Chapter 2); [Lifecycle control points](06-pipeline.md#lifecycle-control-points) (Chapter 6)
+
+**Author practical guidance**
+- *Template table and release blockers are fill-in worksheets—not a certified threat-modeling method.*
 
 ## E.4 Evidence Pack Template
 
@@ -253,6 +295,17 @@ evidence_pack:
 
 ---
 
+### References / Source mapping
+
+**Frameworks and standards**
+- CycloneDX AI/ML BOM themes; NIST AI RMF: Measure (evidence and documentation)
+
+**Implementation guidance (this guide)**
+- [What is an Evidence Pack?](11-governance-evidence.md#what-is-an-evidence-pack) (Chapter 11); [Recommended Evidence Pack contents](11-governance-evidence.md#recommended-evidence-pack-contents) (Chapter 11); [Appendix D Evidence fields](15-conclusion-appendix.md#evidence-pack-fields-managed-api) (Chapter 15)
+
+**Author practical guidance**
+- *YAML field names and minimum sections are illustrative implementation patterns.*
+
 ## E.5 Operational Playbooks
 
 Short runbooks for SOC and platform teams. Expand with your tooling, contacts, and SLAs ([Chapter 10](10-monitoring-soc-ir.md)).
@@ -296,6 +349,17 @@ Short runbooks for SOC and platform teams. Expand with your tooling, contacts, a
 
 ---
 
+### References / Source mapping
+
+**Frameworks and standards**
+- NIST AI RMF: Manage (incident response and recovery)
+
+**Implementation guidance (this guide)**
+- [Incident response](10-monitoring-soc-ir.md#incident-response) (Chapter 10); [First 30 minutes of an incident](10-monitoring-soc-ir.md#first-30-minutes-of-an-incident) (Chapter 10); [Reindex Playbook](07-llm-rag-security.md#reindex-playbook) (Chapter 7)
+
+**Author practical guidance**
+- *Playbook phases and owners are starter runbooks—expand with your SLAs and tooling.*
+
 ## E.6 Master Control Matrix
 
 Unified view: **threat → prevent / detect / respond → lifecycle layer → control point → evidence**. Detailed tool names: [Chapter 12](12-threat-control-tools-map.md).
@@ -316,6 +380,17 @@ Unified view: **threat → prevent / detect / respond → lifecycle layer → co
 | Adversarial drift | Baseline prompts, canary | Session anomaly vs baseline | Stop auto-CT, manual review | Runtime | 7, 10 | Drift playbook ref |
 
 ---
+
+### References / Source mapping
+
+**Frameworks and standards**
+- OWASP LLM Top 10, OWASP ML Top 10, OWASP ASI (`ASI02`), OWASP MCP Top 10 (`MCP09`); MITRE ATLAS techniques referenced in [Chapter 12](12-threat-control-tools-map.md#mitre-atlas-mapping)
+
+**Implementation guidance (this guide)**
+- [Primary Mapping](12-threat-control-tools-map.md#primary-mapping) (Chapter 12); [Lifecycle control points](06-pipeline.md#lifecycle-control-points) (Chapter 6)
+
+**Author practical guidance**
+- *Matrix consolidates guide guidance for gap analysis—it does not add new normative requirements.*
 
 ## Practical summary
 

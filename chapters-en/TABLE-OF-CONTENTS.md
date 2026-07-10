@@ -1,6 +1,6 @@
 # Table of Contents
 
-**MLSecOps Practical Reference Guide v1.0.0** — Securing AI Systems Across the Lifecycle
+**MLSecOps Practical Reference Guide v1.1.0** — Securing AI Systems Across the Lifecycle
 
 ---
 
@@ -18,6 +18,8 @@
 - [Relationship between MLSecOps and DevSecOps](01-intro.md#relationship-between-mlsecops-and-devsecops)
   - [AI supply chain evidence (`AI-BOM`)](01-intro.md#ai-supply-chain-evidence-ai-bom)
 - [Lifecycle Overview](01-intro.md#lifecycle-overview)
+- [Relationship to OWASP projects](01-intro.md#relationship-to-owasp-projects)
+  - [Relationship to OWASP AI Exchange](01-intro.md#relationship-to-owasp-ai-exchange)
 - [Focus of this guide and distinction from AISecOps](01-intro.md#focus-of-this-guide-and-distinction-from-aisecops)
 
 ## Chapter 2: [Scope, Audience, and Threat Model](02-scope-risk-threat-model.md)
@@ -27,8 +29,10 @@
   - [Managed AI service scope](02-scope-risk-threat-model.md#managed-ai-service-scope)
   - [Managed AI services security reference](02-scope-risk-threat-model.md#managed-ai-services-security-reference)
 - [Primary audiences](02-scope-risk-threat-model.md#primary-audiences)
+- [AI system inventory](02-scope-risk-threat-model.md#ai-system-inventory)
 - [Selecting controls based on threat model](02-scope-risk-threat-model.md#selecting-controls-based-on-threat-model)
 - [Risk management](02-scope-risk-threat-model.md#risk-management)
+  - [MLSecOps risk analysis workflow](02-scope-risk-threat-model.md#mlsecops-risk-analysis-workflow)
 - [Attack surface matrix](02-scope-risk-threat-model.md#attack-surface-matrix)
 - [Expected output of threat modeling](02-scope-risk-threat-model.md#expected-output-of-threat-modeling)
 
@@ -71,6 +75,8 @@
 - [Minimum security tests](05-model-artifact-supply-chain.md#minimum-security-tests)
 - [Risk of unsafe formats](05-model-artifact-supply-chain.md#risk-of-unsafe-formats)
 - [AI supply chain](05-model-artifact-supply-chain.md#ai-supply-chain)
+- [Poisoning taxonomy across the lifecycle](05-model-artifact-supply-chain.md#poisoning-taxonomy-across-the-lifecycle)
+- [Model theft and extraction paths](05-model-artifact-supply-chain.md#model-theft-and-extraction-paths)
 - [MLOps infrastructure vulnerabilities](05-model-artifact-supply-chain.md#mlops-infrastructure-vulnerabilities)
 - [Infrastructure-as-Code security for ML](05-model-artifact-supply-chain.md#infrastructure-as-code-security-for-ml)
 - [SBOM and AI-BOM](05-model-artifact-supply-chain.md#sbom-and-ai-bom)
@@ -99,6 +105,7 @@
 - [Minimum security baseline](06-pipeline.md#minimum-security-baseline)
 - [Lifecycle control prioritization](06-pipeline.md#lifecycle-control-prioritization)
 - [Stage 7 test acceptance conditions](06-pipeline.md#stage-7-test-acceptance-conditions)
+- [Three categories of security testing](06-pipeline.md#three-categories-of-security-testing)
 - [Red Team program and security test cadence](06-pipeline.md#red-team-program-and-security-test-cadence)
 - [Implementation note](06-pipeline.md#implementation-note)
 - [Golden rule](06-pipeline.md#golden-rule)
@@ -109,6 +116,7 @@
 - [How LLM security differs from classic ML](07-llm-rag-security.md#how-llm-security-differs-from-classic-ml)
 - [Primary LLM threats](07-llm-rag-security.md#primary-llm-threats)
 - [Security controls for LLM](07-llm-rag-security.md#security-controls-for-llm)
+- [Augmentation data (runtime behavior assets)](07-llm-rag-security.md#augmentation-data-runtime-behavior-assets)
 - [Secure architecture for RAG](07-llm-rag-security.md#secure-architecture-for-rag)
 - [Ingest security in RAG](07-llm-rag-security.md#ingest-security-in-rag)
 - [Three-layer controls in RAG](07-llm-rag-security.md#three-layer-controls-in-rag)
@@ -124,13 +132,9 @@
 - [Direct and indirect Prompt Injection](07-llm-rag-security.md#direct-and-indirect-prompt-injection)
 - [Guardrails](07-llm-rag-security.md#guardrails)
 - [Guardrail limitations](07-llm-rag-security.md#guardrail-limitations)
-- [If only three LLM/RAG controls can be implemented](07-llm-rag-security.md#if-only-three-llmrag-controls-can-be-implemented)
-- [LLM and RAG control prioritization](07-llm-rag-security.md#llm-and-rag-control-prioritization)
-- [LLM verification approach](07-llm-rag-security.md#llm-verification-approach)
-- [Practical principle](07-llm-rag-security.md#practical-principle)
-- [Practical summary](07-llm-rag-security.md#practical-summary)
-
-## Chapter 8: [Agentic AI Security](08-agentic-ai-security.md)
+- [Downstream conventional injection](07-llm-rag-security.md#downstream-conventional-injection)
+- [LoRA, PEFT, and adapter supply chain](07-llm-rag-security.md#lora-peft-and-adapter-supply-chain)
+- [Model Context Protocol (MCP) security](07-llm-rag-security.md#model-context-protocol-mcp-security)
 
 - [Why Agentic AI poses a different risk](08-agentic-ai-security.md#why-agentic-ai-poses-a-different-risk)
 - [Chatbot vs AI agent](08-agentic-ai-security.md#chatbot-vs-ai-agent)
@@ -293,6 +297,8 @@
   - [Open-Source Tools and Projects](15-conclusion-appendix.md#open-source-tools-and-projects)
   - [Reference Papers and Reports](15-conclusion-appendix.md#reference-papers-and-reports)
 - [Appendix: Claims & Evidence](15-conclusion-appendix.md#appendix-claims-evidence)
+- [Traceability and source mapping convention](15-conclusion-appendix.md#traceability-and-source-mapping-convention)
+- [References](15-conclusion-appendix.md#references)
 - [Mermaid Diagram Guide](15-conclusion-appendix.md#mermaid-diagram-guide)
 - [GitHub Version](15-conclusion-appendix.md#github-version)
 - [Final Conclusion](15-conclusion-appendix.md#final-conclusion)

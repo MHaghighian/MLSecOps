@@ -4,16 +4,27 @@ All notable changes to the MLSecOps Guide are documented here.
 
 ## [Unreleased]
 
+## [1.1.0] — 2026-07-11
+
 ### Added
 
+- **Per-section traceability (Issue #1)** — `References / Source mapping` blocks on every major `##` section across Chapters 1–17; [traceability convention](chapters-en/15-conclusion-appendix.md#traceability-and-source-mapping-convention) in Ch.15; CONTRIBUTING/GOVERNANCE expectations updated.
+- **OWASP AI Exchange integration** — complementary positioning and per-section source mapping where applicable: Ch.1 Exchange relationship; Ch.2 AI inventory + risk workflow; Ch.5 poisoning taxonomy + model theft paths; Ch.6 three test categories; Ch.7 augmentation data, downstream injection, verification gaps; Ch.12 periodic table cross-ref; `GETTING-STARTED.md` resource selector; Ch.15 Exchange citation.
 - **Ch.1 — Why this guide matters** — explicit reader value proposition, learning outcomes, and practical takeaways ([Issue #2](https://github.com/l4tr0d3ctism/MLSecOps/issues/2)).
 - **Ch.1 — Guide at a glance** — audience, goal, outputs, and scope summary after Abstract.
 
 ### Changed
 
 - **Ch.1** — intro polish: transition sentence, split paragraphs, lifecycle lead-in, wording fixes per community review.
-- **GETTING-STARTED.md** — Quick Start (5 Minutes), *New to AI Security?* path, renamed production baseline section.
-- **TABLE-OF-CONTENTS.md** — Ch.1 entries for *Why this guide matters* and *What this guide adds*.
+- **Ch.1–17** — framework source mapping audit: OWASP LLM/ML Top 10 IDs, MITRE ATLAS techniques, NIST AI RMF, ISO/IEC 42001, OpenSSF, and OWASP AI Exchange permalinks aligned to section topics.
+- **GETTING-STARTED.md** — Quick Start (5 Minutes), *New to AI Security?* path, renamed production baseline section, *When to use this guide vs. OWASP AI Exchange*.
+- **TABLE-OF-CONTENTS.md** — Ch.1 entries for *Why this guide matters* and *What this guide adds*; traceability convention; Exchange-related sections (Ch.1–2, 5–7, 12).
+- **Ch.7** — removed duplicate augmentation block under Ingest security (cross-ref only).
+- **Ch.12 / Ch.15 Appendix B** — MITRE ATLAS table synchronized (`AML.T0066`, `AML.T0034`).
+- **Ch.13** — LangChain case study: added CVE-2025-68664 alongside CVE-2025-27520.
+- **prepare_pages.py** — rewrite anchored `GETTING-STARTED.md#…` links for MkDocs; site index banner v1.1.0.
+- **README.md** — OWASP AI Exchange in frameworks list; version and download links v1.1.0.
+- Version strings aligned to **v1.1.0** across Ch.1, TOC, README, CITATION.cff, CONTRIBUTING, GOVERNANCE, GUIDE-SUMMARY, SECURITY, RELEASE_NOTES, and releases README.
 
 ## [1.0.1] — 2026-07-05
 

@@ -1,6 +1,6 @@
 # Chapter 1: Abstract and Introduction
 
-> **Guide type:** *MLSecOps Practical Reference Guide* **v1.0.0** — a community reference with operational patterns and an **Implementation Reference** ([Appendix E](17-appendix-e-implementation-reference.md)). This is **not** a product user manual, a certified standard, or an academic paper.
+> **Guide type:** *MLSecOps Practical Reference Guide* **v1.1.0** — a community reference with operational patterns and an **Implementation Reference** ([Appendix E](17-appendix-e-implementation-reference.md)). This is **not** a product user manual, a certified standard, or an academic paper.
 
 ## Abstract
 
@@ -28,11 +28,27 @@ This guide focuses on AI supply chain threats, `Adversarial ML` attacks, large l
 | **Scope** | Enterprise ML, LLM, and agent systems in production |
 | **Not covered in depth** | Safety engineering, sector-specific regulations, `Edge`/`IoT`/`CPS` (see [Limitations](#abstract) above) |
 
+### References / Source mapping
+
+**Frameworks and standards**
+- OWASP LLM Top 10 (2025); MITRE ATLAS; NIST AI RMF; ISO/IEC 42001; OpenSSF MLSecOps whitepaper (2025); CSA MAESTRO — cited in Abstract method paragraph; full bibliography in [Chapter 15 References](15-conclusion-appendix.md#references)
+
+**Author practical guidance**
+- *Keywords, limitations, and author's position are this guide's framing, not framework text.*
+
 ## Introduction
 
 In classic software, `DevSecOps` successfully narrowed the gap between development, operations, and security. However, AI systems have several fundamental characteristics that make the same security model insufficient for them.
 
 Despite the growing number of AI security frameworks, practitioners still lack a single implementation-oriented reference that connects threats, controls, governance, and operational deployment across the entire AI lifecycle.
+
+### References / Source mapping
+
+**Frameworks and standards**
+- OWASP AI Exchange; NIST AI RMF; OpenSSF MLSecOps whitepaper (2025)
+
+**Implementation guidance (this guide)**
+- [Why this guide matters](#why-this-guide-matters); [What this guide adds](#what-this-guide-adds-beyond-owasp-openssf-and-nist)
 
 ## Why this guide matters
 
@@ -56,6 +72,14 @@ Security guidance for these topics is spread across multiple frameworks and publ
 
 Rather than introducing another framework, this guide focuses on helping practitioners operationalize and connect existing guidance into a coherent MLSecOps lifecycle.
 
+### References / Source mapping
+
+**Frameworks and standards**
+- OWASP LLM Top 10 (2025); OWASP AI Exchange; MITRE ATLAS; NIST AI RMF; ISO/IEC 42001; OpenSSF MLSecOps whitepaper (2025); CSA MAESTRO — full citations in [Chapter 15 References](15-conclusion-appendix.md#references)
+
+**Author practical guidance**
+- *The learning outcomes and reader value proposition are this guide's own framing, not framework text.*
+
 ## What this guide adds beyond OWASP, OpenSSF, and NIST
 
 This guide **synthesizes** published frameworks; it does not replace them. Its operational contribution is a single, auditable lifecycle view. Compared with existing references, this guide contributes the following operational additions:
@@ -68,6 +92,14 @@ This guide **synthesizes** published frameworks; it does not replace them. Its o
 | 4 | **Unified thread** from threat modeling through runtime, SOC, and governance in one lifecycle—not siloed LLM, agent, or MLOps docs | Ch.2 → 6 → 7/8 → 10 → 11; [Appendix E](17-appendix-e-implementation-reference.md) |
 
 For architecture-specific controls, decision matrices, templates, and playbooks, use [Appendix E: Implementation Reference](17-appendix-e-implementation-reference.md).
+
+### References / Source mapping
+
+**Author practical guidance**
+- *The four contributions in the table are this guide's own positioning relative to OWASP, OpenSSF, and NIST — an author claim, not an external assessment.*
+
+**Implementation guidance (this guide)**
+- [Lifecycle control points](06-pipeline.md#lifecycle-control-points) (Chapter 6); [Evidence Pack](11-governance-evidence.md#what-is-an-evidence-pack) (Chapter 11)
 
 ## How to use this guide
 
@@ -85,6 +117,14 @@ Readers are not expected to read every chapter sequentially. Use the paths below
 
 Full reading paths: [TABLE-OF-CONTENTS.md](TABLE-OF-CONTENTS.md#reading-paths). Tool command examples are optional implementation detail in [Chapter 12 appendix](12-threat-control-tools-map.md#appendix-informative-tool-command-reference).
 
+### References / Source mapping
+
+**Implementation guidance (this guide)**
+- [Reading paths](TABLE-OF-CONTENTS.md#reading-paths); [Appendix E](17-appendix-e-implementation-reference.md); [GETTING-STARTED.md](../GETTING-STARTED.md)
+
+**Author practical guidance**
+- *Role-based reading paths are this guide's navigation aid, not a framework requirement.*
+
 ## Why DevSecOps Is Insufficient
 
 | Characteristic | Security impact |
@@ -97,6 +137,15 @@ Full reading paths: [TABLE-OF-CONTENTS.md](TABLE-OF-CONTENTS.md#reading-paths). 
 Probabilistic behavior in AI systems creates a serious security difference. In classic software, identical input usually yields identical output; but in AI models, the same prompt or the same data can produce different responses depending on conversation context, model settings such as `temperature`, model version, or data retrieved in `RAG`. From a security perspective, this means a successful test does not guarantee an attack will recur in `Production`; many attacks such as `Prompt Injection` take effect only in a specific combination of context—not like classic `SQL Injection` with a fixed, fully predictable input.
 
 `MLSecOps` means security is not just a step before release. Security must be applied at every decision point in the model lifecycle: when data enters, when a base model is selected, during training, evaluation, signing, deployment, when user requests are received, when tools are invoked, when documents are retrieved, and when model behavior is monitored.
+
+### References / Source mapping
+
+**Frameworks and standards**
+- NIST AI RMF: characteristics of AI risk vs traditional software (Map function)
+- OWASP AI Exchange: [AI security overview](https://owaspai.org/go/about/)
+
+**Implementation guidance (this guide)**
+- [Relationship between MLSecOps and DevSecOps](#relationship-between-mlsecops-and-devsecops)
 
 ## AI Threat Surface (Executive Overview)
 
@@ -113,6 +162,16 @@ Threats in AI systems span multiple layers—not only application code. The over
 
 > Autonomous/offensive AI threats: [Chapter 3](03-threat-landscape.md). Agent reference architecture, six-domain attack surface, and controls: [Chapter 8](08-agentic-ai-security.md). Full threat–control–tool mapping: [Chapter 12](12-threat-control-tools-map.md). Operational threat model and attack surface matrix: [Chapter 2](02-scope-risk-threat-model.md).
 
+### References / Source mapping
+
+**Frameworks and standards**
+- OWASP LLM Top 10 (2025): `LLM01` prompt injection, `LLM03` supply chain
+- MITRE ATLAS: tactic/technique layers map to rows above — [Chapter 12 ATLAS table](12-threat-control-tools-map.md#mitre-atlas-mapping)
+- OWASP Agentic: `ASI02` tool misuse
+
+**Implementation guidance (this guide)**
+- [Attack surface matrix](02-scope-risk-threat-model.md#attack-surface-matrix) (Chapter 2)
+
 ## MLSecOps Principles
 
 These principles define how security decisions are made across the AI lifecycle:
@@ -127,6 +186,15 @@ These principles define how security decisions are made across the AI lifecycle:
 | 6 | **Measurable, repeatable, auditable process** | Security decisions use defined criteria, run on every build or retrain, and leave reviewable records. |
 
 **Principle 1 in practice:** Evidence must show where data came from, how the model was built, which tests were run, who approved release, which `Artifact`s were signed, and which behaviors are monitored at runtime.
+
+### References / Source mapping
+
+**Frameworks and standards**
+- NIST AI RMF: Govern / Map / Measure / Manage (principles 1–3, 6)
+- OpenSSF MLSecOps whitepaper (2025): supply-chain traceability (principle 4)
+
+**Author practical guidance**
+- *The six-principle formulation is this guide's synthesis; the underlying requirements derive from the frameworks above.*
 
 ## Relationship between MLSecOps and DevSecOps
 
@@ -152,6 +220,14 @@ These principles define how security decisions are made across the AI lifecycle:
 
 ![](../assets/diagrams/01-intro_01.png)
 
+### References / Source mapping
+
+**Frameworks and standards**
+- OpenSSF MLSecOps whitepaper (2025): MLOps vs MLSecOps asset comparison
+- SPDX / CycloneDX: SBOM and `AI-BOM` profile work
+
+**Implementation guidance (this guide)**
+- [SBOM and AI-BOM](05-model-artifact-supply-chain.md#sbom-and-ai-bom) (Chapter 5)
 
 ## Lifecycle Overview
 
@@ -176,12 +252,21 @@ Each stage in this lifecycle maps to security control points, evidence collectio
 
 > **Relationship to OpenSSF:** The term `MLSecOps` is also used by the [OpenSSF Secure MLOps whitepaper (2025)](https://openssf.org/wp-content/uploads/2025/08/OpenSSF_MLSecOps_Whitepaper.pdf). This guide is an **independent, non-normative community reference**—not published, endorsed, or maintained by OpenSSF. Where concepts overlap, we cite OpenSSF explicitly and map controls in [Chapter 11](11-governance-evidence.md); this guide adds explicit lifecycle decision points and evidence collection patterns on top of lifecycle stages described in industry literature.
 
+### References / Source mapping
+
+**Frameworks and standards**
+- OpenSSF MLSecOps whitepaper (2025): lifecycle stages — mapped in [Chapter 11](11-governance-evidence.md#openssf-mlsecops-mapping-whitepaper-2025)
+
+**Implementation guidance (this guide)**
+- [Lifecycle control points](06-pipeline.md#lifecycle-control-points) (Chapter 6) — the 10-point model in the mapping table is this guide's operational layer
+
 ## Relationship to OWASP projects
 
 This guide is designed to complement—not replace—existing OWASP AI security work:
 
 | OWASP project | Primary role | How this guide uses it |
 |---|---|---|
+| **`OWASP AI Exchange`** | Comprehensive threat, control, and testing framework for all AI types | Used as the primary OWASP taxonomy and control reference; this guide maps Exchange threats to lifecycle control points, release gates, and `Evidence Pack` fields |
 | `OWASP Top 10 for LLM Applications` | Threat categories for LLM applications | Used as a threat taxonomy for prompt injection, data leakage, supply chain, agentic risk, and runtime controls |
 | `OWASP LLMSVS` / `AISVS` | Verification requirements and test expectations | Used as verification references; this guide does not redefine detailed test procedures |
 | `OWASP MCP Top 10` and MCP Security Cheat Sheet | MCP-specific risks and mitigations | Used for MCP gateway, tool schema, shadow MCP, and tool-output control guidance |
@@ -189,6 +274,39 @@ This guide is designed to complement—not replace—existing OWASP AI security 
 | `OWASP Machine Learning Security Top 10` | Classic ML threat categories | Referenced as draft/working terminology until finalized |
 
 The contribution of this guide is the **lifecycle view**: selecting and sequencing controls across data, model, supply chain, RAG, agents, runtime, SOC, and governance. It is not a replacement for OWASP verification standards, tool documentation, or legal/compliance review.
+
+### References / Source mapping
+
+**Frameworks and standards**
+- OWASP AI Exchange; OWASP Top 10 for LLM Applications (2025); OWASP LLMSVS / AISVS; OWASP MCP Top 10; OWASP Agentic Security Initiative; OWASP ML Top 10 (draft) — project links in [Chapter 15 References](15-conclusion-appendix.md#references)
+
+## Relationship to OWASP AI Exchange
+
+The [OWASP AI Exchange](https://owaspai.org) is the OWASP Flagship resource for AI security and privacy fundamentals: threats, controls, testing methodology, and alignment with standards such as ISO/IEC 27090. This guide **builds on** the Exchange—it does not duplicate it.
+
+| Question | Use **OWASP AI Exchange** | Use **this guide** |
+|---|---|---|
+| What threats and controls exist for my AI system? | Threat matrix, periodic table, risk-analysis decision tree | — |
+| How do I test prompt injection or adversarial robustness in depth? | AI security testing procedures and tool reviews | Control point 7 acceptance criteria + tool examples in Ch.12 |
+| How do I run an AI program or full privacy/GDPR program? | GUARD steps, AI privacy chapter | Shadow AI ops (Ch.11); operational data controls (Ch.4) |
+| How do I implement MLSecOps in CI/CD and production? | General control descriptions | Ten lifecycle control points, release gates, `Evidence Pack`, Appendix E |
+| Where is my evidence and who blocks release? | Control rationale | Control points 4, 7, 8, 9 and auditable bundle (Ch.11) |
+
+**Practical division of labor:** start threat and control selection in the Exchange (or its [risk analysis](https://owaspai.org/go/riskanalysis/) section), then implement and evidence the chosen controls using this guide's lifecycle model. Per-section **References / Source mapping** blocks cite Exchange topics alongside guide sections as traceability rolls out across chapters.
+
+### References / Source mapping
+
+**Frameworks and standards**
+- [OWASP AI Exchange — About](https://owaspai.org/go/about/)
+- [AI at OWASP — positioning](https://owaspai.org/go/aiatowasp/)
+- [Risk analysis](https://owaspai.org/go/riskanalysis/)
+- [Periodic table of AI security](https://owaspai.org/go/periodictable/)
+
+**Implementation guidance (this guide)**
+- [What this guide adds](#what-this-guide-adds-beyond-owasp-openssf-and-nist)
+- [Traceability convention](15-conclusion-appendix.md#traceability-and-source-mapping-convention) (Chapter 15)
+- [Lifecycle control points](06-pipeline.md#lifecycle-control-points) (Chapter 6)
+- [When to use which resource](../GETTING-STARTED.md#when-to-use-this-guide-vs-owasp-ai-exchange) (`GETTING-STARTED.md`)
 
 ## Focus of this guide and distinction from AISecOps
 
@@ -204,3 +322,11 @@ This guide focuses specifically on `MLSecOps`: securing the full lifecycle of `M
 In simple terms: `MLSecOps` means "securing AI," while `AISecOps` means "using AI for security." This guide is entirely within the `MLSecOps` domain and does not enter the realm of `AISecOps`; although in Chapter 10, which addresses integration with the `SOC`, the practical point of contact between these two domains is shown.
 
 In short, `MLSecOps` applies the same logic as `DevSecOps`, but for securing data, models, lifecycle decision points, `Runtime`, and the behavior of AI systems—not just code and infrastructure.
+
+### References / Source mapping
+
+**Frameworks and standards**
+- NSFOCUS: `AISecOps` definition (AIOps + AISec + SecOps)
+
+**Implementation guidance (this guide)**
+- [SOC integration](10-monitoring-soc-ir.md#soc-integration) (Chapter 10) — the practical contact point between MLSecOps and AISecOps

@@ -1,17 +1,50 @@
 # Releasing the Guide
 
-Checklist for maintainers publishing **v1.0.0** and later versions.
+Checklist for maintainers publishing **v1.1.0** and later versions.
+
+**Current release:** v1.1.0 (2026-07-11)
 
 ---
 
-## Pre-release (content freeze)
+## v1.1.0 release checklist
 
-- [ ] No new chapters — fixes and editorial only  
-- [ ] Run internal link validation and Word sync in the **local build workspace** (outside this repo)  
-- [ ] Export PDF from DOCX or pandoc  
-- [ ] Update version strings: README, TOC, Ch.1 banner, CHANGELOG, citation block  
-- [ ] Remove or fix stale links (e.g. old docs site URLs)  
-- [ ] Review [GUIDE-SUMMARY.md](GUIDE-SUMMARY.md) version line  
+### Pre-release (content)
+
+- [x] Per-section `References / Source mapping` across Chapters 1–17 ([Issue #1](https://github.com/l4tr0d3ctism/MLSecOps/issues/1))
+- [x] OWASP AI Exchange complementary integration
+- [x] Ch.1 reader value / guide at a glance ([Issue #2](https://github.com/l4tr0d3ctism/MLSecOps/issues/2))
+- [x] Version strings: README, TOC, Ch.1, CHANGELOG, CITATION.cff, CONTRIBUTING, GOVERNANCE, GUIDE-SUMMARY, SECURITY, RELEASE_NOTES, releases README, `prepare_pages.py`
+- [ ] Run internal link validation in local build workspace
+- [ ] Export **DOCX** → `MLSecOps-Practical-Reference-Guide-v1.1.0.docx`
+- [ ] Export **PDF** → `MLSecOps-Practical-Reference-Guide-v1.1.0.pdf`
+
+### Git
+
+- [ ] Commit all changes with message: `docs: release v1.1.0 — traceability and Exchange integration (closes #1)`
+- [ ] `git push origin main`
+- [ ] `git tag -a v1.1.0 -m "MLSecOps Practical Reference Guide v1.1.0"`
+- [ ] `git push origin v1.1.0`
+
+### GitHub Release
+
+1. Create release from tag **v1.1.0**
+2. Title: **v1.1.0 — MLSecOps Practical Reference Guide**
+3. Body: copy from [RELEASE_NOTES.md](RELEASE_NOTES.md) v1.1.0 section
+4. Attach assets:
+   - `MLSecOps-Practical-Reference-Guide-v1.1.0.docx`
+   - `MLSecOps-Practical-Reference-Guide-v1.1.0.pdf`
+
+### Zenodo
+
+1. Publish new version from tag `v1.1.0` on [Zenodo record](https://zenodo.org/records/21206781)
+2. Confirm DOI landing page lists v1.1.0
+3. Update README DOI note if Zenodo assigns a version-specific DOI
+
+### Post-release
+
+- [ ] Close [Issue #1](https://github.com/l4tr0d3ctism/MLSecOps/issues/1) with thank-you to @Wapiti08
+- [ ] Verify GitHub Pages deploy (https://l4tr0d3ctism.github.io/MLSecOps/)
+- [ ] Optional: announce in GitHub Discussions
 
 ---
 
@@ -20,51 +53,25 @@ Checklist for maintainers publishing **v1.0.0** and later versions.
 | Tag | Meaning |
 |-----|---------|
 | `v1.0.0` | First stable public release (content scope frozen) |
-| `v1.1.0` | Mapping updates, new case studies, Appendix tweaks |
+| `v1.1.0` | Per-section traceability, mapping audit, Exchange integration, intro clarity |
 | `v2.0.0` | Lifecycle model or major structural change |
 
 Document every release in [CHANGELOG.md](CHANGELOG.md).
 
 ---
 
-## GitHub Release
-
-1. `git tag -a v1.0.0 -m "MLSecOps Practical Reference Guide v1.0.0"`  
-2. `git push origin v1.0.0`  
-3. Create release on GitHub with notes from CHANGELOG  
-4. Attach assets:
-   - `MLSecOps-Guide-v1.0.docx`
-   - `MLSecOps-Guide-v1.0.pdf`
-   - Optional: zip of `chapters-en/`  
-
-Release title example: **v1.0.0 — MLSecOps Practical Reference Guide**
-
----
-
-## Zenodo (after first GitHub Release)
-
-1. Connect GitHub repo to [Zenodo](https://zenodo.org)  
-2. Create Zenodo record from tag `v1.0.0`  
-3. Add DOI to README **Cite this work** section  
-4. Add DOI badge to README  
-
----
-
-## Post-release
-
-- [ ] Announce in GitHub Discussions  
-- [ ] Optional: LinkedIn post (framework intro, not marketing)  
-- [ ] Collect community feedback for v1.1  
-- [ ] List reviewers in README (with permission only)  
-
----
-
 ## Build assets (local workspace)
 
-If the Word build scripts live outside this repository:
+Word/PDF builds run **outside this repo** (see maintainer workspace):
 
-1. Run markdown → DOCX sync in the build workspace  
-2. Copy `MLSecOps-Guide-v1.0.docx` into release assets  
-3. Export PDF (Word → Save as PDF, or pandoc)  
+1. Sync markdown → DOCX from `chapters-en/`
+2. Export PDF from DOCX or pandoc
+3. Upload both files to GitHub Release — do not commit large binaries to `main` unless using Git LFS
 
-Do not commit large binary files to `main` unless using Git LFS; prefer **Release attachments**.
+---
+
+## General pre-release (any version)
+
+- [ ] No new chapters unless planned for next minor/major
+- [ ] Review [GUIDE-SUMMARY.md](GUIDE-SUMMARY.md) version line
+- [ ] Update [SECURITY.md](SECURITY.md) supported versions table

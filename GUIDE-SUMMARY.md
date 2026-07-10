@@ -1,6 +1,6 @@
-# خلاصهٔ کامل راهنمای MLSecOps Practical Reference Guide (v1.0.0)
+# خلاصهٔ کامل راهنمای MLSecOps Practical Reference Guide (v1.1.0)
 
-> **نسخه:** v1.0.0 · **خواندن:** [README](README.md) · [Getting Started](GETTING-STARTED.md) · فصول: `chapters-en/`
+> **نسخه:** v1.1.0 · **خواندن:** [README](README.md) · [Getting Started](GETTING-STARTED.md) · فصول: `chapters-en/`
 
 ---
 
