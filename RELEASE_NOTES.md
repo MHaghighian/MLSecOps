@@ -4,6 +4,33 @@ Official releases: [GitHub Releases](https://github.com/l4tr0d3ctism/MLSecOps/re
 
 ---
 
+## v1.1.0 — 2026-07-11
+
+**Traceability and mapping release** — per-section `References / Source mapping` across all chapters; OWASP AI Exchange complementary integration; community Issues [#1](https://github.com/l4tr0d3ctism/MLSecOps/issues/1) and [#2](https://github.com/l4tr0d3ctism/MLSecOps/issues/2) addressed.
+
+**DOI:** [10.5281/zenodo.21206781](https://doi.org/10.5281/zenodo.21206781) (publish a new Zenodo version from tag `v1.1.0` after GitHub Release)
+
+| Format | Link |
+|--------|------|
+| Source (ZIP) | [Source code (zip)](https://github.com/l4tr0d3ctism/MLSecOps/archive/refs/tags/v1.1.0.zip) |
+| DOCX | [MLSecOps-Practical-Reference-Guide-v1.1.0.docx](https://github.com/l4tr0d3ctism/MLSecOps/releases/download/v1.1.0/MLSecOps-Practical-Reference-Guide-v1.1.0.docx) |
+| PDF | [MLSecOps-Practical-Reference-Guide-v1.1.0.pdf](https://github.com/l4tr0d3ctism/MLSecOps/releases/download/v1.1.0/MLSecOps-Practical-Reference-Guide-v1.1.0.pdf) |
+| Markdown | `chapters-en/` in this repository |
+| Site | https://l4tr0d3ctism.github.io/MLSecOps/ |
+
+### Highlights
+
+- **Traceability convention** (Ch.15) — four content types: frameworks, implementation guidance, author opinion, emerging/research
+- **`References / Source mapping`** on every major section (`##`) in Chapters 1–17
+- **OWASP AI Exchange** — complementary taxonomy and permalinks where topics align (not a full duplicate)
+- **Ch.1** — reader value proposition, guide at a glance, Exchange positioning
+- **MITRE ATLAS** mapping audit and Appendix B sync
+- **Ch.13** — CVE-2025-68664 added to LangChain deserialization case study
+
+Full change history: [CHANGELOG.md](CHANGELOG.md).
+
+---
+
 ## v1.0.1 — 2026-07-05
 
 **Zenodo archival release** — identical guide content to v1.0.0.

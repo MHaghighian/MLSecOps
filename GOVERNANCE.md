@@ -25,7 +25,7 @@ Named maintainers may be listed in this file as the community grows. v0.1 is pri
 
 - **Major (x.0):** First stable release or structural revision (e.g. v1.0.0 lifecycle model frozen).
 - **Minor (0.x):** Content updates, mapping fixes, Appendix E improvements.
-- **Current release:** v1.0.0 — Markdown, site, DOCX, and PDF on GitHub Releases.
+- **Current release:** v1.1.0 — Markdown, site, DOCX, and PDF on GitHub Releases.
 
 Document versions in [README.md](README.md), [CHANGELOG.md](CHANGELOG.md), and [RELEASE_NOTES.md](RELEASE_NOTES.md). Release process: [RELEASING.md](RELEASING.md).
 
@@ -40,6 +40,7 @@ Document versions in [README.md](README.md), [CHANGELOG.md](CHANGELOG.md), and [
 Contributions should include:
 
 - Primary source or framework reference for factual claims
+- Per-section **`References / Source mapping`** where applicable (see [Ch.15 traceability convention](chapters-en/15-conclusion-appendix.md#traceability-and-source-mapping-convention))
 - Consistent OWASP/MITRE IDs with Chapter 2 version notes
 - Disclaimer when introducing non-standard concepts or optional organizational scoring/tiering aids
 

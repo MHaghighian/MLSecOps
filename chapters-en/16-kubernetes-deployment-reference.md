@@ -8,6 +8,18 @@ This chapter provides **operational reference patterns** for deploying and harde
 
 > **No bundled artifacts:** This guide ships **markdown content only** (no `examples/` folder, no Kubernetes YAML, no CI/CD pipeline templates, no JSON schemas). Patterns below are architectural guidance. Implement and **test** IaC in your environment using maintained upstream references (vLLM production-stack, Kyverno policy samples, KServe docs).
 
+### References / Source mapping
+
+**Frameworks and standards**
+- Kubernetes Pod Security Standards; CNCF security TAG guidance
+- OWASP LLM Top 10: deployment and supply-chain themes (`LLM03`, `LLM05`)
+
+**Implementation guidance (this guide)**
+- [Multi-tenant RAG](07-llm-rag-security.md#multi-tenant-rag) (Chapter 7); [Release decision model](06-pipeline.md#release-decision-model) (Chapter 6)
+
+**Author practical guidance**
+- *Namespace layout and Kyverno policy names are illustrative patterns—validate against your cluster baseline.*
+
 ## Reference architecture
 
 
@@ -25,6 +37,14 @@ This chapter provides **operational reference patterns** for deploying and harde
 | Runtime | Attack detection | Falco/Tetragon rules for GPU abuse, cryptomining |
 | Supply chain | Model integrity | Cosign verify at deploy + digest-pinned images |
 
+### References / Source mapping
+
+**Frameworks and standards**
+- Kubernetes Pod Security Standards; CNCF security TAG — layered defense model
+
+**Implementation guidance (this guide)**
+- [Purpose](#purpose) (this chapter); [Multi-tenant RAG](07-llm-rag-security.md#multi-tenant-rag) (Chapter 7)
+
 ## Prerequisites
 
 | Requirement | Notes |
@@ -34,6 +54,17 @@ This chapter provides **operational reference patterns** for deploying and harde
 | Policy engine | Kyverno or OPA Gatekeeper |
 | Signed images | Cosign/Sigstore keys configured in cluster |
 | GPU operator (if applicable) | NVIDIA GPU Operator or cloud-managed GPU nodes |
+
+### References / Source mapping
+
+**Frameworks and standards**
+- [Kubernetes NetworkPolicy](https://kubernetes.io/docs/concepts/services-networking/network-policies/) (1.25+ baseline)
+
+**Implementation guidance (this guide)**
+- [Reference architecture](#reference-architecture) (this chapter)
+
+**Author practical guidance**
+- *Version and CNI requirements are minimum bars—validate against your platform team's cluster standard.*
 
 ## Namespace isolation and RBAC
 
@@ -52,6 +83,14 @@ Treat **training**, **inference**, **gateway**, and **observability** as separat
 | Inference SA with secret write access | Read-only SA; secrets via External Secrets Operator |
 | Shared cluster-admin for data scientists | Namespace-scoped RBAC + break-glass audit |
 
+### References / Source mapping
+
+**Frameworks and standards**
+- [Kubernetes Pod Security Standards](https://kubernetes.io/docs/concepts/security/pod-security-standards/); [Kubernetes RBAC](https://kubernetes.io/docs/reference/access-authn-authz/rbac/)
+
+**Implementation guidance (this guide)**
+- [Cloud Native and Multi-Tenant deployment](07-llm-rag-security.md#cloud-native-and-multi-tenant-deployment) (Chapter 7)
+
 ## Network policy — default deny
 
 AI inference pods should not have unrestricted egress. Agentic workloads especially may call unpredictable external APIs at runtime; **visibility + allowlist** beats pretending you can predict every destination at deploy time ([Application Security Standards playbook on AI egress](https://appsecuritystandards.org/blog/ai-workloads-in-kubernetes-a-security-implementation-playbook)).
@@ -67,6 +106,14 @@ Recommended pattern:
 
 For service mesh deployments, complement NetworkPolicy with **Istio/Linkerd authorization policies** (mTLS + L7 rules) as described in Ch.7 multi-tenant table.
 
+### References / Source mapping
+
+**Frameworks and standards**
+- [Kubernetes NetworkPolicy](https://kubernetes.io/docs/concepts/services-networking/network-policies/); [Cilium network policy guide](https://docs.cilium.io/en/stable/security/policy/); [Application Security Standards — AI egress playbook](https://appsecuritystandards.org/blog/ai-workloads-in-kubernetes-a-security-implementation-playbook)
+
+**Implementation guidance (this guide)**
+- [Advanced Multi-Tenant hardening](07-llm-rag-security.md#advanced-multi-tenant-hardening) (Chapter 7); [SOC integration](10-monitoring-soc-ir.md#soc-integration) (Chapter 10)
+
 ## Admission control — verify signed images
 
 Unsigned or tampered container/model images must not schedule in production inference namespaces. Align this control with **control point 9 (Integrity and Provenance)** and registry promotion policy (Ch.5).
@@ -81,6 +128,14 @@ Kyverno can enforce cosign signatures at admission. OWASP/OpenSSF supply-chain p
 For Kyverno 1.18+, consider migrating to [`ImageValidatingPolicy`](https://kyverno.io/docs/policy-types/image-validating-policy/) for clearer audit reports and named verification stages (signature → attestation → digest mutation).
 
 **Admission behavior:** Pod create → verify fail → **Deny**. Record denial events in Evidence Pack `policy` section.
+
+### References / Source mapping
+
+**Frameworks and standards**
+- [Kyverno verifyImages (Sigstore/Cosign)](https://kyverno.io/docs/policy-types/cluster-policy/verify-images/sigstore/); [Kyverno ImageValidatingPolicy](https://kyverno.io/docs/policy-types/image-validating-policy/); OpenSSF SLSA / Sigstore supply-chain practice
+
+**Implementation guidance (this guide)**
+- [Provenance and signing](05-model-artifact-supply-chain.md#provenance-and-signing) (Chapter 5); [Lifecycle control point 9](06-pipeline.md#lifecycle-control-points) (Chapter 6)
 
 ## vLLM on Kubernetes — secure deployment pattern
 
@@ -119,6 +174,17 @@ servingEngineSpec:
 
 **Upstream reference:** [vLLM production-stack — secure vLLM serve tutorial](https://github.com/vllm-project/production-stack/blob/main/tutorials/11-secure-vllm-serve.md) and Helm values in that tutorial — adapt and test in your cluster.
 
+### References / Source mapping
+
+**Frameworks and standards**
+- [vLLM production-stack](https://github.com/vllm-project/production-stack); [PR #937 — multi-tenant API keys](https://github.com/vllm-project/production-stack/pull/937)
+
+**Implementation guidance (this guide)**
+- [LeftoverLocals case study](13-case-studies.md#leftoverlocals-cve-2023-4969--documented-incident) (Chapter 13); [GPU isolation](#gpu-isolation-and-shared-inference) (this chapter)
+
+**Author practical guidance**
+- *Helm snippet is illustrative—pin image digests and test in non-production before promotion.*
+
 ## KServe and generic model serving
 
 [KServe](https://github.com/kserve/kserve) is a common Kubernetes model-serving layer. MLSecOps controls apply regardless of framework:
@@ -131,6 +197,14 @@ servingEngineSpec:
 | Canary / shadow | KServe canary traffic split — align with Ch.6 CT cycle controls |
 
 Do not expose `InferenceService` directly to the internet without gateway guardrails.
+
+### References / Source mapping
+
+**Frameworks and standards**
+- [KServe](https://github.com/kserve/kserve) project documentation
+
+**Implementation guidance (this guide)**
+- [Secure deployment methods for retrained models](06-pipeline.md#secure-deployment-methods-for-retrained-models) (Chapter 6); [AI Compute Hijacking](03-threat-landscape.md#ai-compute-hijacking-demonstrated--active-patterns) (Chapter 3)
 
 ## GPU isolation and shared inference
 
@@ -146,6 +220,14 @@ GPU-related incidents (LeftoverLocals `CVE-2023-4969`, cryptomining on compromis
 
 Inference security observability should capture **serving-behavior signals** (handler baselines, accelerator usage anomalies), not only model quality metrics ([ARMO inference observability analysis](https://www.armosec.io/blog/observability-for-ai-inference-servers/)).
 
+### References / Source mapping
+
+**Frameworks and standards**
+- [CVE-2023-4969](https://nvd.nist.gov/vuln/detail/CVE-2023-4969) (LeftoverLocals); NVIDIA MIG documentation (vendor)
+
+**Implementation guidance (this guide)**
+- [LeftoverLocals case study](13-case-studies.md#leftoverlocals-cve-2023-4969--documented-incident) (Chapter 13); [Security metrics](10-monitoring-soc-ir.md#security-metrics) (Chapter 10)
+
 ## Runtime security on the cluster
 
 | Tool | Role in MLSecOps |
@@ -157,6 +239,15 @@ Inference security observability should capture **serving-behavior signals** (ha
 
 Map runtime alerts to `MITRE ATLAS` techniques in SOC playbooks (Ch.10).
 
+### References / Source mapping
+
+**Frameworks and standards**
+- MITRE ATLAS: runtime and infrastructure techniques (map in SOC playbooks)
+- Falco, Tetragon/eBPF, KubeArmor, Cilium Hubble — upstream project docs
+
+**Implementation guidance (this guide)**
+- [Detection Engineering](10-monitoring-soc-ir.md#detection-engineering) (Chapter 10); [Threat analysis with MITRE ATLAS](10-monitoring-soc-ir.md#threat-analysis-with-mitre-atlas) (Chapter 10)
+
 ## Egress control for agentic workloads
 
 When agents run **inside** the cluster and generate outbound traffic dynamically:
@@ -165,6 +256,14 @@ When agents run **inside** the cluster and generate outbound traffic dynamically
 2. Deny direct internet egress from agent executor pods.
 3. Require human approval (`Intent Gate`, Ch.8) before adding new egress destinations.
 4. Correlate egress logs with prompt/tool telemetry in SIEM.
+
+### References / Source mapping
+
+**Frameworks and standards**
+- [Application Security Standards — AI egress playbook](https://appsecuritystandards.org/blog/ai-workloads-in-kubernetes-a-security-implementation-playbook)
+
+**Implementation guidance (this guide)**
+- [Intent Gate](08-agentic-ai-security.md#intent-gate) (Chapter 8); [Data required for telemetry](10-monitoring-soc-ir.md#data-required-for-telemetry) (Chapter 10)
 
 ## MCP servers on Kubernetes
 
@@ -180,6 +279,14 @@ When MCP tool servers run as cluster workloads (sidecars or standalone Deploymen
 
 Pair cluster manifests with an MCP server source review such as `mcps-audit` before deploy (Ch.12).
 
+### References / Source mapping
+
+**Frameworks and standards**
+- OWASP MCP Top 10: `MCP03`, `MCP09`
+
+**Implementation guidance (this guide)**
+- [Model Context Protocol (MCP) security](07-llm-rag-security.md#model-context-protocol-mcp-security) (Chapter 7); [Appendix: Informative tool command reference](12-threat-control-tools-map.md#appendix-informative-tool-command-reference) (Chapter 12)
+
 ## Mapping to lifecycle control points
 
 | Lifecycle control point | Kubernetes control |
@@ -188,6 +295,14 @@ Pair cluster manifests with an MCP server source review such as `mcps-audit` bef
 | 8 — Release decision | Policy review: NetworkPolicy + Kyverno + PSA level documented |
 | 9 — Integrity and provenance | Cosign sign image/model artifact where applicable; Kyverno verify at admission |
 | 10 — Store and monitor | Deploy signed digest; enable runtime + GPU telemetry to SOC |
+
+### References / Source mapping
+
+**Frameworks and standards**
+- OpenSSF MLSecOps whitepaper (2025): deploy/monitor lifecycle alignment
+
+**Implementation guidance (this guide)**
+- [Lifecycle control points](06-pipeline.md#lifecycle-control-points) (Chapter 6); [What is an Evidence Pack?](11-governance-evidence.md#what-is-an-evidence-pack) (Chapter 11)
 
 ## Tool and reference index
 
@@ -200,6 +315,17 @@ Pair cluster manifests with an MCP server source review such as `mcps-audit` bef
 | OpenSSF Secure MLOps whitepaper | https://openssf.org/wp-content/uploads/2025/08/OpenSSF_MLSecOps_Whitepaper.pdf |
 | KubeStellar Console (multi-cluster MLSecOps dashboard) | https://github.com/kubestellar/console |
 
+### References / Source mapping
+
+**Frameworks and standards**
+- Upstream URLs in table (vLLM, KServe, Kyverno, OpenSSF whitepaper)
+
+**Implementation guidance (this guide)**
+- [Commercial Tool Market Map](12-threat-control-tools-map.md#commercial-tool-market-map) (Chapter 12) for broader tooling context
+
+**Author practical guidance**
+- *Tool index is informative—no endorsement; evaluate fit against your threat model.*
+
 ## Minimum baseline checklist (Level 2 production)
 
 - [ ] Dedicated namespaces with restricted PSA for inference
@@ -211,9 +337,28 @@ Pair cluster manifests with an MCP server source review such as `mcps-audit` bef
 - [ ] Runtime rules for GPU abuse and cryptomining enabled
 - [ ] Deploy only digest-pinned, signed images tied to Evidence Pack
 
+### References / Source mapping
+
+**Frameworks and standards**
+- Kubernetes Pod Security Standards; Kyverno cosign verification
+
+**Implementation guidance (this guide)**
+- [Level 2: Operational](14-maturity-roadmap.md#level-2-operational) (Chapter 14); [Minimum baseline checklist](#minimum-baseline-checklist-level-2-production) items above
+
 ## Practical principle
 
 Kubernetes secures **where** the model runs; MLSecOps secures **what** runs and **whether** it may be promoted. Cluster hardening without lifecycle integrity controls and release decisions is incomplete — and signed models deployed in wide-open namespaces are equally unsafe.
+
+### References / Source mapping
+
+**Frameworks and standards**
+- OpenSSF MLSecOps whitepaper (2025): infrastructure + lifecycle integration
+
+**Implementation guidance (this guide)**
+- [Release decision model](06-pipeline.md#release-decision-model) (Chapter 6); [Reference architecture](#reference-architecture) (this chapter)
+
+**Author practical guidance**
+- *Where/what/whether framing is author synthesis for platform + AppSec alignment.*
 
 ## Practical summary
 
@@ -223,3 +368,8 @@ Kubernetes secures **where** the model runs; MLSecOps secures **what** runs and 
 4. For vLLM, use production-stack patterns for API keys and secrets — never commit keys to git.
 5. Treat GPU memory and shared inference as a first-class threat (LeftoverLocals, KV cache).
 6. Pair cluster controls with Evidence Pack records for every promoted artifact.
+
+### References / Source mapping
+
+**Implementation guidance (this guide)**
+- [E.1.3 Self-hosted LLM architecture card](17-appendix-e-implementation-reference.md#e13-self-hosted-llm-vllm--kserve-on-kubernetes) (Chapter 17); sections above in this chapter

@@ -1,7 +1,7 @@
 # MLSecOps Practical Reference Guide
 
 [![Status](https://img.shields.io/badge/status-stable-blue)](CHANGELOG.md)
-[![Version](https://img.shields.io/badge/version-v1.0.1-lightgrey)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-v1.1.0-lightgrey)](CHANGELOG.md)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21206781.svg)](https://doi.org/10.5281/zenodo.21206781)
 [![Documentation](https://img.shields.io/badge/docs-l4tr0d3ctism.github.io%2FMLSecOps-blue)](https://l4tr0d3ctism.github.io/MLSecOps/)
 [![License: CC BY-SA 4.0](https://img.shields.io/badge/License-CC%20BY--SA%204.0-green.svg)](LICENSE)
@@ -82,15 +82,15 @@ Executive lifecycle (detail in [Chapter 6](chapters-en/06-pipeline.md)):
 
 ## Downloads
 
-**Latest release:** **v1.0.1** · [Zenodo DOI](https://doi.org/10.5281/zenodo.21206781)
+**Latest release:** **v1.1.0** · [Zenodo DOI](https://doi.org/10.5281/zenodo.21206781) *(publish new Zenodo version from tag `v1.1.0` after release)*
 
 | Format | Link |
 |--------|------|
 | **Documentation site** | [l4tr0d3ctism.github.io/MLSecOps](https://l4tr0d3ctism.github.io/MLSecOps/) |
 | **Markdown** | `chapters-en/` in this repository |
-| **Source (ZIP)** | [v1.0.1 archive](https://github.com/l4tr0d3ctism/MLSecOps/archive/refs/tags/v1.0.1.zip) |
-| **PDF** | [GitHub Releases](https://github.com/l4tr0d3ctism/MLSecOps/releases/download/v1.0.1/MLSecOps-Practical-Reference-Guide-v1.0.1.pdf) |
-| **DOCX** | [GitHub Releases](https://github.com/l4tr0d3ctism/MLSecOps/releases/download/v1.0.1/MLSecOps-Practical-Reference-Guide-v1.0.1.docx) |
+| **Source (ZIP)** | [v1.1.0 archive](https://github.com/l4tr0d3ctism/MLSecOps/archive/refs/tags/v1.1.0.zip) |
+| **PDF** | [GitHub Releases](https://github.com/l4tr0d3ctism/MLSecOps/releases/download/v1.1.0/MLSecOps-Practical-Reference-Guide-v1.1.0.pdf) |
+| **DOCX** | [GitHub Releases](https://github.com/l4tr0d3ctism/MLSecOps/releases/download/v1.1.0/MLSecOps-Practical-Reference-Guide-v1.1.0.docx) |
 
 All releases: [GitHub Releases](https://github.com/l4tr0d3ctism/MLSecOps/releases).
 
@@ -128,7 +128,7 @@ If you review the guide and agree to be listed, we can add your name under **Com
 See [CITATION.cff](CITATION.cff) for machine-readable metadata.
 
 ```text
-Haghighian, M. (2026). MLSecOps Practical Reference Guide (v1.0.1).
+Haghighian, M. (2026). MLSecOps Practical Reference Guide (v1.1.0).
 Zenodo. https://doi.org/10.5281/zenodo.21206781
 ```
 
@@ -136,6 +136,7 @@ Zenodo. https://doi.org/10.5281/zenodo.21206781
 
 ## Frameworks referenced
 
+- OWASP AI Exchange (https://owaspai.org/)  
 - OWASP LLM Top 10 (2025)  
 - OWASP ML Top 10 (draft)  
 - OWASP Agentic / MCP  

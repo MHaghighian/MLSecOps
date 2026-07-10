@@ -5,8 +5,8 @@ Thank you for helping improve an open **practical reference** for AI security ac
 ## Before you start
 
 - Read [README.md](README.md) and [GETTING-STARTED.md](GETTING-STARTED.md)  
-- Check [CHANGELOG.md](CHANGELOG.md) — current release is **v1.0.0**  
-- **No new chapters** for v1.0 — prefer fixes, mappings, case studies, and Appendix E improvements  
+- Check [CHANGELOG.md](CHANGELOG.md) — current release is **v1.1.0**  
+- **No new chapters** for v1.1 — prefer fixes, mappings, traceability, case studies, and Appendix E improvements  
 
 ## How to contribute
 
@@ -39,6 +39,7 @@ Thank you for helping improve an open **practical reference** for AI security ac
 - Diagrams: edit `assets/diagrams/source/*.mmd`, export PNG to `assets/diagrams/`; chapters use `![](../assets/diagrams/…png)` (GitHub’s Mermaid viewer is unreliable for complex charts)
 - Tables for mappings  
 - Tool commands belong in [Ch.12 appendix](chapters-en/12-threat-control-tools-map.md#appendix-informative-tool-command-reference) — optional reading  
+- End major sections with **`### References / Source mapping`** when adding factual controls or threat claims — see [Ch.15 traceability convention](chapters-en/15-conclusion-appendix.md#traceability-and-source-mapping-convention)
 
 ### Technical accuracy
 
@@ -50,7 +51,7 @@ Thank you for helping improve an open **practical reference** for AI security ac
 
 1. Maintainer review for accuracy and consistency  
 2. Link check for internal references  
-3. Merge when aligned with v1.0 scope  
+3. Merge when aligned with v1.1 scope  
 
 ## Security issues in this repo
 

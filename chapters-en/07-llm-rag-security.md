@@ -6,6 +6,16 @@
 
 In classic models, security focus is mostly on training data, the model, numeric or image input, and `Artifact`. But in `LLM` and `RAG` systems, a large share of risk shifts to runtime. The model interacts with the user, documents, tools, memory, and organizational policies—and each can be an attack surface.
 
+### References / Source mapping
+
+**Frameworks and standards**
+- OWASP LLM Top 10 (2025): runtime-focused risks (`LLM01`–`LLM10`)
+- NIST AI RMF (2023): Map / Measure — runtime behavior and generative AI profile (NIST-AI-600-1)
+- OWASP AI Exchange: [Threats overview](https://owaspai.org/go/threatsoverview/)
+
+**Implementation guidance (this guide)**
+- [Primary LLM threats](#primary-llm-threats); [Security controls for LLM](#security-controls-for-llm)
+
 ## Primary LLM threats
 
 | Threat (`OWASP LLM 2025`) | Description | Control |
@@ -23,6 +33,16 @@ In classic models, security focus is mostly on training data, the model, numeric
 
 > Note: `Overreliance` appeared in OWASP LLM Top 10 (2023) but was removed in the 2025 edition; related risks are partly covered by `LLM09` Misinformation and operational human-review controls. `Overrefusal` is not an OWASP Top 10 category; it is discussed below as a security-adjacent operational risk with separate research literature.
 
+### References / Source mapping
+
+**Frameworks and standards**
+- OWASP LLM Top 10 (2025): `LLM01`–`LLM10` (table above)
+- MITRE ATLAS: `AML.T0051` LLM Prompt Injection; `AML.T0070` RAG Poisoning; `AML.T0053` AI Agent Tool Invocation (agent path)
+- OWASP AI Exchange: [Periodic table of AI security](https://owaspai.org/go/periodictable/)
+
+**Implementation guidance (this guide)**
+- [Chapter 12 — Primary mapping](12-threat-control-tools-map.md#primary-mapping)
+
 ## Security controls for LLM
 
 LLM security is not solved by installing a single tool. A set of capabilities must work together:
@@ -37,12 +57,53 @@ LLM security is not solved by installing a single tool. A set of capabilities mu
 | Prompt anomaly detection | Sudden changes in prompt structure, length, or content relative to normal behavior are identified. |
 | `Egress Filtering` | Attempts to exfiltrate sensitive data through model responses or tools are blocked. |
 
+### References / Source mapping
+
+**Frameworks and standards**
+- OWASP LLM Top 10 (2025): `LLM01`, `LLM02`, `LLM05`, `LLM10`
+- OWASP AI Exchange: [Input threats — monitor use, rate limit](https://owaspai.org/go/inputthreats/); [Limit unwanted behaviour](https://owaspai.org/go/limitunwanted/)
+- NIST AI RMF: Measure — runtime monitoring and abuse detection
+
+**Implementation guidance (this guide)**
+- [SOC telemetry](10-monitoring-soc-ir.md#data-required-for-telemetry) (Chapter 10)
+- [Guardrails](#guardrails)
+
+## Augmentation data (runtime behavior assets)
+
+The OWASP AI Exchange groups **augmentation data**—material inserted into model input to steer behavior—with the same confidentiality and integrity concerns as training data. In this guide that includes:
+
+- `RAG` corpus and retrieved chunks — [Ingest security](#ingest-security-in-rag), [Retrieval Poisoning](#retrieval-poisoning)
+- System prompts and instruction templates — [System Prompt Leakage](#system-prompt-leakage-llm07)
+- Tool and MCP outputs re-injected into context — [MCP security](#model-context-protocol-mcp-security), [Chapter 8 tool output injection](08-agentic-ai-security.md#tool-output-injection)
+
+Protect augmentation data at control points **4** (ingest decision), **5** (index/configuration), **7** (validation), and **10** (runtime integrity and monitoring). Re-index when sources change — [Reindex Playbook](#reindex-playbook).
+
+### References / Source mapping
+
+**Frameworks and standards**
+- OWASP LLM Top 10 (2025): `LLM04` Data and Model Poisoning; `LLM08` Vector and Embedding Weaknesses
+- OWASP AI Exchange: [Augmentation data manipulation](https://owaspai.org/go/augmentationdatamanipulation/); [Augmentation data integrity](https://owaspai.org/go/augmentationdataintegrity/); [Augmentation data confidentiality](https://owaspai.org/go/augmentationdataconfidentiality/)
+
+**Implementation guidance (this guide)**
+- [Poisoning taxonomy](05-model-artifact-supply-chain.md#poisoning-taxonomy-across-the-lifecycle) (Chapter 5)
+- [Data security in RAG](04-data-security-privacy.md#data-security-in-rag) (Chapter 4)
+
 ## Secure architecture for RAG
 
 
 
 ![](../assets/diagrams/07-llm-rag-security_01.png)
 
+
+### References / Source mapping
+
+**Frameworks and standards**
+- OWASP LLM Top 10 (2025): `LLM04`, `LLM08` (RAG corpus and retrieval)
+- OWASP AI Exchange: [Augmentation data integrity](https://owaspai.org/go/augmentationdataintegrity/)
+
+**Implementation guidance (this guide)**
+- [Ingest security in RAG](#ingest-security-in-rag); [Three-layer controls in RAG](#three-layer-controls-in-rag)
+- [Chapter 4 — Data security in RAG](04-data-security-privacy.md#data-security-in-rag)
 
 ## Ingest security in RAG
 
@@ -56,6 +117,19 @@ Essential controls:
 - Data for each tenant is kept separate.
 - Document changes are versioned and traceable.
 
+See [Augmentation data (runtime behavior assets)](#augmentation-data-runtime-behavior-assets) for the Exchange framing and control-point mapping for RAG corpora, system prompts, and tool context.
+
+### References / Source mapping
+
+**Frameworks and standards**
+- OWASP LLM Top 10 (2025): `LLM04` Data and Model Poisoning (RAG corpus)
+- MITRE ATLAS: `AML.T0070` RAG Poisoning
+- OWASP AI Exchange: [Augmentation data manipulation](https://owaspai.org/go/augmentationdatamanipulation/)
+
+**Implementation guidance (this guide)**
+- [Lifecycle control points](06-pipeline.md#lifecycle-control-points) — control points 4 and 5 (Chapter 6)
+- [Augmentation data (runtime behavior assets)](#augmentation-data-runtime-behavior-assets)
+
 ## Three-layer controls in RAG
 
 | Layer | Control |
@@ -63,6 +137,15 @@ Essential controls:
 | `Retriever` | source allowlist, integrity check, hash verification and document source signature |
 | `Reranker` | security scoring alongside relevance and removal of documents with low security scores |
 | `Context` | separation of `System Prompt`, `User Prompt`, and `Retrieved Context`, length limits and sanitization before concatenation into the prompt |
+
+### References / Source mapping
+
+**Frameworks and standards**
+- OWASP LLM Top 10 (2025): `LLM08` Vector and Embedding Weaknesses
+- OWASP AI Exchange: [Augmentation data confidentiality](https://owaspai.org/go/augmentationdataconfidentiality/)
+
+**Implementation guidance (this guide)**
+- [Retrieval Poisoning](#retrieval-poisoning); [Embedding Poisoning](#embedding-poisoning)
 
 ## Retrieval Poisoning
 
@@ -75,6 +158,18 @@ In `Retrieval Poisoning`, an attacker introduces a document or content into the 
 | shared index across tenants | data leakage between customers | separate index |
 | no cleanup | persistence of contamination | re-index and lifecycle policy |
 
+### References / Source mapping
+
+**Frameworks and standards**
+- OWASP LLM Top 10 (2025): `LLM04` Data and Model Poisoning
+- MITRE ATLAS: `AML.T0070` RAG Poisoning; `AML.T0066` Retrieval Content Crafting
+
+**Emerging / research**
+- Zou et al. (2024). *PoisonedRAG: Knowledge Poisoning Attacks to RAG* — *research / not standardized*
+
+**Implementation guidance (this guide)**
+- [Reindex Playbook](#reindex-playbook); [Chapter 13 — RAG knowledge base pattern](13-case-studies.md#rag-in-organizational-knowledge-base--illustrative-pattern)
+
 ## Embedding Poisoning
 
 Sample scenario: an attacker introduces a poisoned document through a webhook, user upload, or automatic sync. After conversion to an embedding, this document becomes close to seemingly unrelated queries and is retrieved as context at inference time.
@@ -86,12 +181,30 @@ Sample scenario: an attacker introduces a poisoned document through a webhook, u
 | `Retrieval` | deviation in top-k | reranking with security signals, minimum number of sources, blocking suspicious clusters |
 | `Response` | execution of instructions from context | mandatory citation, grounding check and output gate |
 
+### References / Source mapping
+
+**Frameworks and standards**
+- OWASP LLM Top 10 (2025): `LLM08` Vector and Embedding Weaknesses
+- MITRE ATLAS: `AML.T0070` RAG Poisoning
+
+**Implementation guidance (this guide)**
+- [Three-layer controls in RAG](#three-layer-controls-in-rag); [Chapter 4 — Information leakage from Embedding](04-data-security-privacy.md#information-leakage-from-embedding)
+
 ## Reindex Playbook
 
 1. Identify the poisoned batch using `Lineage`.
 2. Remove that batch from the index.
 3. Regenerate embeddings with an approved embedding model.
 4. Run security regression tests for prompt and RAG before publishing the new index.
+
+### References / Source mapping
+
+**Frameworks and standards**
+- OWASP LLM Top 10 (2025): `LLM04` (RAG corpus remediation)
+- NIST AI RMF: Manage — incident response and recovery
+
+**Implementation guidance (this guide)**
+- [LLM verification approach](#llm-verification-approach); [Lifecycle control point 7](06-pipeline.md#stage-7-test-acceptance-conditions) (Chapter 6)
 
 ## Cloud Native and Multi-Tenant deployment
 
@@ -108,6 +221,16 @@ Sample scenario: an attacker introduces a poisoned document through a webhook, u
 
 In `vLLM` or shared GPU scenarios, model weights may be shared, but context and `KV Cache` must never be shared between tenants. Session stickiness and cache cleanup after session end must be mandatory.
 
+### References / Source mapping
+
+**Frameworks and standards**
+- OWASP LLM Top 10 (2025): `LLM02` Sensitive Information Disclosure; `LLM08` (tenant isolation)
+- OWASP AI Exchange: [SEGREGATE DATA](https://owaspai.org/go/segregatedata/)
+- ISO/IEC 42001:2023 — multi-tenant AI service controls (organizational)
+
+**Implementation guidance (this guide)**
+- [Chapter 16 — Kubernetes Deployment Reference](16-kubernetes-deployment-reference.md) (namespace isolation, NetworkPolicy, vLLM patterns)
+
 ## Advanced Multi-Tenant hardening
 
 | Risk | Control |
@@ -119,6 +242,18 @@ In `vLLM` or shared GPU scenarios, model weights may be shared, but context and 
 | `Tokenizer Timing Side-Channel` | rate limit, fixed padding and temporal anomaly auditing |
 | `Shared Inference Cache` | cache key includes tenant ID and prompt hash |
 
+### References / Source mapping
+
+**Frameworks and standards**
+- OWASP LLM Top 10 (2025): `LLM02` (cross-tenant leakage)
+- MITRE ATLAS: `AML.T0024` Exfiltration via AI Inference API (adjacent)
+
+**Emerging / research**
+- Trail of Bits (2024). *LeftoverLocals (CVE-2023-4969)* — GPU memory leakage — *documented incident*
+
+**Implementation guidance (this guide)**
+- [Chapter 16 — GPU isolation and shared inference](16-kubernetes-deployment-reference.md#gpu-isolation-and-shared-inference)
+
 ## Fine-tuning risks
 
 | Threat | Security risk | Control |
@@ -127,6 +262,18 @@ In `vLLM` or shared GPU scenarios, model weights may be shared, but context and 
 | `Overrefusal` | users are pushed toward bypass techniques | measure false positive block rate, secure usability testing and policy threshold tuning |
 
 Research on `Model Collapse` (Shumailov et al., 2023) and on `Overrefusal` in LLM safety systems (e.g., Röttger et al., 2024, *Safety-Tuned LLMs Are Not Safer*) show that these are not merely response quality issues; both can directly affect security and the ability to bypass controls.
+
+### References / Source mapping
+
+**Frameworks and standards**
+- OWASP LLM Top 10 (2025): `LLM04` Data and Model Poisoning (fine-tuning data path)
+
+**Emerging / research**
+- Shumailov et al. (2023). *The Curse of Recursion* (Model Collapse)
+- Röttger et al. (2024). *Safety-Tuned LLMs Are Not Safer* (Overrefusal)
+
+**Implementation guidance (this guide)**
+- [LoRA, PEFT, and adapter supply chain](#lora-peft-and-adapter-supply-chain); [Chapter 5 — Model security controls](05-model-artifact-supply-chain.md#model-security-controls)
 
 ## System Prompt Leakage (LLM07)
 
@@ -137,6 +284,16 @@ In `System Prompt Leakage`, an attacker or user attempts to extract system instr
 | explicit request to "repeat your instructions" | output gate and pattern blocklist |
 | gradual extraction across multiple turns | session risk scoring and rate limit |
 | leakage through error message or stack trace | error sanitization and separation of debug from production |
+
+### References / Source mapping
+
+**Frameworks and standards**
+- OWASP LLM Top 10 (2025): `LLM07` System Prompt Leakage
+- MITRE ATLAS: `AML.T0051` LLM Prompt Injection (extraction vectors)
+- OWASP AI Exchange: [Direct prompt injection](https://owaspai.org/go/directpromptinjection/)
+
+**Implementation guidance (this guide)**
+- [Augmentation data (runtime behavior assets)](#augmentation-data-runtime-behavior-assets); [Guardrails](#guardrails)
 
 ## Advanced Prompt Injection techniques
 
@@ -150,6 +307,16 @@ Beyond simple text prompts, the following attacks have been reported in producti
 | `Markdown/HTML Injection` | hidden link or comment in retrieved document | strip HTML, plain-text context |
 | `Many-shot Jailbreak` | repetition of jailbreak examples in long context | context length limit, multi-stage moderation |
 
+### References / Source mapping
+
+**Frameworks and standards**
+- OWASP LLM Top 10 (2025): `LLM01` Prompt Injection
+- MITRE ATLAS: `AML.T0051` LLM Prompt Injection; `AML.T0054` LLM Jailbreak
+- OWASP AI Exchange: [Testing against prompt injection](https://owaspai.org/go/testingpromptinjection/)
+
+**Implementation guidance (this guide)**
+- [Direct and indirect Prompt Injection](#direct-and-indirect-prompt-injection); [Guardrail limitations](#guardrail-limitations)
+
 ## Direct and indirect Prompt Injection
 
 Direct `Prompt Injection` occurs when the user explicitly sends a malicious instruction. Indirect `Prompt Injection` occurs when a malicious instruction is hidden inside an external source and enters the model context through `RAG` or a tool.
@@ -161,6 +328,19 @@ Sample attack path:
 ![](../assets/diagrams/07-llm-rag-security_02.png)
 
 
+### References / Source mapping
+
+**Frameworks and standards**
+- OWASP LLM Top 10 (2025): `LLM01` Prompt Injection
+- MITRE ATLAS: `AML.T0051` LLM Prompt Injection; `AML.T0070` RAG Poisoning (indirect injection via retrieval)
+- OWASP AI Exchange: [Direct prompt injection](https://owaspai.org/go/directpromptinjection/); [Indirect prompt injection](https://owaspai.org/go/indirectpromptinjection/)
+
+**Emerging / research**
+- Greshake et al. (2023). *Not What You've Signed Up For* (indirect prompt injection) — *research / not standardized*
+
+**Implementation guidance (this guide)**
+- [Retrieval Poisoning](#retrieval-poisoning); [Chapter 8 — Tool Output Injection](08-agentic-ai-security.md#tool-output-injection)
+
 ## Guardrails
 
 `Guardrail`s must run both before and after the model. Pre-model control inspects input and context. Post-model control inspects output for data leakage, dangerous content, executable instructions, and policy violations.
@@ -171,6 +351,15 @@ Sample attack path:
 | during retrieval | ACL enforcement, source filtering, secure rerank |
 | after model | DLP, output validation, moderation |
 | after action | logging, alert, human approval requirement |
+
+### References / Source mapping
+
+**Frameworks and standards**
+- OWASP LLM Top 10 (2025): `LLM01`, `LLM05` Improper Output Handling
+- OWASP AI Exchange: [Limit unwanted behaviour](https://owaspai.org/go/limitunwanted/)
+
+**Implementation guidance (this guide)**
+- [Security controls for LLM](#security-controls-for-llm); [Chapter 12 — L6 Runtime Guardrail](12-threat-control-tools-map.md#l6--runtime-guardrail-nemo-guardrails)
 
 ## Guardrail limitations
 
@@ -186,6 +375,40 @@ Sample attack path:
 
 For this reason, guardrails should be part of a `Defense-in-Depth` including `Gateway`, authorization, `Intent Gate`, telemetry, and threat modeling—not a replacement for them.
 
+### References / Source mapping
+
+**Frameworks and standards**
+- OWASP LLM Top 10 (2025): `LLM01` (guardrails are not sole control)
+
+**Implementation guidance (this guide)**
+- [Chapter 9 — Guardrail-only anti-pattern](09-anti-patterns.md#common-anti-patterns)
+- [Chapter 8 — Intent Gate](08-agentic-ai-security.md#intent-gate)
+
+**Author practical guidance**
+- *Guardrail bypass and threshold trade-offs reflect operational patterns, not normative standard text.*
+
+## Downstream conventional injection
+
+LLM output is often passed to parsers, databases, shells, or browsers. If output is treated as trusted structured data, classic injection risks apply (`SQL Injection`, `XSS`, command execution)—independent of whether the model was "jailbroken."
+
+| Pattern | Risk | Control |
+|---|---|---|
+| LLM generates SQL or shell | Database or host compromise | Parameterized queries; no direct execution of model text; output encoding |
+| LLM output rendered as HTML/MD | `XSS` in chat UI | Encode on render; CSP; sanitize markdown |
+| Tool/agent passes LLM text to API | Second-hop injection | Validate tool inputs; schema-only APIs; [Intent Gate](08-agentic-ai-security.md#intent-gate) (Chapter 8) |
+
+Treat model output as **untrusted input** to every downstream component—same as user-supplied data in classic AppSec.
+
+### References / Source mapping
+
+**Frameworks and standards**
+- OWASP LLM Top 10 (2025): `LLM05` Improper Output Handling
+- OWASP AI Exchange: [Output contains conventional injection](https://owaspai.org/go/outputcontainsconventionalinjection/); [Encode model output](https://owaspai.org/go/encodemodeloutput/)
+
+**Implementation guidance (this guide)**
+- [Tool output injection](08-agentic-ai-security.md#tool-output-injection) (Chapter 8)
+- [Guardrails](#guardrails)
+
 ## LoRA, PEFT, and adapter supply chain
 
 Fine-tuning with `LoRA`, `QLoRA`, or other `PEFT` adapters introduces smaller artifacts that still alter model behavior. Treat adapters like model weights:
@@ -196,6 +419,16 @@ Fine-tuning with `LoRA`, `QLoRA`, or other `PEFT` adapters introduces smaller ar
 | Scan and hash | `ModelScan` (where applicable), hash adapter + base pair in `Evidence Pack` |
 | Signing | Sign adapter bundles or attest base+adapter combination at deploy |
 | Provenance | Record base model version, adapter training data, and training job in `AI-BOM` |
+
+### References / Source mapping
+
+**Frameworks and standards**
+- OWASP LLM Top 10 (2025): `LLM03` Supply Chain
+- MITRE ATLAS: `AML.T0058` Publish Poisoned Models
+- OWASP AI Exchange: [Supply-chain model poisoning](https://owaspai.org/go/supplymodelpoison/)
+
+**Implementation guidance (this guide)**
+- [Chapter 5 — Provenance and signing](05-model-artifact-supply-chain.md#provenance-and-signing); [SBOM and AI-BOM](05-model-artifact-supply-chain.md#sbom-and-ai-bom)
 
 ## Model Context Protocol (MCP) security
 
@@ -375,11 +608,41 @@ Include MCP servers in threat modeling ([Chapter 2](02-scope-risk-threat-model.m
 
 > **Agent chapter:** Reference architecture, six-domain attack surface, Intent Gate, memory poisoning (including financial workflows), and the DO/DON'T checklist — [Chapter 8](08-agentic-ai-security.md).
 
+### References / Source mapping
+
+**Frameworks and standards**
+- OWASP MCP Top 10 (2025): `MCP01`–`MCP10` (mapping table above)
+- [OWASP MCP Security Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/MCP_Security_Cheat_Sheet.html)
+- OWASP AISVS: C10 MCP Security (planned requirements)
+- OWASP Agentic Security Initiative: tool misuse and intent subversion themes (`ASI02`)
+- MITRE ATLAS: `AML.T0053` AI Agent Tool Invocation; `AML.T0110` AI Agent Tool Poisoning
+- OWASP AI Exchange: [Agentic AI threats](https://owaspai.org/go/agenticaithreats/)
+
+**Emerging / research**
+- Hou et al. (2025). *MCP: Landscape, Security Threats, and Future Research Directions* ([arXiv:2503.23278](https://arxiv.org/abs/2503.23278))
+- Radosevich & Halloran (2025). *MCP Safety Audit* ([arXiv:2504.03767](https://arxiv.org/abs/2504.03767))
+
+**Implementation guidance (this guide)**
+- [Chapter 8 — MCP tool connections](08-agentic-ai-security.md#mcp-tool-connections); [Chapter 11 — Shadow AI governance](11-governance-evidence.md#shadow-ai-governance)
+- [Chapter 16 — MCP servers on Kubernetes](16-kubernetes-deployment-reference.md#mcp-servers-on-kubernetes)
+
 ## If only three LLM/RAG controls can be implemented
 
 1. Deploy `Inference Gateway` with prompt filtering and output management.
 2. Use allowlist and integrity check for ingestion in RAG.
 3. Record runtime logging and enable rapid rollback to the last signed model.
+
+### References / Source mapping
+
+**Frameworks and standards**
+- OWASP LLM Top 10 (2025): `LLM01`, `LLM04`, `LLM10` (minimum viable controls)
+
+**Implementation guidance (this guide)**
+- [Security controls for LLM](#security-controls-for-llm); [Ingest security in RAG](#ingest-security-in-rag)
+- [Chapter 5 — Provenance and signing](05-model-artifact-supply-chain.md#provenance-and-signing)
+
+**Author practical guidance**
+- *Three-control minimum is an illustrative prioritization for resource-constrained teams.*
 
 ## LLM and RAG control prioritization
 
@@ -388,6 +651,15 @@ Include MCP servers in threat modeling ([Chapter 2](02-scope-risk-threat-model.m
 | `MUST` | gateway, automated prompt injection testing, ingestion allowlist |
 | `SHOULD` | session risk scoring, security reranking, tenant separation |
 | `ADVANCED` | full service mesh, automated reindex with complex lineage |
+
+### References / Source mapping
+
+**Frameworks and standards**
+- NIST AI RMF: Govern / Manage — risk-based control prioritization
+- OpenSSF MLSecOps Whitepaper (2025): lifecycle security controls
+
+**Implementation guidance (this guide)**
+- [Chapter 14 — Maturity levels](14-maturity-roadmap.md#maturity-levels); [Minimum security baseline](06-pipeline.md#minimum-security-baseline) (Chapter 6)
 
 ## LLM verification approach
 
@@ -410,11 +682,40 @@ This guide complements `OWASP LLMSVS` / verification literature—it does not re
 4. **Map to OWASP** — tag cases with `LLM01`–`LLM10` (and `ASI02` for agents) for traceability.
 5. **Human review** — high-risk domains require manual scenarios beyond automation.
 
+**Procedure gaps to close** (extend your suite; full step-by-step methodology is in the Exchange):
+
+- **Indirect injection path** — present attacks through RAG ingest or tool output routes, not only the user chat field.
+- **Variation / perturbation** — retry failed attacks with encoding, synonym, and formatting changes to test detections, not only static prompts.
+- **Non-determinism** — run critical cases multiple times at fixed model version and production configuration; record variance in the control point 7 report.
+
 Informative tool examples: [Chapter 12](12-threat-control-tools-map.md) (`Promptfoo`, `Garak`, `PyRIT`). Validate tools in your environment before using results for release decisions.
+
+### References / Source mapping
+
+**Frameworks and standards**
+- OWASP LLMSVS / LLM verification literature (complementary — not replaced by this guide)
+- OWASP LLM Top 10 (2025): `LLM01`–`LLM10` traceability
+- OWASP AI Exchange: [Testing against prompt injection](https://owaspai.org/go/testingpromptinjection/); [Direct prompt injection](https://owaspai.org/go/directpromptinjection/); [Indirect prompt injection](https://owaspai.org/go/indirectpromptinjection/); [Generative AI testing tools overview](https://owaspai.org/go/testingtoolsgenai/)
+- OWASP Agentic: `ASI02` (agent verification scope)
+- MITRE ATLAS: `AML.T0051` LLM Prompt Injection; `AML.T0053` AI Agent Tool Invocation; `AML.T0080` AI Agent Context Poisoning (memory cases)
+
+**Implementation guidance (this guide)**
+- [Stage 7 acceptance](06-pipeline.md#stage-7-test-acceptance-conditions) (Chapter 6)
+- [Three categories of security testing](06-pipeline.md#three-categories-of-security-testing) (Chapter 6)
+- [Garak / Promptfoo commands](12-threat-control-tools-map.md#appendix-informative-tool-command-reference) (Chapter 12)
 
 ## Practical principle
 
 In `LLM` systems, security is not solved by hardening the prompt alone. A secure architecture must include `Gateway`, knowledge source control, authorization, guardrails, telemetry, and continuous testing.
+
+### References / Source mapping
+
+**Frameworks and standards**
+- OWASP LLM Top 10 (2025): defense-in-depth across runtime controls
+- OWASP AI Exchange: [Limit unwanted behaviour](https://owaspai.org/go/limitunwanted/)
+
+**Implementation guidance (this guide)**
+- [LLM and RAG control prioritization](#llm-and-rag-control-prioritization); [Chapter 1 — MLSecOps principles](01-intro.md#mlsecops-principles)
 
 ## Practical summary
 
@@ -423,3 +724,13 @@ In `LLM` systems, security is not solved by hardening the prompt alone. A secure
 - Deploying `RAG` without data source validation is very high risk.
 - The minimum practical set includes `Gateway` with runtime logging.
 - `Guardrails` never replace threat modeling.
+
+### References / Source mapping
+
+**Frameworks and standards**
+- OWASP LLM Top 10 (2025): runtime threat summary (`LLM01`, `LLM04`, `LLM08`)
+- MITRE ATLAS: `AML.T0051` LLM Prompt Injection; `AML.T0070` RAG Poisoning
+
+**Implementation guidance (this guide)**
+- [If only three LLM/RAG controls can be implemented](#if-only-three-llmrag-controls-can-be-implemented)
+- [Chapter 2 — Attack surface matrix](02-scope-risk-threat-model.md#attack-surface-matrix) (LLM/RAG rows)

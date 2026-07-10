@@ -44,6 +44,7 @@ LINK_REWRITES = {
 def rewrite_links(text: str) -> str:
     for old, new in LINK_REWRITES.items():
         text = text.replace(f"]({old})", f"]({new})")
+        text = text.replace(f"]({old}#", f"]({new}#")
     text = re.sub(
         r"#e13-self-hosted-llm-vllm--kserve-on-kubernetes",
         "#e13-self-hosted-llm-vllm-kserve-on-kubernetes",
@@ -76,7 +77,7 @@ def main() -> None:
     (DOCS / "index.md").write_text(
         """# MLSecOps Practical Reference Guide
 
-**v1.0.0** — securing AI systems across the lifecycle.
+**v1.1.0** — securing AI systems across the lifecycle.
 
 [Repository](https://github.com/l4tr0d3ctism/MLSecOps) · [Getting Started](getting-started.md) · [Persian summary](guide-summary.md)
 
