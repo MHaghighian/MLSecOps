@@ -94,6 +94,26 @@ Executive lifecycle (detail in [Chapter 6](chapters-en/06-pipeline.md)):
 
 All releases: [GitHub Releases](https://github.com/l4tr0d3ctism/MLSecOps/releases).
 
+### Build DOCX yourself
+
+You can generate the printable Word edition from the markdown sources in this repository:
+
+```bash
+pip install -r scripts/requirements-docx.txt
+python scripts/build-docx.py --render-mermaid
+```
+
+**Output:** `dist/MLSecOps-Practical-Reference-Guide-v{version}.docx` (version read from [CITATION.cff](CITATION.cff)).
+
+| Option | Purpose |
+|--------|---------|
+| `--render-mermaid` | Render missing diagram PNGs from `assets/diagrams/source/*.mmd` (uses system Chrome or Edge) |
+| `--reference path/to/file.docx` | Override the Word style template |
+| `--output path/to/file.docx` | Custom output path |
+| `--skip-validate` | Skip post-build content checks |
+
+The build uses **Pandoc** with the project Word template (`scripts/templates/reference.docx`, or auto-download from the [v1.0.0 Release DOCX](https://github.com/l4tr0d3ctism/MLSecOps/releases/download/v1.0.0/MLSecOps-Practical-Reference-Guide-v1.0.0.docx) on first run). Template details: [scripts/templates/README.md](scripts/templates/README.md). Maintainer checklist: [RELEASING.md](RELEASING.md).
+
 ---
 
 ## Repository structure
@@ -102,6 +122,8 @@ All releases: [GitHub Releases](https://github.com/l4tr0d3ctism/MLSecOps/release
 MLSecOps/
 ├── chapters-en/          # Guide chapters (English)
 ├── assets/diagrams/      # Diagram PNGs and Mermaid source (.mmd)
+├── scripts/              # DOCX build (build-docx.py, mermaid_to_png.py)
+├── dist/                 # Local DOCX output (gitignored)
 ├── GUIDE-SUMMARY.md      # Persian section-by-section summary
 ├── GETTING-STARTED.md    # Role-based reading paths
 ├── CITATION.cff          # Citation metadata (DOI)

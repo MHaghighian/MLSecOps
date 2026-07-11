@@ -15,6 +15,10 @@ Static diagram exports used in the guide (GitHub, Word, PDF, MkDocs).
 | `16-kubernetes-deployment-reference.md` | `16-kubernetes-deployment-reference_01.png` | `source/16-kubernetes-deployment-reference_01.mmd` |
 | `17-appendix-e-implementation-reference.md` | `17-appendix-e-implementation-reference_01.png` … `_06.png` | `source/17-appendix-e-implementation-reference_*.mmd` |
 
-**Regenerate PNGs:** edit `source/*.mmd`, then run `scripts/mermaid_to_png.py` from the local build workspace (parent folder).
+**Regenerate PNGs:** edit `source/*.mmd`, then from the repository root run:
+
+```bash
+python scripts/build-docx.py --render-mermaid
+```
 
 **Why not ` ```mermaid ` in markdown?** GitHub's Mermaid renderer often fails on long `flowchart LR` chains and special characters, showing a spinner then *Unable to render rich display* even when the PNG below would display correctly.

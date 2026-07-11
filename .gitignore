@@ -4,3 +4,6 @@ __pycache__/
 docs/
 site/
 dist/
+_docx_assets/
+scripts/templates/reference.docx
+*.building.docx

@@ -62,10 +62,18 @@ Document every release in [CHANGELOG.md](CHANGELOG.md).
 
 ## Build assets (local workspace)
 
-Word/PDF builds run **outside this repo** (see maintainer workspace):
+Word/PDF builds use `scripts/build-docx.py` in this repository:
 
-1. Sync markdown → DOCX from `chapters-en/`
-2. Export PDF from DOCX or pandoc
+```bash
+# From repository root
+python scripts/build-docx.py --render-mermaid
+# Output: dist/MLSecOps-Practical-Reference-Guide-v1.1.0.docx
+```
+
+The build uses Pandoc with the existing Word **reference template** (`scripts/templates/reference.docx`, or auto-download from the v1.0.0 Release DOCX). Diagram PNGs are taken from `github/assets/diagrams/`; missing PNGs can be rendered from `assets/diagrams/source/*.mmd` with `--render-mermaid`.
+
+1. Sync markdown → DOCX: `python scripts/build-docx.py --render-mermaid`
+2. Export PDF from DOCX in Word (or pandoc)
 3. Upload both files to GitHub Release — do not commit large binaries to `main` unless using Git LFS
 
 ---
