@@ -43,6 +43,15 @@ jobs:
       - name: Add .nojekyll
         run: touch site/.nojekyll
 
+      - name: Add robots.txt for search engines
+        run: |
+          cat > site/robots.txt << 'EOF'
+          User-agent: *
+          Allow: /
+
+          Sitemap: https://l4tr0d3ctism.github.io/MLSecOps/sitemap.xml
+          EOF
+
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:

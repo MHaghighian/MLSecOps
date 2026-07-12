@@ -48,6 +48,102 @@ Checklist for maintainers publishing **v1.1.0** and later versions.
 
 ---
 
+## GitHub SEO (discoverability)
+
+Based on GitHub + Google indexing best practices. Apply once per repo; refresh after major releases.
+
+### 1. Repository name
+
+| Current | Status |
+|---------|--------|
+| `MLSecOps` | Good — short, readable, primary keyword matches project brand |
+
+Do not rename unless branding changes. The full title **MLSecOps Practical Reference Guide** lives in README, Pages, and releases.
+
+### 2. About (Settings → General)
+
+Copy-paste into **Description** (starts with main keyword; ~12 words):
+
+```text
+MLSecOps Practical Reference Guide — open-source AI and ML security handbook.
+```
+
+**Website:**
+
+```text
+https://l4tr0d3ctism.github.io/MLSecOps/
+```
+
+### 3. Topics (Settings → General → Topics)
+
+Add all (GitHub allows up to 20):
+
+```text
+mlsecops
+ai-security
+llm-security
+machine-learning-security
+devsecops
+mlops-security
+cybersecurity
+owasp
+secure-ai
+rag-security
+agentic-ai
+supply-chain-security
+nist-ai-rmf
+mitre-atlas
+open-source
+documentation
+kubernetes
+```
+
+### 4. README (done in repo)
+
+- [x] Keyword-rich opening paragraph (`MLSecOps`, AI security, LLM, RAG, DevSecOps)
+- [x] Official links table (Pages, repo, release, DOI)
+- [x] Topics covered + FAQ sections
+- [x] Descriptive image alt text
+- [x] Share / backlink note for promotion
+
+### 5. GitHub Pages (Google indexing)
+
+- [x] Site live: https://l4tr0d3ctism.github.io/MLSecOps/
+- [x] `site_description` in `mkdocs.yml` (meta description for Google)
+- [x] `robots.txt` + `sitemap.xml` on Pages deploy
+- [ ] **Google Search Console:** add property `https://l4tr0d3ctism.github.io/MLSecOps/`
+- [ ] Submit sitemap: `https://l4tr0d3ctism.github.io/MLSecOps/sitemap.xml`
+- [ ] URL Inspection → **Request indexing** for home page after each major release
+
+Note: you cannot add `github.com/l4tr0d3ctism/MLSecOps` to Search Console (not your domain). Use **GitHub Pages URL** only.
+
+### 6. Stars, watchers, forks (social proof)
+
+GitHub ranks repos partly on engagement. Promote via:
+
+| Channel | Suggested post angle |
+|---------|---------------------|
+| LinkedIn | MLSecOps practical guide — LLM/RAG/agent security + lifecycle controls |
+| Dev.to / Medium | Tutorial-style post linking to Ch.7 or Appendix E |
+| Reddit | r/cybersecurity, r/MachineLearning, r/netsec (follow sub rules) |
+| OWASP community | AI security / LLM Top 10 threads — cite, do not spam |
+| Hacker News | `Show HN: MLSecOps Practical Reference Guide` (once, when ready) |
+| GitHub Discussions | Announce v1.1.0 with link to Pages + PDF |
+
+Quality content drives stars; promotion amplifies discoverability.
+
+### 7. Post-release SEO check
+
+After each release:
+
+- [ ] README version badge and download links updated
+- [ ] GitHub Release published (tags help indexing)
+- [ ] Zenodo DOI updated
+- [ ] Re-request indexing in Search Console for Pages home
+- [ ] One announcement post with link to Pages (not only repo)
+
+---
+
 ## Version numbering
 
 | Tag | Meaning |

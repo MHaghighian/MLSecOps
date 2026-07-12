@@ -1,16 +1,29 @@
 # MLSecOps Practical Reference Guide
 
+> **Open-source MLSecOps handbook for AI security, LLM/RAG, and secure MLOps.**
+
 [![Status](https://img.shields.io/badge/status-stable-blue)](CHANGELOG.md)
 [![Version](https://img.shields.io/badge/version-v1.1.0-lightgrey)](CHANGELOG.md)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21206781.svg)](https://doi.org/10.5281/zenodo.21206781)
 [![Documentation](https://img.shields.io/badge/docs-l4tr0d3ctism.github.io%2FMLSecOps-blue)](https://l4tr0d3ctism.github.io/MLSecOps/)
 [![License: CC BY-SA 4.0](https://img.shields.io/badge/License-CC%20BY--SA%204.0-green.svg)](LICENSE)
 
-**Open-source practical reference guide** for securing AI systems across the ML lifecycle — from data and training through deployment, runtime, SOC, and governance.
+**MLSecOps Practical Reference Guide** is an open-source handbook for **AI security**, **machine learning security**, and **secure MLOps** across the full ML lifecycle — from data and training through deployment, runtime monitoring, SOC, and governance.
 
-**Not** a product user manual, an official industry standard, or affiliated with OpenSSF, OWASP, NIST, or ISO.
+It covers **LLM security**, **RAG security**, **agentic AI**, **MCP**, **AI supply chain security**, and **DevSecOps** patterns for production AI systems. Use it as a practitioner reference — not a product manual or an official OWASP, NIST, or ISO standard.
 
-Start with the [Documentation site](https://l4tr0d3ctism.github.io/MLSecOps/) for the best reading experience, or browse the Markdown chapters directly in this repository.
+| | |
+|---|---|
+| **Read online (recommended)** | [l4tr0d3ctism.github.io/MLSecOps](https://l4tr0d3ctism.github.io/MLSecOps/) |
+| **Source repository** | [github.com/l4tr0d3ctism/MLSecOps](https://github.com/l4tr0d3ctism/MLSecOps) |
+| **Latest release** | [v1.1.0](https://github.com/l4tr0d3ctism/MLSecOps/releases/tag/v1.1.0) |
+| **Cite (DOI)** | [10.5281/zenodo.21206781](https://doi.org/10.5281/zenodo.21206781) |
+
+---
+
+## Who is this for?
+
+Security engineers, ML/MLOps teams, architects, and risk owners who need a **practical MLSecOps** reference aligned with OWASP AI Exchange, MITRE ATLAS, NIST AI RMF, ISO/IEC 42001, OpenSSF Secure MLOps, and CSA MAESTRO — with operational controls, evidence, and rollout guidance.
 
 ---
 
@@ -24,6 +37,21 @@ This guide **synthesizes** OWASP, MITRE ATLAS, NIST AI RMF, ISO/IEC 42001, OpenS
 4. **[Implementation Reference](chapters-en/17-appendix-e-implementation-reference.md)** — architecture cards, decision matrix, templates, playbooks  
 
 Learn more: [Chapter 1 — What this guide adds](chapters-en/01-intro.md#what-this-guide-adds-beyond-owasp-openssf-and-nist).
+
+---
+
+## Topics covered
+
+| Area | Chapters / focus |
+|------|------------------|
+| **MLSecOps & threat modeling** | Scope, risk, autonomous AI threats |
+| **Data security & privacy** | Training data, PII, augmentation confidentiality |
+| **AI / ML supply chain** | Model artifacts, provenance, signing |
+| **Secure ML pipeline** | Ten control points, CI/CD gates, Evidence Pack |
+| **LLM security & RAG** | Gateway, guardrails, prompt injection, retrieval ACL |
+| **Agentic AI & MCP** | Tool policy, Intent Gate, scoped execution |
+| **Runtime & SOC** | Monitoring, detection, incident response |
+| **Governance & compliance** | Evidence, maturity roadmap, Kubernetes patterns |
 
 ---
 
@@ -74,7 +102,7 @@ Project status, roadmap, and governance: [GOVERNANCE.md](GOVERNANCE.md) · [CHAN
 
 Executive lifecycle (detail in [Chapter 6](chapters-en/06-pipeline.md)):
 
-![Executive lifecycle overview](assets/diagrams/01-intro_02.png)
+![MLSecOps lifecycle control model — ten control points from change initiation through monitoring and release decisions](assets/diagrams/01-intro_02.png)
 
 **Coverage:** classic ML · LLM · RAG · managed AI APIs · agents · MCP · Shadow AI · supply chain · runtime · SOC · governance · Kubernetes patterns.
 
@@ -82,7 +110,7 @@ Executive lifecycle (detail in [Chapter 6](chapters-en/06-pipeline.md)):
 
 ## Downloads
 
-**Latest release:** **v1.1.0** · [Zenodo DOI](https://doi.org/10.5281/zenodo.21206781) *(publish new Zenodo version from tag `v1.1.0` after release)*
+**Latest release:** **v1.1.0** · [Zenodo DOI](https://doi.org/10.5281/zenodo.21206781)
 
 | Format | Link |
 |--------|------|
@@ -116,6 +144,18 @@ The build uses **Pandoc** with the project Word template (`scripts/templates/ref
 
 ---
 
+## Frequently asked questions
+
+| Question | Answer |
+|----------|--------|
+| **What is MLSecOps?** | Security practices for the ML/AI lifecycle — extending DevSecOps with model, data, LLM, RAG, agent, and runtime controls. |
+| **Is this an official OWASP or NIST document?** | No. It references those frameworks but is an independent open-source guide (CC BY-SA 4.0). |
+| **Where should I start reading?** | [Documentation site](https://l4tr0d3ctism.github.io/MLSecOps/) or [Chapter 1](chapters-en/01-intro.md). |
+| **Is there a Persian summary?** | Yes — [GUIDE-SUMMARY.md](GUIDE-SUMMARY.md). |
+| **How do I cite this work?** | Use the [Zenodo DOI](https://doi.org/10.5281/zenodo.21206781) or [CITATION.cff](CITATION.cff). |
+
+---
+
 ## Repository structure
 
 ```text
@@ -142,6 +182,8 @@ We welcome review from practitioners.
 - **Pull request:** see [CONTRIBUTING.md](CONTRIBUTING.md)  
 
 If you review the guide and agree to be listed, we can add your name under **Community reviewers** (with your permission only).
+
+**Share this project:** linking from LinkedIn, blog posts, OWASP community threads, Dev.to, or internal security wikis helps others discover the guide and improves search visibility for `MLSecOps` and `MLSecOps Practical Reference Guide`.
 
 ---
 

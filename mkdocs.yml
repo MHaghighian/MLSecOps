@@ -1,5 +1,8 @@
 site_name: MLSecOps Practical Reference Guide
 site_url: https://l4tr0d3ctism.github.io/MLSecOps/
+site_description: >-
+  Open-source MLSecOps Practical Reference Guide for AI security, machine learning
+  security, LLM/RAG/agent security, secure MLOps, and ML supply chain controls.
 repo_url: https://github.com/l4tr0d3ctism/MLSecOps
 repo_name: l4tr0d3ctism/MLSecOps
 edit_uri: edit/main/chapters-en/

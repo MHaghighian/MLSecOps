@@ -77,9 +77,21 @@ def main() -> None:
     (DOCS / "index.md").write_text(
         """# MLSecOps Practical Reference Guide
 
-**v1.1.0** — securing AI systems across the lifecycle.
+**Open-source MLSecOps handbook for AI security, LLM/RAG, and secure MLOps.**
 
-[Repository](https://github.com/l4tr0d3ctism/MLSecOps) · [Getting Started](getting-started.md) · [Persian summary](guide-summary.md)
+**v1.1.0** — practical reference for securing AI systems across the ML lifecycle: data, training, deployment, runtime, SOC, and governance.
+
+[GitHub repository](https://github.com/l4tr0d3ctism/MLSecOps) · [Getting Started](getting-started.md) · [Persian summary](guide-summary.md) · [Zenodo DOI](https://doi.org/10.5281/zenodo.21206781)
+
+## Topics
+
+| Area | Start here |
+|------|------------|
+| MLSecOps lifecycle | [Chapter 6 — Lifecycle control model](chapters-en/06-pipeline.md) |
+| LLM & RAG security | [Chapter 7](chapters-en/07-llm-rag-security.md) |
+| Agentic AI & MCP | [Chapter 8](chapters-en/08-agentic-ai-security.md) |
+| AI supply chain | [Chapter 5](chapters-en/05-model-artifact-supply-chain.md) |
+| Implementation rollout | [Appendix E](chapters-en/17-appendix-e-implementation-reference.md) |
 
 ## Start reading
 
