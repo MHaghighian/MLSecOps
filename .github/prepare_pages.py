@@ -136,6 +136,11 @@ Details in [Chapter 1](chapters-en/01-intro.md#what-this-guide-adds-beyond-owasp
     if citation_src.exists():
         shutil.copy2(citation_src, DOCS / "CITATION.cff")
 
+    seo_dir = ROOT / "seo"
+    if seo_dir.exists():
+        for verification_file in seo_dir.glob("google*.html"):
+            shutil.copy2(verification_file, DOCS / verification_file.name)
+
     print(f"Prepared {DOCS} ({len(list(CHAPTERS_DST.glob('*.md')))} chapter files)")
 
 
