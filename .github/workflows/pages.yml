@@ -57,6 +57,9 @@ jobs:
           Sitemap: https://l4tr0d3ctism.github.io/MLSecOps/sitemap.xml
           EOF
 
+      - name: Add Google Search Console HTML verification file
+        run: cp seo/google0109e565faa8dd7c.html site/
+
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
