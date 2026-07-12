@@ -50,7 +50,6 @@ markdown_extensions:
 nav:
   - Home: index.md
   - Getting Started: getting-started.md
-  - Summary (Persian): guide-summary.md
   - Changelog: changelog.md
   - Guide:
       - Table of Contents: chapters-en/TABLE-OF-CONTENTS.md
