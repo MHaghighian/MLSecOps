@@ -111,9 +111,24 @@ kubernetes
 - [x] Site live: https://l4tr0d3ctism.github.io/MLSecOps/
 - [x] `site_description` in `mkdocs.yml` (meta description for Google)
 - [x] `robots.txt` + `sitemap.xml` on Pages deploy
-- [ ] **Google Search Console:** add property `https://l4tr0d3ctism.github.io/MLSecOps/`
-- [ ] Submit sitemap: `https://l4tr0d3ctism.github.io/MLSecOps/sitemap.xml`
-- [ ] URL Inspection → **Request indexing** for home page after each major release
+- [x] Google Search Console HTML tag hook (`inject_google_verification.py`)
+
+#### Google Search Console setup
+
+1. **Property type:** URL prefix (not Domain)
+2. **URL:** `https://l4tr0d3ctism.github.io/MLSecOps/`
+3. **Verification method:** HTML tag
+4. Google shows something like:
+   ```html
+   <meta name="google-site-verification" content="YOUR_CODE_HERE" />
+   ```
+5. Paste **only** `YOUR_CODE_HERE` (the `content` value) in **one** of:
+   - **Option A (recommended):** GitHub → Settings → Secrets → Actions → `GOOGLE_SITE_VERIFICATION`
+   - **Option B:** edit `seo/google-site-verification.code` (first line only) and push
+6. Re-run **Deploy GitHub Pages** workflow (or push to `main`)
+7. In Search Console click **Verify**
+8. Submit sitemap: `https://l4tr0d3ctism.github.io/MLSecOps/sitemap.xml`
+9. URL Inspection → home page → **Request indexing**
 
 Note: you cannot add `github.com/l4tr0d3ctism/MLSecOps` to Search Console (not your domain). Use **GitHub Pages URL** only.
 

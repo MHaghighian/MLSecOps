@@ -34,6 +34,11 @@ jobs:
       - name: Prepare docs source
         run: python .github/prepare_pages.py
 
+      - name: Inject Google Search Console verification
+        env:
+          GOOGLE_SITE_VERIFICATION: ${{ secrets.GOOGLE_SITE_VERIFICATION }}
+        run: python .github/inject_google_verification.py
+
       - name: Build site
         run: mkdocs build --strict
 
