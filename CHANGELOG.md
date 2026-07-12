@@ -4,6 +4,10 @@ All notable changes to the MLSecOps Guide are documented here.
 
 ## [Unreleased]
 
+### Removed
+
+- **GUIDE-SUMMARY.md** and related summary navigation/links from README, GETTING-STARTED, MkDocs, and GitHub Pages.
+
 ## [1.1.0] — 2026-07-11
 
 ### Added
@@ -24,7 +28,7 @@ All notable changes to the MLSecOps Guide are documented here.
 - **Ch.13** — LangChain case study: added CVE-2025-68664 alongside CVE-2025-27520.
 - **prepare_pages.py** — rewrite anchored `GETTING-STARTED.md#…` links for MkDocs; site index banner v1.1.0.
 - **README.md** — OWASP AI Exchange in frameworks list; version and download links v1.1.0.
-- Version strings aligned to **v1.1.0** across Ch.1, TOC, README, CITATION.cff, CONTRIBUTING, GOVERNANCE, GUIDE-SUMMARY, SECURITY, RELEASE_NOTES, and releases README.
+- Version strings aligned to **v1.1.0** across Ch.1, TOC, README, CITATION.cff, CONTRIBUTING, GOVERNANCE, SECURITY, RELEASE_NOTES, and releases README.
 
 ## [1.0.1] — 2026-07-05
 
@@ -44,7 +48,7 @@ All notable changes to the MLSecOps Guide are documented here.
 ### Changed
 
 - Version bump from **v0.1.2** (public beta) to **v1.0.0** — content scope frozen for citation.
-- README, TOC, Persian summary, and site banner aligned to v1.0.0.
+- README, TOC, and site banner aligned to v1.0.0.
 
 ## [0.1.2] — 2026-07-05
 
@@ -53,7 +57,6 @@ All notable changes to the MLSecOps Guide are documented here.
 - **GitHub Pages** documentation site: https://l4tr0d3ctism.github.io/MLSecOps/ (MkDocs Material, Mermaid).
 - Public-beta README restructure: Getting Started, Downloads, Community feedback, Releases docs.
 - [GETTING-STARTED.md](GETTING-STARTED.md), [RELEASING.md](RELEASING.md), [releases/README.md](releases/README.md).
-- [GUIDE-SUMMARY.md](GUIDE-SUMMARY.md) — full Persian section-by-section summary.
 - **Chapter 16** Kubernetes deployment reference.
 - **Appendix E: Implementation Reference** — architecture cards, decision matrix, threat model template, Evidence Pack template, playbooks, master control matrix.
 - **How to use this guide** (Ch.1) and role-based Quick Start (README, docs site).

@@ -13,7 +13,7 @@ Checklist for maintainers publishing **v1.1.0** and later versions.
 - [x] Per-section `References / Source mapping` across Chapters 1–17 ([Issue #1](https://github.com/l4tr0d3ctism/MLSecOps/issues/1))
 - [x] OWASP AI Exchange complementary integration
 - [x] Ch.1 reader value / guide at a glance ([Issue #2](https://github.com/l4tr0d3ctism/MLSecOps/issues/2))
-- [x] Version strings: README, TOC, Ch.1, CHANGELOG, CITATION.cff, CONTRIBUTING, GOVERNANCE, GUIDE-SUMMARY, SECURITY, RELEASE_NOTES, releases README, `prepare_pages.py`
+- [x] Version strings: README, TOC, Ch.1, CHANGELOG, CITATION.cff, CONTRIBUTING, GOVERNANCE, SECURITY, RELEASE_NOTES, releases README, `prepare_pages.py`
 - [ ] Run internal link validation in local build workspace
 - [ ] Export **DOCX** → `MLSecOps-Practical-Reference-Guide-v1.1.0.docx`
 - [ ] Export **PDF** → `MLSecOps-Practical-Reference-Guide-v1.1.0.pdf`
@@ -192,5 +192,5 @@ The build uses Pandoc with the existing Word **reference template** (`scripts/te
 ## General pre-release (any version)
 
 - [ ] No new chapters unless planned for next minor/major
-- [ ] Review [GUIDE-SUMMARY.md](GUIDE-SUMMARY.md) version line
+- [ ] Review [GETTING-STARTED.md](GETTING-STARTED.md) role-based paths
 - [ ] Update [SECURITY.md](SECURITY.md) supported versions table

@@ -83,7 +83,6 @@ Traditional DevSecOps does not fully address model artifacts, training data, LLM
 | **Read online** | [Documentation site](https://l4tr0d3ctism.github.io/MLSecOps/) — full guide, search, TOC |
 | **Markdown** | [Table of Contents](chapters-en/TABLE-OF-CONTENTS.md) · [Chapter 1](chapters-en/01-intro.md) |
 | **Role-based paths** | [GETTING-STARTED.md](GETTING-STARTED.md) |
-| **Persian summary** | [GUIDE-SUMMARY.md](GUIDE-SUMMARY.md) |
 | **Contribute** | [CONTRIBUTING.md](CONTRIBUTING.md) · [Issues](https://github.com/l4tr0d3ctism/MLSecOps/issues) · [Discussions](https://github.com/l4tr0d3ctism/MLSecOps/discussions) |
 
 | Role | Start here |
@@ -151,7 +150,6 @@ The build uses **Pandoc** with the project Word template (`scripts/templates/ref
 | **What is MLSecOps?** | Security practices for the ML/AI lifecycle — extending DevSecOps with model, data, LLM, RAG, agent, and runtime controls. |
 | **Is this an official OWASP or NIST document?** | No. It references those frameworks but is an independent open-source guide (CC BY-SA 4.0). |
 | **Where should I start reading?** | [Documentation site](https://l4tr0d3ctism.github.io/MLSecOps/) or [Chapter 1](chapters-en/01-intro.md). |
-| **Is there a Persian summary?** | Yes — [GUIDE-SUMMARY.md](GUIDE-SUMMARY.md). |
 | **How do I cite this work?** | Use the [Zenodo DOI](https://doi.org/10.5281/zenodo.21206781) or [CITATION.cff](CITATION.cff). |
 
 ---
@@ -164,7 +162,6 @@ MLSecOps/
 ├── assets/diagrams/      # Diagram PNGs and Mermaid source (.mmd)
 ├── scripts/              # DOCX build (build-docx.py, mermaid_to_png.py)
 ├── dist/                 # Local DOCX output (gitignored)
-├── GUIDE-SUMMARY.md      # Persian section-by-section summary
 ├── GETTING-STARTED.md    # Role-based reading paths
 ├── CITATION.cff          # Citation metadata (DOI)
 ├── CHANGELOG.md

@@ -14,7 +14,6 @@ ASSETS_SRC = ROOT / "assets"
 
 COPY_ROOT_FILES = [
     ("GETTING-STARTED.md", "getting-started.md"),
-    ("GUIDE-SUMMARY.md", "guide-summary.md"),
     ("CHANGELOG.md", "changelog.md"),
     ("CONTRIBUTING.md", "contributing.md"),
     ("SECURITY.md", "security.md"),
@@ -27,7 +26,6 @@ COPY_ROOT_FILES = [
 LINK_REWRITES = {
     "README.md": "index.md",
     "GETTING-STARTED.md": "getting-started.md",
-    "GUIDE-SUMMARY.md": "guide-summary.md",
     "CHANGELOG.md": "changelog.md",
     "CONTRIBUTING.md": "contributing.md",
     "SECURITY.md": "security.md",
@@ -81,7 +79,7 @@ def main() -> None:
 
 **v1.1.0** — practical reference for securing AI systems across the ML lifecycle: data, training, deployment, runtime, SOC, and governance.
 
-[GitHub repository](https://github.com/l4tr0d3ctism/MLSecOps) · [Getting Started](getting-started.md) · [Persian summary](guide-summary.md) · [Zenodo DOI](https://doi.org/10.5281/zenodo.21206781)
+[GitHub repository](https://github.com/l4tr0d3ctism/MLSecOps) · [Getting Started](getting-started.md) · [Zenodo DOI](https://doi.org/10.5281/zenodo.21206781)
 
 ## Topics
 

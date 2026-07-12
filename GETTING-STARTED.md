@@ -1,7 +1,7 @@
 # Getting Started
 
 Quick entry points for the **MLSecOps Practical Reference Guide**.  
-Full section list: [TABLE-OF-CONTENTS.md](chapters-en/TABLE-OF-CONTENTS.md) · Persian overview: [GUIDE-SUMMARY.md](GUIDE-SUMMARY.md).
+Full section list: [TABLE-OF-CONTENTS.md](chapters-en/TABLE-OF-CONTENTS.md).
 
 ---
 
@@ -90,7 +90,7 @@ Maturity detail: [Chapter 14](chapters-en/14-maturity-roadmap.md).
 |--------|----------|
 | Markdown (source) | `chapters-en/*.md` in this repo |
 | Word / PDF | [GitHub Releases v1.1.0](https://github.com/l4tr0d3ctism/MLSecOps/releases/tag/v1.1.0) |
-| Summary (Persian) | [GUIDE-SUMMARY.md](GUIDE-SUMMARY.md) |
+| Documentation site | [l4tr0d3ctism.github.io/MLSecOps](https://l4tr0d3ctism.github.io/MLSecOps/) |
 
 ---
 
