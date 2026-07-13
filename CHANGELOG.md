@@ -8,6 +8,10 @@ All notable changes to the MLSecOps Guide are documented here.
 
 - **GUIDE-SUMMARY.md** and related summary navigation/links from README, GETTING-STARTED, MkDocs, and GitHub Pages.
 
+### Added
+
+- **[references/AARM-ALIGNMENT.md](references/AARM-ALIGNMENT.md)** — complementary mapping to CSA AARM (Autonomous Action Runtime Management); links from Ch.8 and GETTING-STARTED.
+
 ## [1.1.0] — 2026-07-11
 
 ### Added
