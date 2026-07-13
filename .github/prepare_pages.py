@@ -36,6 +36,8 @@ LINK_REWRITES = {
     "../CHANGELOG.md": "../changelog.md",
     "../RELEASING.md": "../releasing.md",
     "../GETTING-STARTED.md": "../getting-started.md",
+    "../references/AARM-ALIGNMENT.md": "../references/aarm-alignment.md",
+    "references/AARM-ALIGNMENT.md": "references/aarm-alignment.md",
 }
 
 
@@ -120,6 +122,13 @@ Details in [Chapter 1](chapters-en/01-intro.md#what-this-guide-adds-beyond-owasp
         src = ROOT / src_rel
         if src.exists():
             write_doc(src, DOCS / dst_name)
+
+    refs_src = ROOT / "references"
+    refs_dst = DOCS / "references"
+    if refs_src.exists():
+        refs_dst.mkdir(parents=True, exist_ok=True)
+        for src in refs_src.glob("*.md"):
+            write_doc(src, refs_dst / src.name.lower())
 
     if ASSETS_SRC.exists():
         shutil.copytree(ASSETS_SRC, DOCS / "assets", dirs_exist_ok=True)

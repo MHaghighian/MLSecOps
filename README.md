@@ -207,6 +207,7 @@ Zenodo. https://doi.org/10.5281/zenodo.21206781
 - EU AI Act  
 - OpenSSF MLSecOps Whitepaper  
 - CSA MAESTRO  
+- CSA AARM — [AARM Alignment](references/AARM-ALIGNMENT.md) (agentic runtime; complementary mapping)
 
 ---
 

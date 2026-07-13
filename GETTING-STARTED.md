@@ -49,7 +49,7 @@ Relationship detail: [Chapter 1 — Relationship to OWASP AI Exchange](chapters-
 | Executive overview | Ch. [1](chapters-en/01-intro.md) → [2](chapters-en/02-scope-risk-threat-model.md) → [14](chapters-en/14-maturity-roadmap.md) |
 | Threat understanding | Ch. [3](chapters-en/03-threat-landscape.md) → [2](chapters-en/02-scope-risk-threat-model.md) → [13](chapters-en/13-case-studies.md) |
 | Implement lifecycle controls | Ch. [6](chapters-en/06-pipeline.md) → [12](chapters-en/12-threat-control-tools-map.md) → [15 checklists](chapters-en/15-conclusion-appendix.md#production-operational-checklist) |
-| LLM / RAG / Agent | Ch. [7](chapters-en/07-llm-rag-security.md) → [8](chapters-en/08-agentic-ai-security.md) → [9](chapters-en/09-anti-patterns.md) |
+| LLM / RAG / Agent | Ch. [7](chapters-en/07-llm-rag-security.md) → [8](chapters-en/08-agentic-ai-security.md) → [9](chapters-en/09-anti-patterns.md) · [AARM alignment](references/AARM-ALIGNMENT.md) |
 | Managed AI API only | Ch. [2 managed AI](chapters-en/02-scope-risk-threat-model.md#managed-ai-services-security-reference) → [7](chapters-en/07-llm-rag-security.md) → [Appendix D](chapters-en/15-conclusion-appendix.md#appendix-d-managed-ai-services-security-reference) |
 | Shadow AI / governance | Ch. [2](chapters-en/02-scope-risk-threat-model.md) → [11](chapters-en/11-governance-evidence.md) → [13 Samsung case](chapters-en/13-case-studies.md) |
 | MCP security | Ch. [7 MCP](chapters-en/07-llm-rag-security.md#model-context-protocol-mcp-security) → [8](chapters-en/08-agentic-ai-security.md) → [12](chapters-en/12-threat-control-tools-map.md) → [13 MCP lab](chapters-en/13-case-studies.md) |

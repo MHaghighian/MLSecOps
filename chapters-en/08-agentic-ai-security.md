@@ -1,6 +1,6 @@
 # Chapter 8: Agentic AI Security
 
-> **Chapter map:** LLM and RAG runtime controls are in [Chapter 7](07-llm-rag-security.md). Agent-specific anti-patterns are in [Chapter 9](09-anti-patterns.md). The [attack surface matrix in Chapter 2](02-scope-risk-threat-model.md#attack-surface-matrix) lists agent and MCP rows; this chapter expands those rows into a reference architecture, domain model, and operational controls.
+> **Chapter map:** LLM and RAG runtime controls are in [Chapter 7](07-llm-rag-security.md). Agent-specific anti-patterns are in [Chapter 9](09-anti-patterns.md). The [attack surface matrix in Chapter 2](02-scope-risk-threat-model.md#attack-surface-matrix) lists agent and MCP rows; this chapter expands those rows into a reference architecture, domain model, and operational controls. For **AARM** (Autonomous Action Runtime Management) alignment, see [AARM Alignment](../references/AARM-ALIGNMENT.md).
 
 ## Why Agentic AI poses a different risk
 
@@ -14,6 +14,7 @@ For identifying threats and controls in this domain, the `OWASP Agentic Security
 - OWASP Agentic Security Initiative: `ASI02` Tool Misuse
 - OWASP LLM Top 10 (2025): `LLM06` Excessive Agency
 - MITRE ATLAS: `AML.T0053` AI Agent Tool Invocation
+- CSA AARM (Autonomous Action Runtime Management): complementary alignment — [AARM Alignment](../references/AARM-ALIGNMENT.md)
 
 **Implementation guidance (this guide)**
 - [Chapter 3 — Agent tool abuse](03-threat-landscape.md#agent-tool-abuse-demonstrated-active-patterns)

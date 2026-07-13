@@ -51,6 +51,8 @@ nav:
   - Home: index.md
   - Getting Started: getting-started.md
   - Changelog: changelog.md
+  - References:
+      - AARM Alignment: references/aarm-alignment.md
   - Guide:
       - Table of Contents: chapters-en/TABLE-OF-CONTENTS.md
       - "1 Introduction": chapters-en/01-intro.md
