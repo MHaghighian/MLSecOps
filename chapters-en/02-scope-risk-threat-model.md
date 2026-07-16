@@ -6,14 +6,7 @@ This article is written for organizations that develop, deploy, or maintain `ML`
 
 `MLSecOps` is not a one-size-fits-all approach for every organization. Security controls must be selected based on architecture, data sensitivity, model type, model access level, user types, compliance requirements, and likely threats.
 
-### References / Source mapping
-
-**Frameworks and standards**
-- NIST AI RMF: Govern / Map (context and scope)
-- ISO/IEC 42001: scope of the AI management system
-
-**Implementation guidance (this guide)**
-- [Scenarios covered](#scenarios-covered); [Selecting controls based on threat model](#selecting-controls-based-on-threat-model)
+> *Refs - Frameworks: NIST AI RMF: Govern / Map (context and scope); ISO/IEC 42001: scope of the AI management system. This guide: [Scenarios covered](#scenarios-covered); [Selecting controls based on threat model](#selecting-controls-based-on-threat-model).*
 
 ## Scenarios covered
 
@@ -31,20 +24,15 @@ The scope of the article can be explained more clearly through several specific 
 | `Edge / IoT / TinyML` | Resource constraints, physical device security, secure model updates (`OTA`), and on-device model protection |
 | Cyber-physical systems (`CPS/ICS`) | Safety impact, adversarial attacks on sensors, and decision integrity in industrial control |
 
-For `Edge`, `IoT`, and `CPS` systems, in addition to the controls in this guide, physical risks, safety, and resource constraints must be assessed separately using specialized frameworks. This guide primarily focuses on cloud-native and enterprise architectures.
+For `Edge`, `IoT`, and `CPS` systems, in addition to the controls in this guide, physical risks, safety, and resource constraints must be assessed separately using specialized frameworks; these scenarios are **out of scope for this version's control set** and are listed here only for completeness. This guide primarily focuses on cloud-native and enterprise architectures.
 
-**Out of scope for v1.0:** localized non-English editions; full legal interpretation of sector regulations; hardware TEE/confidential-GPU deployment patterns (see vendor docs); exhaustive Shadow-AI or MCP product catalog. **Shadow AI governance** (Ch.11), **MCP security** (Ch.7), and **Kubernetes deployment reference** (Ch.16) are in scope as operational patterns—not as vendor surveys. Case studies: [Chapter 13](13-case-studies.md).
+> **Risk scope:** This guide manages **security risk**. **Safety** (harm to people, property, or the environment) is a first-class AI risk source under ISO/IEC 23894 that this guide **defers** rather than covers - it is not absent because it is unimportant. Assess safety, fairness, and societal/fundamental-rights risk through ISO/IEC 23894 and ISO/IEC 42001 alongside the security controls here.
+
+**Out of scope for v1.1.0:** localized non-English editions; full legal interpretation of sector regulations; hardware TEE/confidential-GPU deployment patterns (see vendor docs); exhaustive Shadow-AI or MCP product catalog. **Shadow AI governance** (Ch.11), **MCP security** (Ch.7), and **Kubernetes deployment reference** (Ch.16) are in scope as operational patterns - not as vendor surveys. Case studies: [Chapter 13](13-case-studies.md).
 
 Not every topic in this guide is equally mandatory for every team. For example, numerical `Adversarial Robustness` tests are highly important for `Tabular` or `Vision` models, but for a `Pure LLM API` without proprietary data, some of that work has more limited applicability.
 
-### References / Source mapping
-
-**Frameworks and standards**
-- OWASP AI Exchange: [threats overview](https://owaspai.org/go/threatsoverview/) — threat applicability varies by AI type
-- OWASP LLM Top 10 (2025); OWASP Agentic (`ASI02`); OWASP MCP Top 10 (`MCP09`) — scenario rows above
-
-**Implementation guidance (this guide)**
-- [Attack surface matrix](#attack-surface-matrix); [Chapter 8](08-agentic-ai-security.md), [Chapter 11 Shadow AI](11-governance-evidence.md#shadow-ai-governance), [Chapter 16](16-kubernetes-deployment-reference.md)
+> *Refs - Frameworks: OWASP AI Exchange: [threats overview](https://owaspai.org/go/threatsoverview/) - threat applicability varies by AI type; OWASP LLM Top 10 (2025); OWASP Agentic (`ASI02`); OWASP MCP Top 10 (`MCP09`) - scenario rows above. This guide: [Attack surface matrix](#attack-surface-matrix); [Chapter 8](08-agentic-ai-security.md), [Chapter 11 Shadow AI](11-governance-evidence.md#shadow-ai-governance), [Chapter 16](16-kubernetes-deployment-reference.md).*
 
 ### Managed AI service scope
 
@@ -91,18 +79,7 @@ Organizations that consume Azure OpenAI, Amazon Bedrock, Google Vertex AI, or si
 
 Extended checklist: [Appendix D — Managed AI Services](15-conclusion-appendix.md#appendix-d-managed-ai-services-security-reference).
 
-### References / Source mapping
-
-**Frameworks and standards**
-- Cloud provider shared-responsibility models (Azure OpenAI, Amazon Bedrock, Google Vertex AI — vendor documentation)
-- ISO/IEC 42001: supplier and third-party AI service themes
-
-**Implementation guidance (this guide)**
-- [Appendix D — Managed AI Services](15-conclusion-appendix.md#appendix-d-managed-ai-services-security-reference) (Chapter 15)
-- [Lifecycle control points 5–9 in configure mode](06-pipeline.md#lifecycle-control-points) (Chapter 6)
-
-**Author practical guidance**
-- *The customer control stack and evidence substitution table are implementation patterns, not provider requirements.*
+> *Refs - Frameworks: Cloud provider shared-responsibility models (Azure OpenAI, Amazon Bedrock, Google Vertex AI - vendor documentation); ISO/IEC 42001: supplier and third-party AI service themes. This guide: [Appendix D - Managed AI Services](15-conclusion-appendix.md#appendix-d-managed-ai-services-security-reference) (Chapter 15); [Lifecycle control points 5-9 in configure mode](06-pipeline.md#lifecycle-control-points) (Chapter 6). Author note: The customer control stack and evidence substitution table are implementation patterns, not provider requirements.*
 
 ## Primary audiences
 
@@ -114,10 +91,7 @@ Extended checklist: [Appendix D — Managed AI Services](15-conclusion-appendix.
 | Governance and risk teams | Recording evidence, framework compliance, and risk management |
 | Product teams | Understanding limitations, user risks, and secure release requirements |
 
-### References / Source mapping
-
-**Implementation guidance (this guide)**
-- [How to use this guide](01-intro.md#how-to-use-this-guide) (Chapter 1); [Reading paths](TABLE-OF-CONTENTS.md#reading-paths)
+> *Refs - This guide: [How to use this guide](01-intro.md#how-to-use-this-guide) (Chapter 1); [Reading paths](TABLE-OF-CONTENTS.md#reading-paths).*
 
 ## Selecting controls based on threat model
 
@@ -133,14 +107,7 @@ In many projects, a few simple but correctly implemented controls are worth more
 
 The goal of `MLSecOps` is not to add more tools; the goal is to select controls that match architecture, risk, and the team's operational capacity.
 
-### References / Source mapping
-
-**Frameworks and standards**
-- OWASP AI Exchange: [risk analysis](https://owaspai.org/go/riskanalysis/) — control selection follows threat applicability
-- NIST AI RMF: Map (context-driven risk prioritization)
-
-**Author practical guidance**
-- *The "few simple controls over heavy incomplete architectures" position is this guide's operational opinion.*
+> *Refs - Frameworks: OWASP AI Exchange: [risk analysis](https://owaspai.org/go/riskanalysis/) - control selection follows threat applicability; NIST AI RMF: Map (context-driven risk prioritization). Author note: The "few simple controls over heavy incomplete architectures" position is this guide's operational opinion.*
 
 ## AI system inventory
 
@@ -157,16 +124,7 @@ Before threat modeling or lifecycle controls apply, the organization must know *
 
 Record the inventory at control point 1 (`Initiate Change`) and refresh when new services, RAG sources, agents, or MCP servers are introduced. Shadow AI discovery steps remain in Chapter 11; this inventory **links** sanctioned and shadow rows so governance and MLSecOps teams share one view.
 
-### References / Source mapping
-
-**Frameworks and standards**
-- [AI program / inventory](https://owaspai.org/go/aiprogram/)
-- [How to organize AI security (GUARD)](https://owaspai.org/go/organize/)
-
-**Implementation guidance (this guide)**
-- [Lifecycle control point 1](06-pipeline.md#lifecycle-control-points) (Chapter 6)
-- [Shadow AI governance](11-governance-evidence.md#shadow-ai-governance) (Chapter 11)
-- [Threat model template](17-appendix-e-implementation-reference.md#e3-threat-model-template) (Appendix E.3)
+> *Refs - Frameworks: [AI program / inventory](https://owaspai.org/go/aiprogram/); [How to organize AI security (GUARD)](https://owaspai.org/go/organize/). This guide: [Lifecycle control point 1](06-pipeline.md#lifecycle-control-points) (Chapter 6); [Shadow AI governance](11-governance-evidence.md#shadow-ai-governance) (Chapter 11); [Threat model template](17-appendix-e-implementation-reference.md#e3-threat-model-template) (Appendix E.3).*
 
 ## Risk management
 
@@ -194,17 +152,7 @@ For threat identification, the [OWASP AI Exchange threat-model decision tree](ht
 
 > Version note: `OWASP LLM Top 10` version 2025 has been published and finalized, but `OWASP Machine Learning Security Top 10` remains in draft status (approximately version `v0.3`). Therefore, identifiers `ML01`–`ML10` in this guide are used as working references and may change in the final OWASP release.
 
-### References / Source mapping
-
-**Frameworks and standards**
-- [Risk analysis](https://owaspai.org/go/riskanalysis/)
-- [Threat modeling decision tree](https://owaspai.org/go/threatmodel/)
-- [Threats overview](https://owaspai.org/go/threatsoverview/)
-
-**Implementation guidance (this guide)**
-- [Attack surface matrix](#attack-surface-matrix)
-- [Expected output of threat modeling](#expected-output-of-threat-modeling)
-- [STRIDE and FMEA](11-governance-evidence.md#stride-and-fmea-applied-to-ml-assets) (Chapter 11)
+> *Refs - Frameworks: [Risk analysis](https://owaspai.org/go/riskanalysis/); [Threat modeling decision tree](https://owaspai.org/go/threatmodel/); [Threats overview](https://owaspai.org/go/threatsoverview/). This guide: [Attack surface matrix](#attack-surface-matrix); [Expected output of threat modeling](#expected-output-of-threat-modeling); [STRIDE and FMEA](11-governance-evidence.md#stride-and-fmea-applied-to-ml-assets) (Chapter 11).*
 
 ## Attack surface matrix
 
@@ -221,15 +169,7 @@ For threat identification, the [OWASP AI Exchange threat-model decision tree](ht
 | Infrastructure / K8s | Open namespace, unsigned images, GPU memory leak | RBAC, NetworkPolicy, Kyverno, MIG — [Ch.16](16-kubernetes-deployment-reference.md) |
 | Execution | `Prompt Injection`, unsafe output | `Gateway`, `Guardrail`, logging and monitoring |
 
-### References / Source mapping
-
-**Frameworks and standards**
-- OWASP LLM Top 10 (2025): `LLM01`, `LLM02`, `LLM03`; OWASP ML Top 10 (draft); OWASP MCP Top 10: `MCP09`
-- MITRE ATLAS: full technique mapping in [Chapter 12](12-threat-control-tools-map.md#mitre-atlas-mapping)
-- OWASP AI Exchange: [AI security matrix](https://owaspai.org/go/aisecuritymatrix/)
-
-**Implementation guidance (this guide)**
-- Row-level deep dives: [Ch.4 data](04-data-security-privacy.md), [Ch.5 supply chain](05-model-artifact-supply-chain.md), [Ch.7 RAG/MCP](07-llm-rag-security.md), [Ch.8 agents](08-agentic-ai-security.md), [Ch.16 K8s](16-kubernetes-deployment-reference.md)
+> *Refs - Frameworks: OWASP LLM Top 10 (2025): `LLM01`, `LLM02`, `LLM03`; OWASP ML Top 10 (draft); OWASP MCP Top 10: `MCP09`; MITRE ATLAS: full technique mapping in [Chapter 12](12-threat-control-tools-map.md#mitre-atlas-mapping); OWASP AI Exchange: [AI security matrix](https://owaspai.org/go/aisecuritymatrix/). This guide: Row-level deep dives: [Ch.4 data](04-data-security-privacy.md), [Ch.5 supply chain](05-model-artifact-supply-chain.md), [Ch.7 RAG/MCP](07-llm-rag-security.md), [Ch.8 agents](08-agentic-ai-security.md), [Ch.16 K8s](16-kubernetes-deployment-reference.md).*
 
 ## Expected output of threat modeling
 
@@ -241,12 +181,4 @@ The output of threat modeling must be an actionable document, not merely a descr
 - Which criteria cause model release to be blocked.
 - What evidence must be stored for audit.
 
-### References / Source mapping
-
-**Frameworks and standards**
-- [Risk analysis — risk treatment and residual risk](https://owaspai.org/go/riskanalysis/)
-
-**Implementation guidance (this guide)**
-- [MLSecOps risk analysis workflow](#mlsecops-risk-analysis-workflow)
-- [Threat model template](17-appendix-e-implementation-reference.md#e3-threat-model-template) (Appendix E.3)
-- [Release decision model](06-pipeline.md#release-decision-model) (Chapter 6)
+> *Refs - Frameworks: [Risk analysis - risk treatment and residual risk](https://owaspai.org/go/riskanalysis/). This guide: [MLSecOps risk analysis workflow](#mlsecops-risk-analysis-workflow); [Threat model template](17-appendix-e-implementation-reference.md#e3-threat-model-template) (Appendix E.3); [Release decision model](06-pipeline.md#release-decision-model) (Chapter 6).*
