@@ -50,12 +50,12 @@ jobs:
 
       - name: Add robots.txt for search engines
         run: |
-          cat > site/robots.txt << 'EOF'
-          User-agent: *
-          Allow: /
-
-          Sitemap: https://l4tr0d3ctism.github.io/MLSecOps/sitemap.xml
-          EOF
+          printf '%s\n' \
+            'User-agent: *' \
+            'Allow: /' \
+            '' \
+            'Sitemap: https://mhaghighian.github.io/MLSecOps/sitemap.xml' \
+            > site/robots.txt
 
       - name: Add Google Search Console HTML verification file
         run: cp seo/google0109e565faa8dd7c.html site/

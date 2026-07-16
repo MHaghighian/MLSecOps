@@ -1,11 +1,11 @@
-# MLSecOps Practical Reference Guide
+﻿# MLSecOps Practical Reference Guide
 
 > **Open-source MLSecOps handbook for AI security, LLM/RAG, and secure MLOps.**
 
 [![Status](https://img.shields.io/badge/status-stable-blue)](CHANGELOG.md)
 [![Version](https://img.shields.io/badge/version-v1.1.1-lightgrey)](CHANGELOG.md)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21206781.svg)](https://doi.org/10.5281/zenodo.21206781)
-[![Documentation](https://img.shields.io/badge/docs-l4tr0d3ctism.github.io%2FMLSecOps-blue)](https://l4tr0d3ctism.github.io/MLSecOps/)
+[![Documentation](https://img.shields.io/badge/docs-mhaghighian.github.io%2FMLSecOps-blue)](https://mhaghighian.github.io/MLSecOps/)
 [![License: CC BY-SA 4.0](https://img.shields.io/badge/License-CC%20BY--SA%204.0-green.svg)](LICENSE)
 
 **MLSecOps Practical Reference Guide** is an open-source handbook for **AI security**, **machine learning security**, and **secure MLOps** across the full ML lifecycle — from data and training through deployment, runtime monitoring, SOC, and governance.
@@ -14,9 +14,9 @@ It covers **LLM security**, **RAG security**, **agentic AI**, **MCP**, **AI supp
 
 | | |
 |---|---|
-| **Read online (recommended)** | [l4tr0d3ctism.github.io/MLSecOps](https://l4tr0d3ctism.github.io/MLSecOps/) |
-| **Source repository** | [github.com/l4tr0d3ctism/MLSecOps](https://github.com/l4tr0d3ctism/MLSecOps) |
-| **Latest release** | [v1.1.1](https://github.com/l4tr0d3ctism/MLSecOps/releases/tag/v1.1.1) |
+| **Read online (recommended)** | [mhaghighian.github.io/MLSecOps](https://mhaghighian.github.io/MLSecOps/) |
+| **Source repository** | [github.com/MHaghighian/MLSecOps](https://github.com/MHaghighian/MLSecOps) |
+| **Latest release** | [v1.1.1](https://github.com/MHaghighian/MLSecOps/releases/tag/v1.1.1) |
 | **Cite (DOI)** | [10.5281/zenodo.21206781](https://doi.org/10.5281/zenodo.21206781) |
 
 ---
@@ -80,10 +80,10 @@ Traditional DevSecOps does not fully address model artifacts, training data, LLM
 
 | | |
 |---|---|
-| **Read online** | [Documentation site](https://l4tr0d3ctism.github.io/MLSecOps/) — full guide, search, TOC |
+| **Read online** | [Documentation site](https://mhaghighian.github.io/MLSecOps/) — full guide, search, TOC |
 | **Markdown** | [Table of Contents](chapters-en/TABLE-OF-CONTENTS.md) · [Chapter 1](chapters-en/01-intro.md) |
 | **Role-based paths** | [GETTING-STARTED.md](GETTING-STARTED.md) |
-| **Contribute** | [CONTRIBUTING.md](CONTRIBUTING.md) · [Issues](https://github.com/l4tr0d3ctism/MLSecOps/issues) · [Discussions](https://github.com/l4tr0d3ctism/MLSecOps/discussions) |
+| **Contribute** | [CONTRIBUTING.md](CONTRIBUTING.md) · [Issues](https://github.com/MHaghighian/MLSecOps/issues) · [Discussions](https://github.com/MHaghighian/MLSecOps/discussions) |
 
 | Role | Start here |
 |------|------------|
@@ -113,11 +113,11 @@ Executive lifecycle (detail in [Chapter 6](chapters-en/06-pipeline.md)):
 
 | Format | Link |
 |--------|------|
-| **Documentation site** | [l4tr0d3ctism.github.io/MLSecOps](https://l4tr0d3ctism.github.io/MLSecOps/) |
+| **Documentation site** | [mhaghighian.github.io/MLSecOps](https://mhaghighian.github.io/MLSecOps/) |
 | **Markdown** | `chapters-en/` in this repository |
-| **Source (ZIP)** | [v1.1.1 archive](https://github.com/l4tr0d3ctism/MLSecOps/archive/refs/tags/v1.1.1.zip) |
+| **Source (ZIP)** | [v1.1.1 archive](https://github.com/MHaghighian/MLSecOps/archive/refs/tags/v1.1.1.zip) |
 
-All releases: [GitHub Releases](https://github.com/l4tr0d3ctism/MLSecOps/releases). Pre-built PDF/DOCX are **not** published with releases; build Word locally if you need a printable copy (below).
+All releases: [GitHub Releases](https://github.com/MHaghighian/MLSecOps/releases). Pre-built PDF/DOCX are **not** published with releases; build Word locally if you need a printable copy (below).
 
 ### Build DOCX yourself
 
@@ -137,7 +137,7 @@ python scripts/build-docx.py --render-mermaid
 | `--output path/to/file.docx` | Custom output path |
 | `--skip-validate` | Skip post-build content checks |
 
-The build uses **Pandoc** with the project Word template (`scripts/templates/reference.docx`, or auto-download from the [v1.0.0 Release DOCX](https://github.com/l4tr0d3ctism/MLSecOps/releases/download/v1.0.0/MLSecOps-Practical-Reference-Guide-v1.0.0.docx) on first run). Template details: [scripts/templates/README.md](scripts/templates/README.md). Maintainer checklist: [RELEASING.md](RELEASING.md).
+The build uses **Pandoc** with the project Word template (`scripts/templates/reference.docx`, or auto-download from the [v1.0.0 Release DOCX](https://github.com/MHaghighian/MLSecOps/releases/download/v1.0.0/MLSecOps-Practical-Reference-Guide-v1.0.0.docx) on first run). Template details: [scripts/templates/README.md](scripts/templates/README.md). Maintainer checklist: [RELEASING.md](RELEASING.md).
 
 ---
 
@@ -147,7 +147,7 @@ The build uses **Pandoc** with the project Word template (`scripts/templates/ref
 |----------|--------|
 | **What is MLSecOps?** | Security practices for the ML/AI lifecycle — extending DevSecOps with model, data, LLM, RAG, agent, and runtime controls. |
 | **Is this an official OWASP or NIST document?** | No. It references those frameworks but is an independent open-source guide (CC BY-SA 4.0). |
-| **Where should I start reading?** | [Documentation site](https://l4tr0d3ctism.github.io/MLSecOps/) or [Chapter 1](chapters-en/01-intro.md). |
+| **Where should I start reading?** | [Documentation site](https://mhaghighian.github.io/MLSecOps/) or [Chapter 1](chapters-en/01-intro.md). |
 | **How do I cite this work?** | Use the [Zenodo DOI](https://doi.org/10.5281/zenodo.21206781) or [CITATION.cff](CITATION.cff). |
 
 ---
@@ -172,8 +172,8 @@ MLSecOps/
 
 We welcome review from practitioners.
 
-- **Bug or typo:** [Open an issue](https://github.com/l4tr0d3ctism/MLSecOps/issues)  
-- **Suggestion / discussion:** [GitHub Discussions](https://github.com/l4tr0d3ctism/MLSecOps/discussions)  
+- **Bug or typo:** [Open an issue](https://github.com/MHaghighian/MLSecOps/issues)  
+- **Suggestion / discussion:** [GitHub Discussions](https://github.com/MHaghighian/MLSecOps/discussions)  
 - **Pull request:** see [CONTRIBUTING.md](CONTRIBUTING.md)  
 
 If you review the guide and agree to be listed, we can add your name under **Community reviewers** (with your permission only).
@@ -218,4 +218,4 @@ Zenodo. https://doi.org/10.5281/zenodo.21206781
 | [SECURITY.md](SECURITY.md) | Report issues in this repo |
 | [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) | Community standards |
 
-Questions: [Issues](https://github.com/l4tr0d3ctism/MLSecOps/issues) · [Discussions](https://github.com/l4tr0d3ctism/MLSecOps/discussions).
+Questions: [Issues](https://github.com/MHaghighian/MLSecOps/issues) · [Discussions](https://github.com/MHaghighian/MLSecOps/discussions).

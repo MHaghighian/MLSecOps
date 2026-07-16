@@ -1,4 +1,4 @@
-cff-version: 1.2.0
+﻿cff-version: 1.2.0
 title: "MLSecOps Practical Reference Guide"
 message: "If you use this guide, please cite it as below."
 type: book
@@ -6,9 +6,9 @@ authors:
   - family-names: Haghighian
     given-names: Moslem
 doi: 10.5281/zenodo.21206781
-repository-code: "https://github.com/l4tr0d3ctism/MLSecOps"
+repository-code: "https://github.com/MHaghighian/MLSecOps"
 url: "https://doi.org/10.5281/zenodo.21206781"
-repository-artifact: "https://github.com/l4tr0d3ctism/MLSecOps/releases/tag/v1.1.1"
+repository-artifact: "https://github.com/MHaghighian/MLSecOps/releases/tag/v1.1.1"
 license: CC-BY-SA-4.0
 version: 1.1.1
 date-released: 2026-07-16

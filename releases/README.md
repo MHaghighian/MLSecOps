@@ -1,4 +1,4 @@
-# Release assets
+﻿# Release assets
 
 Source archives and documentation for the MLSecOps Practical Reference Guide.
 
@@ -10,7 +10,7 @@ From **v1.1.1** onward, pre-built PDF/DOCX are **not** attached to GitHub Releas
 |------|----------|
 | Source (ZIP) | [v1.1.1 archive](https://github.com/l4tr0d3ctism/MLSecOps/archive/refs/tags/v1.1.1.zip) |
 | Markdown | `chapters-en/` in the repository root |
-| Site | https://l4tr0d3ctism.github.io/MLSecOps/ |
+| Site | https://mhaghighian.github.io/MLSecOps/ |
 
 **Release:** https://github.com/l4tr0d3ctism/MLSecOps/releases/tag/v1.1.1
 

@@ -1,4 +1,4 @@
-# Getting Started
+﻿# Getting Started
 
 Quick entry points for the **MLSecOps Practical Reference Guide**.  
 Full section list: [TABLE-OF-CONTENTS.md](chapters-en/TABLE-OF-CONTENTS.md).
@@ -89,11 +89,11 @@ Maturity detail: [Chapter 14](chapters-en/14-maturity-roadmap.md).
 | Format | Location |
 |--------|----------|
 | Markdown (source) | `chapters-en/*.md` in this repo |
-| Documentation site | [l4tr0d3ctism.github.io/MLSecOps](https://l4tr0d3ctism.github.io/MLSecOps/) |
+| Documentation site | [mhaghighian.github.io/MLSecOps](https://mhaghighian.github.io/MLSecOps/) |
 | Word (optional) | Build locally: `python scripts/build-docx.py --render-mermaid` |
 
 ---
 
 ## Give feedback
 
-Help improve the guide: [open an issue](https://github.com/l4tr0d3ctism/MLSecOps/issues) or [start a discussion](https://github.com/l4tr0d3ctism/MLSecOps/discussions).
+Help improve the guide: [open an issue](https://github.com/MHaghighian/MLSecOps/issues) or [start a discussion](https://github.com/MHaghighian/MLSecOps/discussions).
