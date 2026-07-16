@@ -8,13 +8,29 @@ The `MLSecOps` lifecycle control model defines where security decisions, evidenc
 
 This chapter is **not** a reference CI/CD implementation. It describes implementation-neutral control points that organizations may apply through MLOps platforms, CI/CD, manual approval workflows, managed AI service governance, or a combination of these mechanisms.
 
-> *Refs - Frameworks: NIST AI RMF: lifecycle governance across Map / Measure / Manage; ISO/IEC 42001: AI management system lifecycle controls. This guide: [Lifecycle control points](#lifecycle-control-points); [Golden rule](#golden-rule).*
+### References / Source mapping
+
+**Frameworks and standards**
+- NIST AI RMF: lifecycle governance across Map / Measure / Manage
+- ISO/IEC 42001: AI management system lifecycle controls
+
+**Implementation guidance (this guide)**
+- [Lifecycle control points](#lifecycle-control-points)
+- [Golden rule](#golden-rule)
 
 ## Control model overview
 
 The model begins with prerequisite `Planning` and `Threat Modeling`, then defines ten lifecycle control points from change initiation to storage and monitoring. **Not every control point is a blocking gate.** Some points produce evidence; others are explicit release decisions. The exact automation level depends on organizational maturity and architecture.
 
-> *Refs - Frameworks: [OpenSSF Secure MLOps whitepaper (2025)](https://openssf.org/wp-content/uploads/2025/08/OpenSSF_MLSecOps_Whitepaper.pdf): lifecycle visualization baseline; NIST AI RMF: integrated risk management across lifecycle stages. This guide: [Prerequisite: Planning and Threat Modeling](#prerequisite-planning-and-threat-modeling); [Lifecycle control points](#lifecycle-control-points).*
+### References / Source mapping
+
+**Frameworks and standards**
+- [OpenSSF Secure MLOps whitepaper (2025)](https://openssf.org/wp-content/uploads/2025/08/OpenSSF_MLSecOps_Whitepaper.pdf): lifecycle visualization baseline
+- NIST AI RMF: integrated risk management across lifecycle stages
+
+**Implementation guidance (this guide)**
+- [Prerequisite: Planning and Threat Modeling](#prerequisite-planning-and-threat-modeling)
+- [Lifecycle control points](#lifecycle-control-points)
 
 ## Prerequisite: Planning and Threat Modeling
 
@@ -25,7 +41,17 @@ Before a release, retrain, index change, managed-model configuration change, or 
 - Selection of mandatory controls and acceptable risk level
 - Versioned recording of threat model output in `Evidence Pack`
 
-> *Refs - Frameworks: OWASP ML Top 10 (draft) and OWASP LLM Top 10 (2025): threat identification baseline; MITRE ATLAS: technique mapping for AI-specific attacks; NIST AI RMF: Map function (context, actors, and risks). This guide: [Attack surface matrix](02-scope-risk-threat-model.md#attack-surface-matrix) (Chapter 2); [Threat landscape](03-threat-landscape.md) (Chapter 3); [Release decision model](#release-decision-model).*
+### References / Source mapping
+
+**Frameworks and standards**
+- OWASP ML Top 10 (draft) and OWASP LLM Top 10 (2025): threat identification baseline
+- MITRE ATLAS: technique mapping for AI-specific attacks
+- NIST AI RMF: Map function (context, actors, and risks)
+
+**Implementation guidance (this guide)**
+- [Attack surface matrix](02-scope-risk-threat-model.md#attack-surface-matrix) (Chapter 2)
+- [Threat landscape](03-threat-landscape.md) (Chapter 3)
+- [Release decision model](#release-decision-model)
 
 ![](../assets/diagrams/06-pipeline_01.png)
 *Figure - The MLSecOps lifecycle control model: prerequisite planning and threat modeling feeding the ten control points from change initiation to storage and monitoring.*
@@ -45,7 +71,14 @@ Before a release, retrain, index change, managed-model configuration change, or 
 | 9 | `Integrity and Provenance` | Model/artifact signing where applicable, managed-service configuration snapshot, provenance recording | Signature, attestation, or configuration evidence |
 | 10 | `Store & Monitor` | Secure storage and monitoring activation | `Evidence Pack` and telemetry |
 
-> *Refs - Frameworks: OpenSSF MLSecOps whitepaper (2025): lifecycle visualization; NIST AI RMF: Map / Measure / Manage across lifecycle. This guide: [Appendix E.6 - Master control matrix](17-appendix-e-implementation-reference.md#e6-master-control-matrix).*
+### References / Source mapping
+
+**Frameworks and standards**
+- OpenSSF MLSecOps whitepaper (2025): lifecycle visualization
+- NIST AI RMF: Map / Measure / Manage across lifecycle
+
+**Implementation guidance (this guide)**
+- [Appendix E.6 - Master control matrix](17-appendix-e-implementation-reference.md#e6-master-control-matrix)
 
 ## Practical notes for each control point
 
@@ -62,7 +95,19 @@ Before a release, retrain, index change, managed-model configuration change, or 
 | 9. `Integrity and Provenance` | Models and controlled artifacts should be signed where possible; managed AI services should instead record approved service/model identifier, region, API version, configuration snapshot, and access policy. |
 | 10. `Store & Monitor` | Final artifact stored in secure repository with object lock; telemetry including prompt, tool call, response, and model version sent to `SIEM/SOC`. |
 
-> *Refs - Frameworks: OpenSSF MLSecOps whitepaper: stage-by-stage security measures; NIST SSDF: artifact review and integrity themes at build/load time. This guide: [Lifecycle control points](#lifecycle-control-points); [Release decision model](#release-decision-model); [Model and artifact controls](05-model-artifact-supply-chain.md) (Chapter 5). Author note: Tool examples cited in the control-point table are informative; validate scanners and policy engines in your environment before gating releases.*
+### References / Source mapping
+
+**Frameworks and standards**
+- OpenSSF MLSecOps whitepaper: stage-by-stage security measures
+- NIST SSDF: artifact review and integrity themes at build/load time
+
+**Implementation guidance (this guide)**
+- [Lifecycle control points](#lifecycle-control-points)
+- [Release decision model](#release-decision-model)
+- [Model and artifact controls](05-model-artifact-supply-chain.md) (Chapter 5)
+
+**Author practical guidance**
+- *Tool examples cited in the control-point table are informative; validate scanners and policy engines in your environment before gating releases*
 
 ## Release decision model
 
@@ -80,7 +125,14 @@ The model distinguishes between **evidence-producing control points** and **bloc
 
 **Full production baseline (Level 2+):** all three decision points (4, 7, 8) are blocking on every release and CT cycle unless a formal, audited exception exists.
 
-> *Refs - Frameworks: ISO/IEC 42001: change and release governance themes; EU AI Act: technical documentation and logging (high-risk adjacency). This guide: [Maturity Level 2 criteria](14-maturity-roadmap.md#level-2-operational) (Chapter 14).*
+### References / Source mapping
+
+**Frameworks and standards**
+- ISO/IEC 42001: change and release governance themes
+- EU AI Act: technical documentation and logging (high-risk adjacency)
+
+**Implementation guidance (this guide)**
+- [Maturity Level 2 criteria](14-maturity-roadmap.md#level-2-operational) (Chapter 14)
 
 ## Continuous Training cycle
 
@@ -88,7 +140,16 @@ After deployment, the model may need retraining due to `Data Drift`, new data, o
 
 Every `CT` cycle repeats the blocking decisions at 4, 7, 8 with integrity/provenance evidence at 9 (see [Release decision model](#release-decision-model)); stages 1-3, 5-6, and 10 still run in full and feed those decisions.
 
-> *Refs - Frameworks: NIST AI RMF: Manage (monitoring and update of AI systems); ISO/IEC 42001: change and continual improvement for AI systems. This guide: [Control points in CT cycle](#control-points-in-ct-cycle); [Release decision model](#release-decision-model); [Continuous monitoring](10-monitoring-soc-ir.md) (Chapter 10).*
+### References / Source mapping
+
+**Frameworks and standards**
+- NIST AI RMF: Manage (monitoring and update of AI systems)
+- ISO/IEC 42001: change and continual improvement for AI systems
+
+**Implementation guidance (this guide)**
+- [Control points in CT cycle](#control-points-in-ct-cycle)
+- [Release decision model](#release-decision-model)
+- [Continuous monitoring](10-monitoring-soc-ir.md) (Chapter 10)
 
 ![](../assets/diagrams/06-pipeline_02.png)
 *Figure - The Continuous Training cycle re-running the required lifecycle control points and decision points on each retrain, with no security shortcuts.*
@@ -103,7 +164,15 @@ Every `CT` cycle repeats the blocking decisions at 4, 7, 8 with integrity/proven
 | `Model Collapse` | Limit synthetic data and monitor output diversity |
 | Excessive retraining | Cap frequency and require human approval in sensitive cases |
 
-> *Refs - Frameworks: OWASP AI Exchange: [Continuous validation](https://owaspai.org/go/continuousvalidation/); MITRE ATLAS: `AML.T0020` Poison Training Data; drift and retraining adjacency. This guide: [Difference between Data Drift and Adversarial Drift](#difference-between-data-drift-and-adversarial-drift); [Three categories of security testing](#three-categories-of-security-testing).*
+### References / Source mapping
+
+**Frameworks and standards**
+- OWASP AI Exchange: [Continuous validation](https://owaspai.org/go/continuousvalidation/)
+- MITRE ATLAS: `AML.T0020` Poison Training Data; drift and retraining adjacency
+
+**Implementation guidance (this guide)**
+- [Difference between Data Drift and Adversarial Drift](#difference-between-data-drift-and-adversarial-drift)
+- [Three categories of security testing](#three-categories-of-security-testing)
 
 ## Control points in CT cycle
 
@@ -122,7 +191,16 @@ Every `CT` cycle repeats the blocking decisions at 4, 7, 8 with integrity/proven
 
 Basic CT cycle controls include validation of new data origin and quality, rescanning artifacts and dependencies, execution of the required decision points, integrity/provenance recording, and recording results in the `Evidence Pack`.
 
-> *Refs - Frameworks: OpenSSF MLSecOps whitepaper: continuous training and monitoring stages; NIST AI RMF: Manage (post-deployment updates). This guide: [Continuous Training cycle](#continuous-training-cycle); [Secure deployment methods for retrained models](#secure-deployment-methods-for-retrained-models); [Provenance and signing](05-model-artifact-supply-chain.md#provenance-and-signing) (Chapter 5).*
+### References / Source mapping
+
+**Frameworks and standards**
+- OpenSSF MLSecOps whitepaper: continuous training and monitoring stages
+- NIST AI RMF: Manage (post-deployment updates)
+
+**Implementation guidance (this guide)**
+- [Continuous Training cycle](#continuous-training-cycle)
+- [Secure deployment methods for retrained models](#secure-deployment-methods-for-retrained-models)
+- [Provenance and signing](05-model-artifact-supply-chain.md#provenance-and-signing) (Chapter 5)
 
 ## Secure deployment methods for retrained models
 
@@ -132,13 +210,36 @@ Basic CT cycle controls include validation of new data origin and quality, resca
 | `Shadow Mode` | New model runs alongside current model but its response is not delivered to user; used only to observe behavior. |
 | `Automated Rollback` | If `Prompt Injection` rate, policy error, or performance decline exceeds threshold, system reverts to previous signed model. |
 
-> *Refs - Frameworks: OWASP LLM Top 10 (2025): `LLM01` Prompt Injection (rollback trigger); MITRE ATLAS: `AML.T0051` LLM Prompt Injection; NIST AI RMF: Manage (deployment and rollback of AI system changes); OpenSSF MLSecOps: safe promotion patterns for model updates. This guide: [Kubernetes deployment reference - canary and rollback](16-kubernetes-deployment-reference.md) (Chapter 16); [Monitoring and SOC integration](10-monitoring-soc-ir.md) (Chapter 10). Author note: Canary traffic percentages (1-5%) and rollback thresholds are examples; calibrate with SLOs and incident playbooks.*
+### References / Source mapping
+
+**Frameworks and standards**
+- OWASP LLM Top 10 (2025): `LLM01` Prompt Injection (rollback trigger)
+- MITRE ATLAS: `AML.T0051` LLM Prompt Injection
+- NIST AI RMF: Manage (deployment and rollback of AI system changes)
+- OpenSSF MLSecOps: safe promotion patterns for model updates
+
+**Implementation guidance (this guide)**
+- [Kubernetes deployment reference - canary and rollback](16-kubernetes-deployment-reference.md) (Chapter 16)
+- [Monitoring and SOC integration](10-monitoring-soc-ir.md) (Chapter 10)
+
+**Author practical guidance**
+- *Canary traffic percentages (1-5%) and rollback thresholds are examples; calibrate with SLOs and incident playbooks*
 
 ## Difference between Data Drift and Adversarial Drift
 
 `Data Drift` is usually seen as change in feature distribution, `Embedding Drift`, or schema changes. In contrast, `Adversarial Drift` is often accompanied by spikes in suspicious prompts, abnormal tool calls, or suspicious session patterns. These two phenomena must have separate response playbooks.
 
-> *Refs - Frameworks: OWASP AI Exchange: [Continuous validation](https://owaspai.org/go/continuousvalidation/); MITRE ATLAS: `AML.T0051` LLM Prompt Injection; `AML.T0053` AI Agent Tool Invocation (abnormal tool-call drift). This guide: [CT cycle risks](#ct-cycle-risks); [Three categories of security testing](#three-categories-of-security-testing); [SOC detection and response](10-monitoring-soc-ir.md) (Chapter 10).*
+### References / Source mapping
+
+**Frameworks and standards**
+- OWASP AI Exchange: [Continuous validation](https://owaspai.org/go/continuousvalidation/)
+- MITRE ATLAS: `AML.T0051` LLM Prompt Injection
+- `AML.T0053` AI Agent Tool Invocation (abnormal tool-call drift)
+
+**Implementation guidance (this guide)**
+- [CT cycle risks](#ct-cycle-risks)
+- [Three categories of security testing](#three-categories-of-security-testing)
+- [SOC detection and response](10-monitoring-soc-ir.md) (Chapter 10)
 
 ## Alignment with MLOps lifecycle and OpenSSF
 
@@ -156,7 +257,15 @@ Basic CT cycle controls include validation of new data origin and quality, resca
 | `Model Serving` | Runtime and inference infrastructure |
 | `Continuous Monitoring` | Live monitoring and SOC integration |
 
-> *Refs - Frameworks: [OpenSSF Secure MLOps whitepaper (August 2025)](https://openssf.org/wp-content/uploads/2025/08/OpenSSF_MLSecOps_Whitepaper.pdf): nine-stage lifecycle baseline. This guide: [OpenSSF stage mapping](11-governance-evidence.md) (Chapter 11); [Lifecycle control points](#lifecycle-control-points); [Release decision model](#release-decision-model).*
+### References / Source mapping
+
+**Frameworks and standards**
+- [OpenSSF Secure MLOps whitepaper (August 2025)](https://openssf.org/wp-content/uploads/2025/08/OpenSSF_MLSecOps_Whitepaper.pdf): nine-stage lifecycle baseline
+
+**Implementation guidance (this guide)**
+- [OpenSSF stage mapping](11-governance-evidence.md) (Chapter 11)
+- [Lifecycle control points](#lifecycle-control-points)
+- [Release decision model](#release-decision-model)
 
 ## Common implementation challenges
 
@@ -169,7 +278,16 @@ Basic CT cycle controls include validation of new data origin and quality, resca
 | Output authenticity and reproducibility | Use `AI-BOM`, lineage, and signing integrally. |
 | Difficulty of risk assessment | Separate operational risk from technical threat and produce `Evidence Pack` continuously. |
 
-> *Refs - Frameworks: NIST AI RMF: organizational maturity and risk treatment; ISO/IEC 42001: continual improvement and resource planning. This guide: [Maturity roadmap](14-maturity-roadmap.md) (Chapter 14); [Minimum security baseline](#minimum-security-baseline); [Anti-patterns](09-anti-patterns.md) (Chapter 9).*
+### References / Source mapping
+
+**Frameworks and standards**
+- NIST AI RMF: organizational maturity and risk treatment
+- ISO/IEC 42001: continual improvement and resource planning
+
+**Implementation guidance (this guide)**
+- [Maturity roadmap](14-maturity-roadmap.md) (Chapter 14)
+- [Minimum security baseline](#minimum-security-baseline)
+- [Anti-patterns](09-anti-patterns.md) (Chapter 9)
 
 ## Minimum security baseline
 
@@ -185,7 +303,22 @@ Basic CT cycle controls include validation of new data origin and quality, resca
 | Monitoring | Send prompt, tool call, and model version to `SIEM/SOC` |
 | Incident | Automated rollback and stable version snapshot |
 
-> *Refs - Frameworks: OWASP ML Top 10 (draft) and OWASP LLM Top 10 (2025): minimum control themes by domain (`LLM01` prompt injection); MITRE ATLAS: `AML.T0015` Evade AI Model (classic); `AML.T0051` LLM Prompt Injection; `AML.T0053` AI Agent Tool Invocation (agent/tool monitoring); OpenSSF MLSecOps: baseline security measures across lifecycle. This guide: [Lifecycle control prioritization](#lifecycle-control-prioritization); [Maturity Level 1](14-maturity-roadmap.md#level-1-minimum) (Chapter 14); [Tool mapping](12-threat-control-tools-map.md) (Chapter 12). Author note: Named tools (`ModelScan`, `ART`, `Garak`) are starting points; substitute organization-approved equivalents with equivalent evidence output.*
+### References / Source mapping
+
+**Frameworks and standards**
+- OWASP ML Top 10 (draft) and OWASP LLM Top 10 (2025): minimum control themes by domain (`LLM01` prompt injection)
+- MITRE ATLAS: `AML.T0015` Evade AI Model (classic)
+- `AML.T0051` LLM Prompt Injection
+- `AML.T0053` AI Agent Tool Invocation (agent/tool monitoring)
+- OpenSSF MLSecOps: baseline security measures across lifecycle
+
+**Implementation guidance (this guide)**
+- [Lifecycle control prioritization](#lifecycle-control-prioritization)
+- [Maturity Level 1](14-maturity-roadmap.md#level-1-minimum) (Chapter 14)
+- [Tool mapping](12-threat-control-tools-map.md) (Chapter 12)
+
+**Author practical guidance**
+- *Named tools (`ModelScan`, `ART`, `Garak`) are starting points; substitute organization-approved equivalents with equivalent evidence output*
 
 ## Lifecycle control prioritization
 
@@ -196,7 +329,16 @@ Basic CT cycle controls include validation of new data origin and quality, resca
 | `SHOULD` | Automated `SBOM/AI-BOM` generation, canary in CT, automated `Evidence Pack` recording |
 | `ADVANCED` | Full CT automation, advanced regression security test, and event mapping to `MITRE ATLAS` |
 
-> *Refs - Frameworks: ISO/IEC 42001: prioritized controls within an AI management system; NIST AI RMF: tiered implementation and governance. This guide: [Maturity roadmap](14-maturity-roadmap.md) (Chapter 14); [Release decision model](#release-decision-model); [Minimum security baseline](#minimum-security-baseline).*
+### References / Source mapping
+
+**Frameworks and standards**
+- ISO/IEC 42001: prioritized controls within an AI management system
+- NIST AI RMF: tiered implementation and governance
+
+**Implementation guidance (this guide)**
+- [Maturity roadmap](14-maturity-roadmap.md) (Chapter 14)
+- [Release decision model](#release-decision-model)
+- [Minimum security baseline](#minimum-security-baseline)
 
 ## Stage 7 test acceptance conditions
 
@@ -208,7 +350,22 @@ Acceptance thresholds must be defined and versioned in the organization's threat
 | `LLM/RAG` | `Prompt Injection` and retrieval leak probes | Bypass rate less than or equal to threat model threshold. |
 | Agent | Tool misuse and output injection cases | No critical fail in fixed regression set allowed. |
 
-> *Refs - Frameworks: OWASP AI Exchange: [AI security testing overview](https://owaspai.org/go/testing/); MITRE ATLAS: `AML.T0015` Evade AI Model; `AML.T0051` LLM Prompt Injection; `AML.T0053` AI Agent Tool Invocation; `AML.T0110` AI Agent Tool Poisoning (agent regression). This guide: [Three categories of security testing](#three-categories-of-security-testing); [Security acceptance criteria](05-model-artifact-supply-chain.md#security-acceptance-criteria) (Chapter 5); [Red Team program and security test cadence](#red-team-program-and-security-test-cadence). Author note: Threshold values in the table are examples; version acceptance criteria in the threat model and Evidence Pack.*
+### References / Source mapping
+
+**Frameworks and standards**
+- OWASP AI Exchange: [AI security testing overview](https://owaspai.org/go/testing/)
+- MITRE ATLAS: `AML.T0015` Evade AI Model
+- `AML.T0051` LLM Prompt Injection
+- `AML.T0053` AI Agent Tool Invocation
+- `AML.T0110` AI Agent Tool Poisoning (agent regression)
+
+**Implementation guidance (this guide)**
+- [Three categories of security testing](#three-categories-of-security-testing)
+- [Security acceptance criteria](05-model-artifact-supply-chain.md#security-acceptance-criteria) (Chapter 5)
+- [Red Team program and security test cadence](#red-team-program-and-security-test-cadence)
+
+**Author practical guidance**
+- *Threshold values in the table are examples; version acceptance criteria in the threat model and Evidence Pack*
 
 ## Three categories of security testing
 
@@ -222,7 +379,20 @@ Do not conflate these test types—they produce different evidence and run on di
 
 Continuous validation answers *"does the model still do what we approved?"* AI security testing answers *"can an attacker break our controls?"* Both are required for production MLSecOps; neither replaces conventional pentest of the hosting application.
 
-> *Refs - Frameworks: OWASP AI Exchange: [AI security testing overview](https://owaspai.org/go/testing/); [Continuous validation](https://owaspai.org/go/continuousvalidation/); MITRE ATLAS: `AML.T0015` Evade AI Model; `AML.T0051` LLM Prompt Injection; `AML.T0053` AI Agent Tool Invocation; `AML.T0054` LLM Jailbreak. This guide: [Red Team program and security test cadence](#red-team-program-and-security-test-cadence); [Difference between Data Drift and Adversarial Drift](#difference-between-data-drift-and-adversarial-drift); [Verification vs. validation](11-governance-evidence.md#verification-vs-validation) (Chapter 11).*
+### References / Source mapping
+
+**Frameworks and standards**
+- OWASP AI Exchange: [AI security testing overview](https://owaspai.org/go/testing/)
+- [Continuous validation](https://owaspai.org/go/continuousvalidation/)
+- MITRE ATLAS: `AML.T0015` Evade AI Model
+- `AML.T0051` LLM Prompt Injection
+- `AML.T0053` AI Agent Tool Invocation
+- `AML.T0054` LLM Jailbreak
+
+**Implementation guidance (this guide)**
+- [Red Team program and security test cadence](#red-team-program-and-security-test-cadence)
+- [Difference between Data Drift and Adversarial Drift](#difference-between-data-drift-and-adversarial-drift)
+- [Verification vs. validation](11-governance-evidence.md#verification-vs-validation) (Chapter 11)
 
 ## Red Team program and security test cadence
 
@@ -238,7 +408,22 @@ One-time security testing is not enough (Chapter 9). Red Team program must be ve
 
 Results of each run must be recorded in `Evidence Pack` with test suite hash for baseline comparison (Chapter 11).
 
-> *Refs - Frameworks: OWASP AI Exchange: [AI security testing overview](https://owaspai.org/go/testing/); MITRE ATLAS: `AML.T0015` Evade AI Model; `AML.T0051` LLM Prompt Injection; `AML.T0053` AI Agent Tool Invocation; `AML.T0054` LLM Jailbreak. This guide: [Three categories of security testing](#three-categories-of-security-testing); [Stage 7 test acceptance conditions](#stage-7-test-acceptance-conditions); [Continuous monitoring and test cadence](10-monitoring-soc-ir.md) (Chapter 10). Author note: Use a smoke subset on every build and reserve full LLM API suites for release/CT to control cost and rate limits.*
+### References / Source mapping
+
+**Frameworks and standards**
+- OWASP AI Exchange: [AI security testing overview](https://owaspai.org/go/testing/)
+- MITRE ATLAS: `AML.T0015` Evade AI Model
+- `AML.T0051` LLM Prompt Injection
+- `AML.T0053` AI Agent Tool Invocation
+- `AML.T0054` LLM Jailbreak
+
+**Implementation guidance (this guide)**
+- [Three categories of security testing](#three-categories-of-security-testing)
+- [Stage 7 test acceptance conditions](#stage-7-test-acceptance-conditions)
+- [Continuous monitoring and test cadence](10-monitoring-soc-ir.md) (Chapter 10)
+
+**Author practical guidance**
+- *Use a smoke subset on every build and reserve full LLM API suites for release/CT to control cost and rate limits*
 
 ## Implementation note
 
@@ -246,13 +431,33 @@ This guide intentionally does not provide a production-ready CI/CD implementatio
 
 Tool examples in Chapter 12 are informative and must be validated against the organization's environment before they are used for release decisions.
 
-> *Refs - Frameworks: OpenSSF MLSecOps: implementation-neutral lifecycle guidance (not a reference pipeline). This guide: [Tool mapping and executable examples](12-threat-control-tools-map.md) (Chapter 12); [Release decision model](#release-decision-model); [Evidence Pack](11-governance-evidence.md#what-is-an-evidence-pack) (Chapter 11). Author note: Promotion should stop when required evidence is missing unless a time-bound, audited exception is recorded.*
+### References / Source mapping
+
+**Frameworks and standards**
+- OpenSSF MLSecOps: implementation-neutral lifecycle guidance (not a reference pipeline)
+
+**Implementation guidance (this guide)**
+- [Tool mapping and executable examples](12-threat-control-tools-map.md) (Chapter 12)
+- [Release decision model](#release-decision-model)
+- [Evidence Pack](11-governance-evidence.md#what-is-an-evidence-pack) (Chapter 11)
+
+**Author practical guidance**
+- *Promotion should stop when required evidence is missing unless a time-bound, audited exception is recorded*
 
 ## Golden rule
 
 No model, RAG index, agent configuration, or managed AI service configuration should reach `Production` without appropriate integrity/provenance evidence, `SBOM/AI-BOM` where applicable, documented release decisions, and an `Evidence Pack` or equivalent audit evidence bundle.
 
-> *Refs - Frameworks: OpenSSF MLSecOps: integrity, provenance, and monitoring as release prerequisites; ISO/IEC 42001: documented approval before operational use. This guide: [Practical principle](05-model-artifact-supply-chain.md#practical-principle) (Chapter 5); [What is an Evidence Pack?](11-governance-evidence.md#what-is-an-evidence-pack) (Chapter 11); [Release decision model](#release-decision-model).*
+### References / Source mapping
+
+**Frameworks and standards**
+- OpenSSF MLSecOps: integrity, provenance, and monitoring as release prerequisites
+- ISO/IEC 42001: documented approval before operational use
+
+**Implementation guidance (this guide)**
+- [Practical principle](05-model-artifact-supply-chain.md#practical-principle) (Chapter 5)
+- [What is an Evidence Pack?](11-governance-evidence.md#what-is-an-evidence-pack) (Chapter 11)
+- [Release decision model](#release-decision-model)
 
 ## Worked example: one release through the ten control points
 
@@ -280,4 +485,14 @@ A concrete pass for an **internal RAG support assistant** (managed LLM API + pri
 3. `CT` cycle must repeat the required lifecycle control points without shortcuts.
 4. Retrained models must enter the real environment through canary path.
 
-> *Refs - Frameworks: NIST AI RMF: lifecycle summary - govern, map, measure, manage, and monitor; OpenSSF MLSecOps whitepaper: end-to-end secure MLOps checklist themes. This guide: [Release decision model](#release-decision-model); [Continuous Training cycle](#continuous-training-cycle); [Minimum security baseline](#minimum-security-baseline); [Golden rule](#golden-rule).*
+### References / Source mapping
+
+**Frameworks and standards**
+- NIST AI RMF: lifecycle summary - govern, map, measure, manage, and monitor
+- OpenSSF MLSecOps whitepaper: end-to-end secure MLOps checklist themes
+
+**Implementation guidance (this guide)**
+- [Release decision model](#release-decision-model)
+- [Continuous Training cycle](#continuous-training-cycle)
+- [Minimum security baseline](#minimum-security-baseline)
+- [Golden rule](#golden-rule)

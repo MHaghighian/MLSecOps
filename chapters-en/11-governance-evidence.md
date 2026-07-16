@@ -4,7 +4,12 @@
 
 Governance means that decisions related to the model, data, risk, and release are explainable, traceable, and auditable. In AI systems, the absence of governance prevents teams from explaining how a model was built, why it was released, and what should be investigated in a security incident.
 
-> *Refs - Frameworks: NIST AI RMF: Govern; ISO/IEC 42001: AI management system; OWASP AI Exchange: [Governance controls](https://owaspai.org/go/governancecontrols/).*
+### References / Source mapping
+
+**Frameworks and standards**
+- NIST AI RMF: Govern
+- ISO/IEC 42001: AI management system
+- OWASP AI Exchange: [Governance controls](https://owaspai.org/go/governancecontrols/)
 
 ## Shadow AI governance
 
@@ -113,7 +118,20 @@ Providing a **sanctioned, productive alternative** reduces shadow demand more th
 | No personal vs corporate account distinction | OAuth to personal Google/OpenAI | CASB tenant enforcement |
 | Shadow AI excluded from threat model | Lifecycle controls give false confidence because unapproved tools bypass them | Include Shadow AI row in [Ch.2 attack surface](02-scope-risk-threat-model.md#attack-surface-matrix); govern in Ch.11 |
 
-> *Refs - Frameworks: EU AI Act: Art. 4 AI literacy (where applicable); OWASP LLM Top 10: `LLM02`, `LLM03` (shadow data path); MITRE ATLAS: `AML.T0057` LLM Data Leakage; `AML.T0110` AI Agent Tool Poisoning (ungoverned MCP / IDE plugins). This guide: [AI system inventory](02-scope-risk-threat-model.md#ai-system-inventory) (Chapter 2); [MCP security](07-llm-rag-security.md#model-context-protocol-mcp-security) (Chapter 7). Author note: 30-day rollout and gateway vendor lists are operational patterns, not standards.*
+### References / Source mapping
+
+**Frameworks and standards**
+- EU AI Act: Art. 4 AI literacy (where applicable)
+- OWASP LLM Top 10: `LLM02`, `LLM03` (shadow data path)
+- MITRE ATLAS: `AML.T0057` LLM Data Leakage
+- `AML.T0110` AI Agent Tool Poisoning (ungoverned MCP / IDE plugins)
+
+**Implementation guidance (this guide)**
+- [AI system inventory](02-scope-risk-threat-model.md#ai-system-inventory) (Chapter 2)
+- [MCP security](07-llm-rag-security.md#model-context-protocol-mcp-security) (Chapter 7)
+
+**Author practical guidance**
+- *30-day rollout and gateway vendor lists are operational patterns, not standards*
 
 ## OpenSSF MLSecOps Mapping (Whitepaper 2025)
 
@@ -136,7 +154,15 @@ Providing a **sanctioned, productive alternative** reduces shadow demand more th
 
 The organization's `Evidence Pack` should record which OpenSSF-aligned measures—plus LLM/RAG/agent controls from OWASP and ATLAS—are implemented for each deployment, aligned with the threat model.
 
-> *Refs - Frameworks: OpenSSF MLSecOps whitepaper (2025): lifecycle stages and security measures in table above; NIST AI RMF: Map / Govern across lifecycle. This guide: [Lifecycle control points](06-pipeline.md#lifecycle-control-points) (Chapter 6); [Evidence Pack](#what-is-an-evidence-pack).*
+### References / Source mapping
+
+**Frameworks and standards**
+- OpenSSF MLSecOps whitepaper (2025): lifecycle stages and security measures in table above
+- NIST AI RMF: Map / Govern across lifecycle
+
+**Implementation guidance (this guide)**
+- [Lifecycle control points](06-pipeline.md#lifecycle-control-points) (Chapter 6)
+- [Evidence Pack](#what-is-an-evidence-pack)
 
 ## Optional assurance tiering — illustrative only
 
@@ -148,7 +174,16 @@ The organization's `Evidence Pack` should record which OpenSSF-aligned measures�
 | Tier 2 | Customer-facing LLM/RAG services | Lifecycle decision evidence, red team suite, signed or tamper-evident evidence bundle |
 | Tier 3 | High-risk domains (medical, finance, critical infrastructure) | Independent security review, continuous monitoring, formal risk register, human oversight |
 
-> *Refs - Frameworks: ISO/IEC 42001; ISO/IEC 23894; EU AI Act - formal compliance frameworks cited in section note; NIST AI RMF: risk-based assurance tiers (conceptual alignment). Author note: Tier 1-3 table is an optional organizational planning aid, not an OWASP, ISO, EU, or industry standard.*
+### References / Source mapping
+
+**Frameworks and standards**
+- ISO/IEC 42001
+- ISO/IEC 23894
+- EU AI Act - formal compliance frameworks cited in section note
+- NIST AI RMF: risk-based assurance tiers (conceptual alignment)
+
+**Author practical guidance**
+- *Tier 1-3 table is an optional organizational planning aid, not an OWASP, ISO, EU, or industry standard*
 
 ## STRIDE and FMEA applied to ML assets
 
@@ -160,7 +195,18 @@ The methods below apply established threat-modeling techniques to ML/AI assets. 
 | `FMEA-AI` | Assessing fairness impact and algorithmic harm with Failure Mode and Effects Analysis |
 | `Color Teams` | Combining red/blue/purple team for the ML development cycle |
 
-> *Refs - Frameworks: OWASP AI Exchange: [Threat modeling decision tree](https://owaspai.org/go/threatmodel/); ISO/IEC 23894: AI risk assessment methods (FMEA adjacency). This guide: [Threat model template](17-appendix-e-implementation-reference.md#e3-threat-model-template) (Appendix E.3); [Chapter 2 threat modeling](02-scope-risk-threat-model.md) (Chapter 2). Author note: STRIDE-AI and FMEA-AI labels apply established techniques to ML assets; not separate published standards.*
+### References / Source mapping
+
+**Frameworks and standards**
+- OWASP AI Exchange: [Threat modeling decision tree](https://owaspai.org/go/threatmodel/)
+- ISO/IEC 23894: AI risk assessment methods (FMEA adjacency)
+
+**Implementation guidance (this guide)**
+- [Threat model template](17-appendix-e-implementation-reference.md#e3-threat-model-template) (Appendix E.3)
+- [Chapter 2 threat modeling](02-scope-risk-threat-model.md) (Chapter 2)
+
+**Author practical guidance**
+- *STRIDE-AI and FMEA-AI labels apply established techniques to ML assets; not separate published standards*
 
 ## Reference frameworks
 
@@ -175,7 +221,14 @@ The methods below apply established threat-modeling techniques to ML/AI assets. 
 | `MITRE ATLAS` | Modeling attack techniques against AI |
 | `EU AI Act` | Legal requirements based on risk level |
 
-> *Refs - Frameworks: Sources listed in table above; OWASP AI Exchange: [Governance controls](https://owaspai.org/go/governancecontrols/). This guide: [Traceability convention](15-conclusion-appendix.md#traceability-and-source-mapping-convention) (Chapter 15).*
+### References / Source mapping
+
+**Frameworks and standards**
+- Sources listed in table above
+- OWASP AI Exchange: [Governance controls](https://owaspai.org/go/governancecontrols/)
+
+**Implementation guidance (this guide)**
+- [Traceability convention](15-conclusion-appendix.md#traceability-and-source-mapping-convention) (Chapter 15)
 
 ## What is an Evidence Pack?
 
@@ -183,7 +236,17 @@ An `Evidence Pack` is a bundle of technical and managerial evidence showing how 
 
 The Evidence Pack is **raw material for** - not a substitute for - `ISO/IEC 42001` documented information and `EU AI Act` Annex IV technical documentation. It supplies the security evidence those artifacts draw on; it does not by itself satisfy the management-system or conformity-documentation requirements, which have their own mandated structure.
 
-> *Refs - Frameworks: NIST AI RMF: Govern / Measure (documentation and monitoring evidence); ISO/IEC 42001: documented information for AI management system. This guide: [Appendix E.4 - Evidence Pack template](17-appendix-e-implementation-reference.md#e4-evidence-pack-template). Author note: Evidence Pack field names and structure are community implementation guidance, not a published OWASP or ISO file format.*
+### References / Source mapping
+
+**Frameworks and standards**
+- NIST AI RMF: Govern / Measure (documentation and monitoring evidence)
+- ISO/IEC 42001: documented information for AI management system
+
+**Implementation guidance (this guide)**
+- [Appendix E.4 - Evidence Pack template](17-appendix-e-implementation-reference.md#e4-evidence-pack-template)
+
+**Author practical guidance**
+- *Evidence Pack field names and structure are community implementation guidance, not a published OWASP or ISO file format*
 
 ## Recommended Evidence Pack contents
 
@@ -197,7 +260,16 @@ The Evidence Pack is **raw material for** - not a substitute for - `ISO/IEC 4200
 | Deployment | Environment version, configuration, release method, rollback plan |
 | Runtime | Telemetry, alerts, guardrail decisions |
 
-> *Refs - Frameworks: NIST AI RMF: Govern / Measure (documentation evidence); EU AI Act: Art. 11 technical documentation; Art. 12 record-keeping (high-risk adjacency); ISO/IEC 42001: documented information requirements. This guide: [Evidence Pack components](#evidence-pack-components); [Appendix E.4 - Evidence Pack template](17-appendix-e-implementation-reference.md#e4-evidence-pack-template).*
+### References / Source mapping
+
+**Frameworks and standards**
+- NIST AI RMF: Govern / Measure (documentation evidence)
+- EU AI Act: Art. 11 technical documentation; Art. 12 record-keeping (high-risk adjacency)
+- ISO/IEC 42001: documented information requirements
+
+**Implementation guidance (this guide)**
+- [Evidence Pack components](#evidence-pack-components)
+- [Appendix E.4 - Evidence Pack template](17-appendix-e-implementation-reference.md#e4-evidence-pack-template)
 
 ## Evidence Pack components
 
@@ -210,7 +282,16 @@ The Evidence Pack is **raw material for** - not a substitute for - `ISO/IEC 4200
 | policy | Quality decision log, `OPA/Conftest`, exceptions, and approver | Transparency of `Go/No-Go` decisions |
 | runtime | Telemetry, alerts, and prompt trace in incidents | Incident response and postmortem |
 
-> *Refs - Frameworks: OpenSSF MLSecOps whitepaper (2025): SBOM, signing, provenance (Sigstore, SLSA themes); OWASP LLM Top 10 (2025): `LLM03` supply chain; OWASP ML Top 10 (draft): `ML06`. This guide: [SBOM and AI-BOM](05-model-artifact-supply-chain.md#sbom-and-ai-bom) (Chapter 5); [Release decision model](06-pipeline.md#release-decision-model) (Chapter 6).*
+### References / Source mapping
+
+**Frameworks and standards**
+- OpenSSF MLSecOps whitepaper (2025): SBOM, signing, provenance (Sigstore, SLSA themes)
+- OWASP LLM Top 10 (2025): `LLM03` supply chain
+- OWASP ML Top 10 (draft): `ML06`
+
+**Implementation guidance (this guide)**
+- [SBOM and AI-BOM](05-model-artifact-supply-chain.md#sbom-and-ai-bom) (Chapter 5)
+- [Release decision model](06-pipeline.md#release-decision-model) (Chapter 6)
 
 ## Relationship to compliance
 
@@ -238,7 +319,16 @@ This mapping shows how MLSecOps technical controls **may provide evidence inputs
 
 > **Out of scope for this guide.** The table covers only obligations where technical security controls contribute evidence. It does **not** address - and must not be read as covering - prohibited practices (Art. 5), high-risk classification (Art. 6 / Annex III), the quality management system (Art. 17), the fundamental-rights impact assessment (Art. 27), conformity assessment / Declaration of Conformity / CE marking (Art. 43/47/48), EU-database registration (Art. 49), GPAI and systemic-risk obligations (Art. 51-55), or serious-incident reporting (Art. 73). These require the organization's compliance program and legal review.
 
-> *Refs - Frameworks: EU AI Act: articles cited in tables above; NIST AI RMF; ISO/IEC 42001; ISO/IEC 23894. This guide: [Evidence Pack components](#evidence-pack-components).*
+### References / Source mapping
+
+**Frameworks and standards**
+- EU AI Act: articles cited in tables above
+- NIST AI RMF
+- ISO/IEC 42001
+- ISO/IEC 23894
+
+**Implementation guidance (this guide)**
+- [Evidence Pack components](#evidence-pack-components)
 
 ### Mapping EU AI Act requirements to Evidence Pack components
 
@@ -269,7 +359,16 @@ Example policies:
 - An `LLM` model without prompt injection testing is not allowed to deploy.
 - An agent without an `Intent Gate` is not allowed to invoke sensitive tools.
 
-> *Refs - Frameworks: ISO/IEC 42001: operational control and policy enforcement; OWASP AI Exchange: [Governance controls](https://owaspai.org/go/governancecontrols/); OpenSSF MLSecOps whitepaper (2025): CI/CD policy enforcement themes. This guide: [Lifecycle control points 4, 8](06-pipeline.md#lifecycle-control-points) (Chapter 6); [Policy examples in Chapter 12](12-threat-control-tools-map.md#l4--policy-as-code-opa--conftest).*
+### References / Source mapping
+
+**Frameworks and standards**
+- ISO/IEC 42001: operational control and policy enforcement
+- OWASP AI Exchange: [Governance controls](https://owaspai.org/go/governancecontrols/)
+- OpenSSF MLSecOps whitepaper (2025): CI/CD policy enforcement themes
+
+**Implementation guidance (this guide)**
+- [Lifecycle control points 4, 8](06-pipeline.md#lifecycle-control-points) (Chapter 6)
+- [Policy examples in Chapter 12](12-threat-control-tools-map.md#l4--policy-as-code-opa--conftest)
 
 ## Responsibilities
 
@@ -281,7 +380,16 @@ Example policies:
 | Platform team | Infrastructure, access, monitoring, and deployment |
 | Governance team | Compliance, audit, and evidence management |
 
-> *Refs - Frameworks: NIST AI RMF: Govern (roles and accountability); ISO/IEC 42001: roles, responsibilities, and authorities (management system); OWASP AI Exchange: [How to organize AI security (GUARD)](https://owaspai.org/go/organize/). This guide: [Personas and shared responsibility](#personas-and-shared-responsibility); [Release decision model](06-pipeline.md#release-decision-model) (Chapter 6).*
+### References / Source mapping
+
+**Frameworks and standards**
+- NIST AI RMF: Govern (roles and accountability)
+- ISO/IEC 42001: roles, responsibilities, and authorities (management system)
+- OWASP AI Exchange: [How to organize AI security (GUARD)](https://owaspai.org/go/organize/)
+
+**Implementation guidance (this guide)**
+- [Personas and shared responsibility](#personas-and-shared-responsibility)
+- [Release decision model](06-pipeline.md#release-decision-model) (Chapter 6)
 
 ## Personas and shared responsibility
 
@@ -294,7 +402,15 @@ Example policies:
 | `Product Security` | Threat model, release decisions, and assurance | Threats and lifecycle controls |
 | `SOC / IR` | Runtime, alerts, and incident evidence | SOC and evidence pack |
 
-> *Refs - Frameworks: OWASP AI Exchange: [How to organize AI security (GUARD)](https://owaspai.org/go/organize/); Cloud provider shared-responsibility models (managed AI services). This guide: [Responsibilities](#responsibilities); [Reading paths](TABLE-OF-CONTENTS.md#reading-paths).*
+### References / Source mapping
+
+**Frameworks and standards**
+- OWASP AI Exchange: [How to organize AI security (GUARD)](https://owaspai.org/go/organize/)
+- Cloud provider shared-responsibility models (managed AI services)
+
+**Implementation guidance (this guide)**
+- [Responsibilities](#responsibilities)
+- [Reading paths](TABLE-OF-CONTENTS.md#reading-paths)
 
 ## Tamper-evident storage
 
@@ -307,7 +423,16 @@ Minimum practical steps for evidence retention:
 
 For organizations with strict audit requirements, an advanced option is to use `Rekor Transparency Log` or a hash chain in the manifest.
 
-> *Refs - Frameworks: OpenSSF: Sigstore / Rekor transparency log practices; EU AI Act: Art. 12 record-keeping integrity (high-risk adjacency); ISO/IEC 42001: control of documented information. This guide: [Model signing](05-model-artifact-supply-chain.md) (Chapter 5); [Evidence Pack](#what-is-an-evidence-pack).*
+### References / Source mapping
+
+**Frameworks and standards**
+- OpenSSF: Sigstore / Rekor transparency log practices
+- EU AI Act: Art. 12 record-keeping integrity (high-risk adjacency)
+- ISO/IEC 42001: control of documented information
+
+**Implementation guidance (this guide)**
+- [Model signing](05-model-artifact-supply-chain.md) (Chapter 5)
+- [Evidence Pack](#what-is-an-evidence-pack)
 
 ## Security validation and assurance
 
@@ -325,7 +450,16 @@ A control without measurement of effectiveness is only a checkbox. The assurance
 | Production | Telemetry and feedback related to FP/FN | SOC |
 | CT / retrain | Full suite regression | MLOps |
 
-> *Refs - Frameworks: NIST AI RMF: Measure / Manage (validation and monitoring); OWASP AI Exchange: [Continuous validation](https://owaspai.org/go/continuousvalidation/); OWASP LLMSVS. This guide: [Red Team program and security test cadence](06-pipeline.md#red-team-program-and-security-test-cadence) (Chapter 6); [Verification vs. validation](#verification-vs-validation).*
+### References / Source mapping
+
+**Frameworks and standards**
+- NIST AI RMF: Measure / Manage (validation and monitoring)
+- OWASP AI Exchange: [Continuous validation](https://owaspai.org/go/continuousvalidation/)
+- OWASP LLMSVS
+
+**Implementation guidance (this guide)**
+- [Red Team program and security test cadence](06-pipeline.md#red-team-program-and-security-test-cadence) (Chapter 6)
+- [Verification vs. validation](#verification-vs-validation)
 
 ## Assurance metrics
 
@@ -340,7 +474,18 @@ A control without measurement of effectiveness is only a checkbox. The assurance
 | `RAG Ingest` | Poison doc retrieval rate | Zero percent in regression set | Every index change |
 | `Agent Output Gate` | Bypass in output-injection cases | Zero critical | Every agent release |
 
-> *Refs - Frameworks: OWASP LLMSVS: structured testing and evaluation thresholds; NIST AI RMF: Measure (control effectiveness). This guide: [Security validation and assurance](#security-validation-and-assurance); [Governance Benchmark Suite](#governance-benchmark-suite). Author note: Example acceptance thresholds are illustrative; each organization must set criteria in its threat model and policy.*
+### References / Source mapping
+
+**Frameworks and standards**
+- OWASP LLMSVS: structured testing and evaluation thresholds
+- NIST AI RMF: Measure (control effectiveness)
+
+**Implementation guidance (this guide)**
+- [Security validation and assurance](#security-validation-and-assurance)
+- [Governance Benchmark Suite](#governance-benchmark-suite)
+
+**Author practical guidance**
+- *Example acceptance thresholds are illustrative; each organization must set criteria in its threat model and policy*
 
 ## Optional regression scoring pattern — illustrative only
 
@@ -360,7 +505,14 @@ score(new) >= score(baseline_signed) - delta
 
 The value of `delta` should be set in the organization's threat model. This example should not replace explicit release criteria for critical controls.
 
-> *Refs - Frameworks: NIST AI RMF: Measure (quantitative risk assessment - conceptual alignment); ISO/IEC 23894: risk treatment and acceptance criteria. Author note: Regression scoring formula and weights are an optional internal planning aid, not a published metric or OWASP standard.*
+### References / Source mapping
+
+**Frameworks and standards**
+- NIST AI RMF: Measure (quantitative risk assessment - conceptual alignment)
+- ISO/IEC 23894: risk treatment and acceptance criteria
+
+**Author practical guidance**
+- *Regression scoring formula and weights are an optional internal planning aid, not a published metric or OWASP standard*
 
 ## Governance Benchmark Suite
 
@@ -371,7 +523,16 @@ For assurance to be repeatable, the security benchmark must be versioned and tra
 3. Record results in the `Evidence Pack` along with suite hash, execution date, and model version.
 4. A false negative—an attack that should have been blocked but passed through—should be tracked as an incident or defect with higher severity than a false positive.
 
-> *Refs - Frameworks: OWASP AI Exchange: [Continuous validation](https://owaspai.org/go/continuousvalidation/); [AI security testing overview](https://owaspai.org/go/testing/); OpenSSF MLSecOps whitepaper (2025): reproducible security testing themes. This guide: [Red Team program and security test cadence](06-pipeline.md#red-team-program-and-security-test-cadence) (Chapter 6); [Evidence Pack](#what-is-an-evidence-pack).*
+### References / Source mapping
+
+**Frameworks and standards**
+- OWASP AI Exchange: [Continuous validation](https://owaspai.org/go/continuousvalidation/)
+- [AI security testing overview](https://owaspai.org/go/testing/)
+- OpenSSF MLSecOps whitepaper (2025): reproducible security testing themes
+
+**Implementation guidance (this guide)**
+- [Red Team program and security test cadence](06-pipeline.md#red-team-program-and-security-test-cadence) (Chapter 6)
+- [Evidence Pack](#what-is-an-evidence-pack)
 
 ## Verification vs. validation
 
@@ -383,7 +544,15 @@ For assurance to be repeatable, the security benchmark must be versioned and tra
 
 Maturity level 2 means a stable gate and suite exist. Maturity level 3 means automated regression score and false negative error tracking in the SOC are in place.
 
-> *Refs - Frameworks: ISO/IEC 42001: verification and validation themes (management system); NIST AI RMF: Measure (testing vs. operational adequacy). This guide: [Maturity roadmap](14-maturity-roadmap.md) (Chapter 14); [Assurance metrics](#assurance-metrics).*
+### References / Source mapping
+
+**Frameworks and standards**
+- ISO/IEC 42001: verification and validation themes (management system)
+- NIST AI RMF: Measure (testing vs. operational adequacy)
+
+**Implementation guidance (this guide)**
+- [Maturity roadmap](14-maturity-roadmap.md) (Chapter 14)
+- [Assurance metrics](#assurance-metrics)
 
 ## Vulnerability disclosure and external intelligence sources
 
@@ -399,10 +568,26 @@ Maturity level 2 means a stable gate and suite exist. Maturity level 3 means aut
 
 Recommendation: Define a `security.txt` or CVD process for the organization's AI models and APIs, and feed these sources back periodically into the threat model (Chapter 2) and test suite (Chapter 6).
 
-> *Refs - Frameworks: MITRE ATLAS: tactic/technique updates - https://atlas.mitre.org/; OpenSSF: coordinated vulnerability disclosure practices; OWASP AI Exchange: [AI program / inventory](https://owaspai.org/go/aiprogram/). This guide: [Threat model](02-scope-risk-threat-model.md) (Chapter 2); [Red Team program](06-pipeline.md#red-team-program-and-security-test-cadence) (Chapter 6).*
+### References / Source mapping
+
+**Frameworks and standards**
+- MITRE ATLAS: tactic/technique updates - https://atlas.mitre.org/
+- OpenSSF: coordinated vulnerability disclosure practices
+- OWASP AI Exchange: [AI program / inventory](https://owaspai.org/go/aiprogram/)
+
+**Implementation guidance (this guide)**
+- [Threat model](02-scope-risk-threat-model.md) (Chapter 2)
+- [Red Team program](06-pipeline.md#red-team-program-and-security-test-cadence) (Chapter 6)
 
 ## Practical principle
 
 If a model is not auditable, it is not trustworthy from an organizational perspective. Evidence must be produced concurrently with building and releasing the model—not after an incident and not manually.
 
-> *Refs - Frameworks: ISO/IEC 42001; EU AI Act high-risk documentation themes (see [Relationship to compliance](#relationship-to-compliance)). This guide: [Release decision model](06-pipeline.md#release-decision-model) (Chapter 6).*
+### References / Source mapping
+
+**Frameworks and standards**
+- ISO/IEC 42001
+- EU AI Act high-risk documentation themes (see [Relationship to compliance](#relationship-to-compliance))
+
+**Implementation guidance (this guide)**
+- [Release decision model](06-pipeline.md#release-decision-model) (Chapter 6)

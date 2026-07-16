@@ -6,7 +6,16 @@
 
 In this guide, security began at the data layer, extended to the model and supply chain, was managed through lifecycle control points and release decisions, continued at `Runtime` with guardrails and telemetry, and ultimately became auditable through the `Evidence Pack` and governance.
 
-> *Refs - Frameworks: OpenSSF MLSecOps whitepaper (2025); NIST AI RMF 1.0. This guide: [Lifecycle Overview](01-intro.md#lifecycle-overview) (Chapter 1); [Lifecycle control points](06-pipeline.md#lifecycle-control-points) (Chapter 6); [What is an Evidence Pack?](11-governance-evidence.md#what-is-an-evidence-pack) (Chapter 11).*
+### References / Source mapping
+
+**Frameworks and standards**
+- OpenSSF MLSecOps whitepaper (2025)
+- NIST AI RMF 1.0
+
+**Implementation guidance (this guide)**
+- [Lifecycle Overview](01-intro.md#lifecycle-overview) (Chapter 1)
+- [Lifecycle control points](06-pipeline.md#lifecycle-control-points) (Chapter 6)
+- [What is an Evidence Pack?](11-governance-evidence.md#what-is-an-evidence-pack) (Chapter 11)
 
 ## Key Principles
 
@@ -20,7 +29,18 @@ In this guide, security began at the data layer, extended to the model and suppl
 
 > **Last reviewed:** June 2026. This guide was developed based on frameworks and published knowledge through the end of 2025. Given the pace of change in LLM and Agentic AI, readers should periodically review new versions of `OWASP LLM Top 10`, `MITRE ATLAS`, and CycloneDX standards.
 
-> *Refs - Frameworks: OWASP LLM Top 10 (2025); MITRE ATLAS; CycloneDX AI/ML extensions. This guide: [MLSecOps Principles](01-intro.md#mlsecops-principles) (Chapter 1). Author note: Principle table is author synthesis of lifecycle themes across this guide - not verbatim standard text.*
+### References / Source mapping
+
+**Frameworks and standards**
+- OWASP LLM Top 10 (2025)
+- MITRE ATLAS
+- CycloneDX AI/ML extensions
+
+**Implementation guidance (this guide)**
+- [MLSecOps Principles](01-intro.md#mlsecops-principles) (Chapter 1)
+
+**Author practical guidance**
+- *Principle table is author synthesis of lifecycle themes across this guide - not verbatim standard text*
 
 ## Compact Checklist
 
@@ -39,7 +59,14 @@ In this guide, security began at the data layer, extended to the model and suppl
 | SOC | Do AI incidents enter the SIEM? |
 | Governance | Does an auditable evidence pack exist? |
 
-> *Refs - Frameworks: NIST AI RMF: Map / Govern (control coverage checklist). This guide: [Minimum security baseline](06-pipeline.md#minimum-security-baseline) (Chapter 6); [Production Operational Checklist](#production-operational-checklist) (this chapter).*
+### References / Source mapping
+
+**Frameworks and standards**
+- NIST AI RMF: Map / Govern (control coverage checklist)
+
+**Implementation guidance (this guide)**
+- [Minimum security baseline](06-pipeline.md#minimum-security-baseline) (Chapter 6)
+- [Production Operational Checklist](#production-operational-checklist) (this chapter)
 
 ## Production Operational Checklist
 
@@ -116,7 +143,19 @@ This checklist completes the minimum baseline and `Day-2` operations. If time is
 | Prompt trace and snapshot on incident | SOC | Each incident | Ticket and artifact |
 | Mandatory postmortem for high severity | Engineering Manager | Each incident | Postmortem document |
 
-> *Refs - Frameworks: ISO/IEC 42001: operational control and accountability themes; NIST AI RMF: Govern / Manage. This guide: [Responsibilities](11-governance-evidence.md#responsibilities) (Chapter 11); [Incident response](10-monitoring-soc-ir.md#incident-response) (Chapter 10); [Kubernetes deployment reference](16-kubernetes-deployment-reference.md) (Chapter 16). Author note: RACI, frequencies, and evidence columns are illustrative operational patterns - adapt to your org model.*
+### References / Source mapping
+
+**Frameworks and standards**
+- ISO/IEC 42001: operational control and accountability themes
+- NIST AI RMF: Govern / Manage
+
+**Implementation guidance (this guide)**
+- [Responsibilities](11-governance-evidence.md#responsibilities) (Chapter 11)
+- [Incident response](10-monitoring-soc-ir.md#incident-response) (Chapter 10)
+- [Kubernetes deployment reference](16-kubernetes-deployment-reference.md) (Chapter 16)
+
+**Author practical guidance**
+- *RACI, frequencies, and evidence columns are illustrative operational patterns - adapt to your org model*
 
 ## Short Glossary
 
@@ -154,7 +193,13 @@ Frequently used terms in this guide:
 | `Constrained Decoding` | Output restriction at tokenizer level, such as JSON mode or grammar |
 | `Semantic Consistency Check` | Matching response with retrieved context in RAG |
 
-> *Refs - This guide: Terminology aligned with [Chapter 1](01-intro.md), [Chapter 6](06-pipeline.md), [Chapter 9](09-anti-patterns.md), and [Chapter 11](11-governance-evidence.md). Author note: Glossary definitions are guide-local usage for consistency - not normative standard definitions.*
+### References / Source mapping
+
+**Implementation guidance (this guide)**
+- Terminology aligned with [Chapter 1](01-intro.md), [Chapter 6](06-pipeline.md), [Chapter 9](09-anti-patterns.md), and [Chapter 11](11-governance-evidence.md)
+
+**Author practical guidance**
+- *Glossary definitions are guide-local usage for consistency - not normative standard definitions*
 
 ## Appendix A: Threat, Control, and Tool Reference Card
 
@@ -188,7 +233,16 @@ This card is the consolidated and complete version of the Chapter 12 table and i
 | `Shadow AI Data Exfil` | Governance | Prompt | Monitor | Execution | Critical | AI-AUP + enterprise gateway | CASB/DLP |
 | `K8s Inference Exposure` | Infra | Infra | Deploy | Staging | Critical | RBAC + NetworkPolicy | Ch.16 manifests |
 
-> *Refs - Frameworks: OWASP LLM Top 10 (2025); OWASP ML Top 10; OWASP Agentic (`ASI02`); OWASP MCP Top 10 (`MCP03`, `MCP09`). This guide: [Primary Mapping](12-threat-control-tools-map.md#primary-mapping) (Chapter 12); duplicate card for standalone use in this appendix.*
+### References / Source mapping
+
+**Frameworks and standards**
+- OWASP LLM Top 10 (2025)
+- OWASP ML Top 10
+- OWASP Agentic (`ASI02`)
+- OWASP MCP Top 10 (`MCP03`, `MCP09`)
+
+**Implementation guidance (this guide)**
+- [Primary Mapping](12-threat-control-tools-map.md#primary-mapping) (Chapter 12); duplicate card for standalone use in this appendix
 
 ## Appendix B: MITRE ATLAS Mapping
 
@@ -216,7 +270,14 @@ More detailed `MITRE ATLAS` mapping for SOC analysis in Chapter 10 and control-o
 
 > **Appendix numbering:** Appendix C was reserved in earlier drafts and removed in v0.1.2. Numbering skips to Appendix D to avoid renumbering existing cross-references. **Appendix E** (Implementation Reference) is a separate chapter: [17-appendix-e-implementation-reference.md](17-appendix-e-implementation-reference.md).
 
-> *Refs - Frameworks: MITRE ATLAS: techniques cited in table (e.g. `AML.T0051`, `AML.T0020`, `AML.T0066`, `AML.T0070`, `AML.T0034`). This guide: [MITRE ATLAS Mapping](12-threat-control-tools-map.md#mitre-atlas-mapping) (Chapter 12); [Threat analysis with MITRE ATLAS](10-monitoring-soc-ir.md#threat-analysis-with-mitre-atlas) (Chapter 10).*
+### References / Source mapping
+
+**Frameworks and standards**
+- MITRE ATLAS: techniques cited in table (e.g. `AML.T0051`, `AML.T0020`, `AML.T0066`, `AML.T0070`, `AML.T0034`)
+
+**Implementation guidance (this guide)**
+- [MITRE ATLAS Mapping](12-threat-control-tools-map.md#mitre-atlas-mapping) (Chapter 12)
+- [Threat analysis with MITRE ATLAS](10-monitoring-soc-ir.md#threat-analysis-with-mitre-atlas) (Chapter 10)
 
 ## Appendix D: Managed AI Services Security Reference
 
@@ -265,7 +326,19 @@ This guide is a **community reference**, not an OWASP publication. Before extern
 5. Managed AI and agent paths documented for non-training audiences
 6. `CHANGELOG.md` and version in README updated
 
-> *Refs - Frameworks: OWASP LLM Top 10 (2025); cloud provider shared-responsibility models (Azure, AWS, Google - vendor docs). This guide: [Managed AI services security reference](02-scope-risk-threat-model.md#managed-ai-services-security-reference) (Chapter 2); [LLM verification approach](07-llm-rag-security.md#llm-verification-approach) (Chapter 7); [Evidence Pack fields](#evidence-pack-fields-managed-api) (this appendix). Author note: Publication readiness checklist is for community guide maintainers - not an OWASP submission requirement.*
+### References / Source mapping
+
+**Frameworks and standards**
+- OWASP LLM Top 10 (2025)
+- cloud provider shared-responsibility models (Azure, AWS, Google - vendor docs)
+
+**Implementation guidance (this guide)**
+- [Managed AI services security reference](02-scope-risk-threat-model.md#managed-ai-services-security-reference) (Chapter 2)
+- [LLM verification approach](07-llm-rag-security.md#llm-verification-approach) (Chapter 7)
+- [Evidence Pack fields](#evidence-pack-fields-managed-api) (this appendix)
+
+**Author practical guidance**
+- *Publication readiness checklist is for community guide maintainers - not an OWASP submission requirement*
 
 ## Traceability and source mapping convention
 
@@ -412,7 +485,13 @@ This appendix maps key claims in the guide to verifiable references:
 | BentoML / LangChain deserialization RCE | CVE-2025-27520 (BentoML, GHSA-33xw-247w-6hmc); CVE-2025-68664 (LangChain core, GHSA-c67j-w6g6-q2cm) |
 | Kubernetes MLSecOps baseline | Ch.16 (patterns + upstream refs; no bundled manifests) |
 
-> *Refs - Frameworks: Primary sources cited in [References](#references) (this chapter); CVE/NVD and vendor research URLs in table rows. This guide: [Case studies](13-case-studies.md) (Chapter 13) for incident labels; per-chapter claims map to lifecycle controls in Chapters 5-11.*
+### References / Source mapping
+
+**Frameworks and standards**
+- Primary sources cited in [References](#references) (this chapter); CVE/NVD and vendor research URLs in table rows
+
+**Implementation guidance (this guide)**
+- [Case studies](13-case-studies.md) (Chapter 13) for incident labels; per-chapter claims map to lifecycle controls in Chapters 5-11
 
 ## Mermaid Diagram Guide
 
@@ -420,7 +499,13 @@ Diagrams in `chapters-en/` are **PNG images** (`assets/diagrams/`). Mermaid **so
 
 GitHub's built-in Mermaid viewer is unreliable for complex flowcharts (layout errors, old parser); PNG avoids the loading spinner and *Unable to render rich display* errors.
 
-> *Refs - This guide: Diagram assets: `assets/diagrams/`; Mermaid source: `assets/diagrams/source/*.mmd`. Author note: PNG-first publishing choice is a maintainer workflow decision - not a security standard.*
+### References / Source mapping
+
+**Implementation guidance (this guide)**
+- Diagram assets: `assets/diagrams/`; Mermaid source: `assets/diagrams/source/*.mmd`
+
+**Author practical guidance**
+- *PNG-first publishing choice is a maintainer workflow decision - not a security standard*
 
 ## GitHub Version
 
@@ -428,7 +513,10 @@ GitHub's built-in Mermaid viewer is unreliable for complex flowcharts (layout er
 
 This guide is maintained as Markdown in the [MLSecOps repository](https://github.com/l4tr0d3ctism/MLSecOps). Technical terms use `inline code` formatting where helpful for scanability.
 
-> *Refs - This guide: [GitHub Version](#github-version) (this section); repository README and `CHANGELOG.md` for release metadata.*
+### References / Source mapping
+
+**Implementation guidance (this guide)**
+- [GitHub Version](#github-version) (this section); repository README and `CHANGELOG.md` for release metadata
 
 ## Final Conclusion
 
@@ -449,4 +537,17 @@ By separating `Risk Management` from `Threat Modeling`, lifecycle control points
 
 Organizations that adopt the practices in this guide—risk management, threat modeling, lifecycle release decisions, runtime controls, and the `Evidence Pack`—can improve the **auditability and defensibility** of production AI deployments. This guide is one input among many (OpenSSF, OWASP, NIST, ISO, legal counsel); it is **not** a certified standard or a sole prerequisite for trustworthy AI.
 
-> *Refs - Frameworks: OpenSSF MLSecOps whitepaper (2025); NIST AI RMF; OWASP LLM Top 10 (2025); ISO/IEC 42001. This guide: [What this guide contributes](#what-this-guide-contributes) (this section); [Appendix E: Implementation Reference](17-appendix-e-implementation-reference.md) (Chapter 17). Author note: Four operational constructs (control points, release decisions, Evidence Pack, lifecycle thread) are author additions beyond cited frameworks.*
+### References / Source mapping
+
+**Frameworks and standards**
+- OpenSSF MLSecOps whitepaper (2025)
+- NIST AI RMF
+- OWASP LLM Top 10 (2025)
+- ISO/IEC 42001
+
+**Implementation guidance (this guide)**
+- [What this guide contributes](#what-this-guide-contributes) (this section)
+- [Appendix E: Implementation Reference](17-appendix-e-implementation-reference.md) (Chapter 17)
+
+**Author practical guidance**
+- *Four operational constructs (control points, release decisions, Evidence Pack, lifecycle thread) are author additions beyond cited frameworks*

@@ -14,7 +14,15 @@
 
 Controls for agent and MCP patterns: [Chapter 8](08-agentic-ai-security.md). Runtime and SOC: [Chapter 10](10-monitoring-soc-ir.md).
 
-> *Refs - Frameworks: NIST AI RMF: Map (risk prioritization); MITRE ATLAS case studies for demonstrated vs emerging threat classes. This guide: Reading priority and demonstrated-vs-emerging labels in this chapter; [Chapter 2 attack surface](02-scope-risk-threat-model.md#attack-surface-matrix).*
+### References / Source mapping
+
+**Frameworks and standards**
+- NIST AI RMF: Map (risk prioritization)
+- MITRE ATLAS case studies for demonstrated vs emerging threat classes
+
+**Implementation guidance (this guide)**
+- Reading priority and demonstrated-vs-emerging labels in this chapter
+- [Chapter 2 attack surface](02-scope-risk-threat-model.md#attack-surface-matrix)
 
 ## Overview
 
@@ -27,7 +35,15 @@ Traditional:  Payload → Execution → Fixed Behavior
 Autonomous:   Observation → Reasoning → Decision → Action → Adaptation
 ```
 
-> *Refs - Frameworks: MITRE ATLAS: autonomous and agentic techniques (e.g. `AML.T0053`, `AML.T0080`, `AML.T0084`); OWASP LLM Top 10 (2025): `LLM06` Excessive Agency; OWASP AI Exchange: [Agentic AI threats](https://owaspai.org/go/agenticaithreats/). This guide: [MLSecOps lifecycle control points](06-pipeline.md#lifecycle-control-points) (Chapter 6).*
+### References / Source mapping
+
+**Frameworks and standards**
+- MITRE ATLAS: autonomous and agentic techniques (e.g. `AML.T0053`, `AML.T0080`, `AML.T0084`)
+- OWASP LLM Top 10 (2025): `LLM06` Excessive Agency
+- OWASP AI Exchange: [Agentic AI threats](https://owaspai.org/go/agenticaithreats/)
+
+**Implementation guidance (this guide)**
+- [MLSecOps lifecycle control points](06-pipeline.md#lifecycle-control-points) (Chapter 6)
 
 ---
 
@@ -44,7 +60,16 @@ Autonomous agents interact with file systems, databases, APIs, browsers, and clo
 
 > **Controls:** Tool misuse/abuse maps to `ASI02` — see [Chapter 8](08-agentic-ai-security.md#agent-attack-surface) (six-domain model, `Intent Gate`, DO/DON'Ts). MCP-hosted tools add `MCP01`–`MCP10` risks — see [Chapter 7 — MCP security](07-llm-rag-security.md#model-context-protocol-mcp-security) and [Chapter 2 attack surface](02-scope-risk-threat-model.md#attack-surface-matrix).
 
-> *Refs - Frameworks: OWASP Agentic / `ASI02` Tool Misuse; MITRE ATLAS: `AML.T0053` AI Agent Tool Invocation; `AML.T0086` Exfiltration via AI Agent Tool Invocation; OWASP MCP Top 10 (2025): tool poisoning and intent subversion themes (`MCP03`, `MCP06`). This guide: [Chapter 8 - Tool trust boundary](08-agentic-ai-security.md#tool-trust-boundary).*
+### References / Source mapping
+
+**Frameworks and standards**
+- OWASP Agentic / `ASI02` Tool Misuse
+- MITRE ATLAS: `AML.T0053` AI Agent Tool Invocation
+- `AML.T0086` Exfiltration via AI Agent Tool Invocation
+- OWASP MCP Top 10 (2025): tool poisoning and intent subversion themes (`MCP03`, `MCP06`)
+
+**Implementation guidance (this guide)**
+- [Chapter 8 - Tool trust boundary](08-agentic-ai-security.md#tool-trust-boundary)
 
 ---
 
@@ -52,7 +77,15 @@ Autonomous agents interact with file systems, databases, APIs, browsers, and clo
 
 Long-term memory and RAG context introduce persistent manipulation: incorrect future reasoning, privilege escalation, and context corruption. Detailed controls: [Chapter 8 — Memory Poisoning](08-agentic-ai-security.md#memory-poisoning).
 
-> *Refs - Frameworks: MITRE ATLAS: `AML.T0080` AI Agent Context Poisoning; `AML.T0070` RAG Poisoning; OWASP LLM Top 10 (2025): `LLM08` Vector and Embedding Weaknesses (memory/RAG adjacency). This guide: [Chapter 8 - Memory Poisoning](08-agentic-ai-security.md#memory-poisoning).*
+### References / Source mapping
+
+**Frameworks and standards**
+- MITRE ATLAS: `AML.T0080` AI Agent Context Poisoning
+- `AML.T0070` RAG Poisoning
+- OWASP LLM Top 10 (2025): `LLM08` Vector and Embedding Weaknesses (memory/RAG adjacency)
+
+**Implementation guidance (this guide)**
+- [Chapter 8 - Memory Poisoning](08-agentic-ai-security.md#memory-poisoning)
 
 ---
 
@@ -66,7 +99,13 @@ AI improves reconnaissance efficiency against AI-specific assets:
 
 **MLSecOps response:** asset inventory, attack surface management, limit exposed metadata, monitor anomalous discovery traffic.
 
-> *Refs - Frameworks: MITRE ATLAS: `AML.T0084` Discover AI Agent Configuration. This guide: [AI system inventory](02-scope-risk-threat-model.md#ai-system-inventory) (Chapter 2).*
+### References / Source mapping
+
+**Frameworks and standards**
+- MITRE ATLAS: `AML.T0084` Discover AI Agent Configuration
+
+**Implementation guidance (this guide)**
+- [AI system inventory](02-scope-risk-threat-model.md#ai-system-inventory) (Chapter 2)
 
 ---
 
@@ -79,7 +118,14 @@ Propagation paths beyond classic host-to-host movement:
 
 **Controls:** least privilege, segmentation, `Intent Gate`, PEP per agent hop — [Chapter 8](08-agentic-ai-security.md#multi-agent).
 
-> *Refs - Frameworks: MITRE ATLAS: `AML.T0053` AI Agent Tool Invocation (chained tool/API abuse); NIST AI RMF: Govern / Map (authorization boundaries). This guide: [Chapter 8 - Multi-Agent](08-agentic-ai-security.md#multi-agent).*
+### References / Source mapping
+
+**Frameworks and standards**
+- MITRE ATLAS: `AML.T0053` AI Agent Tool Invocation (chained tool/API abuse)
+- NIST AI RMF: Govern / Map (authorization boundaries)
+
+**Implementation guidance (this guide)**
+- [Chapter 8 - Multi-Agent](08-agentic-ai-security.md#multi-agent)
 
 ---
 
@@ -92,7 +138,15 @@ Propagation paths beyond classic host-to-host movement:
 
 **Controls:** GPU quotas, node taints, runtime monitoring, anomaly on utilization — [Chapter 10](10-monitoring-soc-ir.md), [Chapter 16](16-kubernetes-deployment-reference.md#gpu-isolation-and-shared-inference).
 
-> *Refs - Frameworks: MITRE ATLAS: `AML.T0034` Cost Harvesting; `AML.T0029` Denial of AI Service; OWASP LLM Top 10 (2025): `LLM10` Unbounded Consumption. This guide: [Chapter 16 - GPU isolation](16-kubernetes-deployment-reference.md#gpu-isolation-and-shared-inference).*
+### References / Source mapping
+
+**Frameworks and standards**
+- MITRE ATLAS: `AML.T0034` Cost Harvesting
+- `AML.T0029` Denial of AI Service
+- OWASP LLM Top 10 (2025): `LLM10` Unbounded Consumption
+
+**Implementation guidance (this guide)**
+- [Chapter 16 - GPU isolation](16-kubernetes-deployment-reference.md#gpu-isolation-and-shared-inference)
 
 ---
 
@@ -102,7 +156,15 @@ Exfiltration via generated responses, tool outputs, memory, RAG retrieval, and a
 
 **Controls:** four-stage exfiltration model — [Chapter 8](08-agentic-ai-security.md#data-exfiltration-model); DLP and egress controls — [Chapter 7](07-llm-rag-security.md).
 
-> *Refs - Frameworks: MITRE ATLAS: `AML.T0086` Exfiltration via AI Agent Tool Invocation; `AML.T0057` LLM Data Leakage; OWASP LLM Top 10 (2025): `LLM02` Sensitive Information Disclosure. This guide: [Chapter 8 - Data exfiltration model](08-agentic-ai-security.md#data-exfiltration-model).*
+### References / Source mapping
+
+**Frameworks and standards**
+- MITRE ATLAS: `AML.T0086` Exfiltration via AI Agent Tool Invocation
+- `AML.T0057` LLM Data Leakage
+- OWASP LLM Top 10 (2025): `LLM02` Sensitive Information Disclosure
+
+**Implementation guidance (this guide)**
+- [Chapter 8 - Data exfiltration model](08-agentic-ai-security.md#data-exfiltration-model)
 
 ---
 
@@ -116,7 +178,14 @@ Signature-only detection is insufficient. Monitor for:
 
 Map indicators to SOC playbooks and `MITRE ATLAS` — [Chapter 10](10-monitoring-soc-ir.md).
 
-> *Refs - Frameworks: MITRE ATLAS: runtime and monitoring techniques (see [Chapter 10 ATLAS table](10-monitoring-soc-ir.md#threat-analysis-with-mitre-atlas)); NIST AI RMF: Measure / Manage. This guide: [Chapter 10 - Detection Engineering](10-monitoring-soc-ir.md#detection-engineering).*
+### References / Source mapping
+
+**Frameworks and standards**
+- MITRE ATLAS: runtime and monitoring techniques (see [Chapter 10 ATLAS table](10-monitoring-soc-ir.md#threat-analysis-with-mitre-atlas))
+- NIST AI RMF: Measure / Manage
+
+**Implementation guidance (this guide)**
+- [Chapter 10 - Detection Engineering](10-monitoring-soc-ir.md#detection-engineering)
 
 ---
 
@@ -135,7 +204,13 @@ The topics below are **not** deprioritized forever—they inform design—but sh
 
 **Morris II reference:** Cohen, S. et al. (2024). *Here Comes the AI Worm (Morris II): Zero-click Worms Targeting GenAI-Powered Applications* — treat as design-time and monitoring concern, not in-the-wild baseline.
 
-> *Refs - This guide: Scope labels in [Reading priority](#reading-priority) and demonstrated-vs-emerging tables above. Author note: Cohen, S. et al. (2024). Morris II AI worm PoC - emerging / not standardized for baseline controls; Topics in the table above: emerging or plausible - prioritize demonstrated sections first.*
+### References / Source mapping
+
+**Implementation guidance (this guide)**
+- Scope labels in [Reading priority](#reading-priority) and demonstrated-vs-emerging tables above
+
+**Author practical guidance**
+- *Cohen, S. et al. (2024). Morris II AI worm PoC - emerging / not standardized for baseline controls; Topics in the table above: emerging or plausible - prioritize demonstrated sections first*
 
 ---
 
@@ -150,7 +225,15 @@ The topics below are **not** deprioritized forever—they inform design—but sh
 | Runtime | Autonomous attacks |
 | Monitoring | Detection bypass |
 
-> *Refs - Frameworks: NIST AI RMF: Map / Measure across lifecycle; ISO/IEC 42001: AI system lifecycle risk (management system view). This guide: [Lifecycle control points](06-pipeline.md#lifecycle-control-points) (Chapter 6); [Threat model template](17-appendix-e-implementation-reference.md#e3-threat-model-template) (Appendix E.3).*
+### References / Source mapping
+
+**Frameworks and standards**
+- NIST AI RMF: Map / Measure across lifecycle
+- ISO/IEC 42001: AI system lifecycle risk (management system view)
+
+**Implementation guidance (this guide)**
+- [Lifecycle control points](06-pipeline.md#lifecycle-control-points) (Chapter 6)
+- [Threat model template](17-appendix-e-implementation-reference.md#e3-threat-model-template) (Appendix E.3)
 
 ---
 
@@ -170,7 +253,15 @@ These threats overlap with OWASP LLM/ML Top 10, `MITRE ATLAS`, agentic security 
 * Agent-tool exfiltration → `AML.T0086` Exfiltration via AI Agent Tool Invocation
 * Resource abuse → `AML.T0034` Cost Harvesting
 
-> *Refs - Frameworks: OWASP LLM Top 10 (2025): IDs listed above; MITRE ATLAS: `AML.T*` mappings listed above; OWASP AI Exchange: [Threats overview](https://owaspai.org/go/threatsoverview/). This guide: [Chapter 12 - MITRE ATLAS mapping](12-threat-control-tools-map.md#mitre-atlas-mapping).*
+### References / Source mapping
+
+**Frameworks and standards**
+- OWASP LLM Top 10 (2025): IDs listed above
+- MITRE ATLAS: `AML.T*` mappings listed above
+- OWASP AI Exchange: [Threats overview](https://owaspai.org/go/threatsoverview/)
+
+**Implementation guidance (this guide)**
+- [Chapter 12 - MITRE ATLAS mapping](12-threat-control-tools-map.md#mitre-atlas-mapping)
 
 ---
 
@@ -178,4 +269,12 @@ These threats overlap with OWASP LLM/ML Top 10, `MITRE ATLAS`, agentic security 
 
 Autonomous AI expands threats beyond static malware: reconnaissance, lateral movement, tool abuse, memory poisoning, resource hijacking, and adaptive evasion. MLSecOps programs must evaluate agent behavior, tool interactions, memory integrity, and runtime autonomy across the lifecycle—starting with **demonstrated patterns** in this chapter and the control mappings in Chapters 2, 7, 8, and 10.
 
-> *Refs - Frameworks: MITRE ATLAS: techniques mapped in [Relationship to Existing Frameworks](#relationship-to-existing-frameworks) above; OWASP LLM Top 10 (2025); OWASP Agentic (`ASI02`). This guide: [Chapter 2](02-scope-risk-threat-model.md) - [Chapter 7](07-llm-rag-security.md) - [Chapter 8](08-agentic-ai-security.md) - [Chapter 10](10-monitoring-soc-ir.md).*
+### References / Source mapping
+
+**Frameworks and standards**
+- MITRE ATLAS: techniques mapped in [Relationship to Existing Frameworks](#relationship-to-existing-frameworks) above
+- OWASP LLM Top 10 (2025)
+- OWASP Agentic (`ASI02`)
+
+**Implementation guidance (this guide)**
+- [Chapter 2](02-scope-risk-threat-model.md) - [Chapter 7](07-llm-rag-security.md) - [Chapter 8](08-agentic-ai-security.md) - [Chapter 10](10-monitoring-soc-ir.md)
