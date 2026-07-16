@@ -509,7 +509,7 @@ GitHub's built-in Mermaid viewer is unreliable for complex flowcharts (layout er
 
 ## GitHub Version
 
-**Current release:** v1.1.0 (2026-07-11). See [CHANGELOG.md](../CHANGELOG.md) and [GitHub Releases](https://github.com/l4tr0d3ctism/MLSecOps/releases/tag/v1.1.0).
+**Current release:** v1.1.1 (2026-07-16). See [CHANGELOG.md](../CHANGELOG.md) and [GitHub Releases](https://github.com/l4tr0d3ctism/MLSecOps/releases/tag/v1.1.1).
 
 This guide is maintained as Markdown in the [MLSecOps repository](https://github.com/l4tr0d3ctism/MLSecOps). Technical terms use `inline code` formatting where helpful for scanability.
 

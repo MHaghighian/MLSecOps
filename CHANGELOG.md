@@ -4,6 +4,8 @@ All notable changes to the MLSecOps Guide are documented here.
 
 ## [Unreleased]
 
+## [1.1.1] — 2026-07-16
+
 ### Fixed
 
 - **Issue #1 reference blocks restored** — expanded compacted `> *Refs - …*` lines from PR #3 back to per-section `### References / Source mapping` blocks across Chapters 1–17, keeping the corrected framework IDs and content from that review.
@@ -11,10 +13,12 @@ All notable changes to the MLSecOps Guide are documented here.
 ### Changed
 
 - Community review merge ([PR #3](https://github.com/l4tr0d3ctism/MLSecOps/pull/3) by [@Ali-Razmjoo](https://github.com/Ali-Razmjoo)): citation fixes (ATLAS/OWASP IDs), scope clarifications, Evidence Pack / maturity wording, Stage 3 naming, Ch.6 worked example, and related chapter edits.
+- **Release packaging** — PDF and DOCX are no longer attached to GitHub Releases or linked from the site; generate locally with `scripts/build-docx.py` when needed.
 
 ### Removed
 
 - **GUIDE-SUMMARY.md** and related summary navigation/links from README, GETTING-STARTED, MkDocs, and GitHub Pages.
+- Pre-built **PDF / DOCX** download links from README, Getting Started, and release pages (build script remains).
 
 ### Added
 

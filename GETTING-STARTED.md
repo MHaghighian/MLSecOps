@@ -89,11 +89,11 @@ Maturity detail: [Chapter 14](chapters-en/14-maturity-roadmap.md).
 | Format | Location |
 |--------|----------|
 | Markdown (source) | `chapters-en/*.md` in this repo |
-| Word / PDF | [GitHub Releases v1.1.0](https://github.com/l4tr0d3ctism/MLSecOps/releases/tag/v1.1.0) |
 | Documentation site | [l4tr0d3ctism.github.io/MLSecOps](https://l4tr0d3ctism.github.io/MLSecOps/) |
+| Word (optional) | Build locally: `python scripts/build-docx.py --render-mermaid` |
 
 ---
 
 ## Give feedback
 
-Help improve v1.1: [open an issue](https://github.com/l4tr0d3ctism/MLSecOps/issues) or [start a discussion](https://github.com/l4tr0d3ctism/MLSecOps/discussions).
+Help improve the guide: [open an issue](https://github.com/l4tr0d3ctism/MLSecOps/issues) or [start a discussion](https://github.com/l4tr0d3ctism/MLSecOps/discussions).

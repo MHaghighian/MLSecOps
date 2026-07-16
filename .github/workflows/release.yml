@@ -1,11 +1,11 @@
 name: Create Release
 
-# Manual only until DOCX/PDF are ready — see RELEASING.md
+# Manual workflow — source/docs release (no PDF/DOCX assets). See RELEASING.md
 on:
   workflow_dispatch:
     inputs:
       tag:
-        description: "Tag to publish (e.g. v1.0.0)"
+        description: "Tag to publish (e.g. v1.1.1)"
         required: true
         type: string
 
@@ -31,7 +31,7 @@ jobs:
             echo "## Downloads"
             echo "- **Documentation:** https://l4tr0d3ctism.github.io/MLSecOps/"
             echo "- **Source:** this repository (\`chapters-en/\`)"
-            echo "- Attach DOCX and PDF manually when uploading assets"
+            echo "- **Word (optional):** \`python scripts/build-docx.py --render-mermaid\`"
             echo ""
             echo "## Changelog"
             sed -n '/^## \[/,$p' CHANGELOG.md | head -n 40

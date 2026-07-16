@@ -1,6 +1,6 @@
 # Chapter 1: Abstract and Introduction
 
-> **Guide type:** *MLSecOps Practical Reference Guide* **v1.1.0** — a community reference with operational patterns and an **Implementation Reference** ([Appendix E](17-appendix-e-implementation-reference.md)). This is **not** a product user manual, a certified standard, or an academic paper.
+> **Guide type:** *MLSecOps Practical Reference Guide* **v1.1.1** — a community reference with operational patterns and an **Implementation Reference** ([Appendix E](17-appendix-e-implementation-reference.md)). This is **not** a product user manual, a certified standard, or an academic paper.
 
 ## Abstract
 
