@@ -17,10 +17,8 @@ COPY_ROOT_FILES = [
     ("CHANGELOG.md", "changelog.md"),
     ("CONTRIBUTING.md", "contributing.md"),
     ("SECURITY.md", "security.md"),
-    ("RELEASING.md", "releasing.md"),
     ("RELEASE_NOTES.md", "release-notes.md"),
     ("GOVERNANCE.md", "governance.md"),
-    ("releases/README.md", "releases-notes.md"),
 ]
 
 LINK_REWRITES = {
