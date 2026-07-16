@@ -6,15 +6,7 @@ Model behavior largely comes from the data it was trained on or uses at runtime.
 
 In `MLSecOps`, data security is not only a pre-training control. Data must be controlled throughout its entire path: collection, cleaning, labeling, storage, versioning, training, `Fine-tuning`, retrieval in `RAG`, and monitoring.
 
-### References / Source mapping
-
-**Frameworks and standards**
-- OWASP ML Top 10 (draft): `ML02` Data Poisoning; data pipeline integrity themes
-- MITRE ATLAS: `AML.T0020` Poison Training Data
-- OWASP AI Exchange: [Data poisoning](https://owaspai.org/go/datapoison/); [Development-time data leak](https://owaspai.org/go/devdataleak/)
-
-**Implementation guidance (this guide)**
-- [Lifecycle control point 4](06-pipeline.md#lifecycle-control-points) (Chapter 6)
+> *Refs - Frameworks: OWASP ML Top 10 (draft): `ML02` Data Poisoning; data pipeline integrity themes; MITRE ATLAS: `AML.T0020` Poison Training Data; OWASP AI Exchange: [Data poisoning](https://owaspai.org/go/datapoison/); [Development-time data leak](https://owaspai.org/go/devdataleak/). This guide: [Lifecycle control point 4](06-pipeline.md#lifecycle-control-points) (Chapter 6).*
 
 ## Basic data controls
 
@@ -28,15 +20,7 @@ In `MLSecOps`, data security is not only a pre-training control. Data must be co
 | `Data Versioning` | Enabling training reproduction and review of previous versions |
 | Access control | Restricting data access based on role and actual need |
 
-### References / Source mapping
-
-**Frameworks and standards**
-- NIST AI RMF: Map (data context); Measure (data quality)
-- ISO/IEC 42001: data for AI systems (management system)
-- OWASP AI Exchange: [Data limitation](https://owaspai.org/go/datalimit/); [SEGREGATE DATA](https://owaspai.org/go/segregatedata/)
-
-**Implementation guidance (this guide)**
-- [Poisoning taxonomy](05-model-artifact-supply-chain.md#poisoning-taxonomy-across-the-lifecycle) (Chapter 5)
+> *Refs - Frameworks: NIST AI RMF: Map (data context); Measure (data quality); ISO/IEC 42001: data for AI systems (management system); OWASP AI Exchange: [Data limitation](https://owaspai.org/go/datalimit/); [SEGREGATE DATA](https://owaspai.org/go/segregatedata/). This guide: [Poisoning taxonomy](05-model-artifact-supply-chain.md#poisoning-taxonomy-across-the-lifecycle) (Chapter 5).*
 
 ## Privacy
 
@@ -50,14 +34,7 @@ Important privacy risks include:
 - Storage of sensitive information in logs or agent memory
 - Use of real data in experimental environments or `Notebook`s
 
-### References / Source mapping
-
-**Frameworks and standards**
-- OWASP AI Exchange: [AI privacy overview](https://owaspai.org/go/aiprivacy/) — *legal/privacy program depth; this guide covers operational MLSecOps data controls only*
-- NIST AI RMF: Govern / Map (privacy and harm context)
-
-**Implementation guidance (this guide)**
-- [Prompt and telemetry logging vs privacy](#prompt-and-telemetry-logging-vs-privacy-gdpr--ccpa)
+> *Refs - Frameworks: OWASP AI Exchange: [AI privacy overview](https://owaspai.org/go/aiprivacy/) - legal/privacy program depth; this guide covers operational MLSecOps data controls only; NIST AI RMF: Govern / Map (privacy and harm context). This guide: [Prompt and telemetry logging vs privacy](#prompt-and-telemetry-logging-vs-privacy-gdpr--ccpa).*
 
 ## Sensitive data classification for scanning
 
@@ -74,14 +51,7 @@ Before a dataset enters training, it must be defined which categories of informa
 
 This table can be implemented as rules in tools such as `Presidio` or custom scripts so checks run automatically in the pipeline.
 
-### References / Source mapping
-
-**Frameworks and standards**
-- OWASP LLM Top 10 (2025): `LLM02` Sensitive Information Disclosure
-- ISO/IEC 42001: data governance for AI systems
-
-**Implementation guidance (this guide)**
-- [Control point 4 — Data / Artifact Decision](06-pipeline.md#lifecycle-control-points) (Chapter 6)
+> *Refs - Frameworks: OWASP LLM Top 10 (2025): `LLM02` Sensitive Information Disclosure; ISO/IEC 42001: data governance for AI systems. This guide: [Control point 4 - Data / Artifact Decision](06-pipeline.md#lifecycle-control-points) (Chapter 6).*
 
 ## Differential Privacy
 
@@ -99,14 +69,7 @@ To achieve this goal, a controlled amount of noise is usually added to data, tra
 
 An important limitation is that `Differential Privacy` alone does not guarantee complete data security. If individuals' data are correlated, or noise parameters are not set correctly, information inference remains possible. Therefore it must be used alongside access control, masking, lineage, and data leakage testing.
 
-### References / Source mapping
-
-**Frameworks and standards**
-- OWASP AI Exchange: [Model inversion and membership inference](https://owaspai.org/go/modelinversionandmembership/)
-- NIST AI RMF: Measure (privacy-related metrics)
-
-**Emerging / research**
-- Differential privacy parameter trade-offs are domain-specific — validate with privacy audit tools below
+> *Refs - Frameworks: OWASP AI Exchange: [Model inversion and membership inference](https://owaspai.org/go/modelinversionandmembership/); NIST AI RMF: Measure (privacy-related metrics); Differential privacy parameter trade-offs are domain-specific - validate with privacy audit tools below.*
 
 ## Information leakage from Embedding
 
@@ -116,16 +79,7 @@ A common misconception is that `Embedding` vectors stored in a `Vector DB` are n
 - Storing embeddings instead of text alone is not considered a privacy control.
 - Long-term agent memory (`Agent Memory`) is also exposed to the same leakage and [memory poisoning](08-agentic-ai-security.md#memory-poisoning) paths (Chapter 8).
 
-### References / Source mapping
-
-**Emerging / research**
-- Morris et al., *Text Embeddings Reveal (Almost) As Much As Text* — embedding inversion risk
-
-**Frameworks and standards**
-- OWASP LLM Top 10 (2025): `LLM08` Vector and Embedding Weaknesses
-
-**Implementation guidance (this guide)**
-- [Chapter 7 — Embedding Poisoning](07-llm-rag-security.md#embedding-poisoning)
+> *Refs - Frameworks: OWASP LLM Top 10 (2025): `LLM08` Vector and Embedding Weaknesses; Morris et al., "Text Embeddings Reveal (Almost) As Much As Text" - embedding inversion risk. This guide: [Chapter 7 - Embedding Poisoning](07-llm-rag-security.md#embedding-poisoning).*
 
 ## Privacy audit tools
 
@@ -140,13 +94,7 @@ To practically measure `Membership Inference` and `Model Inversion` risk, these 
 
 > Warning about Synthetic data: Model-generated synthetic data is not necessarily secure. Meeus et al. (2025), *The Canary's Echo: Auditing Privacy Risks of LLM-Generated Synthetic Text* (ICML 2025), showed synthetic text can reveal traces of real training data; therefore synthetic data must also be tested for leakage.
 
-### References / Source mapping
-
-**Emerging / research**
-- Meeus et al. (2025). *The Canary's Echo* (ICML 2025) — synthetic data leakage
-
-**Implementation guidance (this guide)**
-- [Chapter 12 — Model Privacy Audit](12-threat-control-tools-map.md#l2--model-privacy-audit)
+> *Refs - Frameworks: Meeus et al. (2025). "The Canary's Echo" (ICML 2025) - synthetic data leakage. This guide: [Chapter 12 - Model Privacy Audit](12-threat-control-tools-map.md#l2--model-privacy-audit).*
 
 ## Experimentation environment security
 
@@ -160,13 +108,7 @@ Minimum controls for these environments:
 - Restrict network and file access
 - Record data version, code, and experiment parameters
 
-### References / Source mapping
-
-**Frameworks and standards**
-- OWASP AI Exchange: [DEV SECURITY](https://owaspai.org/go/devsecurity/); [SEGREGATE DATA](https://owaspai.org/go/segregatedata/)
-
-**Implementation guidance (this guide)**
-- [Chapter 5 — MLOps infrastructure vulnerabilities](05-model-artifact-supply-chain.md#mlops-infrastructure-vulnerabilities)
+> *Refs - Frameworks: OWASP AI Exchange: [DEV SECURITY](https://owaspai.org/go/devsecurity/); [SEGREGATE DATA](https://owaspai.org/go/segregatedata/). This guide: [Chapter 5 - MLOps infrastructure vulnerabilities](05-model-artifact-supply-chain.md#mlops-infrastructure-vulnerabilities).*
 
 ## Supplementary controls for experimental environments
 
@@ -181,13 +123,7 @@ Several practical controls are needed at this stage:
 | Environment separation | Separating `Development`, `Staging`, and `Production` and limiting experimental environment access to operational data and services |
 | Raw data protection | Removing, masking, or anonymizing `PII` before use in notebooks or temporary scripts |
 
-### References / Source mapping
-
-**Implementation guidance (this guide)**
-- [Chapter 12 — Notebook Scan](12-threat-control-tools-map.md#l2--notebook-scan-nb-defense-and-lintml)
-
-**Author practical guidance**
-- *Tool names in this section are informative examples, not endorsements.*
+> *Refs - This guide: [Chapter 12 - Notebook Scan](12-threat-control-tools-map.md#l2--notebook-scan-nb-defense-and-lintml). Author note: Tool names in this section are informative examples, not endorsements.*
 
 ## Data security in RAG
 
@@ -200,27 +136,13 @@ In `RAG` systems, data matters not only at training time; documents retrieved at
 | Cross-customer leakage | Separate index per tenant |
 | Stale or incorrect context retrieval | Periodic `Re-index` and source cleanup |
 
-### References / Source mapping
-
-**Frameworks and standards**
-- OWASP LLM Top 10 (2025): `LLM04` Data and Model Poisoning (RAG corpus); retrieval leakage themes
-- MITRE ATLAS: `AML.T0070` RAG Poisoning
-
-**Implementation guidance (this guide)**
-- [Chapter 7 — Ingest security in RAG](07-llm-rag-security.md#ingest-security-in-rag)
+> *Refs - Frameworks: OWASP LLM Top 10 (2025): `LLM04` Data and Model Poisoning (RAG corpus); retrieval leakage themes; MITRE ATLAS: `AML.T0070` RAG Poisoning. This guide: [Chapter 7 - Ingest security in RAG](07-llm-rag-security.md#ingest-security-in-rag).*
 
 ## Practical principle
 
 Every piece of data entering the AI lifecycle must have defined origin, owner, version, sensitivity level, and usage authorization. Without this information, model output will not be defensible or auditable.
 
-### References / Source mapping
-
-**Frameworks and standards**
-- NIST AI RMF: Map (data governance); GDPR / CCPA data-protection themes — [prompt and telemetry logging](#prompt-and-telemetry-logging-vs-privacy-gdpr--ccpa)
-- ISO/IEC 42001: data and documented information for AI management system
-
-**Implementation guidance (this guide)**
-- [Basic data controls](#basic-data-controls); [Lifecycle control point 4](06-pipeline.md#lifecycle-control-points) (Chapter 6)
+> *Refs - Frameworks: NIST AI RMF: Map (data governance); GDPR / CCPA data-protection themes - [prompt and telemetry logging](#prompt-and-telemetry-logging-vs-privacy-gdpr--ccpa); ISO/IEC 42001: data and documented information for AI management system. This guide: [Basic data controls](#basic-data-controls); [Lifecycle control point 4](06-pipeline.md#lifecycle-control-points) (Chapter 6).*
 
 ## Feature Store security
 
@@ -233,28 +155,13 @@ When a `Feature Store` is used, features are long-lived training and serving ass
 | Cross-team leakage | RBAC on feature groups; separate online/offline stores per tenant where required |
 | Serving skew | Align training-serving feature definitions; audit transformations |
 
-### References / Source mapping
-
-**Frameworks and standards**
-- NIST AI RMF: Map (feature and data lineage)
-
-**Implementation guidance (this guide)**
-- [Basic data controls](#basic-data-controls) in this chapter
-
-**Author practical guidance**
-- *Feature Store patterns are implementation guidance for teams using Feast/Tecton-style architectures.*
+> *Refs - Frameworks: NIST AI RMF: Map (feature and data lineage). This guide: [Basic data controls](#basic-data-controls) in this chapter. Author note: Feature Store patterns are implementation guidance for teams using Feast/Tecton-style architectures.*
 
 ## Training data licensing and copyright
 
 Public or scraped datasets may impose license, attribution, or use restrictions. Record **license type, provenance, and permitted use** in the `Evidence Pack` and block training when license or contractual scope is unclear—this is a supply-chain and legal risk, not only a quality issue.
 
-### References / Source mapping
-
-**Frameworks and standards**
-- OWASP AI Exchange: [Copyright and AI training data](https://owaspai.org/go/copyright/)
-
-**Implementation guidance (this guide)**
-- [Evidence Pack components](11-governance-evidence.md#evidence-pack-components) (Chapter 11)
+> *Refs - Frameworks: OWASP AI Exchange: [Copyright and AI training data](https://owaspai.org/go/copyright/). This guide: [Evidence Pack components](11-governance-evidence.md#evidence-pack-components) (Chapter 11).*
 
 ## Prompt and telemetry logging vs privacy (GDPR / CCPA)
 
@@ -270,10 +177,4 @@ Production logging of full prompts and responses (Chapter 10) can contain person
 
 See also [Chapter 10](10-monitoring-soc-ir.md) for operational telemetry guidance.
 
-### References / Source mapping
-
-**Frameworks and standards**
-- OWASP AI Exchange: [AI privacy](https://owaspai.org/go/aiprivacy/) — *consult legal/privacy teams for GDPR/CCPA program requirements*
-
-**Implementation guidance (this guide)**
-- [Chapter 10 — Data required for telemetry](10-monitoring-soc-ir.md#data-required-for-telemetry)
+> *Refs - Frameworks: OWASP AI Exchange: [AI privacy](https://owaspai.org/go/aiprivacy/) - consult legal/privacy teams for GDPR/CCPA program requirements. This guide: [Chapter 10 - Data required for telemetry](10-monitoring-soc-ir.md#data-required-for-telemetry).*

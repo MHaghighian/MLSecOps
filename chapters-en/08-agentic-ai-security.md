@@ -8,16 +8,7 @@ A typical language model usually generates text. But an intelligent agent can in
 
 For identifying threats and controls in this domain, the `OWASP Agentic Security Initiative` (launched December 2024) is one of the primary references. Key publications include "Agentic AI — Threats and Mitigations" and "Securing Agentic Applications Guide 1.0". Identified threats include `ASI02 Tool Misuse`, prompt injection in agent context, unauthorized data access, increased autonomy, and agent-to-agent attacks.
 
-### References / Source mapping
-
-**Frameworks and standards**
-- OWASP Agentic Security Initiative: `ASI02` Tool Misuse
-- OWASP LLM Top 10 (2025): `LLM06` Excessive Agency
-- MITRE ATLAS: `AML.T0053` AI Agent Tool Invocation
-- CSA AARM (Autonomous Action Runtime Management): complementary alignment — [AARM Alignment](../references/AARM-ALIGNMENT.md)
-
-**Implementation guidance (this guide)**
-- [Chapter 3 — Agent tool abuse](03-threat-landscape.md#agent-tool-abuse-demonstrated-active-patterns)
+> *Refs - Frameworks: OWASP Agentic Security Initiative: `ASI02` Tool Misuse; OWASP LLM Top 10 (2025): `LLM06` Excessive Agency; MITRE ATLAS: `AML.T0053` AI Agent Tool Invocation; CSA AARM (Autonomous Action Runtime Management): complementary alignment - [AARM Alignment](../references/AARM-ALIGNMENT.md). This guide: [Chapter 3 - Agent tool abuse](03-threat-landscape.md#agent-tool-abuse-demonstrated-active-patterns).*
 
 ## Chatbot vs AI agent
 
@@ -32,23 +23,15 @@ Not every LLM deployment is an agent. Security scope changes when the system can
 | Primary security risk | disclosure, injection, unsafe output | **action risk**: misuse, escalation, exfiltration via tools |
 | Minimum controls | `AI Gateway`, output gate, RAG ACL | scoped tools, `Intent Gate`, `Output Gate`, HITL for high-risk actions |
 
-### References / Source mapping
-
-**Frameworks and standards**
-- OWASP LLM Top 10 (2025): `LLM06` Excessive Agency
-- OWASP Agentic Security Initiative: scope boundary for agent vs chatbot
-
-**Implementation guidance (this guide)**
-- [Chapter 7 — LLM and RAG security](07-llm-rag-security.md); [Why Agentic AI poses a different risk](#why-agentic-ai-poses-a-different-risk)
+> *Refs - Frameworks: OWASP LLM Top 10 (2025): `LLM06` Excessive Agency; OWASP Agentic Security Initiative: scope boundary for agent vs chatbot. This guide: [Chapter 7 - LLM and RAG security](07-llm-rag-security.md); [Why Agentic AI poses a different risk](#why-agentic-ai-poses-a-different-risk).*
 
 ## Agent reference architecture
 
 Agents combine a language model with orchestration, memory, data sources, and tools. Data flows from user goals through the agent to actions and results. **Every component, connector, and data path in this diagram is a potential attack surface**—mapped in [Agent attack surface](#agent-attack-surface) below.
 
-
-
 ![](../assets/diagrams/08-agentic-ai-security_01.png)
 
+*Figure - Agent reference architecture, showing data flow from user goals through the orchestrator, LLM, memory, data sources, and tools to actions, with every component and connector marked as a potential attack surface.*
 
 | Component | Role | Security boundary | Related guide section |
 |---|---|---|---|
@@ -60,23 +43,15 @@ Agents combine a language model with orchestration, memory, data sources, and to
 | Tools and connectors | MCP, APIs, email, code execution, payments | least privilege, `Intent Gate`, sandbox, egress control | [Tool trust boundary](#tool-trust-boundary), [Chapter 7 MCP](07-llm-rag-security.md#model-context-protocol-mcp-security) |
 | Actions / results | tickets, transfers, exports, notifications | HITL for destructive or financial actions; log to SOC | [Chapter 10](10-monitoring-soc-ir.md) |
 
-### References / Source mapping
-
-**Frameworks and standards**
-- CSA MAESTRO: multi-agent threat modeling (see [MAESTRO](#maestro-framework-csa))
-- OWASP AI Exchange: [Agentic AI threats](https://owaspai.org/go/agenticaithreats/)
-
-**Implementation guidance (this guide)**
-- [Appendix E.1 — Agent architecture cards](17-appendix-e-implementation-reference.md#e14-agent-with-tools-mcp-apis)
+> *Refs - Frameworks: CSA MAESTRO: multi-agent threat modeling (see [MAESTRO](#maestro-framework-csa)); OWASP AI Exchange: [Agentic AI threats](https://owaspai.org/go/agenticaithreats/). This guide: [Appendix E.1 - Agent architecture cards](17-appendix-e-implementation-reference.md#e14-agent-with-tools-mcp-apis).*
 
 ## Agent think–act cycle and control points
 
 Agents loop through observation, reasoning, planning, action, and learning. Attackers can intervene at each stage; defenses should map to the same stages.
 
-
-
 ![](../assets/diagrams/08-agentic-ai-security_02.png)
 
+*Figure - The agent think-act cycle (observe, reason, plan, act, learn) with the security control mapped to each stage where an attacker can intervene.*
 
 | Stage | Agent activity | Security control |
 |---|---|---|
@@ -88,15 +63,7 @@ Agents loop through observation, reasoning, planning, action, and learning. Atta
 
 This cycle complements the [six attack domains](#six-attack-domains): prompts map to Observe/Reason; tools map to Act; memory maps to Learn.
 
-### References / Source mapping
-
-**Frameworks and standards**
-- OWASP Agentic Security Initiative: agent lifecycle and oversight themes
-- OWASP AI Exchange: [Oversight](https://owaspai.org/go/oversight/)
-- MITRE ATLAS: `AML.T0053` AI Agent Tool Invocation
-
-**Implementation guidance (this guide)**
-- [Agent attack surface](#agent-attack-surface); [Secure agent lifecycle](#secure-agent-lifecycle)
+> *Refs - Frameworks: OWASP Agentic Security Initiative: agent lifecycle and oversight themes; OWASP AI Exchange: [Oversight](https://owaspai.org/go/oversight/); MITRE ATLAS: `AML.T0053` AI Agent Tool Invocation. This guide: [Agent attack surface](#agent-attack-surface); [Secure agent lifecycle](#secure-agent-lifecycle).*
 
 ## MAESTRO framework (CSA)
 
@@ -111,14 +78,7 @@ This cycle complements the [six attack domains](#six-attack-domains): prompts ma
 
 In `Multi-Agent` architectures, `MAESTRO` complements `OWASP ASI`: ASI catalogs threats and MAESTRO provides a structured threat model method for agent graphs.
 
-### References / Source mapping
-
-**Frameworks and standards**
-- CSA MAESTRO: multi-agent threat modeling framework
-- OWASP Agentic Security Initiative (ASI)
-
-**Implementation guidance (this guide)**
-- [Multi-Agent principles](#multi-agent-principles)
+> *Refs - Frameworks: CSA MAESTRO: multi-agent threat modeling framework; OWASP Agentic Security Initiative (ASI). This guide: [Multi-Agent principles](#multi-agent-principles).*
 
 ## Agent attack surface
 
@@ -150,17 +110,7 @@ At implementation level, the same risks appear on specific agent internals:
 | tool output | entry of malicious instruction into context |
 | permissions | access beyond actual need |
 
-### References / Source mapping
-
-**Frameworks and standards**
-- OWASP Agentic Security Initiative: `ASI02` Tool Misuse; agent threat catalog
-- OWASP LLM Top 10 (2025): `LLM01`, `LLM06`, `LLM08`
-- OWASP MCP Top 10 (2025): `MCP03`, `MCP06`, `MCP09`
-- MITRE ATLAS: `AML.T0053`, `AML.T0080` AI Agent Context Poisoning
-- OWASP AI Exchange: [Agentic AI threats](https://owaspai.org/go/agenticaithreats/)
-
-**Implementation guidance (this guide)**
-- [Chapter 2 — Attack surface matrix](02-scope-risk-threat-model.md#attack-surface-matrix) (agent and MCP rows)
+> *Refs - Frameworks: OWASP Agentic Security Initiative: `ASI02` Tool Misuse; agent threat catalog; OWASP LLM Top 10 (2025): `LLM01`, `LLM06`, `LLM08`; OWASP MCP Top 10 (2025): `MCP03`, `MCP06`, `MCP09`; MITRE ATLAS: `AML.T0053`, `AML.T0080` AI Agent Context Poisoning; OWASP AI Exchange: [Agentic AI threats](https://owaspai.org/go/agenticaithreats/). This guide: [Chapter 2 - Attack surface matrix](02-scope-risk-threat-model.md#attack-surface-matrix) (agent and MCP rows).*
 
 ## Tool trust boundary
 
@@ -176,22 +126,11 @@ Main controls for this boundary are:
 | `Intent Gate` | before each tool invocation, the policy engine decides allow, deny, or HITL. |
 | `Output Gate` | tool output is filtered before entering agent context. |
 
-
-
 ![](../assets/diagrams/08-agentic-ai-security_03.png)
 
+*Figure - The tool trust boundary, showing how scoped capability, response validation, sandboxing, Intent Gate, and Output Gate wrap each tool call between the agent and the tool.*
 
-### References / Source mapping
-
-**Frameworks and standards**
-- OWASP Agentic: `ASI02` Tool Misuse
-- OWASP LLM Top 10 (2025): `LLM06` Excessive Agency
-- OWASP AI Exchange: [Least model privilege](https://owaspai.org/go/leastmodelprivilege/)
-- MITRE ATLAS: `AML.T0053` AI Agent Tool Invocation
-
-**Implementation guidance (this guide)**
-- [Intent Gate](#intent-gate); [Tool Output Injection](#tool-output-injection)
-- [Chapter 7 — MCP security](07-llm-rag-security.md#model-context-protocol-mcp-security)
+> *Refs - Frameworks: OWASP Agentic: `ASI02` Tool Misuse; OWASP LLM Top 10 (2025): `LLM06` Excessive Agency; OWASP AI Exchange: [Least model privilege](https://owaspai.org/go/leastmodelprivilege/); MITRE ATLAS: `AML.T0053` AI Agent Tool Invocation. This guide: [Intent Gate](#intent-gate); [Tool Output Injection](#tool-output-injection); [Chapter 7 - MCP security](07-llm-rag-security.md#model-context-protocol-mcp-security).*
 
 ## Intent Gate
 
@@ -204,17 +143,7 @@ Main controls for this boundary are:
 | How sensitive is the operation? | read-only or write/delete |
 | Is human approval required? | for delete, fund transfer, or data export |
 
-### References / Source mapping
-
-**Frameworks and standards**
-- OWASP Agentic: `ASI02`; human oversight themes
-- OWASP AI Exchange: [Oversight](https://owaspai.org/go/oversight/); [Least model privilege](https://owaspai.org/go/leastmodelprivilege/)
-
-**Implementation guidance (this guide)**
-- [Appendix E.6 — Intent Gate in control matrix](17-appendix-e-implementation-reference.md#e6-master-control-matrix)
-
-**Author practical guidance**
-- *OPA vs Cedar comparison reflects common deployment patterns, not a mandatory architecture.*
+> *Refs - Frameworks: OWASP Agentic: `ASI02`; human oversight themes; OWASP AI Exchange: [Oversight](https://owaspai.org/go/oversight/); [Least model privilege](https://owaspai.org/go/leastmodelprivilege/). This guide: [Appendix E.6 - Intent Gate in control matrix](17-appendix-e-implementation-reference.md#e6-master-control-matrix). Author note: OPA vs Cedar comparison reflects common deployment patterns, not a mandatory architecture.*
 
 ## Intent Gate implementation components
 
@@ -225,14 +154,7 @@ Main controls for this boundary are:
 | `HITL` | human approval for critical actions such as data deletion, payment, or IAM changes |
 | deployment location | as sidecar next to agent runtime or centralized API gateway for tool calls |
 
-### References / Source mapping
-
-**Frameworks and standards**
-- OWASP Agentic: human oversight and policy enforcement themes
-- OWASP AI Exchange: [Oversight](https://owaspai.org/go/oversight/)
-
-**Implementation guidance (this guide)**
-- [Intent Gate](#intent-gate); [Appendix E.6 — Intent Gate in control matrix](17-appendix-e-implementation-reference.md#e6-master-control-matrix)
+> *Refs - Frameworks: OWASP Agentic: human oversight and policy enforcement themes; OWASP AI Exchange: [Oversight](https://owaspai.org/go/oversight/). This guide: [Intent Gate](#intent-gate); [Appendix E.6 - Intent Gate in control matrix](17-appendix-e-implementation-reference.md#e6-master-control-matrix).*
 
 ## OPA vs Cedar comparison
 
@@ -247,18 +169,7 @@ In a complete architecture, both can be used: `OPA` for infrastructure and pipel
 
 Sample conceptual rule: if the tool name is `run_shell` and the execution environment is `production`, the request must be denied unless an approver group has previously authorized it.
 
-### References / Source mapping
-
-**Frameworks and standards**
-- NIST AI RMF: Govern — authorization and access control
-- ISO/IEC 42001:2023 — policy-based AI system controls (organizational)
-
-**Implementation guidance (this guide)**
-- [Intent Gate implementation components](#intent-gate-implementation-components)
-- [Chapter 12 — OPA / Conftest in tool layers](12-threat-control-tools-map.md#tool-layers)
-
-**Author practical guidance**
-- *OPA vs Cedar comparison reflects common deployment patterns, not a mandatory architecture.*
+> *Refs - Frameworks: NIST AI RMF: Govern - authorization and access control; ISO/IEC 42001:2023 - policy-based AI system controls (organizational). This guide: [Intent Gate implementation components](#intent-gate-implementation-components); [Chapter 12 - OPA / Conftest in tool layers](12-threat-control-tools-map.md#tool-layers). Author note: OPA vs Cedar comparison reflects common deployment patterns, not a mandatory architecture.*
 
 ## Tool Output Injection
 
@@ -289,19 +200,11 @@ Suppose an agent is connected to an internal CRM system. An attacker creates a p
 
 If no output gate exists, the agent inserts this text directly into context, plans execution of `export_users` in the next step, and information leaves the system. Main failure points are lack of output gate, weak intent gate, and writing poisoned content to memory without filtering.
 
-
-
 ![](../assets/diagrams/08-agentic-ai-security_04.png)
 
-### References / Source mapping
+*Figure - Tool output injection chain, where a poisoned CRM ticket field feeds a malicious instruction into agent context and triggers an unsafe `export_users` action when no Output Gate is present.*
 
-**Frameworks and standards**
-- OWASP Agentic: tool output and indirect injection themes
-- OWASP LLM Top 10 (2025): `LLM01` Prompt Injection; `LLM05` Improper Output Handling
-- MITRE ATLAS: `AML.T0051` LLM Prompt Injection (indirect via untrusted tool output); `AML.T0053` AI Agent Tool Invocation (chained abuse)
-
-**Implementation guidance (this guide)**
-- [Guardrails — post-model output validation](07-llm-rag-security.md#guardrails) (Chapter 7)
+> *Refs - Frameworks: OWASP Agentic: tool output and indirect injection themes; OWASP LLM Top 10 (2025): `LLM01` Prompt Injection; `LLM05` Improper Output Handling; MITRE ATLAS: `AML.T0051` LLM Prompt Injection (indirect via untrusted tool output); `AML.T0053` AI Agent Tool Invocation (chained abuse). This guide: [Guardrails - post-model output validation](07-llm-rag-security.md#guardrails) (Chapter 7).*
 
 ## Memory Poisoning
 
@@ -360,23 +263,15 @@ Distinct from one-shot memory poisoning, **conversation manipulation** shapes ag
 
 Controls: per-session turn limits, session risk scoring, anomaly detection on conversation drift, re-validation at `Intent Gate` before high-risk tools regardless of prior turns. Related runtime patterns: [Chapter 10](10-monitoring-soc-ir.md).
 
-### References / Source mapping
-
-**Frameworks and standards**
-- MITRE ATLAS: `AML.T0080` AI Agent Context Poisoning
-- OWASP LLM Top 10 (2025): `LLM08` (memory/RAG context adjacency)
-
-**Implementation guidance (this guide)**
-- [Chapter 3 — Memory poisoning](03-threat-landscape.md#memory-poisoning-demonstrated-active-patterns)
+> *Refs - Frameworks: MITRE ATLAS: `AML.T0080` AI Agent Context Poisoning; OWASP LLM Top 10 (2025): `LLM08` (memory/RAG context adjacency). This guide: [Chapter 3 - Memory poisoning](03-threat-landscape.md#memory-poisoning-demonstrated-active-patterns).*
 
 ## Data exfiltration model
 
 Agent exfiltration often follows four stages. Map controls to each stage in threat modeling and SOC playbooks.
 
-
-
 ![](../assets/diagrams/08-agentic-ai-security_05.png)
 
+*Figure - The four-stage agent data exfiltration model (access, process, disclose, exfiltrate) with controls mapped to each stage for threat modeling and SOC playbooks.*
 
 | Stage | Example | Controls |
 |---|---|---|
@@ -387,35 +282,17 @@ Agent exfiltration often follows four stages. Map controls to each stage in thre
 
 Common vectors: oversharing in responses, traces and debug logs, uncontrolled external APIs, broad RAG queries, email and notifications. See [Chapter 4](04-data-security-privacy.md) and [Chapter 7 egress filtering](07-llm-rag-security.md#security-controls-for-llm).
 
-### References / Source mapping
-
-**Frameworks and standards**
-- OWASP Agentic: exfiltration and oversharing themes
-- MITRE ATLAS: `AML.T0086` Exfiltration via AI Agent Tool Invocation
-- OWASP LLM Top 10 (2025): `LLM02` Sensitive Information Disclosure
-- OWASP AI Exchange: [Data limitation](https://owaspai.org/go/datalimit/)
-
-**Implementation guidance (this guide)**
-- [Chapter 3 — Autonomous Data Exfiltration](03-threat-landscape.md#autonomous-data-exfiltration-demonstrated-active-patterns)
-- [Chapter 10 — SOC integration](10-monitoring-soc-ir.md#soc-integration)
+> *Refs - Frameworks: OWASP Agentic: exfiltration and oversharing themes; MITRE ATLAS: `AML.T0086` Exfiltration via AI Agent Tool Invocation; OWASP LLM Top 10 (2025): `LLM02` Sensitive Information Disclosure; OWASP AI Exchange: [Data limitation](https://owaspai.org/go/datalimit/). This guide: [Chapter 3 - Autonomous Data Exfiltration](03-threat-landscape.md#autonomous-data-exfiltration-demonstrated-active-patterns); [Chapter 10 - SOC integration](10-monitoring-soc-ir.md#soc-integration).*
 
 ## Multi-Agent
 
 In `Multi-Agent` architectures, trust must not transfer from parent agent to sub-agent. Each hop is a new security boundary.
 
-
-
 ![](../assets/diagrams/08-agentic-ai-security_06.png)
 
+*Figure - Multi-agent architecture where each hop from parent agent to sub-agent is a new security boundary and trust does not transfer across delegations.*
 
-### References / Source mapping
-
-**Frameworks and standards**
-- CSA MAESTRO: multi-agent trust boundaries
-- OWASP Agentic Security Initiative: agent-to-agent attack themes
-
-**Implementation guidance (this guide)**
-- [Multi-Agent principles](#multi-agent-principles); [MAESTRO framework (CSA)](#maestro-framework-csa)
+> *Refs - Frameworks: CSA MAESTRO: multi-agent trust boundaries; OWASP Agentic Security Initiative: agent-to-agent attack themes. This guide: [Multi-Agent principles](#multi-agent-principles); [MAESTRO framework (CSA)](#maestro-framework-csa).*
 
 ## Multi-Agent principles
 
@@ -428,14 +305,7 @@ In `Multi-Agent` architectures, trust must not transfer from parent agent to sub
 | nested logging | shared trace id and separate span id for each hop |
 | output gate between agents | sub-agent output is also treated as untrusted |
 
-### References / Source mapping
-
-**Frameworks and standards**
-- CSA MAESTRO: agent-to-agent trust boundary and policy enforcement
-- OWASP Agentic: delegation and privilege escalation themes
-
-**Implementation guidance (this guide)**
-- [Agent defense layers](#agent-defense-layers); [Tool trust boundary](#tool-trust-boundary)
+> *Refs - Frameworks: CSA MAESTRO: agent-to-agent trust boundary and policy enforcement; OWASP Agentic: delegation and privilege escalation themes. This guide: [Agent defense layers](#agent-defense-layers); [Tool trust boundary](#tool-trust-boundary).*
 
 ## Agent defense layers
 
@@ -449,14 +319,7 @@ The controls in this chapter organize into five layers. This is an **operating f
 | 4 — Guardrails | bound risky behavior | HITL, kill switch, policy engine, session limits |
 | 5 — Monitoring and response | detect and respond | tool telemetry, anomalies, SOC — [Chapter 10](10-monitoring-soc-ir.md) |
 
-### References / Source mapping
-
-**Frameworks and standards**
-- OWASP Agentic Security Initiative: layered defense themes
-- NIST AI RMF: Govern / Measure / Manage
-
-**Implementation guidance (this guide)**
-- [Three critical controls](#three-critical-controls); [Agent control prioritization](#agent-control-prioritization)
+> *Refs - Frameworks: OWASP Agentic Security Initiative: layered defense themes; NIST AI RMF: Govern / Measure / Manage. This guide: [Three critical controls](#three-critical-controls); [Agent control prioritization](#agent-control-prioritization).*
 
 ## Secure agent lifecycle
 
@@ -471,15 +334,7 @@ Align agent changes with the [MLSecOps lifecycle control model](06-pipeline.md).
 | Operate | telemetry, [agent KPIs](#agent-security-metrics), kill switch tested |
 | Improve | re-validate when tools, memory stores, or connectors change |
 
-### References / Source mapping
-
-**Frameworks and standards**
-- OpenSSF MLSecOps Whitepaper (2025): lifecycle security controls
-- OWASP Agentic: secure development and deployment themes
-
-**Implementation guidance (this guide)**
-- [Lifecycle control points](06-pipeline.md#lifecycle-control-points) (Chapter 6)
-- [Stage 7 test acceptance](06-pipeline.md#stage-7-test-acceptance-conditions) (Chapter 6)
+> *Refs - Frameworks: OpenSSF MLSecOps Whitepaper (2025): lifecycle security controls; OWASP Agentic: secure development and deployment themes. This guide: [Lifecycle control points](06-pipeline.md#lifecycle-control-points) (Chapter 6); [Stage 7 test acceptance](06-pipeline.md#stage-7-test-acceptance-conditions) (Chapter 6).*
 
 ## Runtime controls for Agent
 
@@ -491,16 +346,7 @@ Align agent changes with the [MLSecOps lifecycle control model](06-pipeline.md).
 | `Kill Switch` | ability to immediately cut egress or access to all tools. |
 | `Action Logging` | all tool calls, outputs, and policy decisions are sent to SIEM/SOC. |
 
-### References / Source mapping
-
-**Frameworks and standards**
-- OWASP Agentic: runtime monitoring and kill-switch themes
-- OWASP AI Exchange: [MONITOR USE](https://owaspai.org/go/monitoruse/)
-- MITRE ATLAS: `AML.T0053` AI Agent Tool Invocation
-
-**Implementation guidance (this guide)**
-- [Chapter 10 — Monitoring in AI systems](10-monitoring-soc-ir.md#monitoring-in-ai-systems)
-- [Three critical controls](#three-critical-controls)
+> *Refs - Frameworks: OWASP Agentic: runtime monitoring and kill-switch themes; OWASP AI Exchange: [MONITOR USE](https://owaspai.org/go/monitoruse/); MITRE ATLAS: `AML.T0053` AI Agent Tool Invocation. This guide: [Chapter 10 - Monitoring in AI systems](10-monitoring-soc-ir.md#monitoring-in-ai-systems); [Three critical controls](#three-critical-controls).*
 
 ## Three critical controls
 
@@ -510,13 +356,7 @@ If only three controls can be implemented for agents, these three have the great
 2. Enforce `Intent Gate` before every tool invocation.
 3. Filter tool output before merging into model context.
 
-### References / Source mapping
-
-**Frameworks and standards**
-- OWASP Agentic: least privilege and tool governance themes
-
-**Implementation guidance (this guide)**
-- [Agent control prioritization](#agent-control-prioritization); [Appendix E.6 control matrix](17-appendix-e-implementation-reference.md#e6-master-control-matrix)
+> *Refs - Frameworks: OWASP Agentic: least privilege and tool governance themes. This guide: [Agent control prioritization](#agent-control-prioritization); [Appendix E.6 control matrix](17-appendix-e-implementation-reference.md#e6-master-control-matrix).*
 
 ## Agent control prioritization
 
@@ -526,14 +366,7 @@ If only three controls can be implemented for agents, these three have the great
 | `SHOULD` | HITL for high-risk actions and multi-agent depth limits |
 | `ADVANCED` | delegation graph with `Cedar` and memory store with full provenance |
 
-### References / Source mapping
-
-**Frameworks and standards**
-- OWASP Agentic Security Initiative: control prioritization themes
-- NIST AI RMF: risk-based control selection
-
-**Implementation guidance (this guide)**
-- [Three critical controls](#three-critical-controls); [Chapter 14 — Maturity levels](14-maturity-roadmap.md#maturity-levels)
+> *Refs - Frameworks: OWASP Agentic Security Initiative: control prioritization themes; NIST AI RMF: risk-based control selection. This guide: [Three critical controls](#three-critical-controls); [Chapter 14 - Maturity levels](14-maturity-roadmap.md#maturity-levels).*
 
 ## Agent security metrics
 
@@ -548,15 +381,7 @@ Track these KPIs in observability and SOC dashboards. They complement general AI
 | Sensitive data exposure events | exfiltration risk | DLP, output gate blocks |
 | Agent task success vs policy blocks | reliability vs security balance | orchestration metrics |
 
-### References / Source mapping
-
-**Frameworks and standards**
-- NIST AI RMF: Measure — AI system performance and risk metrics
-- ISO/IEC 42001:2023 — monitoring and measurement (organizational)
-
-**Implementation guidance (this guide)**
-- [Chapter 10 — Security metrics](10-monitoring-soc-ir.md#security-metrics)
-- [Chapter 11 — Assurance metrics](11-governance-evidence.md#assurance-metrics)
+> *Refs - Frameworks: NIST AI RMF: Measure - AI system performance and risk metrics; ISO/IEC 42001:2023 - monitoring and measurement (organizational). This guide: [Chapter 10 - Security metrics](10-monitoring-soc-ir.md#security-metrics); [Chapter 11 - Assurance metrics](11-governance-evidence.md#assurance-metrics).*
 
 ## Agent security DO's and DON'Ts
 
@@ -572,28 +397,13 @@ Use this checklist during design review, pre-release validation, and SOC playboo
 | test injection, tool misuse, and memory poisoning before release | skip security regression when tools, memory, or connectors change |
 | log tool calls and outputs to SIEM with retention policy | store sensitive tool output in debug logs without redaction |
 
-### References / Source mapping
-
-**Frameworks and standards**
-- OWASP Agentic Security Initiative: operational security checklist themes
-- OWASP LLM Top 10 (2025): `LLM06` Excessive Agency
-
-**Implementation guidance (this guide)**
-- [Chapter 9 — Agent without tool control](09-anti-patterns.md#agent-without-tool-control)
-- [Three critical controls](#three-critical-controls)
+> *Refs - Frameworks: OWASP Agentic Security Initiative: operational security checklist themes; OWASP LLM Top 10 (2025): `LLM06` Excessive Agency. This guide: [Chapter 9 - Agent without tool control](09-anti-patterns.md#agent-without-tool-control); [Three critical controls](#three-critical-controls).*
 
 ## Practical principle
 
 An intelligent agent must not run with full trust. Every tool, every memory, every output, and every delegation to another agent must be treated as untrusted input. Start from the [reference architecture](#agent-reference-architecture) and [six attack domains](#six-attack-domains) in threat modeling, implement the [three critical controls](#three-critical-controls), and verify behavior against the [DO's and DON'Ts](#agent-security-dos-and-donts) before production release.
 
-### References / Source mapping
-
-**Frameworks and standards**
-- OWASP Agentic Security Initiative; OWASP MCP Top 10 (tool path)
-- CSA MAESTRO: [MAESTRO framework](#maestro-framework-csa)
-
-**Implementation guidance (this guide)**
-- [Chapter 9 — Agent without tool control](09-anti-patterns.md#agent-without-tool-control)
+> *Refs - Frameworks: OWASP Agentic Security Initiative; OWASP MCP Top 10 (tool path); CSA MAESTRO: [MAESTRO framework](#maestro-framework-csa). This guide: [Chapter 9 - Agent without tool control](09-anti-patterns.md#agent-without-tool-control).*
 
 ## MCP tool connections
 
@@ -601,14 +411,4 @@ Agents in Cursor, Claude Code, and similar hosts often invoke tools via **Model 
 
 See [Chapter 7 — MCP security](07-llm-rag-security.md#model-context-protocol-mcp-security) for OWASP MCP Top 10 mapping, gateway patterns, `mcps-audit`, and Snyk Agent Scan (mcp-scan) for installed configs.
 
-### References / Source mapping
-
-**Frameworks and standards**
-- OWASP MCP Top 10 (2025): `MCP01`–`MCP10` (tool poisoning: `MCP03`)
-- [OWASP MCP Security Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/MCP_Security_Cheat_Sheet.html)
-- MITRE ATLAS: `AML.T0110` AI Agent Tool Poisoning; `AML.T0053` AI Agent Tool Invocation (abuse path)
-- OWASP Agentic: `ASI02` Tool Misuse (tool path overlap with MCP-hosted agents)
-
-**Implementation guidance (this guide)**
-- [Chapter 7 — MCP security](07-llm-rag-security.md#model-context-protocol-mcp-security)
-- [Chapter 11 — Shadow AI governance](11-governance-evidence.md#shadow-ai-governance) (MCP09 overlap)
+> *Refs - Frameworks: OWASP MCP Top 10 (2025): `MCP01`-`MCP10` (tool poisoning: `MCP03`); [OWASP MCP Security Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/MCP_Security_Cheat_Sheet.html); MITRE ATLAS: `AML.T0110` AI Agent Tool Poisoning; `AML.T0053` AI Agent Tool Invocation (abuse path); OWASP Agentic: `ASI02` Tool Misuse (tool path overlap with MCP-hosted agents). This guide: [Chapter 7 - MCP security](07-llm-rag-security.md#model-context-protocol-mcp-security); [Chapter 11 - Shadow AI governance](11-governance-evidence.md#shadow-ai-governance) (MCP09 overlap).*
