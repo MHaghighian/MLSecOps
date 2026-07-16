@@ -36,7 +36,7 @@ For `Edge`, `IoT`, and `CPS` systems, in addition to the controls in this guide,
 
 > **Risk scope:** This guide manages **security risk**. **Safety** (harm to people, property, or the environment) is a first-class AI risk source under ISO/IEC 23894 that this guide **defers** rather than covers - it is not absent because it is unimportant. Assess safety, fairness, and societal/fundamental-rights risk through ISO/IEC 23894 and ISO/IEC 42001 alongside the security controls here.
 
-**Out of scope for v1.1.0:** localized non-English editions; full legal interpretation of sector regulations; hardware TEE/confidential-GPU deployment patterns (see vendor docs); exhaustive Shadow-AI or MCP product catalog. **Shadow AI governance** (Ch.11), **MCP security** (Ch.7), and **Kubernetes deployment reference** (Ch.16) are in scope as operational patterns - not as vendor surveys. Case studies: [Chapter 13](13-case-studies.md).
+**Out of scope for v1.1.1:** localized non-English editions; full legal interpretation of sector regulations; hardware TEE/confidential-GPU deployment patterns (see vendor docs); exhaustive Shadow-AI or MCP product catalog. **Shadow AI governance** (Ch.11), **MCP security** (Ch.7), and **Kubernetes deployment reference** (Ch.16) are in scope as operational patterns - not as vendor surveys. Case studies: [Chapter 13](13-case-studies.md).
 
 Not every topic in this guide is equally mandatory for every team. For example, numerical `Adversarial Robustness` tests are highly important for `Tabular` or `Vision` models, but for a `Pure LLM API` without proprietary data, some of that work has more limited applicability.
 

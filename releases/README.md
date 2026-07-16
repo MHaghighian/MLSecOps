@@ -1,19 +1,26 @@
 # Release assets
 
-Printable editions and source archives for the MLSecOps Practical Reference Guide.
+Source archives and documentation for the MLSecOps Practical Reference Guide.
 
-## v1.1.0 (current)
+From **v1.1.1** onward, pre-built PDF/DOCX are **not** attached to GitHub Releases. Generate Word locally with `python scripts/build-docx.py --render-mermaid` (see [README](../README.md#build-docx-yourself)).
 
-| File | Description |
-|------|-------------|
-| `MLSecOps-Practical-Reference-Guide-v1.1.0.docx` | Full guide with embedded diagrams |
-| `MLSecOps-Practical-Reference-Guide-v1.1.0.pdf` | PDF for reading and sharing |
+## v1.1.1 (current)
 
-**Markdown source:** `chapters-en/` in the repository root.
+| Item | Location |
+|------|----------|
+| Source (ZIP) | [v1.1.1 archive](https://github.com/l4tr0d3ctism/MLSecOps/archive/refs/tags/v1.1.1.zip) |
+| Markdown | `chapters-en/` in the repository root |
+| Site | https://l4tr0d3ctism.github.io/MLSecOps/ |
+
+**Release:** https://github.com/l4tr0d3ctism/MLSecOps/releases/tag/v1.1.1
+
+---
+
+## v1.1.0
+
+Traceability and OWASP AI Exchange integration (2026-07-11).
 
 **Release:** https://github.com/l4tr0d3ctism/MLSecOps/releases/tag/v1.1.0
-
-**Site:** https://l4tr0d3ctism.github.io/MLSecOps/
 
 ---
 
@@ -24,6 +31,6 @@ Zenodo archival tag — identical guide content to v1.0.0.
 
 ## v1.0.0
 
-First stable release (2026-07-05).
+First stable release (2026-07-05). Optional DOCX/PDF assets were published with this tag for historical downloads.
 
-See [RELEASE_NOTES.md](RELEASE_NOTES.md) and [CHANGELOG.md](CHANGELOG.md).
+See [RELEASE_NOTES.md](../RELEASE_NOTES.md) and [CHANGELOG.md](../CHANGELOG.md).

@@ -1,48 +1,42 @@
 # Releasing the Guide
 
-Checklist for maintainers publishing **v1.1.0** and later versions.
+Checklist for maintainers publishing **v1.1.1** and later versions.
 
-**Current release:** v1.1.0 (2026-07-11)
+**Current release:** v1.1.1 (2026-07-16)
+
+Pre-built PDF/DOCX are **not** uploaded to GitHub Releases. Readers who need Word/PDF run `scripts/build-docx.py` locally.
 
 ---
 
-## v1.1.0 release checklist
+## v1.1.1 release checklist
 
 ### Pre-release (content)
 
-- [x] Per-section `References / Source mapping` across Chapters 1–17 ([Issue #1](https://github.com/l4tr0d3ctism/MLSecOps/issues/1))
-- [x] OWASP AI Exchange complementary integration
-- [x] Ch.1 reader value / guide at a glance ([Issue #2](https://github.com/l4tr0d3ctism/MLSecOps/issues/2))
+- [x] Issue #1 `References / Source mapping` restored after PR #3
+- [x] Community review citation/content fixes retained
+- [x] PDF/DOCX download links removed from site-facing docs
 - [x] Version strings: README, TOC, Ch.1, CHANGELOG, CITATION.cff, CONTRIBUTING, GOVERNANCE, SECURITY, RELEASE_NOTES, releases README, `prepare_pages.py`
-- [ ] Run internal link validation in local build workspace
-- [ ] Export **DOCX** → `MLSecOps-Practical-Reference-Guide-v1.1.0.docx`
-- [ ] Export **PDF** → `MLSecOps-Practical-Reference-Guide-v1.1.0.pdf`
 
 ### Git
 
-- [ ] Commit all changes with message: `docs: release v1.1.0 — traceability and Exchange integration (closes #1)`
+- [ ] Commit: `docs: release v1.1.1 — review fixes and Issue #1 restore`
 - [ ] `git push origin main`
-- [ ] `git tag -a v1.1.0 -m "MLSecOps Practical Reference Guide v1.1.0"`
-- [ ] `git push origin v1.1.0`
+- [ ] `git tag -a v1.1.1 -m "MLSecOps Practical Reference Guide v1.1.1"`
+- [ ] `git push origin v1.1.1`
 
 ### GitHub Release
 
-1. Create release from tag **v1.1.0**
-2. Title: **v1.1.0 — MLSecOps Practical Reference Guide**
-3. Body: copy from [RELEASE_NOTES.md](RELEASE_NOTES.md) v1.1.0 section
-4. Attach assets:
-   - `MLSecOps-Practical-Reference-Guide-v1.1.0.docx`
-   - `MLSecOps-Practical-Reference-Guide-v1.1.0.pdf`
+1. Create release from tag **v1.1.1** (no PDF/DOCX assets)
+2. Title: **v1.1.1 — MLSecOps Practical Reference Guide**
+3. Body: copy from [releases/v1.1.1-RELEASE-BODY.md](releases/v1.1.1-RELEASE-BODY.md) or [RELEASE_NOTES.md](RELEASE_NOTES.md)
 
 ### Zenodo
 
-1. Publish new version from tag `v1.1.0` on [Zenodo record](https://zenodo.org/records/21206781)
-2. Confirm DOI landing page lists v1.1.0
-3. Update README DOI note if Zenodo assigns a version-specific DOI
+1. Publish new version from tag `v1.1.1` on [Zenodo record](https://zenodo.org/records/21206781)
+2. Confirm DOI landing page lists v1.1.1
 
 ### Post-release
 
-- [ ] Close [Issue #1](https://github.com/l4tr0d3ctism/MLSecOps/issues/1) with thank-you to @Wapiti08
 - [ ] Verify GitHub Pages deploy (https://l4tr0d3ctism.github.io/MLSecOps/)
 - [ ] Optional: announce in GitHub Discussions
 
@@ -143,7 +137,7 @@ GitHub ranks repos partly on engagement. Promote via:
 | Reddit | r/cybersecurity, r/MachineLearning, r/netsec (follow sub rules) |
 | OWASP community | AI security / LLM Top 10 threads — cite, do not spam |
 | Hacker News | `Show HN: MLSecOps Practical Reference Guide` (once, when ready) |
-| GitHub Discussions | Announce v1.1.0 with link to Pages + PDF |
+| GitHub Discussions | Announce release with link to Pages + source |
 
 Quality content drives stars; promotion amplifies discoverability.
 
@@ -165,27 +159,22 @@ After each release:
 |-----|---------|
 | `v1.0.0` | First stable public release (content scope frozen) |
 | `v1.1.0` | Per-section traceability, mapping audit, Exchange integration, intro clarity |
+| `v1.1.1` | Community review fixes, Issue #1 format restore, no packaged PDF/DOCX |
 | `v2.0.0` | Lifecycle model or major structural change |
 
 Document every release in [CHANGELOG.md](CHANGELOG.md).
 
 ---
 
-## Build assets (local workspace)
-
-Word/PDF builds use `scripts/build-docx.py` in this repository:
+## Build Word/PDF locally (optional)
 
 ```bash
 # From repository root
 python scripts/build-docx.py --render-mermaid
-# Output: dist/MLSecOps-Practical-Reference-Guide-v1.1.0.docx
+# Output: dist/MLSecOps-Practical-Reference-Guide-v1.1.1.docx
 ```
 
-The build uses Pandoc with the existing Word **reference template** (`scripts/templates/reference.docx`, or auto-download from the v1.0.0 Release DOCX). Diagram PNGs are taken from `github/assets/diagrams/`; missing PNGs can be rendered from `assets/diagrams/source/*.mmd` with `--render-mermaid`.
-
-1. Sync markdown → DOCX: `python scripts/build-docx.py --render-mermaid`
-2. Export PDF from DOCX in Word (or pandoc)
-3. Upload both files to GitHub Release — do not commit large binaries to `main` unless using Git LFS
+The build uses Pandoc with the Word **reference template** (`scripts/templates/reference.docx`, or auto-download from the v1.0.0 Release DOCX). Diagram PNGs are taken from `assets/diagrams/`; missing PNGs can be rendered from `assets/diagrams/source/*.mmd` with `--render-mermaid`. Export PDF from Word or Pandoc if required. Do not commit large binaries to `main`.
 
 ---
 
