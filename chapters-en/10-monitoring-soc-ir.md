@@ -12,19 +12,11 @@ Monitoring in `MLSecOps` must see three layers simultaneously:
 | `Data Health Monitoring` | `Data Drift`, `Concept Drift`, `Schema Deviation`, missing values, data distribution change and user behavior patterns |
 | `Security Monitoring` | `Prompt Injection`, `Jailbreak`, `Tool Abuse`, Shadow AI egress, MCP tool-call anomalies, `Model Extraction`, `RAG Poisoning`, `Memory Poisoning`, `Context Poisoning`, and abnormal user or Agent behavior |
 
-
-
 ![](../assets/diagrams/10-monitoring-soc-ir_01.png)
 
-### References / Source mapping
+*Figure - The three monitoring layers MLSecOps must observe simultaneously: model performance, data health, and security.*
 
-**Frameworks and standards**
-- OWASP AI Exchange: [MONITOR USE](https://owaspai.org/go/monitoruse/)
-- NIST AI RMF: Measure / Manage
-- MITRE ATLAS: `AML.T0051` LLM Prompt Injection; `AML.T0053` AI Agent Tool Invocation; `AML.T0070` RAG Poisoning; `AML.T0080` AI Agent Context Poisoning; `AML.T0110` AI Agent Tool Poisoning
-
-**Implementation guidance (this guide)**
-- [Three categories of security testing](06-pipeline.md#three-categories-of-security-testing) (Chapter 6)
+> *Refs - Frameworks: OWASP AI Exchange: [MONITOR USE](https://owaspai.org/go/monitoruse/); NIST AI RMF: Measure / Manage; MITRE ATLAS: `AML.T0051` LLM Prompt Injection; `AML.T0053` AI Agent Tool Invocation; `AML.T0070` RAG Poisoning; `AML.T0080` AI Agent Context Poisoning; `AML.T0110` AI Agent Tool Poisoning. This guide: [Three categories of security testing](06-pipeline.md#three-categories-of-security-testing) (Chapter 6).*
 
 ## Data required for telemetry
 
@@ -46,13 +38,7 @@ Monitoring in `MLSecOps` must see three layers simultaneously:
 
 > **Privacy:** Full prompt/response logging may contain personal data (GDPR, CCPA). Apply data minimization, retention limits, access control, and legal review—see [Chapter 4](04-data-security-privacy.md).
 
-### References / Source mapping
-
-**Frameworks and standards**
-- OWASP AI Exchange: [MONITOR USE](https://owaspai.org/go/monitoruse/)
-
-**Implementation guidance (this guide)**
-- [Chapter 4 — Prompt and telemetry logging](04-data-security-privacy.md#prompt-and-telemetry-logging-vs-privacy-gdpr--ccpa)
+> *Refs - Frameworks: OWASP AI Exchange: [MONITOR USE](https://owaspai.org/go/monitoruse/). This guide: [Chapter 4 - Prompt and telemetry logging](04-data-security-privacy.md#prompt-and-telemetry-logging-vs-privacy-gdpr--ccpa).*
 
 ## SOC integration
 
@@ -66,14 +52,7 @@ AI incidents must not be managed separately from the organization's security vie
 | `Case Management` | incident case management |
 | `Threat Hunting` | discovery of hidden attack patterns |
 
-### References / Source mapping
-
-**Frameworks and standards**
-- NIST AI RMF: Manage (incident visibility)
-- OWASP AI Exchange: [MONITOR USE](https://owaspai.org/go/monitoruse/)
-
-**Implementation guidance (this guide)**
-- [Monitoring in AI systems](#monitoring-in-ai-systems); [Data required for telemetry](#data-required-for-telemetry)
+> *Refs - Frameworks: NIST AI RMF: Manage (incident visibility); OWASP AI Exchange: [MONITOR USE](https://owaspai.org/go/monitoruse/). This guide: [Monitoring in AI systems](#monitoring-in-ai-systems); [Data required for telemetry](#data-required-for-telemetry).*
 
 ## Detection Engineering
 
@@ -94,18 +73,13 @@ Sample detectable cases:
 - `Suspicious Retrieval Activity`
 - agent privilege escalation
 
-### References / Source mapping
-
-**Frameworks and standards**
-- MITRE ATLAS: techniques in [Threat analysis with MITRE ATLAS](#threat-analysis-with-mitre-atlas)
-- OWASP LLM Top 10 (2025): `LLM01`, `LLM06`; OWASP Agentic: `ASI02`
-
-**Implementation guidance (this guide)**
-- [Sample SIEM scenarios](#sample-siem-scenarios); [Appendix A threat card](15-conclusion-appendix.md#appendix-a-threat-control-and-tool-reference-card) (Chapter 15)
+> *Refs - Frameworks: MITRE ATLAS: techniques in [Threat analysis with MITRE ATLAS](#threat-analysis-with-mitre-atlas); OWASP LLM Top 10 (2025): `LLM01`, `LLM06`; OWASP Agentic: `ASI02`. This guide: [Sample SIEM scenarios](#sample-siem-scenarios); [Appendix A threat card](15-conclusion-appendix.md#appendix-a-threat-control-and-tool-reference-card) (Chapter 15).*
 
 ## Threat analysis with MITRE ATLAS
 
 `MITRE ATLAS` can be a common language for SOC, Blue Team, and Red Team in analyzing AI incidents. Primary threat–control mapping is in [Chapter 12](12-threat-control-tools-map.md); this table is a SOC-oriented subset. Full threat–control reference including MCP and Shadow AI rows: [Appendix A of Chapter 15](15-conclusion-appendix.md#appendix-a-threat-control-and-tool-reference-card). MITRE technique summary: [Appendix B of Chapter 15](15-conclusion-appendix.md#appendix-b-mitre-atlas-mapping).
+
+> Canonical: [Chapter 12 mapping](12-threat-control-tools-map.md) / [Chapter 11 Shadow AI](11-governance-evidence.md#shadow-ai-governance) (subset shown here). Keep in sync.
 
 | Threat | ATLAS technique | ID |
 |---|---|---|
@@ -121,16 +95,11 @@ Sample detectable cases:
 | `AI Reconnaissance` | `Discover AI Agent Configuration` | `AML.T0084` |
 | `Shadow MCP / Tool Poisoning` | Related: `AML.T0110` AI Agent Tool Poisoning | — |
 
-### References / Source mapping
-
-**Frameworks and standards**
-- MITRE ATLAS: techniques in table above — [Appendix B](15-conclusion-appendix.md#appendix-b-mitre-atlas-mapping)
-- OWASP LLM Top 10 / Agentic mappings: [Chapter 12](12-threat-control-tools-map.md#mitre-atlas-mapping)
-
-**Implementation guidance (this guide)**
-- [Appendix A threat card](15-conclusion-appendix.md#appendix-a-threat-control-and-tool-reference-card)
+> *Refs - Frameworks: MITRE ATLAS: techniques in table above - [Appendix B](15-conclusion-appendix.md#appendix-b-mitre-atlas-mapping); OWASP LLM Top 10 / Agentic mappings: [Chapter 12](12-threat-control-tools-map.md#mitre-atlas-mapping). This guide: [Appendix A threat card](15-conclusion-appendix.md#appendix-a-threat-control-and-tool-reference-card).*
 
 ## Sample SIEM scenarios
+
+> Canonical: [Chapter 12 mapping](12-threat-control-tools-map.md) / [Chapter 11 Shadow AI](11-governance-evidence.md#shadow-ai-governance) (subset shown here). Keep in sync.
 
 | Scenario | Detection flow | Observable indicators |
 |---|---|---|
@@ -142,29 +111,15 @@ Sample detectable cases:
 
 Thresholds must be set based on real baseline from staging or production environment. Fixed values without baseline can both create many false positives and hide real attacks.
 
-### References / Source mapping
-
-**Frameworks and standards**
-- MITRE ATLAS: `AML.T0051`, `AML.T0053`, `AML.T0054`, `AML.T0110` (MCP tool poisoning)
-- OWASP MCP Top 10: `MCP09` shadow MCP server
-
-**Implementation guidance (this guide)**
-- [Shadow AI governance](11-governance-evidence.md#shadow-ai-governance) (Chapter 11); [MCP security](07-llm-rag-security.md#model-context-protocol-mcp-security) (Chapter 7)
+> *Refs - Frameworks: MITRE ATLAS: `AML.T0051`, `AML.T0053`, `AML.T0054`, `AML.T0110` (MCP tool poisoning); OWASP MCP Top 10: `MCP09` shadow MCP server. This guide: [Shadow AI governance](11-governance-evidence.md#shadow-ai-governance) (Chapter 11); [MCP security](07-llm-rag-security.md#model-context-protocol-mcp-security) (Chapter 7).*
 
 ## Sample attack chain
 
-
-
 ![](../assets/diagrams/10-monitoring-soc-ir_02.png)
 
-### References / Source mapping
+*Figure - A sample AI attack chain showing how an incident progresses through stages that runtime monitoring must detect.*
 
-**Frameworks and standards**
-- MITRE ATLAS: kill-chain patterns in [Chapter 12](12-threat-control-tools-map.md#mitre-atlas-mapping)
-- OWASP AI Exchange: [Threats overview](https://owaspai.org/go/threatsoverview/)
-
-**Implementation guidance (this guide)**
-- [Incident response](#incident-response); [First 30 minutes of an incident](#first-30-minutes-of-an-incident)
+> *Refs - Frameworks: MITRE ATLAS: kill-chain patterns in [Chapter 12](12-threat-control-tools-map.md#mitre-atlas-mapping); OWASP AI Exchange: [Threats overview](https://owaspai.org/go/threatsoverview/). This guide: [Incident response](#incident-response); [First 30 minutes of an incident](#first-30-minutes-of-an-incident).*
 
 ## Incident response
 
@@ -178,14 +133,7 @@ Incident response in AI must cover model and data in addition to service and inf
 | poisoned or backdoored model | rollback to previous signed model |
 | adversarial drift | stop automatic retraining and manual data review |
 
-### References / Source mapping
-
-**Frameworks and standards**
-- NIST AI RMF: Manage (incident response)
-- ISO/IEC 42001: incident and monitoring themes (management system)
-
-**Implementation guidance (this guide)**
-- [Appendix E.5 — Operational playbooks](17-appendix-e-implementation-reference.md#e5-operational-playbooks)
+> *Refs - Frameworks: NIST AI RMF: Manage (incident response); ISO/IEC 42001: incident and monitoring themes (management system). This guide: [Appendix E.5 - Operational playbooks](17-appendix-e-implementation-reference.md#e5-operational-playbooks).*
 
 ## False positive management
 
@@ -201,14 +149,7 @@ In AI systems, user and Agent behavior is diverse and simple rules can produce m
 
 The rule improvement cycle should include alert generation, SOC review, true/false positive labeling, rule refinement, new version release, and re-monitoring.
 
-### References / Source mapping
-
-**Frameworks and standards**
-- NIST AI RMF: Measure (monitoring effectiveness)
-- OWASP AI Exchange: [MONITOR USE](https://owaspai.org/go/monitoruse/)
-
-**Implementation guidance (this guide)**
-- [Detection Engineering](#detection-engineering); [Day-2 operations](#day-2-operations)
+> *Refs - Frameworks: NIST AI RMF: Measure (monitoring effectiveness); OWASP AI Exchange: [MONITOR USE](https://owaspai.org/go/monitoruse/). This guide: [Detection Engineering](#detection-engineering); [Day-2 operations](#day-2-operations).*
 
 ## Incident response SLA
 
@@ -221,17 +162,7 @@ The rule improvement cycle should include alert generation, SOC review, true/fal
 
 Incident severity must be determined based on actual impact on confidentiality, integrity, and availability—not merely alert count.
 
-### References / Source mapping
-
-**Frameworks and standards**
-- ISO/IEC 42001: incident and monitoring themes (management system)
-- EU AI Act: Art. 72 post-market monitoring (high-risk adjacency)
-
-**Implementation guidance (this guide)**
-- [Incident response](#incident-response); [Appendix E.5 — Operational playbooks](17-appendix-e-implementation-reference.md#e5-operational-playbooks)
-
-**Author practical guidance**
-- *Sample SLA targets are operational examples; adjust for team size, timezone, and on-call model.*
+> *Refs - Frameworks: ISO/IEC 42001: incident and monitoring themes (management system); EU AI Act: Art. 72 post-market monitoring (high-risk adjacency). This guide: [Incident response](#incident-response); [Appendix E.5 - Operational playbooks](17-appendix-e-implementation-reference.md#e5-operational-playbooks). Author note: Sample SLA targets are operational examples; adjust for team size, timezone, and on-call model.*
 
 ## Evidence required for incident analysis
 
@@ -245,15 +176,7 @@ Incident severity must be determined based on actual impact on confidentiality, 
 | `Session ID / Trace ID` | linking incidents |
 | `Evidence Pack` | tamper-evident evidence retention |
 
-### References / Source mapping
-
-**Frameworks and standards**
-- NIST AI RMF: Manage (incident documentation)
-- EU AI Act: Art. 12 record-keeping (high-risk adjacency)
-- ISO/IEC 42001: documented information for incidents
-
-**Implementation guidance (this guide)**
-- [Evidence Pack](11-governance-evidence.md#what-is-an-evidence-pack) (Chapter 11); [Data required for telemetry](#data-required-for-telemetry)
+> *Refs - Frameworks: NIST AI RMF: Manage (incident documentation); EU AI Act: Art. 12 record-keeping (high-risk adjacency); ISO/IEC 42001: documented information for incidents. This guide: [Evidence Pack](11-governance-evidence.md#what-is-an-evidence-pack) (Chapter 11); [Data required for telemetry](#data-required-for-telemetry).*
 
 ## First 30 minutes of an incident
 
@@ -265,14 +188,7 @@ Incident severity must be determined based on actual impact on confidentiality, 
 
 Without an initial snapshot, analysis of many AI incidents will practically fail.
 
-### References / Source mapping
-
-**Frameworks and standards**
-- NIST AI RMF: Manage (containment and recovery)
-- MITRE ATLAS: incident technique mapping in [Chapter 12](12-threat-control-tools-map.md#mitre-atlas-mapping)
-
-**Implementation guidance (this guide)**
-- [Appendix E.5 — Operational playbooks](17-appendix-e-implementation-reference.md#e5-operational-playbooks); [Incident response](#incident-response)
+> *Refs - Frameworks: NIST AI RMF: Manage (containment and recovery); MITRE ATLAS: incident technique mapping in [Chapter 12](12-threat-control-tools-map.md#mitre-atlas-mapping). This guide: [Appendix E.5 - Operational playbooks](17-appendix-e-implementation-reference.md#e5-operational-playbooks); [Incident response](#incident-response).*
 
 ## Day-2 operations
 
@@ -288,14 +204,7 @@ Without an initial snapshot, analysis of many AI incidents will practically fail
 
 Many incidents arise from post-deploy neglect, not only model weakness.
 
-### References / Source mapping
-
-**Frameworks and standards**
-- NIST AI RMF: Manage (ongoing operations)
-- OWASP AI Exchange: [Continuous validation](https://owaspai.org/go/continuousvalidation/)
-
-**Implementation guidance (this guide)**
-- [Lifecycle control point 10](06-pipeline.md#lifecycle-control-points) (Chapter 6); [False positive management](#false-positive-management)
+> *Refs - Frameworks: NIST AI RMF: Manage (ongoing operations); OWASP AI Exchange: [Continuous validation](https://owaspai.org/go/continuousvalidation/). This guide: [Lifecycle control point 10](06-pipeline.md#lifecycle-control-points) (Chapter 6); [False positive management](#false-positive-management).*
 
 ## Security metrics
 
@@ -308,14 +217,7 @@ Many incidents arise from post-deploy neglect, not only model weakness.
 | drift score | detect data behavior change |
 | rollback count | measure model release stability |
 
-### References / Source mapping
-
-**Frameworks and standards**
-- NIST AI RMF: Measure / Manage
-- OWASP AI Exchange: [MONITOR USE](https://owaspai.org/go/monitoruse/)
-
-**Implementation guidance (this guide)**
-- [Agent security metrics](08-agentic-ai-security.md#agent-security-metrics) (Chapter 8); [Assurance metrics](11-governance-evidence.md#assurance-metrics) (Chapter 11)
+> *Refs - Frameworks: NIST AI RMF: Measure / Manage; OWASP AI Exchange: [MONITOR USE](https://owaspai.org/go/monitoruse/). This guide: [Agent security metrics](08-agentic-ai-security.md#agent-security-metrics) (Chapter 8); [Assurance metrics](11-governance-evidence.md#assurance-metrics) (Chapter 11).*
 
 ## SOC control prioritization
 
@@ -325,14 +227,7 @@ Many incidents arise from post-deploy neglect, not only model weakness.
 | `SHOULD` | detection rule, correlation rule, SLA and threat hunting |
 | `ADVANCED` | full `MITRE ATLAS` mapping, automation with `SOAR`, behavioral analytics and automated response |
 
-### References / Source mapping
-
-**Frameworks and standards**
-- MITRE ATLAS: SOC-oriented subset in [Threat analysis with MITRE ATLAS](#threat-analysis-with-mitre-atlas)
-- NIST AI RMF: Map / Measure / Manage (prioritized controls)
-
-**Implementation guidance (this guide)**
-- [Maturity roadmap](14-maturity-roadmap.md) (Chapter 14); [If only three SOC/Runtime controls](#if-only-three-socruntime-controls-can-be-implemented)
+> *Refs - Frameworks: MITRE ATLAS: SOC-oriented subset in [Threat analysis with MITRE ATLAS](#threat-analysis-with-mitre-atlas); NIST AI RMF: Map / Measure / Manage (prioritized controls). This guide: [Maturity roadmap](14-maturity-roadmap.md) (Chapter 14); [If only three SOC/Runtime controls](#if-only-three-socruntime-controls-can-be-implemented).*
 
 ## If only three SOC/Runtime controls can be implemented
 
@@ -340,30 +235,13 @@ Many incidents arise from post-deploy neglect, not only model weakness.
 2. At least one detection rule for prompt injection and tool abuse with false positive process.
 3. Incident runbook including snapshot, containment, and rollback.
 
-### References / Source mapping
-
-**Frameworks and standards**
-- OWASP AI Exchange: [MONITOR USE](https://owaspai.org/go/monitoruse/)
-- MITRE ATLAS: `AML.T0051`, `AML.T0053` detection focus
-
-**Implementation guidance (this guide)**
-- [First 30 minutes of an incident](#first-30-minutes-of-an-incident); [Evidence required for incident analysis](#evidence-required-for-incident-analysis)
-
-**Author practical guidance**
-- *Minimum viable SOC triad is this guide's prioritization when resources are constrained.*
+> *Refs - Frameworks: OWASP AI Exchange: [MONITOR USE](https://owaspai.org/go/monitoruse/); MITRE ATLAS: `AML.T0051`, `AML.T0053` detection focus. This guide: [First 30 minutes of an incident](#first-30-minutes-of-an-incident); [Evidence required for incident analysis](#evidence-required-for-incident-analysis). Author note: Minimum viable SOC triad is this guide's prioritization when resources are constrained.*
 
 ## Practical principle
 
 If AI behavior is not seen at `Runtime`, its security cannot be managed. Monitoring must be part of design from day one—not an add-on after deployment. For agent-specific KPIs (tool policy blocks, anomaly rate, MTTR), see [Chapter 8 — Agent security metrics](08-agentic-ai-security.md#agent-security-metrics).
 
-### References / Source mapping
-
-**Frameworks and standards**
-- NIST AI RMF: Measure / Manage (runtime visibility)
-- OWASP AI Exchange: [MONITOR USE](https://owaspai.org/go/monitoruse/)
-
-**Implementation guidance (this guide)**
-- [Lifecycle control point 10](06-pipeline.md#lifecycle-control-points) (Chapter 6); [Agent security metrics](08-agentic-ai-security.md#agent-security-metrics) (Chapter 8)
+> *Refs - Frameworks: NIST AI RMF: Measure / Manage (runtime visibility); OWASP AI Exchange: [MONITOR USE](https://owaspai.org/go/monitoruse/). This guide: [Lifecycle control point 10](06-pipeline.md#lifecycle-control-points) (Chapter 6); [Agent security metrics](08-agentic-ai-security.md#agent-security-metrics) (Chapter 8).*
 
 ## Practical summary
 
@@ -374,11 +252,4 @@ If AI behavior is not seen at `Runtime`, its security cannot be managed. Monitor
 - `Day-2 Operations` matters as much as deploy.
 - success of AI incident response largely depends on quality of the initial snapshot.
 
-### References / Source mapping
-
-**Frameworks and standards**
-- NIST AI RMF: Measure / Manage (runtime visibility)
-- OWASP AI Exchange: [MONITOR USE](https://owaspai.org/go/monitoruse/)
-
-**Implementation guidance (this guide)**
-- [Practical principle](#practical-principle); [Monitoring in AI systems](#monitoring-in-ai-systems)
+> *Refs - Frameworks: NIST AI RMF: Measure / Manage (runtime visibility); OWASP AI Exchange: [MONITOR USE](https://owaspai.org/go/monitoruse/). This guide: [Practical principle](#practical-principle); [Monitoring in AI systems](#monitoring-in-ai-systems).*

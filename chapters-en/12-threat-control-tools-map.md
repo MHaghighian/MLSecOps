@@ -8,16 +8,7 @@ Threat, control, and capability mapping helps teams understand which control is 
 
 For broader threat–control coverage across all AI types, use the [OWASP AI Exchange periodic table](https://owaspai.org/go/periodictable/) as a complementary index. This chapter maps threats to **MLOps lifecycle stages**, tool layers, and control points in Chapter 6—it does not reproduce the Exchange catalog.
 
-### References / Source mapping
-
-**Frameworks and standards**
-- [Periodic table of AI security](https://owaspai.org/go/periodictable/)
-- [AI security matrix](https://owaspai.org/go/aisecuritymatrix/)
-- [Threats overview](https://owaspai.org/go/threatsoverview/)
-
-**Implementation guidance (this guide)**
-- [Poisoning taxonomy](05-model-artifact-supply-chain.md#poisoning-taxonomy-across-the-lifecycle) (Chapter 5)
-- [Lifecycle control points](06-pipeline.md#lifecycle-control-points) (Chapter 6)
+> *Refs - Frameworks: [Periodic table of AI security](https://owaspai.org/go/periodictable/); [AI security matrix](https://owaspai.org/go/aisecuritymatrix/); [Threats overview](https://owaspai.org/go/threatsoverview/). This guide: [Poisoning taxonomy](05-model-artifact-supply-chain.md#poisoning-taxonomy-across-the-lifecycle) (Chapter 5); [Lifecycle control points](06-pipeline.md#lifecycle-control-points) (Chapter 6).*
 
 ## Primary Mapping
 
@@ -38,7 +29,7 @@ For broader threat–control coverage across all AI types, use the [OWASP AI Exc
 | Multimodal injection | OCR/audio moderation | Multimodal gateway |
 | API key for LLM | Proxy gateway, kill switch | HashiCorp `Vault`, cloud secret manager, internal API proxy |
 | Autonomous AI Malware | Agent behavior monitoring, sandboxing, runtime restriction | AI Gateway, Agent Monitoring |
-| AI Worm Propagation *(emerging)* | Propagation detection, isolation, trust boundaries | Runtime monitoring, EDR/XDR; map to `AML.T0070` / `AML.T0080` patterns—not a single ATLAS worm ID |
+| AI Worm Propagation *(emerging)* | Propagation detection, isolation, trust boundaries | Runtime monitoring, EDR/XDR; closest ATLAS technique is `AML.T0061` LLM Prompt Self-Replication, with `AML.T0070` / `AML.T0080` patterns |
 | AI-driven Reconnaissance | Asset discovery monitoring, attack surface management | ASM tools, SIEM analytics |
 | Autonomous Exploit Generation | Vulnerability intelligence, exploit detection | Threat intelligence platform |
 | AI-driven Lateral Movement | Least privilege, segmentation, agent authorization | IAM, Policy Engine |
@@ -49,30 +40,15 @@ For broader threat–control coverage across all AI types, use the [OWASP AI Exc
 | MCP token exposure | Short-lived OAuth; no secrets in mcp.json | Vault, ThinkWatch, gateway |
 | Agent Persistence | Memory validation, session control | Agent gateway, memory security layer |
 
-### References / Source mapping
-
-**Frameworks and standards**
-- OWASP LLM Top 10 (2025): `LLM01`, `LLM02`, `LLM03`; OWASP MCP Top 10: `MCP01`–`MCP09`
-- MITRE ATLAS: techniques cross-walked in [MITRE ATLAS Mapping](#mitre-atlas-mapping)
-- OWASP AI Exchange: [AI security matrix](https://owaspai.org/go/aisecuritymatrix/)
-
-**Implementation guidance (this guide)**
-- [Appendix A threat card](15-conclusion-appendix.md#appendix-a-threat-control-and-tool-reference-card) (Chapter 15); [Lifecycle control points](06-pipeline.md#lifecycle-control-points) (Chapter 6)
+> *Refs - Frameworks: OWASP LLM Top 10 (2025): `LLM01`, `LLM02`, `LLM03`; OWASP MCP Top 10: `MCP01`-`MCP09`; MITRE ATLAS: techniques cross-walked in [MITRE ATLAS Mapping](#mitre-atlas-mapping); OWASP AI Exchange: [AI security matrix](https://owaspai.org/go/aisecuritymatrix/). This guide: [Appendix A threat card](15-conclusion-appendix.md#appendix-a-threat-control-and-tool-reference-card) (Chapter 15); [Lifecycle control points](06-pipeline.md#lifecycle-control-points) (Chapter 6).*
 
 ## Tool Layers
 
-
-
 ![](../assets/diagrams/12-threat-control-tools-map_01.png)
 
-### References / Source mapping
+*Figure - The layered tool architecture (L1-L7) spanning data and experimentation, security scanning, supply chain, policy-as-code, registry, runtime guardrails, and SOC.*
 
-**Frameworks and standards**
-- OpenSSF MLSecOps whitepaper (2025): layered security architecture
-- NIST AI RMF: Map (control placement across lifecycle)
-
-**Implementation guidance (this guide)**
-- [Layered Tool Architecture](#layered-tool-architecture); [Capabilities by lifecycle area](#capabilities-by-lifecycle-area)
+> *Refs - Frameworks: OpenSSF MLSecOps whitepaper (2025): layered security architecture; NIST AI RMF: Map (control placement across lifecycle). This guide: [Layered Tool Architecture](#layered-tool-architecture); [Capabilities by lifecycle area](#capabilities-by-lifecycle-area).*
 
 ## Capabilities by lifecycle area
 
@@ -86,14 +62,7 @@ For broader threat–control coverage across all AI types, use the [OWASP AI Exc
 | Runtime | Guardrail and gateway | `NeMo Guardrails`, `Llama Guard`, internal gateway |
 | SOC | Telemetry and detection | `ELK`, `Grafana`, `SIEM` |
 
-### References / Source mapping
-
-**Frameworks and standards**
-- OpenSSF MLSecOps whitepaper (2025): lifecycle-stage security measures
-- NIST AI RMF: Map / Measure across lifecycle stages
-
-**Implementation guidance (this guide)**
-- [Lifecycle control points](06-pipeline.md#lifecycle-control-points) (Chapter 6); [OpenSSF mapping in Chapter 11](11-governance-evidence.md#openssf-mlsecops-mapping-whitepaper-2025)
+> *Refs - Frameworks: OpenSSF MLSecOps whitepaper (2025): lifecycle-stage security measures; NIST AI RMF: Map / Measure across lifecycle stages. This guide: [Lifecycle control points](06-pipeline.md#lifecycle-control-points) (Chapter 6); [OpenSSF mapping in Chapter 11](11-governance-evidence.md#openssf-mlsecops-mapping-whitepaper-2025).*
 
 ## Layered Tool Architecture
 
@@ -117,14 +86,7 @@ For broader threat–control coverage across all AI types, use the [OWASP AI Exc
 | Resource Monitoring | Detect unauthorized AI workloads |
 | Session Analysis | Detect multi-step attack behavior |
 
-### References / Source mapping
-
-**Frameworks and standards**
-- OpenSSF MLSecOps whitepaper (2025): Sigstore, SLSA, Scorecard, GUAC cross-cutting tools
-- OWASP AI Exchange: [Periodic table of AI security](https://owaspai.org/go/periodictable/) — L1–L7 layer alignment
-
-**Implementation guidance (this guide)**
-- [Primary Mapping](#primary-mapping); [Appendix: Informative tool command reference](#appendix-informative-tool-command-reference)
+> *Refs - Frameworks: OpenSSF MLSecOps whitepaper (2025): Sigstore, SLSA, Scorecard, GUAC cross-cutting tools; OWASP AI Exchange: [Periodic table of AI security](https://owaspai.org/go/periodictable/) - L1-L7 layer alignment. This guide: [Primary Mapping](#primary-mapping); [Appendix: Informative tool command reference](#appendix-informative-tool-command-reference).*
 
 ## Appendix: Informative tool command reference
 
@@ -221,7 +183,6 @@ asr = compute_attack_success_rate(model, x_test, x_adv, y_test)
 assert asr <= BASELINE_ASR + 0.02, "ASR exceeded threat model threshold"
 
 ```
-
 
 Decision behavior: Compare `ASR` with baseline; exceeding the threat-model threshold should block or escalate release. Evidence: `ASR @ epsilon` report and test set hash.
 
@@ -483,18 +444,7 @@ Decision behavior: If membership inference success rate exceeds the threat model
 | `MCP-Shield` | Workstation / SOC hygiene | per tool docs | Tool poisoning / exfil channel |
 | `NeMo Guardrails` | Runtime | config rails | N/A (runtime; block metrics to SIEM) |
 
-### References / Source mapping
-
-**Frameworks and standards**
-- OpenSSF: Sigstore model-signing; SLSA provenance themes
-- OWASP LLM Top 10 (2025): `LLM01`, `LLM03`; OWASP MCP Top 10: MCP server scan themes
-- EU AI Act: Art. 11 technical documentation (AI-BOM adjacency)
-
-**Implementation guidance (this guide)**
-- [Evidence Pack](11-governance-evidence.md#what-is-an-evidence-pack) (Chapter 11); [Release decision model](06-pipeline.md#release-decision-model) (Chapter 6)
-
-**Author practical guidance**
-- *CLI examples and exit-code decision tables are implementation patterns; validate tool versions and outputs in your environment.*
+> *Refs - Frameworks: OpenSSF: Sigstore model-signing; SLSA provenance themes; OWASP LLM Top 10 (2025): `LLM01`, `LLM03`; OWASP MCP Top 10: MCP server scan themes; EU AI Act: Art. 11 technical documentation (AI-BOM adjacency). This guide: [Evidence Pack](11-governance-evidence.md#what-is-an-evidence-pack) (Chapter 11); [Release decision model](06-pipeline.md#release-decision-model) (Chapter 6). Author note: CLI examples and exit-code decision tables are implementation patterns; validate tool versions and outputs in your environment.*
 
 ## OWASP ML Top 10 Mapping to MLOps Stages
 
@@ -511,29 +461,17 @@ This table is important for classic models and the `MLOps` lifecycle. Note that 
 | `Model Serving` | `ML01 Input Manipulation`, `ML03 Inversion`, `ML04 Membership`, `ML05 Theft`, `ML09 Output Integrity` |
 | `Continuous Monitoring` | `ML01`, `ML02`, `ML08 Skewing`, `ML09` |
 
-### References / Source mapping
-
-**Frameworks and standards**
-- OWASP ML Top 10 (draft): threat IDs in table above — identifiers may change
-- OpenSSF MLSecOps whitepaper (2025): MLOps lifecycle stage alignment
-
-**Implementation guidance (this guide)**
-- [OpenSSF MLSecOps Mapping](11-governance-evidence.md#openssf-mlsecops-mapping-whitepaper-2025) (Chapter 11); [Lifecycle control points](06-pipeline.md#lifecycle-control-points) (Chapter 6)
+> *Refs - Frameworks: OWASP ML Top 10 (draft): threat IDs in table above - identifiers may change; OpenSSF MLSecOps whitepaper (2025): MLOps lifecycle stage alignment. This guide: [OpenSSF MLSecOps Mapping](11-governance-evidence.md#openssf-mlsecops-mapping-whitepaper-2025) (Chapter 11); [Lifecycle control points](06-pipeline.md#lifecycle-control-points) (Chapter 6).*
 
 ## Threat, Control, and Tool Reference Card
 
 The consolidated and complete version of this card (with a `Phase` column and additional details) appears in **Appendix A of Chapter 15**. To avoid duplication, please refer to that appendix for the full table mapping threats to tools and lifecycle stages.
 
-### References / Source mapping
-
-**Frameworks and standards**
-- OWASP AI Exchange: [AI security matrix](https://owaspai.org/go/aisecuritymatrix/)
-- MITRE ATLAS: full technique mapping in [Appendix B](15-conclusion-appendix.md#appendix-b-mitre-atlas-mapping) (Chapter 15)
-
-**Implementation guidance (this guide)**
-- [Appendix A — Threat, Control, and Tool Reference Card](15-conclusion-appendix.md#appendix-a-threat-control-and-tool-reference-card) (Chapter 15)
+> *Refs - Frameworks: OWASP AI Exchange: [AI security matrix](https://owaspai.org/go/aisecuritymatrix/); MITRE ATLAS: full technique mapping in [Appendix B](15-conclusion-appendix.md#appendix-b-mitre-atlas-mapping) (Chapter 15). This guide: [Appendix A - Threat, Control, and Tool Reference Card](15-conclusion-appendix.md#appendix-a-threat-control-and-tool-reference-card) (Chapter 15).*
 
 ## MITRE ATLAS Mapping
+
+> Canonical ATLAS mapping for this guide; the SOC subset in Chapter 10 and Appendix B in Chapter 15 derive from this.
 
 | Threat | Technique | ID |
 | --- | --- | --- |
@@ -550,14 +488,10 @@ The consolidated and complete version of this card (with a `Phase` column and ad
 | `AI Reconnaissance` | `Discover AI Agent Configuration` | `AML.T0084` |
 | `LLM Data Leakage` | `LLM Data Leakage` | `AML.T0057` |
 | `Agent-tool Exfiltration` | `Exfiltration via AI Agent Tool Invocation` | `AML.T0086` |
-| AI Worm Propagation *(emerging)* | Related techniques: `AML.T0070` (RAG Poisoning), `AML.T0080` (context poisoning)—no dedicated ATLAS worm ID; prioritize ingest and agent boundaries | — |
+| AI Worm Propagation *(emerging)* | Closest ATLAS technique: `AML.T0061` (LLM Prompt Self-Replication); related: `AML.T0070` (RAG Poisoning), `AML.T0080` (context poisoning); prioritize ingest and agent boundaries | - |
 | Model Resource Abuse | `Cost Harvesting` | `AML.T0034` |
 
-### References / Source mapping
-
-**Frameworks and standards**
-- MITRE ATLAS: techniques in table above — https://atlas.mitre.org/techniques
-- OWASP LLM Top 10 (2025): cross-walk in [Appendix B](15-conclusion-appendix.md#appendix-b-mitre-atlas-mapping) (Chapter 15)
+> *Refs - Frameworks: MITRE ATLAS: techniques in table above - https://atlas.mitre.org/techniques; OWASP LLM Top 10 (2025): cross-walk in [Appendix B](15-conclusion-appendix.md#appendix-b-mitre-atlas-mapping) (Chapter 15).*
 
 ## Commercial Tool Market Map
 
@@ -574,17 +508,7 @@ In addition to open-source tools, the commercial `MLSecOps` ecosystem is growing
 
 Note: Mentioning a product does not constitute a recommendation. Vendor ownership and product integration may have changed since publication; verify current status before procurement. For selection, first identify the threat and control, then evaluate open-source and commercial options against the criteria below.
 
-### References / Source mapping
-
-**Frameworks and standards**
-- NIST AI RMF: Govern (build-vs-buy and supplier evaluation)
-- ISO/IEC 42001: supplier and third-party AI service themes
-
-**Implementation guidance (this guide)**
-- [Tool Selection Criteria](#tool-selection-criteria); [Primary Mapping](#primary-mapping)
-
-**Author practical guidance**
-- *Commercial vendor names are category examples only—not endorsements.*
+> *Refs - Frameworks: NIST AI RMF: Govern (build-vs-buy and supplier evaluation); ISO/IEC 42001: supplier and third-party AI service themes. This guide: [Tool Selection Criteria](#tool-selection-criteria); [Primary Mapping](#primary-mapping). Author note: Commercial vendor names are category examples only - not endorsements.*
 
 ## Tool Selection Criteria
 
@@ -597,15 +521,7 @@ A suitable tool should have several characteristics:
 * Align with organizational policies.
 * Not require permanent manual exceptions.
 
-### References / Source mapping
-
-**Frameworks and standards**
-- OpenSSF MLSecOps whitepaper (2025): tool integration and supply-chain security themes
-- ISO/IEC 42001: operational planning and control (tooling as control implementation)
-- NIST AI RMF: Measure (evidence-producing controls)
-
-**Implementation guidance (this guide)**
-- [Evidence Pack](11-governance-evidence.md#what-is-an-evidence-pack) (Chapter 11); [Anti-patterns — replacing controls with tools](09-anti-patterns.md#common-anti-patterns) (Chapter 9)
+> *Refs - Frameworks: OpenSSF MLSecOps whitepaper (2025): tool integration and supply-chain security themes; ISO/IEC 42001: operational planning and control (tooling as control implementation); NIST AI RMF: Measure (evidence-producing controls). This guide: [Evidence Pack](11-governance-evidence.md#what-is-an-evidence-pack) (Chapter 11); [Anti-patterns - replacing controls with tools](09-anti-patterns.md#common-anti-patterns) (Chapter 9).*
 
 ## Emerging AI-native Threats
 
@@ -621,22 +537,10 @@ Therefore, future MLSecOps programs must include:
 
 Security validation must evaluate not only whether a model is accurate or safe, but whether the complete AI system can resist autonomous attack behavior.
 
-### References / Source mapping
-
-**Emerging / research**
-- AI worm and autonomous propagation themes — *emerging / not standardized*; see [Chapter 3 — Emerging threats](03-threat-landscape.md#emerging-and-research-stage-threats-summary)
-
-**Implementation guidance (this guide)**
-- [Agent security](08-agentic-ai-security.md) (Chapter 8)
+> *Refs - Frameworks: AI worm and autonomous propagation themes - emerging / not standardized; see [Chapter 3 - Emerging threats](03-threat-landscape.md#emerging-and-research-stage-threats-summary). This guide: [Agent security](08-agentic-ai-security.md) (Chapter 8).*
 
 ## Practical Principle
 
 Tools should make security controls actionable, not replace security thinking. First identify the threat and control, then select the tool.
 
-### References / Source mapping
-
-**Implementation guidance (this guide)**
-- [Tool selection criteria](#tool-selection-criteria); [Anti-patterns](09-anti-patterns.md) (Chapter 9)
-
-**Author practical guidance**
-- *Commercial tool names in this chapter are category examples only—not endorsements.*
+> *Refs - This guide: [Tool selection criteria](#tool-selection-criteria); [Anti-patterns](09-anti-patterns.md) (Chapter 9). Author note: Commercial tool names in this chapter are category examples only - not endorsements.*
