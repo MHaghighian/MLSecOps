@@ -1,4 +1,4 @@
-name: Create Release
+﻿name: Create Release
 
 # Manual workflow — source/docs release (no PDF/DOCX assets). See RELEASING.md
 on:
@@ -29,7 +29,7 @@ jobs:
             echo "Public release of the practical reference guide."
             echo ""
             echo "## Downloads"
-            echo "- **Documentation:** https://l4tr0d3ctism.github.io/MLSecOps/"
+            echo "- **Documentation:** https://mhaghighian.github.io/MLSecOps/"
             echo "- **Source:** this repository (\`chapters-en/\`)"
             echo "- **Word (optional):** \`python scripts/build-docx.py --render-mermaid\`"
             echo ""

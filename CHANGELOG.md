@@ -1,8 +1,12 @@
-# Changelog
+﻿# Changelog
 
 All notable changes to the MLSecOps Guide are documented here.
 
 ## [Unreleased]
+
+### Fixed
+
+- **GitHub Pages / sitemap URLs** — after account rename, `site_url`, `robots.txt`, and docs links now use `https://mhaghighian.github.io/MLSecOps/` (the old `l4tr0d3ctism.github.io` host 404s and broke Search Console sitemap reads).
 
 ## [1.1.1] — 2026-07-16
 
@@ -70,7 +74,7 @@ All notable changes to the MLSecOps Guide are documented here.
 
 ### Added
 
-- **GitHub Pages** documentation site: https://l4tr0d3ctism.github.io/MLSecOps/ (MkDocs Material, Mermaid).
+- **GitHub Pages** documentation site: https://mhaghighian.github.io/MLSecOps/ (MkDocs Material, Mermaid).
 - Public-beta README restructure: Getting Started, Downloads, Community feedback, Releases docs.
 - [GETTING-STARTED.md](GETTING-STARTED.md), [RELEASING.md](RELEASING.md), [releases/README.md](releases/README.md).
 - **Chapter 16** Kubernetes deployment reference.

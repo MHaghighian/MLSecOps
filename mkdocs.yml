@@ -1,10 +1,10 @@
 site_name: MLSecOps Practical Reference Guide
-site_url: https://l4tr0d3ctism.github.io/MLSecOps/
+site_url: https://mhaghighian.github.io/MLSecOps/
 site_description: >-
   Open-source MLSecOps Practical Reference Guide for AI security, machine learning
   security, LLM/RAG/agent security, secure MLOps, and ML supply chain controls.
-repo_url: https://github.com/l4tr0d3ctism/MLSecOps
-repo_name: l4tr0d3ctism/MLSecOps
+repo_url: https://github.com/MHaghighian/MLSecOps
+repo_name: MHaghighian/MLSecOps
 edit_uri: edit/main/chapters-en/
 
 copyright: Copyright &copy; 2025–2026 Moslem Haghighian — CC BY-SA 4.0
@@ -76,4 +76,4 @@ nav:
 extra:
   social:
     - icon: fontawesome/brands/github
-      link: https://github.com/l4tr0d3ctism/MLSecOps
+      link: https://github.com/MHaghighian/MLSecOps

@@ -1,4 +1,4 @@
-# Releasing the Guide
+﻿# Releasing the Guide
 
 Checklist for maintainers publishing **v1.1.1** and later versions.
 
@@ -37,7 +37,7 @@ Pre-built PDF/DOCX are **not** uploaded to GitHub Releases. Readers who need Wor
 
 ### Post-release
 
-- [ ] Verify GitHub Pages deploy (https://l4tr0d3ctism.github.io/MLSecOps/)
+- [ ] Verify GitHub Pages deploy (https://mhaghighian.github.io/MLSecOps/)
 - [ ] Optional: announce in GitHub Discussions
 
 ---
@@ -65,7 +65,7 @@ MLSecOps Practical Reference Guide — open-source AI and ML security handbook.
 **Website:**
 
 ```text
-https://l4tr0d3ctism.github.io/MLSecOps/
+https://mhaghighian.github.io/MLSecOps/
 ```
 
 ### 3. Topics (Settings → General → Topics)
@@ -102,7 +102,7 @@ kubernetes
 
 ### 5. GitHub Pages (Google indexing)
 
-- [x] Site live: https://l4tr0d3ctism.github.io/MLSecOps/
+- [x] Site live: https://mhaghighian.github.io/MLSecOps/
 - [x] `site_description` in `mkdocs.yml` (meta description for Google)
 - [x] `robots.txt` + `sitemap.xml` on Pages deploy
 - [x] Google Search Console HTML tag hook (`inject_google_verification.py`)
@@ -110,7 +110,7 @@ kubernetes
 #### Google Search Console setup
 
 1. **Property type:** URL prefix (not Domain)
-2. **URL:** `https://l4tr0d3ctism.github.io/MLSecOps/`
+2. **URL:** `https://mhaghighian.github.io/MLSecOps/`
 3. **Verification method:** HTML tag
 4. Google shows something like:
    ```html
@@ -121,10 +121,10 @@ kubernetes
    - **Option B:** edit `seo/google-site-verification.code` (first line only) and push
 6. Re-run **Deploy GitHub Pages** workflow (or push to `main`)
 7. In Search Console click **Verify**
-8. Submit sitemap: `https://l4tr0d3ctism.github.io/MLSecOps/sitemap.xml`
+8. Submit sitemap: `https://mhaghighian.github.io/MLSecOps/sitemap.xml`
 9. URL Inspection → home page → **Request indexing**
 
-Note: you cannot add `github.com/l4tr0d3ctism/MLSecOps` to Search Console (not your domain). Use **GitHub Pages URL** only.
+Note: you cannot add `github.com/MHaghighian/MLSecOps` to Search Console (not your domain). Use **GitHub Pages URL** only.
 
 ### 6. Stars, watchers, forks (social proof)
 
