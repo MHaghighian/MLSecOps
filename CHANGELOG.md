@@ -76,7 +76,7 @@ All notable changes to the MLSecOps Guide are documented here.
 
 - **GitHub Pages** documentation site: https://mhaghighian.github.io/MLSecOps/ (MkDocs Material, Mermaid).
 - Public-beta README restructure: Getting Started, Downloads, Community feedback, Releases docs.
-- [GETTING-STARTED.md](GETTING-STARTED.md), [RELEASING.md](RELEASING.md), [releases/README.md](releases/README.md).
+- [GETTING-STARTED.md](GETTING-STARTED.md), [RELEASING.md](https://github.com/MHaghighian/MLSecOps/blob/main/RELEASING.md), [releases/README.md](https://github.com/MHaghighian/MLSecOps/blob/main/releases/README.md).
 - **Chapter 16** Kubernetes deployment reference.
 - **Appendix E: Implementation Reference** — architecture cards, decision matrix, threat model template, Evidence Pack template, playbooks, master control matrix.
 - **How to use this guide** (Ch.1) and role-based Quick Start (README, docs site).
