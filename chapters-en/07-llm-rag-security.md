@@ -21,7 +21,7 @@ In classic models, security focus is mostly on training data, the model, numeric
 
 | Threat (`OWASP LLM 2025`) | Description | Control |
 |---|---|---|
-| `LLM01` Prompt Injection | Bypassing instructions or changing model behavior | `AI Gateway`, input/output validation, privilege separation, red team testing (do not rely on system prompt as a security control — see `LLM07`) |
+| `LLM01` Prompt Injection | Bypassing instructions or changing model behavior | `AI Gateway`, design-level isolation (hierarchy / spotlighting / Dual-LLM patterns — [defenses](#prompt-injection-defenses-from-filters-to-architecture)), privilege separation, red team via RAG/tool paths (do not rely on system prompt as a security control — see `LLM07`) |
 | `LLM02` Sensitive Information Disclosure | Disclosure of sensitive or confidential data | `DLP`, context control, output restrictions |
 | `LLM03` Supply Chain | Compromised models, plugins, datasets, or dependencies | Model signing, `ModelScan`, `AI-BOM`, provenance (see Chapter 5) |
 | `LLM04` Data and Model Poisoning | Poisoned training data, fine-tuning, or RAG corpus | Data validation, ingest controls, re-index playbook |
@@ -52,7 +52,8 @@ LLM security is not solved by installing a single tool. A set of capabilities mu
 
 | Control | Description |
 |---|---|
-| Runtime guidance and prompt filtering | Tools such as `NeMo Guardrails`, `Lakera Guard`, or an internal gateway inspect incoming prompts before they are sent to the model. |
+| Runtime guidance and prompt filtering | Tools such as `NeMo Guardrails`, `Lakera Guard`, or an internal gateway inspect incoming prompts before they are sent to the model (**L0** — not sufficient alone for tool-using agents). |
+| Design-level injection defenses | Instruction hierarchy, spotlighting for untrusted documents, Dual-LLM / plan-then-execute / map-reduce, and (for high-stakes) capability or IFC policies — [from filters to architecture](#prompt-injection-defenses-from-filters-to-architecture) |
 | `Pre-Inference Scanning` | Inputs are scanned for malicious patterns, bypass attempts, or sensitive data. |
 | Output management and risk scoring | Model output is checked for information leakage and, when needed, blocked, redacted, or reviewed. |
 | `AI Gateway` | A single entry point for applying security policies, rate limits, logging, and access control. |
@@ -70,6 +71,7 @@ LLM security is not solved by installing a single tool. A set of capabilities mu
 
 **Implementation guidance (this guide)**
 - [SOC telemetry](10-monitoring-soc-ir.md#data-required-for-telemetry) (Chapter 10)
+- [Prompt injection defenses: from filters to architecture](#prompt-injection-defenses-from-filters-to-architecture)
 - [Guardrails](#guardrails)
 
 ## Augmentation data (runtime behavior assets)
@@ -322,6 +324,7 @@ Beyond simple text prompts, the following attacks have been reported in producti
 
 **Implementation guidance (this guide)**
 - [Direct and indirect Prompt Injection](#direct-and-indirect-prompt-injection)
+- [Prompt injection defenses: from filters to architecture](#prompt-injection-defenses-from-filters-to-architecture)
 - [Guardrail limitations](#guardrail-limitations)
 
 ## Direct and indirect Prompt Injection
@@ -345,11 +348,113 @@ Sample attack path:
 
 **Implementation guidance (this guide)**
 - [Retrieval Poisoning](#retrieval-poisoning)
+- [Prompt injection defenses: from filters to architecture](#prompt-injection-defenses-from-filters-to-architecture)
 - [Chapter 8 - Tool Output Injection](08-agentic-ai-security.md#tool-output-injection)
+
+## Prompt injection defenses: from filters to architecture
+
+Runtime detection and filtering (gateways, classifiers, input/output guardrails) raise the bar for attackers, but they remain **heuristic**: adaptive injections and tool-mediated side effects can still succeed. For systems that combine **untrusted content** (RAG documents, tool outputs, email, web pages) with **consequential actions** (tools, MCP, write APIs), defense-in-depth must add **design-level** constraints so that untrusted text cannot freely redirect control flow—even if the model is persuaded.
+
+> **Practical rule:** treat detect-and-filter as **necessary but not sufficient** for tool-using agents and indirect-injection surfaces. Pair L0 controls below with architectural patterns (L2–L3) and least-privilege tool access ([Chapter 8 — Intent Gate](08-agentic-ai-security.md#intent-gate)).
+
+### Defense layers (L0–L3)
+
+| Layer | What it is | Typical mechanisms | Guarantee style | When it is mandatory in this guide |
+|---|---|---|---|---|
+| **L0 — Runtime filter** | Inspect/block prompts, context, and outputs | `AI Gateway`, programmable rails, content filters, DLP | Probabilistic | All LLM apps in production |
+| **L1 — Model / prompt policy** | Privilege ordering and provenance signals inside the prompt/context | Instruction hierarchy (provider/model); spotlighting of untrusted text | Probabilistic (stronger than naive prompting) | Managed APIs + RAG context assembly |
+| **L2 — Structural agent patterns** | Constrain what the agent *can* do after seeing untrusted data | Dual-LLM, plan-then-execute, map-reduce, action-selector, context minimization | Stronger control-flow isolation (utility trade-offs) | Agents with tools / multi-document RAG |
+| **L3 — Deterministic policy / IFC** | Enforce data-flow / capability rules **outside** the model before tools run | Capability tags (CaMeL-style), integrity/confidentiality labels (FIDES-style) | Closest to policy-enforced guarantees; still emerging in products | High-stakes write/exfil paths |
+
+L0 details continue in [Guardrails](#guardrails). L2–L3 map to agent architecture in [Chapter 8](08-agentic-ai-security.md) and [Appendix E.1.4](17-appendix-e-implementation-reference.md#e14-agent-with-tools-mcp--apis).
+
+### Instruction hierarchy (L1)
+
+**Instruction hierarchy** trains or configures a model to resolve conflicting instructions by **privilege of source**—typically system (and developer) messages over user messages, and user messages over lower-trust channels such as tool outputs or retrieved documents (Wallace et al., 2024). When a lower-privilege instruction tries to override a higher-privilege rule, the model should ignore or refuse the lower one.
+
+| Practice | Guidance |
+|---|---|
+| Prefer providers/models that document hierarchy / Model Spec behavior | Record provider capability in Evidence Pack (model/config notes)—not a custom “we wrote a hierarchy prompt” claim |
+| Place untrusted text in explicit data/tool channels | Do not paste retrieved documents into the system message as peer instructions |
+| Do not treat hierarchy as sole agent defense | Evaluations such as AgentDojo still show tool-using agents can fail under injection even when hierarchy is present; pair with L2–L3 and Intent Gate |
+
+### Spotlighting (L1 — especially RAG / documents)
+
+**Spotlighting** (Hines et al., 2024) is a family of prompt-engineering techniques that give the model a continuous signal of **provenance** for untrusted input, reducing indirect prompt injection (instructions hidden in documents). Three instantiations:
+
+| Mode | Idea | Notes from the research |
+|---|---|---|
+| **Delimiting** | Wrap untrusted text in special start/end markers; tell the model never to obey instructions between them | Easy; comparatively weaker alone |
+| **Datamarking** | Interleave a marker through the untrusted text (e.g., replace whitespace) and document that convention in the system prompt | Recommended minimum over delimiting-only in the Spotlighting paper |
+| **Encoding** | Transform untrusted text (e.g., base64) so trusted instructions and data remain visually/structurally distinct | Stronger for high-capacity models that can decode while performing the task |
+
+Use spotlighting when assembling RAG or document context. It does **not** replace retrieval ACL, ingest allowlists, or tool authorization.
+
+### Dual-LLM and related structural patterns (L2)
+
+The **Dual-LLM** pattern (Willison, 2023) splits roles:
+
+| Role | Trust | Capabilities |
+|---|---|---|
+| **Privileged LLM (P-LLM)** | Sees user intent / trusted control plane | May plan and request tools; should **not** ingest raw untrusted document/tool payloads |
+| **Quarantined LLM (Q-LLM)** | Sees untrusted content | **No** tool access; extracts or summarizes into constrained outputs |
+| **Orchestrator (non-LLM)** | Deterministic software | Calls tools, stores results as **symbolic variables**, dereferences for display—so P-LLM need not see tainted tokens |
+
+Classic Dual-LLM reduces blast radius but is incomplete if tainted values can still flow into sensitive tool arguments without a policy check. **CaMeL** (Debenedetti et al., 2025) extends the idea with explicit **control/data separation**, a code interpreter, and **capability / provenance** enforcement before tools execute. Educational implementations of related patterns (action-selector, plan-then-execute, map-reduce, dual-LLM, code-then-execute, context-minimization) are catalogued in Beurer-Kellner et al. (2025).
+
+| Pattern (L2) | One-line intent |
+|---|---|
+| Action-selector | LLM only chooses among fixed/templated actions; no free-form tool invention from tainted context |
+| Plan-then-execute | Plan from trusted user intent first; execution orchestrator prevents mid-run plan rewrite by injections |
+| Map-reduce over documents | Process each untrusted document in isolation; aggregate only structured/clean outputs |
+| Context minimization | Keep untrusted retrieved text out of the planner’s long-lived instruction context where possible |
+
+### Least-privilege tools and context isolation (L2/L3 bridge)
+
+Regardless of pattern name:
+
+- **Least-privilege tool access:** allowlist tools; scope arguments; require [Intent Gate](08-agentic-ai-security.md#intent-gate) / HITL for destructive or exfiltrating actions (`ASI02`, `LLM06`).
+- **Context isolation:** separate tenants/sources in RAG; treat tool and agent messages as untrusted input ([Chapter 8](08-agentic-ai-security.md)).
+- **L3 (emerging):** information-flow / integrity labels enforced in middleware before tools run (e.g., FIDES — Costa et al., 2025). Prefer for high-stakes paths; still validate product maturity in your stack.
+
+### How to evidence design-level defenses
+
+| Control intent | Evidence examples (capability-based) |
+|---|---|
+| L0 filters | Gateway policy version; block/allow metrics; guardrail config hash |
+| L1 hierarchy / spotlighting | Provider model notes; prompt-template review showing marked untrusted regions |
+| L2 structural pattern | Architecture diagram; which pattern applies; threat-model note on residual risk |
+| L3 IFC / capabilities | Policy engine rules; denied tool-call logs; design review for high-stakes tools |
+| Validation | Injection tests through **RAG/tool paths**, not only the chat box (control point 7) |
+
+### References / Source mapping
+
+**Frameworks and standards**
+- OWASP LLM Top 10 (2025): `LLM01` Prompt Injection; `LLM05` Improper Output Handling; `LLM06` Excessive Agency
+- OWASP Agentic: `ASI02` Tool Misuse
+- OWASP AI Exchange: [Direct prompt injection](https://owaspai.org/go/directpromptinjection/); [Indirect prompt injection](https://owaspai.org/go/indirectpromptinjection/); [Testing against prompt injection](https://owaspai.org/go/testingpromptinjection/)
+- MITRE ATLAS: `AML.T0051` LLM Prompt Injection; `AML.T0070` RAG Poisoning
+
+**Emerging / research**
+- Wallace, E. et al. (2024). *The Instruction Hierarchy: Training LLMs to Prioritize Privileged Instructions*. arXiv:2404.13208. https://arxiv.org/abs/2404.13208 — also [OpenAI summary](https://openai.com/index/the-instruction-hierarchy/)
+- Hines, K. et al. (2024). *Defending Against Indirect Prompt Injection Attacks With Spotlighting*. arXiv:2403.14720. https://arxiv.org/abs/2403.14720
+- Willison, S. (2023). *The Dual LLM pattern for building AI assistants that can resist prompt injection*. https://simonwillison.net/2023/Apr/25/dual-llm-pattern/
+- Debenedetti, E. et al. (2025). *Defeating Prompt Injections by Design* (CaMeL). arXiv:2503.18813. https://arxiv.org/abs/2503.18813
+- Beurer-Kellner, L. et al. (2025). *Design Patterns for Securing LLM Agents against Prompt Injections*. arXiv:2506.08837. https://arxiv.org/abs/2506.08837
+- Costa, M. et al. (2025). *Securing AI Agents with Information-Flow Control* (FIDES). arXiv:2505.23643. https://arxiv.org/abs/2505.23643
+- Debenedetti, E. et al. (2024). *AgentDojo: A Dynamic Environment to Evaluate Prompt Injection Attacks and Defenses for LLM Agents*. arXiv:2406.13352. https://arxiv.org/abs/2406.13352
+
+**Implementation guidance (this guide)**
+- [Guardrails](#guardrails); [Guardrail limitations](#guardrail-limitations)
+- [Intent Gate](08-agentic-ai-security.md#intent-gate) (Chapter 8)
+- [Appendix E.1.4 Agent with tools](17-appendix-e-implementation-reference.md#e14-agent-with-tools-mcp--apis)
+
+**Author practical guidance**
+- *L2–L3 patterns trade utility for isolation; select by threat model—do not claim full “prompt-injection solved” from filters alone*
 
 ## Guardrails
 
-`Guardrail`s must run both before and after the model. Pre-model control inspects input and context. Post-model control inspects output for data leakage, dangerous content, executable instructions, and policy violations.
+`Guardrail`s must run both before and after the model (**L0** in [defense layers](#defense-layers-l0l3)). Pre-model control inspects input and context. Post-model control inspects output for data leakage, dangerous content, executable instructions, and policy violations.
 
 | Control location | Example control |
 |---|---|
@@ -370,7 +475,7 @@ Sample attack path:
 
 ## Guardrail limitations
 
-`Guardrail` is a useful defensive layer, but not complete or definitive control. Relying solely on guardrails is an `Anti-pattern` (Chapter 9). Main limitations:
+`Guardrail` is a useful defensive layer (**L0**), but not complete or definitive control. Relying solely on detect-and-filter guardrails—without gateway policy, authorization, and (for agents) architectural isolation—is an `Anti-pattern` (Chapter 9). Main limitations:
 
 | Limitation | Description |
 |---|---|
@@ -379,8 +484,9 @@ Sample attack path:
 | lack of full semantic understanding | guardrail classifiers often see patterns, not true intent. |
 | latency and cost | adding multiple moderation layers increases latency and inference cost. |
 | no coverage of business logic | guardrails do not know whether an action is permitted; that is the job of `Intent Gate` and authorization. |
+| no control-flow isolation | filters do not stop untrusted tool/RAG text from reshaping agent plans unless L2–L3 patterns are also applied — [design-level defenses](#prompt-injection-defenses-from-filters-to-architecture) |
 
-For this reason, guardrails should be part of a `Defense-in-Depth` including `Gateway`, authorization, `Intent Gate`, telemetry, and threat modeling—not a replacement for them.
+For this reason, guardrails should be part of a `Defense-in-Depth` including `Gateway`, authorization, `Intent Gate`, design-level injection defenses, telemetry, and threat modeling—not a replacement for them.
 
 ### References / Source mapping
 
@@ -388,7 +494,8 @@ For this reason, guardrails should be part of a `Defense-in-Depth` including `Ga
 - OWASP LLM Top 10 (2025): `LLM01` (guardrails are not sole control)
 
 **Implementation guidance (this guide)**
-- [Chapter 9 - Guardrail-only anti-pattern](09-anti-patterns.md#common-anti-patterns)
+- [Prompt injection defenses: from filters to architecture](#prompt-injection-defenses-from-filters-to-architecture)
+- [Chapter 9 - Common anti-patterns](09-anti-patterns.md#common-anti-patterns)
 - [Chapter 8 - Intent Gate](08-agentic-ai-security.md#intent-gate)
 
 **Author practical guidance**
@@ -523,23 +630,23 @@ Based on OWASP MCP Cheat Sheet and AISVS C10 themes:
 
 ### MCP scanning and tooling
 
-Use **complementary** scanners — they target different surfaces:
+Use **complementary** scanners — they target different surfaces. Labels: **Mature** / **Emerging** / **Research/Lab** (see [Chapter 12 maturity labels](12-threat-control-tools-map.md#purpose-of-mapping)). Evidence should name the **capability** (e.g., “MCP server static scan report”), not a single mandatory product.
 
-| Tool | Surface | When to use |
-|---|---|---|
-| [mcps-audit](https://github.com/razashariff/mcps-audit) | MCP **server source code** | Lifecycle control point 3 for repos you build |
-| [mcp-scan](https://github.com/invariantlabs-ai/mcp-scan) / **Snyk Agent Scan** | **Installed** MCP configs (Cursor, Claude, VS Code, …) | Developer workstation audit; MCP09 discovery |
-| [MCP-Shield](https://github.com/riseandignite/mcp-shield) | Installed servers — poisoning, exfiltration, cross-origin | Alternative/complement to Agent Scan |
-| [MCP Guardian](https://github.com/eqtylab/mcp-guardian) | **Runtime** — control which MCP servers the assistant may use | Production user machines |
-| [ToolHive](https://github.com/StacklokLabs/toolhive) | **Deploy/manage** MCP servers with consistent security defaults | Platform teams shipping MCP |
-| [Damn Vulnerable MCP Server](https://github.com/harishsg993010/damn-vulnerable-MCP-server) | Intentionally vulnerable lab | Red team training (Ch.13) |
-| [mcp-injection-experiments](https://github.com/invariantlabs-ai/mcp-injection-experiments) | Tool poisoning PoCs | Security research and test harness design |
+| Tool | Maturity | Surface | When to use |
+|---|---|---|---|
+| [mcp-scan](https://github.com/invariantlabs-ai/mcp-scan) / **Snyk Agent Scan** | Mature | **Installed** MCP configs (Cursor, Claude, VS Code, …) | Developer workstation audit; MCP09 discovery |
+| [mcps-audit](https://github.com/razashariff/mcps-audit) | Emerging | MCP **server source code** | Control point 3 for repos you build; community scanner (author active in IETF individual drafts on MCP security — [draft-sharif-mcps-secure-mcp](https://datatracker.ietf.org/doc/draft-sharif-mcps-secure-mcp/)) |
+| [MCP-Shield](https://github.com/riseandignite/mcp-shield) | Emerging | Installed servers — poisoning, exfiltration, cross-origin | Alternative/complement to Agent Scan |
+| [MCP Guardian](https://github.com/eqtylab/mcp-guardian) | Emerging | **Runtime** — which MCP servers the assistant may use | Production user machines (validate fit) |
+| [ToolHive](https://github.com/StacklokLabs/toolhive) | Emerging | **Deploy/manage** MCP servers with security defaults | Platform teams shipping MCP |
+| [Damn Vulnerable MCP Server](https://github.com/harishsg993010/damn-vulnerable-MCP-server) | Research / Lab | Intentionally vulnerable lab | Red team training (Ch.13) |
+| [mcp-injection-experiments](https://github.com/invariantlabs-ai/mcp-injection-experiments) | Research / Lab | Tool poisoning PoCs | Security research and test harness design |
 
 **Curated indexes:** [awesome-mcp-security](https://github.com/AIM-Intelligence/awesome-mcp-security) (papers + tools), [Puliczek/awesome-mcp-security](https://github.com/Puliczek/awesome-mcp-security) (broader community list), [awesome-mcp-gateways](https://github.com/e2b-dev/awesome-mcp-gateways) (gateways). **Checklist:** [SlowMist MCP Security Checklist](https://github.com/slowmist/MCP-Security-Checklist) for self-assessment across client, server, and multi-MCP scenarios.
 
-#### Source code scan — mcps-audit
+#### Source code scan — mcps-audit *(Emerging)*
 
-[mcps-audit](https://github.com/razashariff/mcps-audit) scans MCP server source against OWASP MCP Top 10 and Agentic AI Top 10 patterns:
+[mcps-audit](https://github.com/razashariff/mcps-audit) scans MCP server source against OWASP MCP Top 10 and Agentic AI Top 10 patterns. Treat as an **Emerging** example, not a required product name in policy—require a **static scan report** capability in Evidence Pack.
 
 ```bash
 npm install -g mcps-audit

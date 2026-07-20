@@ -4,6 +4,16 @@ All notable changes to the MLSecOps Guide are documented here.
 
 ## [Unreleased]
 
+### Added
+
+- **Ch.7 — Prompt injection defenses: from filters to architecture** — L0–L3 defense layers (runtime filter, instruction hierarchy, spotlighting, Dual-LLM / structural patterns, IFC/capability); citations to Wallace et al. (2024), Hines et al. (2024), Willison (2023), Debenedetti et al. CaMeL (2025), Beurer-Kellner et al. design patterns (2025), Costa et al. FIDES (2025), AgentDojo (2024).
+- **Tool maturity labels** (`Mature` / `Emerging` / `Research/Lab`) in Ch.11–12 MCP/gateway tables; Evidence Pack MCP control worded as capability (static scan report), not a single product name.
+
+### Changed
+
+- Ch.8 agent defense layers and Ch.9 anti-patterns: detect-only injection defense called out; Appendix E.1.4 / threat-model template aligned.
+- Ch.15 bibliography and production checklist updated for design-level PI refs and MCP scan capability wording.
+
 ### Fixed
 
 - **GitHub Pages / sitemap URLs** — after account rename, `site_url`, `robots.txt`, and docs links now use `https://mhaghighian.github.io/MLSecOps/` (the old `l4tr0d3ctism.github.io` host 404s and broke Search Console sitemap reads).

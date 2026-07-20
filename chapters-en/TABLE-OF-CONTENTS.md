@@ -130,6 +130,7 @@
 - [System Prompt Leakage (LLM07)](07-llm-rag-security.md#system-prompt-leakage-llm07)
 - [Advanced Prompt Injection techniques](07-llm-rag-security.md#advanced-prompt-injection-techniques)
 - [Direct and indirect Prompt Injection](07-llm-rag-security.md#direct-and-indirect-prompt-injection)
+- [Prompt injection defenses: from filters to architecture](07-llm-rag-security.md#prompt-injection-defenses-from-filters-to-architecture)
 - [Guardrails](07-llm-rag-security.md#guardrails)
 - [Guardrail limitations](07-llm-rag-security.md#guardrail-limitations)
 - [Downstream conventional injection](07-llm-rag-security.md#downstream-conventional-injection)

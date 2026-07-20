@@ -4,6 +4,16 @@
 
 Threat, control, and capability mapping helps teams understand which control is required for each risk and what type of implementation can support it. Specific tools are listed only as **informative examples**. They are not endorsed by this guide, may change over time, and must be validated in the reader's environment before being used for release decisions.
 
+**Maturity labels** (for tool examples only—not a ranking of vendors):
+
+| Label | Meaning |
+|---|---|
+| **Mature** | Widely adopted / maintained by a known organization; still validate in your environment |
+| **Emerging** | Useful community or early product; require security/architecture review before production baseline |
+| **Research / Lab** | Education, PoC, or harness—not a production control by itself |
+
+Do not treat Mature and Emerging examples as equivalent trust levels when they appear in the same table.
+
 > **Reading note:** The [Primary Mapping](#primary-mapping) and [layered architecture](#layered-tool-architecture) sections are the main reference for threat modeling. Detailed CLI examples are optional and live in the [appendix below](#appendix-informative-tool-command-reference)—skip them unless you are implementing evidence collection.
 
 For broader threat–control coverage across all AI types, use the [OWASP AI Exchange periodic table](https://owaspai.org/go/periodictable/) as a complementary index. This chapter maps threats to **MLOps lifecycle stages**, tool layers, and control points in Chapter 6—it does not reproduce the Exchange catalog.
@@ -23,30 +33,30 @@ For broader threat–control coverage across all AI types, use the [OWASP AI Exc
 
 | Threat | Control | Example capability / non-endorsed tool examples |
 | --- | --- | --- |
-| `Data Poisoning` | Data validation, lineage, anomaly detection | `Great Expectations`, `Evidently` |
-| `PII` leakage | Sensitive data identification and masking | `Presidio`, enterprise `DLP` |
-| Poisoned model | Artifact scan and backdoor test | `ModelScan`, internal test |
-| Vulnerable dependency | `SCA` and container scan | `Trivy`, `Syft`, `Grype` |
-| Secret in code or notebook | Secret scanning | `Gitleaks`, `TruffleHog` |
-| `Prompt Injection` | Gateway, red team test, guardrail | `Promptfoo`, `Garak`, internal gateway |
+| `Data Poisoning` | Data validation, lineage, anomaly detection | `Great Expectations` *(Mature)*, `Evidently` *(Mature)* |
+| `PII` leakage | Sensitive data identification and masking | `Presidio` *(Mature)*, enterprise `DLP` *(Mature)* |
+| Poisoned model | Artifact scan and backdoor test | `ModelScan` *(Mature)*, internal test |
+| Vulnerable dependency | `SCA` and container scan | `Trivy` *(Mature)*, `Syft` *(Mature)*, `Grype` *(Mature)* |
+| Secret in code or notebook | Secret scanning | `Gitleaks` *(Mature)*, `TruffleHog` *(Mature)* |
+| `Prompt Injection` | Gateway + design-level isolation + red team (not filters alone) | Internal gateway; `Promptfoo` *(Mature)*; `Garak` *(Mature)*; see [Ch.7 design defenses](07-llm-rag-security.md#prompt-injection-defenses-from-filters-to-architecture) |
 | `RAG Poisoning` | Ingest and retrieval ACL control | Ingest review, policy engine, access-controlled retriever |
 | `Tool Abuse` | Intent gate and scoped access | Policy engine, IAM |
 | `Memory Poisoning` | Sanitization, TTL, and provenance | Internal memory gateway |
 | Runtime leakage | Telemetry and output DLP | `SIEM`, `DLP`, `AI Gateway` |
-| `Gradient Leakage` (federated) | Secure aggregation, DP | `TensorFlow Privacy`, `OpenDP` |
-| Attack on ML security (IDS/malware) | Adversarial robustness in detection model | `ART`, retraining |
+| `Gradient Leakage` (federated) | Secure aggregation, DP | `TensorFlow Privacy` *(Mature)*, `OpenDP` *(Mature)* |
+| Attack on ML security (IDS/malware) | Adversarial robustness in detection model | `ART` *(Mature)*, retraining |
 | Multimodal injection | OCR/audio moderation | Multimodal gateway |
-| API key for LLM | Proxy gateway, kill switch | HashiCorp `Vault`, cloud secret manager, internal API proxy |
+| API key for LLM | Proxy gateway, kill switch | HashiCorp `Vault` *(Mature)*, cloud secret manager, internal API proxy |
 | Autonomous AI Malware | Agent behavior monitoring, sandboxing, runtime restriction | AI Gateway, Agent Monitoring |
 | AI Worm Propagation *(emerging)* | Propagation detection, isolation, trust boundaries | Runtime monitoring, EDR/XDR; closest ATLAS technique is `AML.T0061` LLM Prompt Self-Replication, with `AML.T0070` / `AML.T0080` patterns |
 | AI-driven Reconnaissance | Asset discovery monitoring, attack surface management | ASM tools, SIEM analytics |
 | Autonomous Exploit Generation | Vulnerability intelligence, exploit detection | Threat intelligence platform |
 | AI-driven Lateral Movement | Least privilege, segmentation, agent authorization | IAM, Policy Engine |
 | Compute Hijacking | GPU workload monitoring, resource anomaly detection | GPU telemetry, infrastructure monitoring |
-| MCP tool poisoning | Gateway; schema pin; static + host scan | `mcps-audit`, `mcp-scan` (Snyk Agent Scan), MCP-Shield |
+| MCP tool poisoning | Gateway; schema pin; static + host scan | `mcp-scan` / Snyk Agent Scan *(Mature)*; `mcps-audit` *(Emerging)*; MCP-Shield *(Emerging)* |
 | MCP09 Shadow MCP server | IDE allowlist; registry; Shadow AI program | Ch.11, enterprise MCP gateway |
 | MCP rug pull / schema change | Hash pin on `tools/list`; re-consent on change | Gateway + CI scan |
-| MCP token exposure | Short-lived OAuth; no secrets in mcp.json | Vault, ThinkWatch, gateway |
+| MCP token exposure | Short-lived OAuth; no secrets in mcp.json | Vault *(Mature)*; ThinkWatch *(Emerging)*; gateway |
 | Agent Persistence | Memory validation, session control | Agent gateway, memory security layer |
 
 ### References / Source mapping
@@ -297,9 +307,9 @@ python redteam/pyrit_orchestrator.py --target prod-assistant --strategy crescend
 
 Decision behavior: Suitable for deep seasonal testing or before major release, not every build. Evidence: conversation report and outcome.
 
-### L2 — MCP Server Static Scan: mcps-audit
+### L2 — MCP Server Static Scan: mcps-audit *(Emerging)*
 
-Purpose: Scan MCP server source (`.js`, `.ts`, `.py`, `.json`) for OWASP MCP Top 10 and Agentic AI Top 10 anti-patterns before deploy.
+Purpose: Scan MCP server source (`.js`, `.ts`, `.py`, `.json`) for OWASP MCP Top 10 and Agentic AI Top 10 anti-patterns before deploy. **Maturity: Emerging** — community scanner; author also maintains related IETF individual Internet-Drafts on MCP cryptographic security ([draft-sharif-mcps-secure-mcp](https://datatracker.ietf.org/doc/draft-sharif-mcps-secure-mcp/)). Validate before treating as sole production baseline; prefer capability evidence (“MCP server static scan report”) over mandating this specific binary.
 
 ```bash
 npm install -g mcps-audit
@@ -307,11 +317,11 @@ mcps-audit ./services/my-mcp-server
 mcps-audit ./services/my-mcp-server --json > mcp-audit.json
 ```
 
-Decision behavior: Parse CLI exit status and `--json` output; critical MCP01/MCP03/MCP04/MCP05/MCP07 class findings should block or escalate release. Evidence: `mcp-audit.json` in Evidence Pack. Run as part of lifecycle control point 3 for repos that ship MCP servers; pair with MCP gateway at runtime (Ch.7).
+Decision behavior: Parse CLI exit status and `--json` output; critical MCP01/MCP03/MCP04/MCP05/MCP07 class findings should block or escalate release. Evidence: static-scan report JSON in Evidence Pack. Run as part of lifecycle control point 3 for repos that ship MCP servers; pair with MCP gateway at runtime (Ch.7).
 
 Reference: [razashariff/mcps-audit](https://github.com/razashariff/mcps-audit)
 
-### L2 — Installed MCP Config Scan: Snyk Agent Scan (mcp-scan)
+### L2 — Installed MCP Config Scan: Snyk Agent Scan (mcp-scan) *(Mature)*
 
 Purpose: Discover and scan **installed** MCP configurations (Cursor, Claude Desktop, VS Code, Windsurf, etc.) for tool poisoning, shadowing, and prompt injection in live `tools/list` output.
 
@@ -325,9 +335,9 @@ Decision behavior: **Not a model release control** — use for developer worksta
 
 Reference: [invariantlabs-ai/mcp-scan](https://github.com/invariantlabs-ai/mcp-scan) (Snyk Agent Scan)
 
-### L2 — Installed MCP Scan (alternative): MCP-Shield
+### L2 — Installed MCP Scan (alternative): MCP-Shield *(Emerging)*
 
-Purpose: Scan installed MCP servers for tool poisoning, exfiltration channels, and cross-origin escalation — complementary to Agent Scan.
+Purpose: Scan installed MCP servers for tool poisoning, exfiltration channels, and cross-origin escalation — complementary to Agent Scan. **Maturity: Emerging** — validate before production baseline.
 
 Reference: [riseandignite/mcp-shield](https://github.com/riseandignite/mcp-shield)
 
@@ -482,9 +492,9 @@ Decision behavior: If membership inference success rate exceeds the threat model
 | `cdxgen aibom` | 2, 9 | `aibom .` | — (evidence generation; enforce completeness via `Conftest/OPA`) |
 | `model-signing` | 9 Sign | `model_signing sign/verify` | Verify failure |
 | `Conftest/OPA` | 4, 8 Decision | `conftest test evidence.json` | Any `deny` |
-| `mcps-audit` | 3 Scan (MCP repos) | `mcps-audit scan ./mcp-server --json` | Critical MCP01/MCP03/MCP04/MCP05/MCP07 |
-| `mcp-scan` (Snyk Agent Scan) | Workstation / SOC hygiene | `mcp-scan --json` | Shadow MCP / tool poisoning (not CI gate) |
-| `MCP-Shield` | Workstation / SOC hygiene | per tool docs | Tool poisoning / exfil channel |
+| `mcps-audit` *(Emerging)* | 3 Scan (MCP repos) | `mcps-audit ./mcp-server --json` | Critical MCP findings (capability: static scan report) |
+| `mcp-scan` (Snyk Agent Scan) *(Mature)* | Workstation / SOC hygiene | `uvx snyk-agent-scan@latest --json` | Shadow MCP / tool poisoning (not CI gate) |
+| `MCP-Shield` *(Emerging)* | Workstation / SOC hygiene | per tool docs | Tool poisoning / exfil channel |
 | `NeMo Guardrails` | Runtime | config rails | N/A (runtime; block metrics to SIEM) |
 
 ### References / Source mapping

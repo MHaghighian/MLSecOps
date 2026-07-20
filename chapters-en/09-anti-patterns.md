@@ -21,6 +21,7 @@ Many security failures in AI systems do not stem from lack of advanced tools; th
 | Anti-pattern | Consequence | Correct alternative |
 |---|---|---|
 | running model without `Gateway` | no input, output, or telemetry control | use `AI Gateway` |
+| detect-only Prompt Injection defense (filters/guardrails without design isolation for tool-using agents) | injection still redirects tools / exfil despite “green” classifiers | L0 filters **plus** L1–L3 design defenses — [Ch.7](07-llm-rag-security.md#prompt-injection-defenses-from-filters-to-architecture); [Intent Gate](08-agentic-ai-security.md#intent-gate) |
 | full trust in model output | execution of wrong or unsafe decisions | output validation and human review |
 | using real data in testing | data leakage and privacy violation | masked or controlled synthetic data |
 | model without signature | possibility of substitution or tampering | `Model Signing` and attestation |
@@ -29,7 +30,7 @@ Many security failures in AI systems do not stem from lack of advanced tools; th
 | no Evidence Pack | inability to audit or analyze incidents | automatic evidence recording |
 | SBOM-only scan without release decision | missing stop point for critical vulns | dependency vulns at control point 4; SBOM/AI-BOM completeness at control point 8 |
 | personal ChatGPT/Copilot with prod data | Shadow AI data exfiltration; lifecycle controls give false confidence because unapproved tools bypass them | enterprise AI gateway + AI-AUP — [Ch.11](11-governance-evidence.md#shadow-ai-governance) |
-| ungoverned MCP in IDE | tool poisoning, shadow MCP (`MCP09`), rug-pull | MCP allowlist, gateway, `mcps-audit` / Agent Scan — [Ch.7](07-llm-rag-security.md#model-context-protocol-mcp-security) |
+| ungoverned MCP in IDE | tool poisoning, shadow MCP (`MCP09`), rug-pull | MCP allowlist, gateway, MCP **server static scan** + installed-config scan — [Ch.7](07-llm-rag-security.md#model-context-protocol-mcp-security) |
 | signed model in open K8s namespace | lateral movement, unsigned sidecars, GPU abuse | RBAC, NetworkPolicy, Kyverno — [Ch.16](16-kubernetes-deployment-reference.md) |
 | shared `Vector DB` across tenants | information leakage between customers | separate physical index or strict isolation |
 | direct Agent connection to `Production DB` | unauthorized data manipulation or export | limited tool, read-only view and `Intent Gate` |

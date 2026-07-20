@@ -47,7 +47,7 @@ Based on enterprise governance patterns ([CTAIO Shadow AI guide](https://ctaio.d
 | L2 — SaaS / SSPM | AI features inside approved apps (Notion AI, Slack AI, Salesforce Einstein) | CASB, SSPM (Obsidian, Valence, etc.) |
 | L3 — Endpoint / browser | Extensions, desktop apps, clipboard → AI upload | EDR, browser extension inventory, endpoint DLP |
 | L4 — Developer environment | Personal Copilot seats, API keys in IDE, `.env` with `OPENAI_API_KEY` | Gitleaks, secret scan (Ch.12), internal dev survey |
-| L5 — AI gateway (sanctioned path) | All approved traffic with prompt logging, PII scrub, budget | LiteLLM, Kong AI Gateway, ToTra, ThinkWatch, internal gateway (Ch.7) |
+| L5 — AI gateway (sanctioned path) | All approved traffic with prompt logging, PII scrub, budget | LiteLLM *(Mature)*; Kong AI Gateway *(Mature)*; ToTra *(Emerging)*; ThinkWatch *(Emerging)*; internal gateway (Ch.7) |
 
 **Gap to document explicitly:** L1–L3 rarely cover 100% of shadow usage (personal devices, embedded SaaS AI, offline local models). Residual risk should be accepted only with **sanctioned alternatives** and executive acknowledgment.
 
@@ -86,14 +86,14 @@ Publish AI-AUP **before** wide blocking — bans without alternatives typically 
 
 ### Open-source gateway references (sanctioned path)
 
-The projects below are non-endorsed examples of open-source gateway patterns. Validate maturity, licensing, and operational fit before use.
+The projects below are non-endorsed examples of open-source gateway patterns. **Maturity labels** follow Chapter 12 (Mature ≠ Emerging). Validate licensing and operational fit before use.
 
-| Project | Role in shadow AI reduction |
-|---|---|
-| [LiteLLM](https://github.com/BerriAI/litellm) | Self-hosted proxy; virtual keys; team budgets; 100+ providers |
-| [Kong AI Gateway](https://github.com/Kong/kong) | Enterprise API management + AI plugins on existing Kong |
-| [ToTra](https://github.com/SugaC-275/ToTra) | Go gateway; PII blocking; quota; audit log |
-| [ThinkWatch](https://github.com/ThinkWatchProject/ThinkWatch) | Enterprise AI bastion; MCP + API proxy; RBAC; audit |
+| Project | Maturity | Role in shadow AI reduction |
+|---|---|---|
+| [LiteLLM](https://github.com/BerriAI/litellm) | Mature | Self-hosted proxy; virtual keys; team budgets; 100+ providers |
+| [Kong AI Gateway](https://github.com/Kong/kong) | Mature | Enterprise API management + AI plugins on existing Kong |
+| [ToTra](https://github.com/SugaC-275/ToTra) | Emerging | Go gateway; PII blocking; quota; audit log |
+| [ThinkWatch](https://github.com/ThinkWatchProject/ThinkWatch) | Emerging | Enterprise AI bastion; MCP + API proxy; RBAC; audit |
 
 Providing a **sanctioned, productive alternative** reduces shadow demand more than blocking alone ([CTAIO AI security stack](https://ctaio.dev/en/ai-security/ai-security-stack/)).
 

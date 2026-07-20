@@ -113,7 +113,7 @@ This checklist completes the minimum baseline and `Day-2` operations. If time is
 | Agent intent gate, HITL, and kill switch | AppSec | Each agent release | Policy test and runbook |
 | Tool output gate | AppSec | Each agent release | Malicious JSON/Markdown test |
 | Multi-agent depth and PEP per hop | Architect | Each new graph | Diagram and escalation test |
-| MCP server static scan (`mcps-audit`) | Security | Each MCP server release | `mcp-audit.json` in Evidence Pack |
+| MCP server static scan | Security | Each MCP server release | Static-scan report (JSON/PDF) in Evidence Pack — capability-based; tool examples in Ch.7/12 |
 | MCP gateway and schema pin | Platform | Each MCP server change | Gateway config + hash log |
 | Shadow AI AI-AUP and discovery | Governance | Quarterly + on hire | CASB report, exception register |
 
@@ -209,7 +209,7 @@ This card is the consolidated and complete version of the Chapter 12 table and i
 
 | Threat | Framework | Surface | Lifecycle | Phase | Risk | Primary Control | Tool/Stage |
 |---|---|---|---|---|---|---|---|
-| `Prompt Injection` | `LLM01` | Prompt | Deploy/Monitor | Execution | Critical | Gateway and sanitization | Runtime |
+| `Prompt Injection` | `LLM01` | Prompt | Deploy/Monitor | Execution | Critical | Gateway + design isolation + tests | Runtime / Ch.7 |
 | `Sensitive Data Leak` | `LLM02` | Prompt/Model | Monitor | Execution | High | Output moderation | Gateway |
 | `Supply Chain Attack` | `LLM03` | Model/Infra | Train/Deploy | Staging | Critical | Sign and scan | Load |
 | `Data Poisoning` | `ML02` | Data | Train | Staging | High | Dataset validation | Control point 4 |
@@ -404,7 +404,7 @@ Each major section may end with:
 - AIM-Intelligence. *awesome-mcp-security*. https://github.com/AIM-Intelligence/awesome-mcp-security
 - Puliczek. *awesome-mcp-security* (community). https://github.com/Puliczek/awesome-mcp-security
 - SlowMist. *MCP Security Checklist*. https://github.com/slowmist/MCP-Security-Checklist
-- razashariff. *mcps-audit*. https://github.com/razashariff/mcps-audit
+- razashariff. *mcps-audit* (Emerging community scanner). https://github.com/razashariff/mcps-audit — related IETF individual draft: https://datatracker.ietf.org/doc/draft-sharif-mcps-secure-mcp/
 - invariantlabs-ai. *mcp-scan* (Snyk Agent Scan). https://github.com/invariantlabs-ai/mcp-scan
 - riseandignite. *MCP-Shield*. https://github.com/riseandignite/mcp-shield
 - eqtylab. *MCP Guardian*. https://github.com/eqtylab/mcp-guardian
@@ -434,6 +434,14 @@ Each major section may end with:
 
 ### Reference Papers and Reports
 
+- Wallace, E. et al. (2024). *The Instruction Hierarchy: Training LLMs to Prioritize Privileged Instructions*. arXiv:2404.13208. https://arxiv.org/abs/2404.13208
+- Hines, K. et al. (2024). *Defending Against Indirect Prompt Injection Attacks With Spotlighting*. arXiv:2403.14720. https://arxiv.org/abs/2403.14720
+- Willison, S. (2023). *The Dual LLM pattern for building AI assistants that can resist prompt injection*. https://simonwillison.net/2023/Apr/25/dual-llm-pattern/
+- Debenedetti, E. et al. (2025). *Defeating Prompt Injections by Design* (CaMeL). arXiv:2503.18813. https://arxiv.org/abs/2503.18813
+- Beurer-Kellner, L. et al. (2025). *Design Patterns for Securing LLM Agents against Prompt Injections*. arXiv:2506.08837. https://arxiv.org/abs/2506.08837
+- Costa, M. et al. (2025). *Securing AI Agents with Information-Flow Control* (FIDES). arXiv:2505.23643. https://arxiv.org/abs/2505.23643
+- Debenedetti, E. et al. (2024). *AgentDojo: A Dynamic Environment to Evaluate Prompt Injection Attacks and Defenses for LLM Agents*. arXiv:2406.13352. https://arxiv.org/abs/2406.13352
+- Sharif, R. *MCPS: Cryptographic Security Layer for the Model Context Protocol* (IETF individual Internet-Draft). https://datatracker.ietf.org/doc/draft-sharif-mcps-secure-mcp/
 - Shumailov, I. et al. (2023). *The Curse of Recursion: Training on Generated Data Makes Models Forget* (Model Collapse).
 - Greshake, K. et al. (2023). *Not What You've Signed Up For: Compromising Real-World LLM-Integrated Applications with Indirect Prompt Injection*.
 - Zou, W. et al. (2024). *PoisonedRAG: Knowledge Poisoning Attacks to RAG*.

@@ -91,7 +91,8 @@ Each card lists minimum security boundaries, primary control points ([Chapter 6]
 | Tools | Least privilege, allowlist, schema pin | 7, 10 | [Ch.8](08-agentic-ai-security.md#tool-trust-boundary), [Ch.7 MCP](07-llm-rag-security.md#model-context-protocol-mcp-security) |
 | High-risk actions | HITL for financial/destructive operations | 7, 8 | [Ch.8 Intent Gate](08-agentic-ai-security.md#intent-gate) |
 | Memory | Sanitize on write, TTL, tenant isolation | 7, 10 | [Ch.8 Memory Poisoning](08-agentic-ai-security.md#memory-poisoning) |
-| MCP | Gateway, `mcps-audit` / Agent Scan, no shadow MCP | 3, 7 | [Ch.7 MCP hardening](07-llm-rag-security.md#mcp-server-hardening-checklist-minimum-bar) |
+| MCP | Gateway; MCP **server static scan** + installed-config scan; no shadow MCP | 3, 7 | [Ch.7 MCP hardening](07-llm-rag-security.md#mcp-server-hardening-checklist-minimum-bar) |
+| Prompt injection (design) | Not filters alone: hierarchy/spotlighting where applicable; Dual-LLM / plan-then-execute for tool agents | 7, 8, 10 | [Ch.7 design defenses](07-llm-rag-security.md#prompt-injection-defenses-from-filters-to-architecture) |
 
 ---
 
@@ -194,8 +195,8 @@ Copy this table per system or architecture card. Replace placeholders. Output sh
 | Training dataset | e.g. `Data Poisoning`, `ML02` | Validation, lineage, PII mask | 2, 3, 4 | | Scan report, lineage ID |
 | Model weights | e.g. backdoor, unsigned swap | ModelScan, signing | 3, 7, 9 | | Hash, signature verify log |
 | RAG index | e.g. `Retrieval Poisoning` | Ingest ACL, reindex playbook | 4, 5, 7 | | Index version hash |
-| Prompt / system instructions | e.g. `LLM01` injection | Gateway, guardrails, red team | 7, 10 | | Test report URI |
-| Agent tools / MCP | e.g. `ASI02`, `MCP09` | Intent Gate, allowlist, scan | 3, 7, 10 | | Tool manifest hash, scan PDF |
+| Prompt / system instructions | e.g. `LLM01` injection | Gateway, design-level isolation, red team (RAG/tool paths) | 7, 10 | | Test report URI; architecture note |
+| Agent tools / MCP | e.g. `ASI02`, `MCP09` | Intent Gate, allowlist, MCP static + config scan | 3, 7, 10 | | Tool manifest hash, scan report |
 | API keys / secrets | e.g. exposure in agent trace | Vault, proxy, rotation | 3, 10 | | Secret scan clean, rotation log |
 | Inference endpoint | e.g. model theft, GPU abuse | AuthN/Z, rate limit, Falco | 10 | | Access log sample |
 | Managed API config | e.g. wrong region/model ID | Config review, snapshot | 5, 8, 9 | | `config_snapshot_hash` |

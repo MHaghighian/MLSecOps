@@ -450,8 +450,8 @@ The controls in this chapter organize into five layers. This is an **operating f
 |---|---|---|
 | 1 — Secure foundation | trusted runtime, dependencies, encryption | sandbox, secret manager, signed images — [Ch.5](05-model-artifact-supply-chain.md), [Ch.16](16-kubernetes-deployment-reference.md) |
 | 2 — Least privilege | minimal tool, data, and API access | scoped tools, OAuth scope review, tenant isolation |
-| 3 — Validation | treat inputs, outputs, and memory as untrusted | gateway, output gate, ingest scan, memory sanitization |
-| 4 — Guardrails | bound risky behavior | HITL, kill switch, policy engine, session limits |
+| 3 — Validation | treat inputs, outputs, and memory as untrusted | gateway, output gate, ingest scan, memory sanitization; design-level injection defenses — [Ch.7](07-llm-rag-security.md#prompt-injection-defenses-from-filters-to-architecture) |
+| 4 — Guardrails | bound risky behavior | HITL, kill switch, policy engine, session limits (**L0 filters alone are not enough** for tool agents) |
 | 5 — Monitoring and response | detect and respond | tool telemetry, anomalies, SOC — [Chapter 10](10-monitoring-soc-ir.md) |
 
 ### References / Source mapping
