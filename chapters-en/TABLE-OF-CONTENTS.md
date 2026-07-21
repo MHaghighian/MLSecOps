@@ -15,6 +15,7 @@
 - [Why DevSecOps Is Insufficient](01-intro.md#why-devsecops-is-insufficient)
 - [AI Threat Surface (Executive Overview)](01-intro.md#ai-threat-surface-executive-overview)
 - [MLSecOps Principles](01-intro.md#mlsecops-principles)
+- [Secure by design](01-intro.md#secure-by-design)
 - [Relationship between MLSecOps and DevSecOps](01-intro.md#relationship-between-mlsecops-and-devsecops)
   - [AI supply chain evidence (`AI-BOM`)](01-intro.md#ai-supply-chain-evidence-ai-bom)
 - [Lifecycle Overview](01-intro.md#lifecycle-overview)
@@ -64,6 +65,7 @@
 - [Experimentation environment security](04-data-security-privacy.md#experimentation-environment-security)
 - [Supplementary controls for experimental environments](04-data-security-privacy.md#supplementary-controls-for-experimental-environments)
 - [Data security in RAG](04-data-security-privacy.md#data-security-in-rag)
+- [Secure by design](04-data-security-privacy.md#secure-by-design)
 - [Practical principle](04-data-security-privacy.md#practical-principle)
 
 ## Chapter 5: [Model, Artifact, and Supply Chain Security](05-model-artifact-supply-chain.md)
@@ -136,6 +138,9 @@
 - [Downstream conventional injection](07-llm-rag-security.md#downstream-conventional-injection)
 - [LoRA, PEFT, and adapter supply chain](07-llm-rag-security.md#lora-peft-and-adapter-supply-chain)
 - [Model Context Protocol (MCP) security](07-llm-rag-security.md#model-context-protocol-mcp-security)
+- [Secure by design](07-llm-rag-security.md#secure-by-design)
+
+## Chapter 8: [Agentic AI Security](08-agentic-ai-security.md)
 
 - [Why Agentic AI poses a different risk](08-agentic-ai-security.md#why-agentic-ai-poses-a-different-risk)
 - [Chatbot vs AI agent](08-agentic-ai-security.md#chatbot-vs-ai-agent)
@@ -166,6 +171,7 @@
 - [Agent control prioritization](08-agentic-ai-security.md#agent-control-prioritization)
 - [Agent security metrics](08-agentic-ai-security.md#agent-security-metrics)
 - [Agent security DO's and DON'Ts](08-agentic-ai-security.md#agent-security-dos-and-donts)
+- [Secure by design](08-agentic-ai-security.md#secure-by-design)
 - [Practical principle](08-agentic-ai-security.md#practical-principle)
 - [MCP tool connections](08-agentic-ai-security.md#mcp-tool-connections)
 

@@ -234,6 +234,34 @@ These principles define how security decisions are made across the AI lifecycle:
 **Author practical guidance**
 - *The six-principle formulation is this guide's synthesis; the underlying requirements derive from the frameworks above*
 
+## Secure by design
+
+`Prompt Injection` is not reliably solvable at the model layer: an `LLM` receives system instructions, user input, and retrieved data as one undifferentiated token stream and cannot dependably separate trusted instructions from untrusted data. An adaptive attacker needs only one working phrasing, so no prompt hardening or classifier eliminates the risk. The `MLSecOps` response is architectural—design the system so that a model following an injected instruction still cannot exceed the user's authority or act consequentially on its own.
+
+| Principle | Practical meaning |
+|---|---|
+| Assume compromise | Design as if the model will follow attacker instructions; controls must hold when it does. |
+| Authorization lives outside the model | Access decisions are enforced by deterministic code, identity, and policy—never by the model or the system prompt. |
+| Contain, don't cure | A compromised model must not exceed the user's authorization, exfiltrate data, or take consequential action unaided. |
+| Honest residual | Unauthorized *actions* are largely preventable (`LLM06`, `Intent Gate`); unauthorized *disclosure* through an authorized channel and *answer corruption* from poisoned context (`LLM09`) are reduced, not eliminated. |
+
+This is a design stance, not a single control. The chapters that follow apply it at the data tier ([Chapter 4](04-data-security-privacy.md#secure-by-design)), the LLM/RAG runtime ([Chapter 7](07-llm-rag-security.md#secure-by-design)), and the agent action layer ([Chapter 8](08-agentic-ai-security.md)).
+
+### References / Source mapping
+
+**Frameworks and standards**
+- OWASP LLM Top 10 (2025): `LLM01` Prompt Injection; `LLM06` Excessive Agency; `LLM09` Misinformation
+- MITRE ATLAS: `AML.T0051` LLM Prompt Injection
+- NIST AI RMF: Manage (residual risk and mitigation)
+
+**Emerging / research**
+- CaMeL: *Defeating Prompt Injections by Design* ([arXiv:2503.18813](https://arxiv.org/abs/2503.18813)) — architectural containment of prompt injection
+
+**Implementation guidance (this guide)**
+- [Chapter 7 — Prompt injection defenses: from filters to architecture](07-llm-rag-security.md#prompt-injection-defenses-from-filters-to-architecture) (control-flow isolation, L0–L3)
+- [Chapter 4 — Secure by design](04-data-security-privacy.md#secure-by-design); [Chapter 7 — Secure by design](07-llm-rag-security.md#secure-by-design) (authorization and output-channel defaults)
+- [MLSecOps Principles](#mlsecops-principles)
+
 ## Relationship between MLSecOps and DevSecOps
 
 `DevSecOps` provides the foundation for securing code, infrastructure, dependencies, containers, secrets, and `CI/CD`. `MLSecOps` extends this foundation for AI-specific assets: data, models, `Model Registry`, `Prompt`, `Embedding`, `Vector DB`, `RAG`, and intelligent agents. `Feature Store` security (access control, lineage, PII in features) is covered in [Chapter 4](04-data-security-privacy.md).

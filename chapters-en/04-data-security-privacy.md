@@ -207,6 +207,30 @@ In `RAG` systems, data matters not only at training time; documents retrieved at
 **Implementation guidance (this guide)**
 - [Chapter 7 - Ingest security in RAG](07-llm-rag-security.md#ingest-security-in-rag)
 
+## Secure by design
+
+Sensitive data sits behind a service that enforces authorization; the model and agent tier reach it only through that service, never with direct data-store credentials. The data tier—not the model—decides what is returned, so a prompt-injected model cannot widen its own access.
+
+| Design decision | Threat it removes | Default posture |
+|---|---|---|
+| Model/agent tier holds **no direct data-store credentials**; all access via an authorizing service | one injection reaching the entire data store (`LLM02`, `LLM06`) | the service validates the caller and returns only authorized data; deny by default |
+| Nothing sensitive enters a system prompt or a model-readable index **without an authorization check** | silent disclosure of unchecked data through retrieval (`LLM08`) | sensitive data stays behind the authorizing service, not pre-loaded into model-visible context |
+
+*Example (illustrative):* the agent is given a `get_ticket(id)` tool, not a database connection string. A single internal API is the only component that touches the store, and it checks the caller's identity on every request—so an injected "return everything" has nowhere to execute, because raw query access was never in the model's hands.
+
+This complements, and does not replace, the controls above: classification, masking, lineage, and tenant isolation still apply to the data the authorizing service returns.
+
+### References / Source mapping
+
+**Frameworks and standards**
+- OWASP LLM Top 10 (2025): `LLM02` Sensitive Information Disclosure; `LLM06` Excessive Agency; `LLM08` Vector and Embedding Weaknesses
+- OWASP AI Exchange: [Least model privilege](https://owaspai.org/go/leastmodelprivilege/); [SEGREGATE DATA](https://owaspai.org/go/segregatedata/)
+- MITRE ATLAS: `AML.T0053` AI Agent Tool Invocation
+
+**Implementation guidance (this guide)**
+- [Chapter 7 — Secure by design](07-llm-rag-security.md#secure-by-design) — identity propagation and vector-store RLS
+- [Data security in RAG](#data-security-in-rag); [Chapter 1 — Secure by design](01-intro.md#secure-by-design)
+
 ## Practical principle
 
 Every piece of data entering the AI lifecycle must have defined origin, owner, version, sensitivity level, and usage authorization. Without this information, model output will not be defensible or auditable.
