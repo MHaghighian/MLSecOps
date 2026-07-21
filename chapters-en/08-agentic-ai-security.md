@@ -590,6 +590,43 @@ Use this checklist during design review, pre-release validation, and SOC playboo
 - [Chapter 9 - Agent without tool control](09-anti-patterns.md#agent-without-tool-control)
 - [Three critical controls](#three-critical-controls)
 
+## Secure by design
+
+The controls above bound what an agent does *once it holds authority*; this section covers the defaults that decide **how much authority it holds** and **whether human oversight stays trustworthy**. They complement the runtime controls in [Chapter 7 — Secure by design](07-llm-rag-security.md#secure-by-design) (identity propagation, credential insulation) and follow the axiom in [Chapter 1](01-intro.md#secure-by-design): the agent is treated as an untrusted principal, so its authority is set by construction—not by its own runtime judgment.
+
+| # | Design decision | Threat it removes | Default posture |
+|---|---|---|---|
+| 1 | **The agent never selects its own scope** | privilege abuse in delegation chains (`ASI03`); confused-deputy access beyond the user | by default the agent borrows the requesting user's authority via delegated / on-behalf-of identity (RFC 8693); a standing Non-Human Identity is provisioned **only** when there is no human principal—scoped to one job and reviewed like any service account |
+| 2 | **Credentials are insulated at the tool boundary** | injection reading a credential from context, or a swapped argument reaching another user's resource (`ASI02`, `LLM06`) | the agent emits only tool name and arguments; the orchestrator attaches the user-scoped credential out-of-band, so a swapped argument still fails downstream authorization (extends the [Tool trust boundary](#tool-trust-boundary)) |
+| 3 | **The approval surface is driven by the orchestrator, not the model** | human-agent trust exploitation and decision-fatigue flooding (`ASI09`) | the `HITL` prompt shows deterministic facts—tool, target resource, arguments or diff—rendered by the orchestrator, never the model's free-text summary; approvals are rate-bounded so a reviewer cannot be flooded into rubber-stamping |
+| 4 | **Autonomy is structurally bounded** | runaway loops and blast-radius amplification (`ASI08`; resource overload) | the orchestrator enforces hard caps on single-agent reasoning/tool-loop iterations, in addition to the multi-agent delegation-depth cap in [Multi-Agent principles](#multi-agent-principles); these are limits the model cannot reason around, not thresholds it can argue past |
+
+**On row 1** — this is the "agent never chooses its own privilege" rule: least privilege is bound at runtime from the caller's identity plus the developer-templated tool scope, not from anything the model decides. Giving an agent its own broad standing account because per-user delegation was more work is the root of most confused-deputy incidents—catalogued as an anti-pattern in [Chapter 9](09-anti-patterns.md#agent-without-tool-control).
+
+**On row 3** — *Example (illustrative):* an agent about to send a payment must surface "pay `Acme Corp` `$50,000` to account `…4521`" as fields the orchestrator computed from the request, so a poisoned instruction that persuaded the model cannot also write the reassuring text the human reads before approving.
+
+**Composition note:** even when every individual tool call is within the user's rights, chaining them can produce a capability no one authorized (e.g. reading HR data and posting to a public channel). Per-call authorization does not catch this; the [Intent Gate](#intent-gate) must evaluate the *combination* within a task—identity-scoping (row 1) and Intent Gate are complementary, neither substitutes for the other.
+
+**Honest residual:** these defaults remove whole classes of over-privilege and oversight-bypass, but a legitimately-authorized action misused within the user's own rights (an authorized send to an attacker-influenced destination) is reduced, not eliminated—gate such actions with the parameter constraints in [Chapter 7 — Secure by design](07-llm-rag-security.md#secure-by-design) and `HITL`.
+
+### References / Source mapping
+
+**Frameworks and standards**
+- OWASP Top 10 for Agentic Applications (2026): `ASI02` Tool Misuse; `ASI03` Identity and Privilege Abuse; `ASI08` Cascading Failures; `ASI09` Human-Agent Trust Exploitation
+- OWASP Non-Human Identities Top 10 (2025): agent identity and token lifecycle
+- OWASP LLM Top 10 (2025): `LLM06` Excessive Agency
+- MITRE ATLAS: `AML.T0053` AI Agent Tool Invocation
+- RFC 8693: OAuth 2.0 Token Exchange (delegated / on-behalf-of tokens)
+- CSA AARM: runtime authorization — identity binding (R6), step-up/defer decisions (R4), least-privilege enforcement (R9); see [AARM alignment](../references/AARM-ALIGNMENT.md)
+
+**Emerging / research**
+- OWASP Agentic Security Initiative, *Agentic AI — Threats and Mitigations* (v1.1, 2025): `T2` Tool Misuse, `T3` Privilege Compromise, `T9` Agent Identity Compromise, `T10` Overwhelming HITL (primary-source taxonomy behind the `ASI0x` Top 10)
+
+**Implementation guidance (this guide)**
+- [Chapter 1 — Secure by design](01-intro.md#secure-by-design); [Chapter 7 — Secure by design](07-llm-rag-security.md#secure-by-design)
+- [Tool trust boundary](#tool-trust-boundary); [Intent Gate](#intent-gate); [Multi-Agent principles](#multi-agent-principles)
+- [Chapter 9 — Agent without tool control](09-anti-patterns.md#agent-without-tool-control)
+
 ## Practical principle
 
 An intelligent agent must not run with full trust. Every tool, every memory, every output, and every delegation to another agent must be treated as untrusted input. Start from the [reference architecture](#agent-reference-architecture) and [six attack domains](#six-attack-domains) in threat modeling, implement the [three critical controls](#three-critical-controls), and verify behavior against the [DO's and DON'Ts](#agent-security-dos-and-donts) before production release.

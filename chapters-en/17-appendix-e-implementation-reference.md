@@ -31,6 +31,7 @@ Each card lists minimum security boundaries, primary control points ([Chapter 6]
 |---|---|---|---|
 | Ingest | Allowlist sources, PII scan, hash per document version | 2, 3, 4 | [Ch.7 ingest](07-llm-rag-security.md#ingest-security-in-rag) |
 | Retrieval | Tenant ACL at query time, no cross-tenant index | 7, 10 | [Ch.7 three-layer](07-llm-rag-security.md#three-layer-controls-in-rag) |
+| Access model | Intra-tenant per-user authorization: server-derived metadata **pre-filter** from identity claims (not model- or client-supplied) | 7, 10 | [Ch.7 Secure by design](07-llm-rag-security.md#secure-by-design) |
 | Runtime | Gateway, output gate, prompt-injection tests | 7, 10 | [Ch.7](07-llm-rag-security.md), [Ch.10](10-monitoring-soc-ir.md) |
 | Re-index | Playbook on source change or poison suspicion | 4, 5 | [Ch.7 Reindex](07-llm-rag-security.md#reindex-playbook) |
 
@@ -89,6 +90,7 @@ Each card lists minimum security boundaries, primary control points ([Chapter 6]
 | Area | Minimum controls | Control points | Guide |
 |---|---|---|---|
 | Tools | Least privilege, allowlist, schema pin | 7, 10 | [Ch.8](08-agentic-ai-security.md#tool-trust-boundary), [Ch.7 MCP](07-llm-rag-security.md#model-context-protocol-mcp-security) |
+| Identity & data access | No direct store credentials; agent borrows the user's identity (delegated / OBO); credential insulated at the tool boundary | 7, 10 | [Ch.8 Secure by design](08-agentic-ai-security.md#secure-by-design), [Ch.7 Secure by design](07-llm-rag-security.md#secure-by-design) |
 | High-risk actions | HITL for financial/destructive operations | 7, 8 | [Ch.8 Intent Gate](08-agentic-ai-security.md#intent-gate) |
 | Memory | Sanitize on write, TTL, tenant isolation | 7, 10 | [Ch.8 Memory Poisoning](08-agentic-ai-security.md#memory-poisoning) |
 | MCP | Gateway; MCP **server static scan** + installed-config scan; no shadow MCP | 3, 7 | [Ch.7 MCP hardening](07-llm-rag-security.md#mcp-server-hardening-checklist-minimum-bar) |
