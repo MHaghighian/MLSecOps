@@ -4,6 +4,30 @@ Official releases: [GitHub Releases](https://github.com/l4tr0d3ctism/MLSecOps/re
 
 ---
 
+## v1.1.2 — 2026-07-25
+
+**Secure by design + prompt-injection architecture** — L0–L3 design-level prompt-injection defenses; Secure by design defaults across Ch.1/4/7/8 ([PR #5](https://github.com/MHaghighian/MLSecOps/pull/5)); tool maturity labels; Pages/sitemap host fix after account rename.
+
+**DOI:** [10.5281/zenodo.21206781](https://doi.org/10.5281/zenodo.21206781) (publish a new Zenodo version from tag `v1.1.2` after GitHub Release)
+
+| Format | Link |
+|--------|------|
+| Source (ZIP) | [Source code (zip)](https://github.com/MHaghighian/MLSecOps/archive/refs/tags/v1.1.2.zip) |
+| Markdown | `chapters-en/` in this repository |
+| Site | https://mhaghighian.github.io/MLSecOps/ |
+| Word (optional) | `python scripts/build-docx.py --render-mermaid` |
+
+### Highlights
+
+- Secure by design: assume-injection, authorization outside the model, credential insulation, intra-tenant vector RLS, zero-egress rendering (EchoLeak / `CVE-2025-32711`), delegated/NHI agent identity
+- Prompt injection defenses L0–L3 (filters → Dual-LLM / CaMeL / IFC-style patterns)
+- Tool maturity labels (`Mature` / `Emerging` / `Research/Lab`) in Ch.11–12
+- GitHub Pages URLs pointed at `mhaghighian.github.io`
+
+Full change history: [CHANGELOG.md](CHANGELOG.md).
+
+---
+
 ## v1.1.1 — 2026-07-16
 
 **Community review + Issue #1 format restore** — citation and content fixes from [PR #3](https://github.com/l4tr0d3ctism/MLSecOps/pull/3); per-section `References / Source mapping` blocks restored; PDF/DOCX no longer attached to releases.

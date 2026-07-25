@@ -4,15 +4,23 @@ Source archives and documentation for the MLSecOps Practical Reference Guide.
 
 From **v1.1.1** onward, pre-built PDF/DOCX are **not** attached to GitHub Releases. Generate Word locally with `python scripts/build-docx.py --render-mermaid` (see [README](../README.md#build-docx-yourself)).
 
-## v1.1.1 (current)
+## v1.1.2 (current)
 
 | Item | Location |
 |------|----------|
-| Source (ZIP) | [v1.1.1 archive](https://github.com/l4tr0d3ctism/MLSecOps/archive/refs/tags/v1.1.1.zip) |
+| Source (ZIP) | [v1.1.2 archive](https://github.com/MHaghighian/MLSecOps/archive/refs/tags/v1.1.2.zip) |
 | Markdown | `chapters-en/` in the repository root |
 | Site | https://mhaghighian.github.io/MLSecOps/ |
 
-**Release:** https://github.com/l4tr0d3ctism/MLSecOps/releases/tag/v1.1.1
+**Release:** https://github.com/MHaghighian/MLSecOps/releases/tag/v1.1.2
+
+---
+
+## v1.1.1
+
+Community review + Issue #1 format restore (2026-07-16).
+
+**Release:** https://github.com/MHaghighian/MLSecOps/releases/tag/v1.1.1
 
 ---
 
@@ -20,7 +28,7 @@ From **v1.1.1** onward, pre-built PDF/DOCX are **not** attached to GitHub Releas
 
 Traceability and OWASP AI Exchange integration (2026-07-11).
 
-**Release:** https://github.com/l4tr0d3ctism/MLSecOps/releases/tag/v1.1.0
+**Release:** https://github.com/MHaghighian/MLSecOps/releases/tag/v1.1.0
 
 ---
 
