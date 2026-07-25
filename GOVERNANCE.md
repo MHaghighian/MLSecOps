@@ -25,7 +25,7 @@ Named maintainers may be listed in this file as the community grows. v0.1 is pri
 
 - **Major (x.0):** First stable release or structural revision (e.g. v1.0.0 lifecycle model frozen).
 - **Minor (0.x):** Content updates, mapping fixes, Appendix E improvements.
-- **Current release:** v1.1.1 — Markdown source and documentation site; optional DOCX via `scripts/build-docx.py`.
+- **Current release:** v1.1.2 — Markdown source and documentation site; optional DOCX via `scripts/build-docx.py`.
 
 Document versions in [README.md](README.md), [CHANGELOG.md](CHANGELOG.md), and [RELEASE_NOTES.md](RELEASE_NOTES.md). Release process: [RELEASING.md](https://github.com/MHaghighian/MLSecOps/blob/main/RELEASING.md).
 
