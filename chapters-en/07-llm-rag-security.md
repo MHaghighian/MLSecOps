@@ -1,6 +1,6 @@
 # Chapter 7: LLM and RAG Security
 
-> **Chapter guide:** This chapter covers LLM runtime threats (§ threats and controls), RAG architecture and poisoning (§ RAG sections), multi-tenant and gateway patterns (mid-chapter), and MCP security (§ MCP — often used by agents). If you only consume a **managed API** without custom training, prioritize gateway, RAG ACL, verification approach, and MCP sections; pair with [Ch.2 managed AI](02-scope-risk-threat-model.md#managed-ai-services-security-reference). Agent runtime controls: [Chapter 8](08-agentic-ai-security.md).
+> **Chapter guide:** This chapter covers LLM runtime threats (§ threats and controls), RAG architecture and poisoning (§ RAG sections), multi-tenant and gateway patterns (mid-chapter), **KV Cache** privacy/isolation ([§ KV Cache security](#kv-cache-security)), and MCP security (§ MCP — often used by agents). If you only consume a **managed API** without custom training, prioritize gateway, RAG ACL, verification approach, and MCP sections; pair with [Ch.2 managed AI](02-scope-risk-threat-model.md#managed-ai-services-security-reference). Agent runtime controls: [Chapter 8](08-agentic-ai-security.md).
 
 ## How LLM security differs from classic ML
 
@@ -230,7 +230,7 @@ Sample scenario: an attacker introduces a poisoned document through a webhook, u
 | Vector DB | physical separation of indexes | avoid metadata filter on shared index |
 | shared inference | quota and queue per tenant | rate limit and prevention of cache leakage |
 
-In `vLLM` or shared GPU scenarios, model weights may be shared, but context and `KV Cache` must never be shared between tenants. Session stickiness and cache cleanup after session end must be mandatory.
+In `vLLM` or shared GPU scenarios, model weights may be shared, but context and `KV Cache` must never be shared between tenants. Session stickiness and cache cleanup after session end must be mandatory. Threat models, prefix-cache side channels, Cache-Augmented Generation (`CAG`), and Emerging obfuscation controls are detailed in [KV Cache security](#kv-cache-security).
 
 ### References / Source mapping
 
@@ -241,18 +241,19 @@ In `vLLM` or shared GPU scenarios, model weights may be shared, but context and 
 - ISO/IEC 42001:2023 - multi-tenant AI service controls (organizational)
 
 **Implementation guidance (this guide)**
+- [KV Cache security](#kv-cache-security)
 - [Chapter 16 - Kubernetes Deployment Reference](16-kubernetes-deployment-reference.md) (namespace isolation, NetworkPolicy, vLLM patterns)
 
 ## Advanced Multi-Tenant hardening
 
 | Risk | Control |
 |---|---|
-| `KV Cache Leak` | partition by tenant and cleanup after session |
+| `KV Cache Leak` | partition by tenant and cleanup after session — see [KV Cache security](#kv-cache-security) |
 | `GPU Colocation` | use `MIG` or dedicated GPU for sensitive tiers |
 | `Model Multiplexing` | tenant-aware batching and separation with padding |
 | `Speculative Decoding` | separate draft state or disable shared state |
 | `Tokenizer Timing Side-Channel` | rate limit, fixed padding and temporal anomaly auditing |
-| `Shared Inference Cache` | cache key includes tenant ID and prompt hash |
+| `Shared Inference Cache` | cache key includes tenant ID and prompt hash; disable cross-tenant prefix reuse for sensitive tiers |
 
 ### References / Source mapping
 
@@ -261,7 +262,68 @@ In `vLLM` or shared GPU scenarios, model weights may be shared, but context and 
 - MITRE ATLAS: `AML.T0024` Exfiltration via AI Inference API (adjacent); Trail of Bits (2024). LeftoverLocals (CVE-2023-4969) - GPU memory leakage - documented incident
 
 **Implementation guidance (this guide)**
+- [KV Cache security](#kv-cache-security)
 - [Chapter 16 - GPU isolation and shared inference](16-kubernetes-deployment-reference.md#gpu-isolation-and-shared-inference)
+
+## KV Cache security
+
+`KV Cache` (Key–Value cache) is **not** a separate AI product or algorithm. It is an **internal Transformer inference mechanism**: during autoregressive generation, each attention layer produces Query (`Q`), Key (`K`), and Value (`V`) vectors; the serving stack stores `K`/`V` for already-processed tokens so later decode steps do not recompute them. Almost all production decoder-only LLMs use some form of this cache (open weights and managed APIs alike). Performance guides such as Hugging Face caching docs, NVIDIA TensorRT-LLM KV management, and vLLM **PagedAttention** treat it as a first-class systems concern; this section covers the **security** surface.
+
+**What is stored.** The cache holds attention Key/Value tensors (and related page metadata in engines like vLLM)—not a plaintext copy of the prompt. Those tensors are still **semantically correlated** with the input token sequence, which is why reconstruction and side-channel research treat leaked or shared KV as a privacy risk (analogous in spirit to embedding inversion in [Chapter 4](04-data-security-privacy.md#information-leakage-from-embedding), but at the inference-state layer).
+
+**Performance rationale (why it exists).** Without caching, generating token *n* requires recomputing attention over the entire prefix. With caching, the prefix is prefills once; each new token only appends its own `K`/`V`. That is why long contexts and multi-turn sessions depend on KV memory management.
+
+### Threat classes
+
+Two distinct adversary models must not be conflated:
+
+| Class | Adversary | Mechanism | Representative work |
+|---|---|---|---|
+| **Direct KV access / reconstruction** | Host operator, CSP, or anyone who can read externalized KV (disk, remote KV pool, dumped pages)—common when large caches sit **outside** a TEE for throughput | Reconstruct prompt from tensors: algebraic **Inversion**, forward-matching **Collision**, semantic **Injection** (append an instruction Query so the model echoes cached context) | Luo et al., *Shadow in the Cache* (NDSS 2026) — proposes **KV-Cloak** |
+| **Cross-tenant prefix / timing side channel** | Co-tenant user on shared serving (vLLM, SGLang, similar) | Shared prefix KV hits change latency / scheduling (e.g. TTFT), enabling token-by-token prompt guessing (**PromptPeek** and follow-ons) | Wu et al., NDSS 2025; OptiLeak / selective-isolation defenses |
+
+LeftoverLocals-style **GPU memory residue** ([Advanced Multi-Tenant hardening](#advanced-multi-tenant-hardening), [Ch.16](16-kubernetes-deployment-reference.md#gpu-isolation-and-shared-inference)) is adjacent: another path by which another process may observe leftover activation/cache state.
+
+### Relation to Cache-Augmented Generation (`CAG`)
+
+`RAG` retrieves documents per query. **Cache-Augmented Generation (`CAG`)** (Chan et al., 2024) is an Emerging architectural pattern for **bounded** knowledge bases: preload relevant documents into a long context, **precompute and persist the KV state**, then answer later queries by restoring that cache—skipping live retrieval. Security implication: the durable KV artifact becomes a **high-value knowledge and privacy object** (often larger blast radius than a single chat session). Treat persisted CAG caches with the same isolation, access control, encryption-or-obfuscation, and lifecycle (create / rotate / purge) expectations as other sensitive runtime artifacts—not as disposable scratch memory.
+
+`CAG` does **not** replace RAG authorization at ingest/retrieval for large or multi-tenant corpora; it concentrates trust in whoever can read or restore the prefilled cache.
+
+### Controls (minimum → Emerging)
+
+| Priority | Control | Threats addressed | Maturity |
+|---|---|---|---|
+| **Required (self-hosted / multi-tenant)** | Tenant-partitioned KV; no cross-tenant prefix reuse for sensitive tiers; session/request cleanup; cache keys bind tenant (and user where needed) | Cross-tenant leak, PromptPeek-class side channels | Mature operational pattern |
+| **Required** | Prefer engine features that avoid sticky shared blocks across security domains; document whether prefix caching is on | Shared-cache side channels | Mature (config) |
+| **Strongly recommended** | Confidential-compute / MaaS designs: treat **externalized** plaintext KV as in-scope for risk assessment (TLS to the client does not cover this) | Direct host/CSP read | Mature (threat modeling) |
+| **Emerging** | Reversible matrix **obfuscation** of stored KV (e.g. **KV-Cloak**: invertible transforms + per-block permutation, with operator fusion to keep latency low)—**not** a substitute for AES at rest of the whole host, and **not** integrity protection | Direct reconstruction (Inversion / Collision / Injection) when tensors are stolen without keys | Research/Lab → Emerging (NDSS 2026 + public prototype) |
+| **Out of scope for KV-Cloak alone** | Cache **integrity** / poisoning, freshness (stale wrong-session reuse), provenance/attestation of KV blocks, key-compromise of fused secrets | Tamper and misuse within authorized path | Open research / standard controls elsewhere |
+
+**Honest residual:** Tenant isolation and cleanup are the production baseline. KV-Cloak-class schemes aim at **confidentiality of stolen tensors** with near-lossless accuracy when keys stay secret; they do not stop a privileged process that holds the de-obfuscation keys, and they do not replace isolation against co-tenant timing attacks. Full AES/HE on every attention step remains generally impractical for high-throughput serving—hence the interest in fused obfuscation—but operational key custody becomes critical.
+
+### References / Source mapping
+
+**Frameworks and standards**
+- OWASP LLM Top 10 (2025): `LLM02` Sensitive Information Disclosure
+- OWASP AI Exchange: [SEGREGATE DATA](https://owaspai.org/go/segregatedata/); [Encode model output](https://owaspai.org/go/encodemodeloutput/) (adjacent disclosure themes)
+- Vaswani et al. (2017). *Attention Is All You Need* — Q/K/V self-attention foundation
+
+**Systems / implementation (informative)**
+- Hugging Face Transformers — generation caching / KV documentation
+- NVIDIA TensorRT-LLM — KV cache management
+- vLLM — PagedAttention and prefix caching
+
+**Emerging / research**
+- Luo, Z. et al. (2026). *Shadow in the Cache: Unveiling and Mitigating Privacy Risks of KV-cache in LLM Inference* (KV-Cloak). NDSS 2026. https://arxiv.org/abs/2508.09442 — *documented research*; code: https://github.com/SiO-2/kvcloak
+- Wu, G. et al. (2025). *I Know What You Asked: Prompt Leakage via KV-Cache Sharing in Multi-Tenant LLM Serving* (PromptPeek). NDSS 2025. https://doi.org/10.14722/ndss.2025.241772
+- Chan, B.J. et al. (2024). *Don't Do RAG: When Cache-Augmented Generation is All You Need for Knowledge Tasks* (`CAG`). https://arxiv.org/abs/2412.15605
+
+**Implementation guidance (this guide)**
+- [Cloud Native and Multi-Tenant deployment](#cloud-native-and-multi-tenant-deployment); [Advanced Multi-Tenant hardening](#advanced-multi-tenant-hardening)
+- [Chapter 16 — GPU isolation and shared inference](16-kubernetes-deployment-reference.md#gpu-isolation-and-shared-inference)
+- [Chapter 4 — Information leakage from Embedding](04-data-security-privacy.md#information-leakage-from-embedding)
+- [Appendix E.1.3 Self-hosted LLM](17-appendix-e-implementation-reference.md#e13-self-hosted-llm-vllm--kserve-on-kubernetes)
 
 ## Fine-tuning risks
 

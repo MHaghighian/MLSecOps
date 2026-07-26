@@ -74,9 +74,9 @@ def main() -> None:
 
 **Open-source MLSecOps handbook for AI security, LLM/RAG, and secure MLOps.**
 
-**v1.1.2** — practical reference for securing AI systems across the ML lifecycle: data, training, deployment, runtime, SOC, and governance.
+**v1.1.3** — practical reference for securing AI systems across the ML lifecycle: data, training, deployment, runtime, SOC, and governance.
 
-[GitHub repository](https://github.com/MHaghighian/MLSecOps) · [Getting Started](getting-started.md) · [Zenodo DOI](https://doi.org/10.5281/zenodo.21206781)
+[GitHub repository](https://github.com/MHaghighian/MLSecOps) · [mhsec.me](https://mhsec.me) · [Getting Started](getting-started.md) · [Zenodo DOI](https://doi.org/10.5281/zenodo.21206781)
 
 ## Topics
 

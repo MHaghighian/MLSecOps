@@ -3,7 +3,7 @@
 > **Open-source MLSecOps handbook for AI security, LLM/RAG, and secure MLOps.**
 
 [![Status](https://img.shields.io/badge/status-stable-blue)](CHANGELOG.md)
-[![Version](https://img.shields.io/badge/version-v1.1.2-lightgrey)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-v1.1.3-lightgrey)](CHANGELOG.md)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21206781.svg)](https://doi.org/10.5281/zenodo.21206781)
 [![Documentation](https://img.shields.io/badge/docs-mhaghighian.github.io%2FMLSecOps-blue)](https://mhaghighian.github.io/MLSecOps/)
 [![License: CC BY-SA 4.0](https://img.shields.io/badge/License-CC%20BY--SA%204.0-green.svg)](LICENSE)
@@ -16,7 +16,8 @@ It covers **LLM security**, **RAG security**, **agentic AI**, **MCP**, **AI supp
 |---|---|
 | **Read online (recommended)** | [mhaghighian.github.io/MLSecOps](https://mhaghighian.github.io/MLSecOps/) |
 | **Source repository** | [github.com/MHaghighian/MLSecOps](https://github.com/MHaghighian/MLSecOps) |
-| **Latest release** | [v1.1.2](https://github.com/MHaghighian/MLSecOps/releases/tag/v1.1.2) |
+| **Maintainer site** | [mhsec.me](https://mhsec.me) |
+| **Latest release** | [v1.1.3](https://github.com/MHaghighian/MLSecOps/releases/tag/v1.1.3) |
 | **Cite (DOI)** | [10.5281/zenodo.21206781](https://doi.org/10.5281/zenodo.21206781) |
 
 ---
@@ -109,13 +110,13 @@ Executive lifecycle (detail in [Chapter 6](chapters-en/06-pipeline.md)):
 
 ## Downloads
 
-**Latest release:** **v1.1.2** · [Zenodo DOI](https://doi.org/10.5281/zenodo.21206781)
+**Latest release:** **v1.1.3** · [Zenodo DOI](https://doi.org/10.5281/zenodo.21206781)
 
 | Format | Link |
 |--------|------|
 | **Documentation site** | [mhaghighian.github.io/MLSecOps](https://mhaghighian.github.io/MLSecOps/) |
 | **Markdown** | `chapters-en/` in this repository |
-| **Source (ZIP)** | [v1.1.2 archive](https://github.com/MHaghighian/MLSecOps/archive/refs/tags/v1.1.2.zip) |
+| **Source (ZIP)** | [v1.1.3 archive](https://github.com/MHaghighian/MLSecOps/archive/refs/tags/v1.1.3.zip) |
 
 All releases: [GitHub Releases](https://github.com/MHaghighian/MLSecOps/releases). Pre-built PDF/DOCX are **not** published with releases; build Word locally if you need a printable copy (below).
 
@@ -187,7 +188,7 @@ If you review the guide and agree to be listed, we can add your name under **Com
 See [CITATION.cff](CITATION.cff) for machine-readable metadata.
 
 ```text
-Haghighian, M. (2026). MLSecOps Practical Reference Guide (v1.1.2).
+Haghighian, M. (2026). MLSecOps Practical Reference Guide (v1.1.3).
 Zenodo. https://doi.org/10.5281/zenodo.21206781
 ```
 

@@ -1,43 +1,43 @@
 ﻿# Releasing the Guide
 
-Checklist for maintainers publishing **v1.1.2** and later versions.
+Checklist for maintainers publishing **v1.1.3** and later versions.
 
-**Current release:** v1.1.2 (2026-07-25)
+**Current release:** v1.1.3 (2026-07-26)
 
 Pre-built PDF/DOCX are **not** uploaded to GitHub Releases. Readers who need Word/PDF run `scripts/build-docx.py` locally.
 
 ---
 
-## v1.1.2 release checklist
+## v1.1.3 release checklist
 
 ### Pre-release (content)
 
-- [x] Secure by design sections (Ch.1, 4, 7, 8) + Appendix E rows ([PR #5](https://github.com/MHaghighian/MLSecOps/pull/5))
-- [x] Prompt injection defenses L0–L3 and tool maturity labels
-- [x] Pages/sitemap host fix (`mhaghighian.github.io`)
+- [x] Ch.7 KV Cache security (+ E.1.3 / Ch.16 / bibliography / TOC)
+- [x] Maintainer site link: https://mhsec.me (MkDocs social + Pages home)
 - [x] Version strings: README, TOC, Ch.1, CHANGELOG, CITATION.cff, CONTRIBUTING, GOVERNANCE, SECURITY, RELEASE_NOTES, releases README, `prepare_pages.py`
 
 ### Git
 
-- [ ] Commit: `docs: release v1.1.2 — Secure by design and PI architecture`
+- [ ] Commit: `docs: release v1.1.3 — KV Cache security and mhsec.me`
 - [ ] `git push origin main`
-- [ ] `git tag -a v1.1.2 -m "MLSecOps Practical Reference Guide v1.1.2"`
-- [ ] `git push origin v1.1.2`
+- [ ] `git tag -a v1.1.3 -m "MLSecOps Practical Reference Guide v1.1.3"`
+- [ ] `git push origin v1.1.3`
 
 ### GitHub Release
 
-1. Create release from tag **v1.1.2** (no PDF/DOCX assets)
-2. Title: **v1.1.2 — MLSecOps Practical Reference Guide**
-3. Body: copy from [releases/v1.1.2-RELEASE-BODY.md](releases/v1.1.2-RELEASE-BODY.md) or [RELEASE_NOTES.md](RELEASE_NOTES.md)
+1. Create release from tag **v1.1.3** (no PDF/DOCX assets)
+2. Title: **v1.1.3 — MLSecOps Practical Reference Guide**
+3. Body: copy from [releases/v1.1.3-RELEASE-BODY.md](releases/v1.1.3-RELEASE-BODY.md) or [RELEASE_NOTES.md](RELEASE_NOTES.md)
 
 ### Zenodo
 
-1. Publish new version from tag `v1.1.2` on [Zenodo record](https://zenodo.org/records/21206781)
-2. Confirm DOI landing page lists v1.1.2
+1. Publish new version from tag `v1.1.3` on [Zenodo record](https://zenodo.org/records/21206781)
+2. Confirm DOI landing page lists v1.1.3
 
 ### Post-release
 
 - [ ] Verify GitHub Pages deploy (https://mhaghighian.github.io/MLSecOps/)
+- [ ] Confirm mhsec.me globe icon / home link visible
 - [ ] Optional: announce in GitHub Discussions
 
 ---
@@ -161,6 +161,7 @@ After each release:
 | `v1.1.0` | Per-section traceability, mapping audit, Exchange integration, intro clarity |
 | `v1.1.1` | Community review fixes, Issue #1 format restore, no packaged PDF/DOCX |
 | `v1.1.2` | Secure by design (Ch.1/4/7/8), PI L0–L3 defenses, tool maturity labels |
+| `v1.1.3` | KV Cache security (Ch.7), CAG/KV-Cloak notes, mhsec.me on docs site |
 | `v2.0.0` | Lifecycle model or major structural change |
 
 Document every release in [CHANGELOG.md](CHANGELOG.md).
@@ -172,7 +173,7 @@ Document every release in [CHANGELOG.md](CHANGELOG.md).
 ```bash
 # From repository root
 python scripts/build-docx.py --render-mermaid
-# Output: dist/MLSecOps-Practical-Reference-Guide-v1.1.2.docx
+# Output: dist/MLSecOps-Practical-Reference-Guide-v1.1.3.docx
 ```
 
 The build uses Pandoc with the Word **reference template** (`scripts/templates/reference.docx`, or auto-download from the v1.0.0 Release DOCX). Diagram PNGs are taken from `assets/diagrams/`; missing PNGs can be rendered from `assets/diagrams/source/*.mmd` with `--render-mermaid`. Export PDF from Word or Pandoc if required. Do not commit large binaries to `main`.

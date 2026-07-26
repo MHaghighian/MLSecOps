@@ -77,3 +77,5 @@ extra:
   social:
     - icon: fontawesome/brands/github
       link: https://github.com/MHaghighian/MLSecOps
+    - icon: fontawesome/solid/globe
+      link: https://mhsec.me

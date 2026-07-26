@@ -4,6 +4,30 @@ Official releases: [GitHub Releases](https://github.com/l4tr0d3ctism/MLSecOps/re
 
 ---
 
+## v1.1.3 — 2026-07-26
+
+**KV Cache security** — Ch.7 section on inference KV privacy (reconstruction vs side-channel), `CAG`, and Emerging KV-Cloak-class controls; maintainer site [mhsec.me](https://mhsec.me) on the documentation site.
+
+**DOI:** [10.5281/zenodo.21206781](https://doi.org/10.5281/zenodo.21206781) (publish a new Zenodo version from tag `v1.1.3` after GitHub Release)
+
+| Format | Link |
+|--------|------|
+| Source (ZIP) | [Source code (zip)](https://github.com/MHaghighian/MLSecOps/archive/refs/tags/v1.1.3.zip) |
+| Markdown | `chapters-en/` in this repository |
+| Site | https://mhaghighian.github.io/MLSecOps/ |
+| Maintainer | https://mhsec.me |
+| Word (optional) | `python scripts/build-docx.py --render-mermaid` |
+
+### Highlights
+
+- KV Cache primer + threat classes (direct reconstruction / PromptPeek) + control maturity table
+- `CAG` treated as durable sensitive KV; baseline = tenant isolation + cleanup
+- Docs social/home link to mhsec.me
+
+Full change history: [CHANGELOG.md](CHANGELOG.md).
+
+---
+
 ## v1.1.2 — 2026-07-25
 
 **Secure by design + prompt-injection architecture** — L0–L3 design-level prompt-injection defenses; Secure by design defaults across Ch.1/4/7/8 ([PR #5](https://github.com/MHaghighian/MLSecOps/pull/5)); tool maturity labels; Pages/sitemap host fix after account rename.

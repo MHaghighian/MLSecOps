@@ -441,6 +441,9 @@ Each major section may end with:
 - Beurer-Kellner, L. et al. (2025). *Design Patterns for Securing LLM Agents against Prompt Injections*. arXiv:2506.08837. https://arxiv.org/abs/2506.08837
 - Costa, M. et al. (2025). *Securing AI Agents with Information-Flow Control* (FIDES). arXiv:2505.23643. https://arxiv.org/abs/2505.23643
 - Debenedetti, E. et al. (2024). *AgentDojo: A Dynamic Environment to Evaluate Prompt Injection Attacks and Defenses for LLM Agents*. arXiv:2406.13352. https://arxiv.org/abs/2406.13352
+- Luo, Z. et al. (2026). *Shadow in the Cache: Unveiling and Mitigating Privacy Risks of KV-cache in LLM Inference* (KV-Cloak). NDSS 2026. https://arxiv.org/abs/2508.09442
+- Wu, G. et al. (2025). *I Know What You Asked: Prompt Leakage via KV-Cache Sharing in Multi-Tenant LLM Serving* (PromptPeek). NDSS 2025. https://doi.org/10.14722/ndss.2025.241772
+- Chan, B.J. et al. (2024). *Don't Do RAG: When Cache-Augmented Generation is All You Need for Knowledge Tasks* (`CAG`). https://arxiv.org/abs/2412.15605
 - Sharif, R. *MCPS: Cryptographic Security Layer for the Model Context Protocol* (IETF individual Internet-Draft). https://datatracker.ietf.org/doc/draft-sharif-mcps-secure-mcp/
 - Shumailov, I. et al. (2023). *The Curse of Recursion: Training on Generated Data Makes Models Forget* (Model Collapse).
 - Greshake, K. et al. (2023). *Not What You've Signed Up For: Compromising Real-World LLM-Integrated Applications with Indirect Prompt Injection*.
@@ -517,7 +520,7 @@ GitHub's built-in Mermaid viewer is unreliable for complex flowcharts (layout er
 
 ## GitHub Version
 
-**Current release:** v1.1.2 (2026-07-25). See [CHANGELOG.md](../CHANGELOG.md) and [GitHub Releases](https://github.com/l4tr0d3ctism/MLSecOps/releases/tag/v1.1.2).
+**Current release:** v1.1.3 (2026-07-26). See [CHANGELOG.md](../CHANGELOG.md) and [GitHub Releases](https://github.com/l4tr0d3ctism/MLSecOps/releases/tag/v1.1.3).
 
 This guide is maintained as Markdown in the [MLSecOps repository](https://github.com/l4tr0d3ctism/MLSecOps). Technical terms use `inline code` formatting where helpful for scanability.
 

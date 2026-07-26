@@ -90,6 +90,7 @@ Maturity detail: [Chapter 14](chapters-en/14-maturity-roadmap.md).
 |--------|----------|
 | Markdown (source) | `chapters-en/*.md` in this repo |
 | Documentation site | [mhaghighian.github.io/MLSecOps](https://mhaghighian.github.io/MLSecOps/) |
+| Maintainer site | [mhsec.me](https://mhsec.me) |
 | Word (optional) | Build locally: `python scripts/build-docx.py --render-mermaid` |
 
 ---
