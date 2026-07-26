@@ -224,7 +224,7 @@ GPU-related incidents (LeftoverLocals `CVE-2023-4969`, cryptomining on compromis
 | Risk | Control |
 |---|---|
 | Cross-process GPU memory leak | Driver updates, memory sanitization, process isolation (Ch.13) |
-| `KV Cache` leak between tenants | Tenant-partitioned cache; session cleanup; no shared sticky cache keys |
+| `KV Cache` leak between tenants | Tenant-partitioned cache; session cleanup; no shared sticky cache keys; see [Ch.7 KV Cache security](07-llm-rag-security.md#kv-cache-security) (reconstruction vs prefix side channel; `CAG` persistence) |
 | GPU colocation side channels | NVIDIA MIG or dedicated GPU per tenant tier |
 | Unauthorized GPU workloads | Node taints (`nvidia.com/gpu`), quota, Falco rules on unexpected GPU processes |
 | Cryptomining | Runtime monitor + anomaly on GPU util vs expected inference baseline |
@@ -237,6 +237,7 @@ Inference security observability should capture **serving-behavior signals** (ha
 - [CVE-2023-4969](https://nvd.nist.gov/vuln/detail/CVE-2023-4969) (LeftoverLocals); NVIDIA MIG documentation (vendor)
 
 **Implementation guidance (this guide)**
+- [Chapter 7 — KV Cache security](07-llm-rag-security.md#kv-cache-security)
 - [LeftoverLocals case study](13-case-studies.md#leftoverlocals-cve-2023-4969--documented-incident) (Chapter 13)
 - [Security metrics](10-monitoring-soc-ir.md#security-metrics) (Chapter 10)
 

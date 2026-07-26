@@ -1,6 +1,6 @@
 # Table of Contents
 
-**MLSecOps Practical Reference Guide v1.1.2** — Securing AI Systems Across the Lifecycle
+**MLSecOps Practical Reference Guide v1.1.3** — Securing AI Systems Across the Lifecycle
 
 ---
 
@@ -128,6 +128,7 @@
 - [Cloud Native and Multi-Tenant deployment](07-llm-rag-security.md#cloud-native-and-multi-tenant-deployment)
 - [Model Context Protocol (MCP) security](07-llm-rag-security.md#model-context-protocol-mcp-security)
 - [Advanced Multi-Tenant hardening](07-llm-rag-security.md#advanced-multi-tenant-hardening)
+- [KV Cache security](07-llm-rag-security.md#kv-cache-security)
 - [Fine-tuning risks](07-llm-rag-security.md#fine-tuning-risks)
 - [System Prompt Leakage (LLM07)](07-llm-rag-security.md#system-prompt-leakage-llm07)
 - [Advanced Prompt Injection techniques](07-llm-rag-security.md#advanced-prompt-injection-techniques)

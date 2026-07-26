@@ -75,6 +75,7 @@ Each card lists minimum security boundaries, primary control points ([Chapter 6]
 | Supply chain | ModelScan, signing, verify before serve | 2, 3, 9 | [Ch.5](05-model-artifact-supply-chain.md), [Ch.16](16-kubernetes-deployment-reference.md) |
 | Cluster | Namespace isolation, NetworkPolicy, signed images | 3, 9, 10 | [Ch.16](16-kubernetes-deployment-reference.md) |
 | Runtime | API key on inference, rate limits, egress allowlist | 10 | [Ch.16 vLLM pattern](16-kubernetes-deployment-reference.md#vllm-on-kubernetes-secure-deployment-pattern) |
+| KV Cache | Tenant-partitioned cache; no cross-tenant prefix reuse for sensitive tiers; session cleanup; treat externalized/persisted KV (incl. `CAG`) as sensitive; optional Emerging obfuscation (e.g. KV-Cloak) | 7, 10 | [Ch.7 KV Cache security](07-llm-rag-security.md#kv-cache-security), [Ch.16 GPU isolation](16-kubernetes-deployment-reference.md#gpu-isolation-and-shared-inference) |
 | CT / retrain | Same lifecycle as initial release | 4, 7, 8, 9 | [Ch.6 CT cycle](06-pipeline.md#continuous-training-cycle) |
 
 ---

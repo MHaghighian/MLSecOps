@@ -4,6 +4,13 @@ All notable changes to the MLSecOps Guide are documented here.
 
 ## [Unreleased]
 
+## [1.1.3] — 2026-07-26
+
+### Added
+
+- **Ch.7 — KV Cache security** — Transformer KV Cache primer (not a separate AI product); direct reconstruction threats (Inversion / Collision / Injection, **KV-Cloak**) vs cross-tenant prefix timing (**PromptPeek**); Cache-Augmented Generation (`CAG`) relation and durable-cache controls; maturity-labeled control table; cross-links from multi-tenant sections, Appendix E.1.3, and Ch.16 GPU isolation. Citations: Luo et al. NDSS 2026, Wu et al. NDSS 2025, Chan et al. 2024 (`CAG`).
+- **Site / maintainer link** — documentation site footer and home page link to [mhsec.me](https://mhsec.me).
+
 ## [1.1.2] — 2026-07-25
 
 ### Added
