@@ -343,6 +343,10 @@
 - [E.4 Evidence Pack Template](17-appendix-e-implementation-reference.md#e4-evidence-pack-template)
 - [E.5 Operational Playbooks](17-appendix-e-implementation-reference.md#e5-operational-playbooks)
 - [E.6 Master Control Matrix](17-appendix-e-implementation-reference.md#e6-master-control-matrix)
+- [E.7 Secure-by-design worked examples](17-appendix-e-implementation-reference.md#e7-secure-by-design-worked-examples)
+  - [Example A: AI coding assistant (agent, MCP, IDE host)](17-appendix-e-implementation-reference.md#e71-example-a-ai-coding-assistant-agent-mcp-ide-host)
+    - [Loop, memory, and runtime mitigations](17-appendix-e-implementation-reference.md#loop-memory-and-runtime-mitigations)
+  - [Example B: Multi-tenant RAG SaaS (upload + per-user chatbot)](17-appendix-e-implementation-reference.md#e72-example-b-multi-tenant-rag-saas-upload--per-user-chatbot)
 - [Practical summary](17-appendix-e-implementation-reference.md#practical-summary)
 
 ---
