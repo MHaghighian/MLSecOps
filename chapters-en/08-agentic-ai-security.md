@@ -625,6 +625,7 @@ The controls above bound what an agent does *once it holds authority*; this sect
 **Implementation guidance (this guide)**
 - [Chapter 1 — Secure by design](01-intro.md#secure-by-design); [Chapter 7 — Secure by design](07-llm-rag-security.md#secure-by-design)
 - [Tool trust boundary](#tool-trust-boundary); [Intent Gate](#intent-gate); [Multi-Agent principles](#multi-agent-principles)
+- [Appendix E.7.1 — AI coding assistant worked example](17-appendix-e-implementation-reference.md#e71-example-a-ai-coding-assistant-agent-mcp-ide-host) (agent + MCP end-to-end)
 - [Chapter 9 — Agent without tool control](09-anti-patterns.md#agent-without-tool-control)
 
 ## Practical principle

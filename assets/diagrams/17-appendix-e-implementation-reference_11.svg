@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="860" viewBox="0 0 1280 860">
+
+  <defs>
+    <marker id="a11arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#0F172A"/>
+    </marker>
+    <marker id="a11arrG" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#047857"/>
+    </marker>
+    <marker id="a11arrR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#B91C1C"/>
+    </marker>
+    <filter id="a11soft" x="-8%" y="-8%" width="116%" height="116%">
+      <feDropShadow dx="0" dy="2" stdDeviation="2.5" flood-color="#0F172A" flood-opacity="0.08"/>
+    </filter>
+    <linearGradient id="a11bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#F8FAFC"/>
+      <stop offset="100%" stop-color="#EEF2F7"/>
+    </linearGradient>
+  </defs>
+
+<rect width="1280" height="860" fill="url(#a11bg)"/>
+
+  <rect width="1280" height="72" fill="#0F172A"/>
+  <text x="32" y="32" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="20" font-weight="700" fill="#F8FAFC">Example A — Runtime &amp; infra mitigations</text>
+  <text x="32" y="54" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" fill="#94A3B8">Cloud/agent runtime isolation, workspace write limits, egress deny-by-default, then approval policy before consequential actions.</text>
+  <rect x="1112" y="22" rx="14" width="136" height="28" fill="#475569"/>
+  <text x="1180" y="41" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" font-weight="700" fill="#fff">INFRA</text>
+
+<rect x="32" y="100" width="360" height="280" rx="14" fill="#F1F5F9" stroke="#475569" stroke-width="1.6" filter="url(#a11soft)"/>
+<text x="52" y="128" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="14" font-weight="800" fill="#0F172A">Cloud / agent runtime</text>
+<rect x="52" y="148" width="320" height="70" rx="12" fill="#FFFFFF" stroke="#94A3B8" stroke-width="1.5"/>
+  <text x="212.0" y="172" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="700" fill="#0F172A">Setup phase</text>
+  <text x="212.0" y="192" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" fill="#64748B">network ON · secrets available for bootstrap</text>
+<path d="M212,218 L212,248" fill="none" stroke="#0F172A" stroke-width="1.7" marker-end="url(#a11arr)"/>
+<rect x="52" y="248" width="320" height="90" rx="12" fill="#ECFDF5" stroke="#059669" stroke-width="1.5"/>
+  <text x="212.0" y="272" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="700" fill="#0F172A">Agent phase (hardened)</text>
+  <text x="212.0" y="292" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" fill="#64748B">network OFF or allowlisted · secrets removed from env · brokered tokens only</text>
+<text x="52" y="360" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" font-weight="600" fill="#047857">Stops: secret theft from env + open exfil</text>
+<rect x="460" y="100" width="280" height="48" rx="12" fill="#FFFFFF" stroke="#0F172A" stroke-width="1.5" filter="url(#a11soft)"/>
+  <text x="600.0" y="126" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="13" font-weight="700" fill="#0F172A">Agent task starts</text>
+<path d="M600,148 L600,180" fill="none" stroke="#0F172A" stroke-width="1.7" marker-end="url(#a11arr)"/>
+<polygon points="600,182 658,240 600,298 542,240" fill="#ECFDF5" stroke="#059669" stroke-width="1.8"/>
+  <text x="600" y="238" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="700" fill="#0F172A">Sandbox</text>
+  <text x="600" y="254" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" fill="#64748B">mode on</text>
+<path d="M542,240 L420,240" fill="none" stroke="#047857" stroke-width="1.7" marker-end="url(#a11arrG)"/>
+<path d="M658,240 L780,240" fill="none" stroke="#047857" stroke-width="1.7" marker-end="url(#a11arrG)"/>
+<rect x="280" y="300" width="240" height="70" rx="12" fill="#ECFDF5" stroke="#059669" stroke-width="1.5" filter="url(#a11soft)"/>
+  <text x="400.0" y="324" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="700" fill="#0F172A">Writes → workspace only</text>
+  <text x="400.0" y="344" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" fill="#64748B">deny .env · hooks · mcp.json · rules · CI</text>
+<rect x="700" y="300" width="280" height="70" rx="12" fill="#ECFDF5" stroke="#059669" stroke-width="1.5" filter="url(#a11soft)"/>
+  <text x="840.0" y="324" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="700" fill="#0F172A">Network deny-by-default</text>
+  <text x="840.0" y="344" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" fill="#64748B">egress allowlist + kill switch (EA)</text>
+<path d="M400,370 L400,420" fill="none" stroke="#0F172A" stroke-width="1.7" marker-end="url(#a11arr)"/>
+<path d="M840,370 L840,420" fill="none" stroke="#0F172A" stroke-width="1.7" marker-end="url(#a11arr)"/>
+<path d="M400,430 L600,470" fill="none" stroke="#0F172A" stroke-width="1.7" marker-end="url(#a11arr)"/>
+<path d="M840,430 L600,470" fill="none" stroke="#0F172A" stroke-width="1.7" marker-end="url(#a11arr)"/>
+<polygon points="600,460 670,530 600,600 530,530" fill="#FEF3C7" stroke="#D97706" stroke-width="1.8"/>
+  <text x="600" y="528" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="700" fill="#0F172A">Approval</text>
+  <text x="600" y="544" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" fill="#64748B">policy</text>
+<path d="M530,530 L360,530" fill="none" stroke="#D97706" stroke-width="1.7" marker-end="url(#a11arr)"/>
+<rect x="160" y="500" width="200" height="70" rx="12" fill="#FEF3C7" stroke="#D97706" stroke-width="1.5" filter="url(#a11soft)"/>
+  <text x="260.0" y="524" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="700" fill="#0F172A">Ask the human</text>
+  <text x="260.0" y="544" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" fill="#64748B">leave sandbox · new host · untrusted cmd · deploy</text>
+<path d="M670,530 L860,530" fill="none" stroke="#047857" stroke-width="1.7" marker-end="url(#a11arrG)"/>
+<rect x="860" y="500" width="200" height="70" rx="12" fill="#EFF6FF" stroke="#2563EB" stroke-width="1.5" filter="url(#a11soft)"/>
+  <text x="960.0" y="524" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="700" fill="#0F172A">Execute</text>
+  <text x="960.0" y="544" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" fill="#64748B">in-policy · profile-scoped · brokered token</text>
+<text x="360" y="490" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" font-weight="600" fill="#D97706">out of policy</text>
+<text x="780" y="490" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" font-weight="600" fill="#047857">in policy</text>
+<rect x="32" y="620" width="1216" height="200" rx="12" fill="#FFFFFF" stroke="#94A3B8"/>
+<text x="52" y="650" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="14" font-weight="800" fill="#0F172A">Maps to Example A controls</text>
+<text x="52" y="680" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="600" fill="#0F172A">Sandbox / workspace writes  →  Principle 11 write-path deny + capability profile (ask/edit/vcs/deploy)</text>
+<text x="52" y="708" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="600" fill="#0F172A">Network deny-by-default      →  EA egress allowlist + kill switch (Plane B/C)</text>
+<text x="52" y="736" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="600" fill="#0F172A">Approval policy              →  Intent Gate + HITL on high-risk effects (destructive / prod / protected branch / new egress)</text>
+<text x="52" y="764" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="600" fill="#0F172A">Secrets removed from env    →  Credential Broker (OBO token in Authorization header only)</text>
+<text x="52" y="792" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="600" fill="#64748B">Closed IDE note: if you cannot insert the diamond inside the vendor loop, enforce the same rules at MCP proxy, API authZ, corporate egress, and MDM.</text>
+</svg>

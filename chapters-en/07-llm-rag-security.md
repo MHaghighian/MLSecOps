@@ -928,6 +928,8 @@ These defaults pair with the structural agent patterns above ([Dual-LLM / CaMeL,
 - [Chapter 1 — Secure by design](01-intro.md#secure-by-design); [Chapter 4 — Secure by design](04-data-security-privacy.md#secure-by-design)
 - [Cloud Native and Multi-Tenant deployment](#cloud-native-and-multi-tenant-deployment); [Downstream conventional injection](#downstream-conventional-injection)
 - [Chapter 8 — Tool trust boundary](08-agentic-ai-security.md#tool-trust-boundary)
+- [Appendix E.7.1 — AI coding assistant worked example](17-appendix-e-implementation-reference.md#e71-example-a-ai-coding-assistant-agent-mcp-ide-host) (agent + MCP + code-RAG end-to-end)
+- [Appendix E.7.2 — Multi-tenant RAG SaaS worked example](17-appendix-e-implementation-reference.md#e72-example-b-multi-tenant-rag-saas-upload--per-user-chatbot) (upload + per-user RLS)
 
 ## Practical principle
 

@@ -1,0 +1,198 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1580" height="980" viewBox="0 0 1580 980">
+
+  <defs>
+    <marker id="b14arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#0F172A"/>
+    </marker>
+    <marker id="b14arrG" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#047857"/>
+    </marker>
+    <marker id="b14arrR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#B91C1C"/>
+    </marker>
+    <filter id="b14soft" x="-8%" y="-8%" width="116%" height="116%">
+      <feDropShadow dx="0" dy="2" stdDeviation="2.5" flood-color="#0F172A" flood-opacity="0.08"/>
+    </filter>
+    <linearGradient id="b14bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#F8FAFC"/>
+      <stop offset="100%" stop-color="#EEF2F7"/>
+    </linearGradient>
+  </defs>
+
+<rect width="1580" height="980" fill="url(#b14bg)"/>
+
+  <rect width="1580" height="72" fill="#0F172A"/>
+  <text x="32" y="32" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="20" font-weight="700" fill="#F8FAFC">Example B — Secure multi-tenant RAG chatbot</text>
+  <text x="32" y="54" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" fill="#94A3B8">Tenant partition + server-built RLS pre-filter + gated ingest + data-channel chunks + CSP lockdown.</text>
+  <rect x="1412" y="22" rx="14" width="136" height="28" fill="#047857"/>
+  <text x="1480" y="41" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" font-weight="700" fill="#fff">SECURED</text>
+
+<rect x="36" y="95" width="180" height="36" rx="8" fill="#EEF2FF" stroke="#6366F1"/>
+<text x="126" y="118" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" font-weight="600" fill="#0F172A">Plane A — UI</text>
+<rect x="230" y="95" width="220" height="36" rx="8" fill="#ECFDF5" stroke="#059669"/>
+<text x="340" y="118" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" font-weight="600" fill="#0F172A">Plane B — control plane</text>
+<rect x="464" y="95" width="220" height="36" rx="8" fill="#EFF6FF" stroke="#2563EB"/>
+<text x="574" y="118" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" font-weight="600" fill="#0F172A">Plane C — IdP / data plane</text>
+<text x="710" y="118" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="600" fill="#64748B">Both: cross-tenant partition AND intra-tenant RLS</text>
+
+  <rect x="36" y="150" width="180" height="56" rx="10" fill="#EEF2FF" stroke="#6366F1" stroke-width="1.4" filter="url(#b14soft)"/>
+  <circle cx="52" cy="166" r="10" fill="#6366F1"/>
+  <text x="52" y="170" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" font-weight="700" fill="#fff">1</text>
+  <text x="68" y="170" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="700" fill="#0F172A">Client</text>
+  <text x="48" y="190" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" fill="#64748B">no authz fields trusted</text>
+
+
+  <rect x="240" y="152" width="220" height="52" rx="10" fill="#ECFDF5" stroke="#059669" stroke-width="1.5" filter="url(#b14soft)"/>
+  <rect x="240" y="152" width="32" height="52" rx="10" fill="#059669"/>
+  <rect x="254" y="152" width="18" height="52" fill="#059669"/>
+  <text x="256" y="182.0" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" font-weight="800" fill="#fff">G</text>
+  <text x="282" y="170" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" font-weight="700" fill="#065F46">AI Gateway</text>
+  <text x="282" y="186" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" fill="#64748B">authN · quota · audit</text>
+
+
+  <rect x="490" y="150" width="200" height="56" rx="10" fill="#EFF6FF" stroke="#2563EB" stroke-width="1.4" filter="url(#b14soft)"/>
+  <circle cx="506" cy="166" r="10" fill="#2563EB"/>
+  <text x="506" y="170" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" font-weight="700" fill="#fff">3</text>
+  <text x="522" y="170" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="700" fill="#0F172A">Identity</text>
+  <text x="502" y="190" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" fill="#64748B">tenant + user claims</text>
+
+<path d="M216,178 L240,178" fill="none" stroke="#047857" stroke-width="1.6" marker-end="url(#b14arrG)"/>
+<path d="M460,178 L490,178" fill="none" stroke="#047857" stroke-width="1.6" marker-end="url(#b14arrG)"/>
+<rect x="36" y="230" width="460" height="320" rx="14" fill="#ECFDF5" stroke="#059669" stroke-width="1.4" filter="url(#b14soft)"/>
+<text x="56" y="258" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="13" font-weight="800" fill="#065F46">INGEST PATH (write)</text>
+
+  <rect x="56" y="275" width="400" height="48" rx="10" fill="#ECFDF5" stroke="#059669" stroke-width="1.5" filter="url(#b14soft)"/>
+  <rect x="56" y="275" width="32" height="48" rx="10" fill="#059669"/>
+  <rect x="70" y="275" width="18" height="48" fill="#059669"/>
+  <text x="72" y="303.0" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" font-weight="800" fill="#fff">IN</text>
+  <text x="98" y="293" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" font-weight="700" fill="#065F46">Ingest gates</text>
+  <text x="98" y="309" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" fill="#64748B">type · size · AV · hash · PII policy</text>
+
+
+  <rect x="56" y="340" width="190" height="56" rx="10" fill="#FFFFFF" stroke="#059669" stroke-width="1.4" filter="url(#b14soft)"/>
+  <circle cx="72" cy="356" r="10" fill="#059669"/>
+  <text x="72" y="360" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" font-weight="700" fill="#fff">7</text>
+  <text x="88" y="360" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="700" fill="#0F172A">Object store</text>
+  <text x="68" y="380" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" fill="#64748B">prefix per tenant</text>
+
+
+  <rect x="270" y="340" width="190" height="56" rx="10" fill="#FFFFFF" stroke="#059669" stroke-width="1.4" filter="url(#b14soft)"/>
+  <circle cx="286" cy="356" r="10" fill="#059669"/>
+  <text x="286" y="360" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" font-weight="700" fill="#fff">6</text>
+  <text x="302" y="360" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="700" fill="#0F172A">Chunk + embed</text>
+  <text x="282" y="380" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" fill="#64748B">server-stamped meta</text>
+
+
+  <rect x="56" y="420" width="400" height="70" rx="10" fill="#FFFFFF" stroke="#059669" stroke-width="1.4" filter="url(#b14soft)"/>
+  <circle cx="72" cy="436" r="10" fill="#059669"/>
+  <text x="72" y="440" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" font-weight="700" fill="#fff">9</text>
+  <text x="88" y="440" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="700" fill="#0F172A">ACL store (server-only writes)</text>
+  <text x="68" y="460" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" fill="#64748B">owner + shares · private by default</text>
+
+<text x="56" y="520" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" font-weight="600" fill="#047857">Metadata stamped from JWT — never from upload form</text>
+<rect x="520" y="230" width="520" height="320" rx="14" fill="#ECFDF5" stroke="#059669" stroke-width="1.4" filter="url(#b14soft)"/>
+<text x="540" y="258" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="13" font-weight="800" fill="#065F46">RETRIEVE PATH (read)</text>
+
+  <rect x="540" y="275" width="460" height="48" rx="10" fill="#ECFDF5" stroke="#059669" stroke-width="1.5" filter="url(#b14soft)"/>
+  <rect x="540" y="275" width="32" height="48" rx="10" fill="#059669"/>
+  <rect x="554" y="275" width="18" height="48" fill="#059669"/>
+  <text x="556" y="303.0" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" font-weight="800" fill="#fff">RLS</text>
+  <text x="582" y="293" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" font-weight="700" fill="#065F46">Pre-filter from claims</text>
+  <text x="582" y="309" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" fill="#64748B">tenant partition ∩ (owner ∪ shares)</text>
+
+
+  <rect x="540" y="340" width="220" height="56" rx="10" fill="#FFFFFF" stroke="#059669" stroke-width="1.4" filter="url(#b14soft)"/>
+  <circle cx="556" cy="356" r="10" fill="#059669"/>
+  <text x="556" y="360" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" font-weight="700" fill="#fff">8</text>
+  <text x="572" y="360" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="700" fill="#0F172A">Vector index</text>
+  <text x="552" y="380" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" fill="#64748B">namespace per tenant</text>
+
+
+  <rect x="780" y="340" width="220" height="56" rx="10" fill="#ECFDF5" stroke="#059669" stroke-width="1.5" filter="url(#b14soft)"/>
+  <rect x="780" y="340" width="32" height="56" rx="10" fill="#059669"/>
+  <rect x="794" y="340" width="18" height="56" fill="#059669"/>
+  <text x="796" y="372.0" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" font-weight="800" fill="#fff">OG</text>
+  <text x="822" y="358" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" font-weight="700" fill="#065F46">Output Gate</text>
+  <text x="822" y="374" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" fill="#64748B">chunks = DATA channel</text>
+
+
+  <rect x="540" y="420" width="460" height="70" rx="10" fill="#FFFFFF" stroke="#059669" stroke-width="1.4" filter="url(#b14soft)"/>
+  <circle cx="556" cy="436" r="10" fill="#059669"/>
+  <text x="556" y="440" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" font-weight="700" fill="#fff">4</text>
+  <text x="572" y="440" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="700" fill="#0F172A">Orchestrator</text>
+  <text x="552" y="460" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" fill="#64748B">build_prefilter(claims) only — discards body tenant/user</text>
+
+<text x="540" y="520" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" font-weight="600" fill="#047857">Hard partition + RLS — both required</text>
+<rect x="1060" y="230" width="480" height="200" rx="14" fill="#FFFBEB" stroke="#D97706" filter="url(#b14soft)"/>
+<text x="1080" y="258" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="800" fill="#92400E">MODEL (untrusted principal)</text>
+
+  <rect x="1080" y="280" width="440" height="56" rx="10" fill="#FFFFFF" stroke="#D97706" stroke-width="1.4" filter="url(#b14soft)"/>
+  <circle cx="1096" cy="296" r="10" fill="#D97706"/>
+  <text x="1096" y="300" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" font-weight="700" fill="#fff">5</text>
+  <text x="1112" y="300" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="700" fill="#0F172A">LLM</text>
+  <text x="1092" y="320" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" fill="#64748B">answer only — no filter authority</text>
+
+
+  <rect x="1080" y="350" width="440" height="56" rx="10" fill="#FFFFFF" stroke="#D97706" stroke-width="1.4" filter="url(#b14soft)"/>
+  <circle cx="1096" cy="366" r="10" fill="#D97706"/>
+  <text x="1096" y="370" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" font-weight="700" fill="#fff"></text>
+  <text x="1112" y="370" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="700" fill="#0F172A">Prefer no tools</text>
+  <text x="1092" y="390" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" fill="#64748B">pipeline chat (Example A Flow A)</text>
+
+<rect x="1060" y="450" width="480" height="100" rx="14" fill="#EFF6FF" stroke="#2563EB" filter="url(#b14soft)"/>
+
+  <rect x="1080" y="470" width="440" height="60" rx="10" fill="#ECFDF5" stroke="#059669" stroke-width="1.4" filter="url(#b14soft)"/>
+  <circle cx="1096" cy="486" r="10" fill="#059669"/>
+  <text x="1096" y="490" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" font-weight="700" fill="#fff">11</text>
+  <text x="1112" y="490" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="700" fill="#0F172A">Render surface</text>
+  <text x="1092" y="510" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" fill="#64748B">CSP lockdown · no remote img/connect</text>
+
+<path d="M266,400 L520,300" fill="none" stroke="#047857" stroke-width="1.6" marker-end="url(#b14arrG)"/>
+<path d="M1000,460 L1060,308" fill="none" stroke="#047857" stroke-width="1.6" marker-end="url(#b14arrG)"/>
+<path d="M1300,430 L1300,450" fill="none" stroke="#047857" stroke-width="1.6" marker-end="url(#b14arrG)"/>
+<rect x="36" y="580" width="1504" height="100" rx="12" fill="#FFFFFF" stroke="#047857" stroke-width="1.5"/>
+<text x="56" y="610" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="14" font-weight="800" fill="#047857">Primary enforcement chain</text>
+<text x="56" y="638" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="13" font-weight="600" fill="#0F172A">verified claims → tenant partition → RLS pre-filter → Output Gate → answer (no tools) → CSP render</text>
+<text x="56" y="662" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="600" fill="#64748B">Managed model APIs do not enforce your RAG ACL. If Bob's chunk is in the prompt, the model may answer from it.</text>
+<rect x="36" y="700" width="740" height="220" rx="12" fill="#FFFFFF" stroke="#94A3B8"/>
+<text x="56" y="730" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="14" font-weight="800" fill="#0F172A">Two isolation layers</text>
+<text x="56" y="760" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="600" fill="#0F172A">Cross-tenant: separate index/namespace per customer</text>
+<text x="56" y="785" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="600" fill="#0F172A">Intra-tenant RLS: Alice must not see Bob's private docs</text>
+<text x="56" y="810" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="600" fill="#0F172A">Sharing = explicit ACL rows (not &quot;same tenant&quot;)</text>
+<text x="56" y="845" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="600" fill="#B91C1C">Anti-pattern: filter = request.json[&quot;acl&quot;]</text>
+<text x="56" y="875" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="600" fill="#B91C1C">Anti-pattern: post-filter after global top-k only</text>
+<rect x="800" y="700" width="740" height="220" rx="12" fill="#FFFFFF" stroke="#94A3B8"/>
+<text x="820" y="730" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="14" font-weight="800" fill="#0F172A">Control map</text>
+
+  <rect x="820" y="750" width="340" height="48" rx="10" fill="#ECFDF5" stroke="#059669" stroke-width="1.5" filter="url(#b14soft)"/>
+  <rect x="820" y="750" width="32" height="48" rx="10" fill="#059669"/>
+  <rect x="834" y="750" width="18" height="48" fill="#059669"/>
+  <text x="836" y="778.0" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" font-weight="800" fill="#fff">IN</text>
+  <text x="862" y="768" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" font-weight="700" fill="#065F46">Ingest</text>
+  <text x="862" y="784" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" fill="#64748B">allowlist · AV · hash</text>
+
+
+  <rect x="1180" y="750" width="340" height="48" rx="10" fill="#ECFDF5" stroke="#059669" stroke-width="1.5" filter="url(#b14soft)"/>
+  <rect x="1180" y="750" width="32" height="48" rx="10" fill="#059669"/>
+  <rect x="1194" y="750" width="18" height="48" fill="#059669"/>
+  <text x="1196" y="778.0" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" font-weight="800" fill="#fff">RLS</text>
+  <text x="1222" y="768" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" font-weight="700" fill="#065F46">Pre-filter</text>
+  <text x="1222" y="784" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" fill="#64748B">from JWT + share DB</text>
+
+
+  <rect x="820" y="820" width="340" height="48" rx="10" fill="#ECFDF5" stroke="#059669" stroke-width="1.5" filter="url(#b14soft)"/>
+  <rect x="820" y="820" width="32" height="48" rx="10" fill="#059669"/>
+  <rect x="834" y="820" width="18" height="48" fill="#059669"/>
+  <text x="836" y="848.0" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" font-weight="800" fill="#fff">OG</text>
+  <text x="862" y="838" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" font-weight="700" fill="#065F46">Output Gate</text>
+  <text x="862" y="854" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" fill="#64748B">data ≠ instructions</text>
+
+
+  <rect x="1180" y="820" width="340" height="48" rx="10" fill="#ECFDF5" stroke="#059669" stroke-width="1.5" filter="url(#b14soft)"/>
+  <rect x="1180" y="820" width="32" height="48" rx="10" fill="#059669"/>
+  <rect x="1194" y="820" width="18" height="48" fill="#059669"/>
+  <text x="1196" y="848.0" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" font-weight="800" fill="#fff">CSP</text>
+  <text x="1222" y="838" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" font-weight="700" fill="#065F46">Render</text>
+  <text x="1222" y="854" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" fill="#64748B">no live egress</text>
+
+</svg>

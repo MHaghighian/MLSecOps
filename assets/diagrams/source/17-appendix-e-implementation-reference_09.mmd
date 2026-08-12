@@ -1,0 +1,41 @@
+sequenceDiagram
+    autonumber
+    actor Dev as Developer
+    participant IDE as 1.IDE host
+    participant G as G.AI Gateway
+    participant O as 3.Orchestrator
+    participant IDX as 4a.Index + ACL
+    participant OG as OG.Output Gate
+    participant LLM as 2.LLM brain
+    participant IG as IG.Intent Gate + HITL
+    participant CB as CB.Credential Broker
+    participant T as 5/6.Tool + MCP via M
+    participant EA as EA.Egress allowlist
+
+    Dev->>IDE: enter prompt
+    IDE->>G: prompt + context refs
+    G->>O: validated request (input scan, rate limit)
+    O->>IDX: retrieve with identity pre-filter
+    IDX->>OG: top-k code chunks
+    OG->>O: sanitized context as data, not instructions
+    O->>LLM: user intent (trusted) + data channel
+    LLM->>O: plan = tool name + args only
+    O->>IG: authorize(tool, args, identity, risk)
+    alt high-risk action (delete / push / deploy / pay)
+        IG->>Dev: HITL prompt with deterministic facts
+        Dev->>IG: approve or deny
+    end
+    IG->>CB: request scoped token (delegated / OBO)
+    CB->>T: invoke tool, token attached out-of-band
+    T->>OG: tool / MCP result
+    OG->>O: sanitized result
+    loop bounded iterations (autonomy cap)
+        O->>LLM: next step with sanitized state
+        LLM->>O: next tool call or final answer
+    end
+    O->>EA: any outbound request
+    EA-->>O: allow or block (allowlist)
+    O->>G: final response
+    G->>IDE: output (DLP / secret scan)
+    IDE->>Dev: result
+    Note over G,EA: every step logged to SOC / SIEM
