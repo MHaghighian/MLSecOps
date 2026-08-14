@@ -55,18 +55,23 @@ def esc(s: str) -> str:
 
 
 def defs() -> str:
+    # tip at path end (refX=10); userSpaceOnUse keeps heads sized consistently
+    mk = (
+        'markerUnits="userSpaceOnUse" viewBox="0 0 10 10" refX="10" refY="5" '
+        'markerWidth="9" markerHeight="9" orient="auto"'
+    )
     return f"""
   <defs>
-    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+    <marker id="arr" {mk}>
       <path d="M 0 0 L 10 5 L 0 10 z" fill="{C['ink']}"/>
     </marker>
-    <marker id="arrR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+    <marker id="arrR" {mk}>
       <path d="M 0 0 L 10 5 L 0 10 z" fill="{C['danger']}"/>
     </marker>
-    <marker id="arrG" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+    <marker id="arrG" {mk}>
       <path d="M 0 0 L 10 5 L 0 10 z" fill="{C['ok']}"/>
     </marker>
-    <marker id="arrB" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+    <marker id="arrB" {mk}>
       <path d="M 0 0 L 10 5 L 0 10 z" fill="{C['action_bd']}"/>
     </marker>
     <filter id="soft" x="-8%" y="-8%" width="116%" height="116%">
@@ -214,38 +219,37 @@ def svg_07() -> str:
         card(760, 510, 280, 72, "9", "Secrets in context", "API keys / tokens in prompt", C["attacker_bg"], C["danger"], C["danger"]),
         card(240, 600, 240, 72, "10", "Egress (open)", "any destination allowed", C["attacker_bg"], C["danger"], C["danger"]),
         card(500, 600, 240, 72, "11", "Cloud runtime", "shared / no tenant isolate", C["panel"], C["action_bd"], C["action_bd"]),
-        # Normal flows
-        # IDE → orchestrator (not into the untrusted zone)
-        curve("M460,180 C560,180 720,300 800,369", C["ink"], "arr", False, 1.6),
-        label(620, 250, "prompt", C["muted"], 10, "start"),
-        arrow(700, 315, 800, 289),
-        arrow(700, 369, 800, 369),
+        # Normal flows — keep clear of zone headers and untrusted cards
+        curve("M460,145 C620,120 760,200 800,255", C["ink"], "arr", False, 1.6),
+        label(640, 138, "prompt", C["muted"], 10, "start"),
+        arrow(720, 289, 800, 289),
+        arrow(720, 369, 800, 369),
         arrow(930, 323, 930, 335),
         arrow(860, 403, 860, 460),
-        label(870, 440, "dispatch tools", C["muted"], 10, "start"),
+        label(880, 438, "dispatch tools", C["muted"], 10, "start"),
         arrow(480, 582, 480, 600),
-        # Secrets into model
-        curve(f"M900,510 C980,470 1040,400 1040,323", C["danger"], "arrR", True, 2),
-        label(1055, 420, "secrets read", C["danger"], 10, "start"),
-        label(1055, 434, "into context", C["danger"], 10, "start"),
-        # Attack poison paths
-        curve(f"M186,145 C240,145 260,220 280,255", C["danger"], "arrR", True, 2.2),
-        label(200, 230, "poison repo / web", C["danger"], 10, "start"),
-        curve(f"M111,196 C111,280 180,360 240,369", C["danger"], "arrR", True, 2.2),
-        label(120, 300, "tool poisoning", C["danger"], 10, "start"),
-        # Exfil path
-        curve(f"M360,672 C360,760 200,780 186,196", C["danger"], "arrR", False, 2.8),
-        label(250, 760, "EXFIL PATH — open egress → attacker", C["danger"], 12, "start"),
-        # Callout
-        f'<rect x="1120" y="210" width="320" height="500" rx="14" fill="{C["panel"]}" stroke="{C["danger"]}" stroke-width="1.5" filter="url(#soft)"/>',
-        f'<text x="1140" y="242" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="14" font-weight="800" fill="{C["danger"]}">What fails by construction</text>',
+        # Secrets into model — curve + labels in the gutter between Model/Action and callout
+        curve("M900,510 C980,460 1040,380 1040,323", C["danger"], "arrR", True, 2),
+        label(1088, 390, "secrets read", C["danger"], 10, "start"),
+        label(1088, 404, "into context", C["danger"], 10, "start"),
+        # Attack poison paths — labels in the left gutter, clear of curves
+        curve("M186,153 C230,170 250,220 280,255", C["danger"], "arrR", True, 2.2),
+        label(36, 228, "poison repo / web", C["danger"], 10, "start"),
+        curve("M80,196 C80,300 160,350 240,369", C["danger"], "arrR", True, 2.2),
+        label(36, 320, "tool poisoning", C["danger"], 10, "start"),
+        # Exfil path — left gutter; approach attacker from below with clean tangent
+        curve("M240,672 C80,720 70,400 111,196", C["danger"], "arrR", False, 2.8),
+        label(36, 750, "EXFIL PATH — open egress → attacker", C["danger"], 12, "start"),
+        # Callout — start after secrets gutter so labels are never painted under it
+        f'<rect x="1160" y="210" width="280" height="500" rx="14" fill="{C["panel"]}" stroke="{C["danger"]}" stroke-width="1.5" filter="url(#soft)"/>',
+        f'<text x="1176" y="242" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="13" font-weight="800" fill="{C["danger"]}">What fails by construction</text>',
         *[
-            f'<text x="1140" y="{270 + i * 36}" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" fill="{C["ink"]}">{esc(t)}</text>'
+            f'<text x="1176" y="{268 + i * 34}" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" fill="{C["ink"]}">{esc(t)}</text>'
             for i, t in enumerate(
                 [
-                    "• No retrieval ACL — any indexed chunk",
-                    "  can reach any developer session",
-                    "• No Output Gate — retrieved text is",
+                    "• No retrieval ACL — any indexed",
+                    "  chunk can reach any session",
+                    "• No Output Gate — retrieved text",
                     "  treated as instructions",
                     "• No Intent Gate — model proposal",
                     "  = execution",
@@ -345,27 +349,29 @@ def svg_08() -> str:
         f'<ellipse cx="200" cy="560" rx="120" ry="50" fill="{C["control_bg"]}" stroke="{C["control_bd"]}" stroke-width="1.8" filter="url(#soft)"/>',
         f'<text x="200" y="548" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="13" font-weight="700" fill="{C["control_hd"]}">9. Secret store</text>',
         f'<text x="200" y="568" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" fill="{C["muted"]}">never enters model context</text>',
-        # Arrows
-        arrow(162, 364, 580, 330, C["ok"], "arrG"),
-        label(360, 325, "identity-scoped retrieve", C["ok"], 10),
-        arrow(400, 364, 580, 395, C["ok"], "arrG"),
-        curve("M162,408 C360,450 500,340 580,330", C["ok"], "arrG"),
-        label(300, 430, "via MCP Gateway", C["ok"], 10, "start"),
+        # Arrows — never cross card interiors; labels sit in gutters
+        arrow(272, 332, 580, 330, C["ok"], "arrG"),
+        label(426, 252, "identity-scoped retrieve", C["ok"], 10),
+        arrow(510, 332, 580, 395, C["ok"], "arrG"),
+        label(518, 318, "live → OG", C["ok"], 10, "start"),
+        # MCP path under the Untrusted zone (clear of Memory card + labels)
+        curve("M162,440 C300,490 650,490 820,355", C["ok"], "arrG"),
+        label(420, 508, "via MCP Gateway", C["ok"], 10, "start"),
         arrow(690, 355, 690, 370, C["ok"], "arrG"),
         arrow(930, 355, 810, 370, C["ok"], "arrG"),
-        arrow(1040, 395, 1110, 397, C["ok"], "arrG"),
-        label(1048, 388, "data channel", C["ok"], 10, "start"),
+        arrow(1040, 395, 1110, 329, C["ok"], "arrG"),
+        label(1048, 360, "data channel", C["ok"], 10, "start"),
         curve("M550,199 C900,210 1050,260 1110,329", C["ok"], "arrG"),
-        label(820, 195, "validated request", C["ok"], 10),
+        label(820, 188, "validated request", C["ok"], 10),
         arrow(1315, 358, 1315, 368, C["model_bd"], "arr"),
-        curve("M1110,397 C980,410 900,450 1040,460", C["ok"], "arrG"),
-        label(960, 430, "proposal (tool+args)", C["ok"], 10),
+        curve("M1110,397 C1020,420 980,450 1040,460", C["ok"], "arrG"),
+        label(980, 418, "proposal (tool+args)", C["ok"], 10),
         arrow(1040, 460, 1110, 537, C["ok"], "arrG"),
-        label(1055, 510, "authorize → execute", C["ok"], 10, "start"),
-        curve("M320,560 C450,560 520,525 580,525", C["ok"], "arrG", True),
-        label(400, 548, "OOB token", C["ok"], 10),
-        curve("M800,525 C950,545 1050,537 1110,537", C["ok"], "arrG", True),
-        curve("M1040,525 C1060,560 1080,590 1110,598", C["ok"], "arrG"),
+        label(1020, 500, "authorize → execute", C["ok"], 10, "start"),
+        curve("M320,560 C450,560 520,550 580,550", C["ok"], "arrG", True),
+        label(400, 578, "OBO token", C["ok"], 10),
+        curve("M690,550 C820,580 1000,560 1110,537", C["ok"], "arrG", True),
+        arrow(1040, 550, 1110, 598, C["ok"], "arrG"),
         # Principle strip
         f'<rect x="36" y="670" width="1504" height="70" rx="12" fill="{C["panel"]}" stroke="{C["ok"]}" stroke-width="1.6"/>',
         f'<text x="56" y="698" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="13" font-weight="700" fill="{C["ok"]}">Primary enforcement chain</text>',
@@ -410,8 +416,8 @@ def step_row(
   <rect x="106" y="{y}" width="980" height="56" rx="10" fill="{fill}" stroke="{stroke}" stroke-width="1.4" filter="url(#soft)"/>
   <text x="124" y="{y + 24}" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="14" font-weight="700" fill="{ink}">{esc(title)}</text>
   <text x="124" y="{y + 44}" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" fill="{C['muted']}">{esc(detail)}</text>
-  <text x="1110" y="{y + 24}" text-anchor="end" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" font-weight="600" fill="{C['muted']}">{esc(left_label)}</text>
-  <text x="1110" y="{y + 44}" text-anchor="end" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" fill="{stroke}">{esc(right_label)}</text>
+  <text x="1048" y="{y + 24}" text-anchor="end" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" font-weight="600" fill="{C['muted']}">{esc(left_label)}</text>
+  <text x="1048" y="{y + 44}" text-anchor="end" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" fill="{stroke}">{esc(right_label)}</text>
 """
 
 

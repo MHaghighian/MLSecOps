@@ -1,13 +1,13 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1400" height="980" viewBox="0 0 1400 980">
 
   <defs>
-    <marker id="a12arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+    <marker id="a12arr" markerUnits="userSpaceOnUse" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="9" markerHeight="9" orient="auto">
       <path d="M 0 0 L 10 5 L 0 10 z" fill="#0F172A"/>
     </marker>
-    <marker id="a12arrG" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+    <marker id="a12arrG" markerUnits="userSpaceOnUse" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="9" markerHeight="9" orient="auto">
       <path d="M 0 0 L 10 5 L 0 10 z" fill="#047857"/>
     </marker>
-    <marker id="a12arrR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+    <marker id="a12arrR" markerUnits="userSpaceOnUse" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="9" markerHeight="9" orient="auto">
       <path d="M 0 0 L 10 5 L 0 10 z" fill="#B91C1C"/>
     </marker>
     <filter id="a12soft" x="-8%" y="-8%" width="116%" height="116%">
@@ -97,16 +97,16 @@
   <text x="630.0" y="390" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" fill="#64748B">plan-then-execute · owns dispatch · binds capability profile</text>
 
 
-  <rect x="370" y="320" width="224.79999999999998" height="22" rx="6" fill="#ECFDF5" stroke="#059669"/>
-  <text x="378" y="335" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" font-weight="700" fill="#065F46">MIT before tools: Intent Gate + HITL</text>
+  <rect x="370" y="318" width="224.79999999999998" height="22" rx="6" fill="#ECFDF5" stroke="#059669"/>
+  <text x="378" y="333" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" font-weight="700" fill="#065F46">MIT before tools: Intent Gate + HITL</text>
 
 
-  <rect x="550" y="430" width="213.2" height="22" rx="6" fill="#ECFDF5" stroke="#059669"/>
-  <text x="558" y="445" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" font-weight="700" fill="#065F46">MIT on retrieve: ACL → Output Gate</text>
+  <rect x="520" y="438" width="213.2" height="22" rx="6" fill="#ECFDF5" stroke="#059669"/>
+  <text x="528" y="453" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" font-weight="700" fill="#065F46">MIT on retrieve: ACL → Output Gate</text>
 
 
-  <rect x="730" y="430" width="248.0" height="22" rx="6" fill="#ECFDF5" stroke="#059669"/>
-  <text x="738" y="445" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" font-weight="700" fill="#065F46">MIT on memory: write deny · read as data</text>
+  <rect x="760" y="438" width="248.0" height="22" rx="6" fill="#ECFDF5" stroke="#059669"/>
+  <text x="768" y="453" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" font-weight="700" fill="#065F46">MIT on memory: write deny · read as data</text>
 
 
   <rect x="1160" y="250" width="200" height="80" rx="10" fill="#FFF1F2" stroke="#E11D48" stroke-width="1.4" filter="url(#a12soft)"/>
@@ -115,10 +115,10 @@
 
 <path d="M1090,275 L1160,275" fill="none" stroke="#047857" stroke-width="1.7" marker-end="url(#a12arrG)"/>
 
-  <rect x="1160" y="220" width="155.2" height="22" rx="6" fill="#ECFDF5" stroke="#059669"/>
-  <text x="1168" y="235" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" font-weight="700" fill="#065F46">MCP Gateway + schema pin</text>
+  <rect x="1160" y="200" width="155.2" height="22" rx="6" fill="#ECFDF5" stroke="#059669"/>
+  <text x="1168" y="215" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" font-weight="700" fill="#065F46">MCP Gateway + schema pin</text>
 
-<path d="M1260,330 L1260,700" fill="none" stroke="#0F172A" stroke-width="1.4" marker-end="url(#a12arr)" stroke-dasharray="5 4"/>
+<path d="M1360,290 L1390,290 L1390,860 L1120,860" fill="none" stroke="#0F172A" stroke-width="1.4" stroke-dasharray="5 4" marker-end="url(#a12arr)"/>
 
   <rect x="300" y="530" width="200" height="70" rx="10" fill="#fff" stroke="#D97706" stroke-width="1.4" filter="url(#a12soft)"/>
   <text x="400.0" y="552" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="700" fill="#0F172A">Input handling</text>
@@ -135,8 +135,8 @@
   <text x="920.0" y="570" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" fill="#64748B">proposal or text only</text>
 
 
-  <rect x="300" y="505" width="137.8" height="22" rx="6" fill="#ECFDF5" stroke="#059669"/>
-  <text x="308" y="520" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" font-weight="700" fill="#065F46">No secrets in context</text>
+  <rect x="300" y="498" width="137.8" height="22" rx="6" fill="#ECFDF5" stroke="#059669"/>
+  <text x="308" y="513" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" font-weight="700" fill="#065F46">No secrets in context</text>
 
 
   <rect x="180" y="680" width="150" height="70" rx="10" fill="#ECFDF5" stroke="#059669" stroke-width="1.4" filter="url(#a12soft)"/>

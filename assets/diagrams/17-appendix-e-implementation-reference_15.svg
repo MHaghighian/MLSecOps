@@ -1,13 +1,13 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1480" height="1100" viewBox="0 0 1480 1100">
 
   <defs>
-    <marker id="b15arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+    <marker id="b15arr" markerUnits="userSpaceOnUse" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="9" markerHeight="9" orient="auto">
       <path d="M 0 0 L 10 5 L 0 10 z" fill="#0F172A"/>
     </marker>
-    <marker id="b15arrG" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+    <marker id="b15arrG" markerUnits="userSpaceOnUse" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="9" markerHeight="9" orient="auto">
       <path d="M 0 0 L 10 5 L 0 10 z" fill="#047857"/>
     </marker>
-    <marker id="b15arrR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+    <marker id="b15arrR" markerUnits="userSpaceOnUse" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="9" markerHeight="9" orient="auto">
       <path d="M 0 0 L 10 5 L 0 10 z" fill="#B91C1C"/>
     </marker>
     <filter id="b15soft" x="-8%" y="-8%" width="116%" height="116%">
@@ -108,28 +108,28 @@
   <text x="836" y="470" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="700" fill="#0F172A">CSP-hardened render</text>
   <text x="836" y="488" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" fill="#64748B">no remote img/connect · encode markdown</text>
 
-<rect x="36" y="480" width="700" height="200" rx="12" fill="#FFFFFF" stroke="#047857"/>
-<text x="56" y="510" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="14" font-weight="800" fill="#047857">Identity is the spine</text>
-<text x="56" y="540" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="600" fill="#0F172A">Upload and chat both derive tenancy from the token.</text>
-<text x="56" y="565" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="600" fill="#0F172A">The model never sees credentials and never sets filters.</text>
-<text x="56" y="590" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="600" fill="#0F172A">Poisoned files stay under the uploader's ACL;</text>
-<text x="56" y="615" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="600" fill="#0F172A">they cannot widen retrieval for other users.</text>
-<text x="56" y="650" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="600" fill="#64748B">If you add tools later → Example A gates.</text>
+<rect x="36" y="520" width="700" height="160" rx="12" fill="#FFFFFF" stroke="#047857"/>
+<text x="56" y="550" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="14" font-weight="800" fill="#047857">Identity is the spine</text>
+<text x="56" y="580" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="600" fill="#0F172A">Upload and chat both derive tenancy from the token.</text>
+<text x="56" y="605" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="600" fill="#0F172A">The model never sees credentials and never sets filters.</text>
+<text x="56" y="630" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="600" fill="#0F172A">Poisoned files stay under the uploader's ACL;</text>
+<text x="56" y="655" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="600" fill="#0F172A">they cannot widen retrieval for other users.</text>
+<text x="56" y="680" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="600" fill="#64748B">If you add tools later → Example A gates.</text>
 <rect x="760" y="520" width="680" height="160" rx="12" fill="#FFFFFF" stroke="#B91C1C"/>
 <text x="780" y="550" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="14" font-weight="800" fill="#B91C1C">Attacks stopped on this diagram</text>
-<text x="780" y="580" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="600" fill="#0F172A">• Client forges tenant_id / user_id</text>
-<text x="780" y="605" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="600" fill="#0F172A">• Alice retrieves Bob's private doc</text>
-<text x="780" y="630" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="600" fill="#0F172A">• Markdown image phones home (EchoLeak-class)</text>
-<text x="780" y="655" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="600" fill="#0F172A">• Upload becomes global corpus without ownership</text>
-<rect x="36" y="720" width="1404" height="100" rx="12" fill="#FFFFFF" stroke="#94A3B8"/>
-<text x="56" y="755" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="13" font-weight="800" fill="#0F172A">Honest residual</text>
-<text x="56" y="780" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="600" fill="#64748B">A user can still receive a wrong summary of a file they own if that file is poisoned (LLM09).</text>
-<text x="56" y="805" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="600" fill="#64748B">Deliberate oversharing and shared-inference KV side channels are out of band for RAG ACL — see Ch.7 KV Cache / Example C.</text>
-<rect x="36" y="850" width="1404" height="200" rx="12" fill="#ECFDF5" stroke="#059669"/>
-<text x="56" y="880" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="13" font-weight="800" fill="#065F46">Pseudo-code (chat)</text>
-<text x="56" y="910" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="600" fill="#0F172A">claims = verify_jwt(req)</text>
-<text x="56" y="935" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="600" fill="#0F172A">filt = build_prefilter(claims)          # NOT from req.json</text>
-<text x="56" y="960" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="600" fill="#0F172A">hits = search(tenant_ns(claims.tenant), q, prefilter=filt)</text>
-<text x="56" y="985" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="600" fill="#0F172A">return render(llm(user=q, data=output_gate(hits)), csp=LOCKDOWN)</text>
-<text x="56" y="1020" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="600" fill="#64748B">No tools bound by default.</text>
+<text x="780" y="585" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="600" fill="#0F172A">• Client forges tenant_id / user_id</text>
+<text x="780" y="610" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="600" fill="#0F172A">• Alice retrieves Bob's private doc</text>
+<text x="780" y="635" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="600" fill="#0F172A">• Markdown image phones home (EchoLeak-class)</text>
+<text x="780" y="660" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="600" fill="#0F172A">• Upload becomes global corpus without ownership</text>
+<rect x="36" y="710" width="1404" height="100" rx="12" fill="#FFFFFF" stroke="#94A3B8"/>
+<text x="56" y="745" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="13" font-weight="800" fill="#0F172A">Honest residual</text>
+<text x="56" y="770" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="600" fill="#64748B">A user can still receive a wrong summary of a file they own if that file is poisoned (LLM09).</text>
+<text x="56" y="795" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="600" fill="#64748B">Deliberate oversharing and shared-inference KV side channels are out of band for RAG ACL — see Ch.7 KV Cache / Example C.</text>
+<rect x="36" y="840" width="1404" height="200" rx="12" fill="#ECFDF5" stroke="#059669"/>
+<text x="56" y="870" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="13" font-weight="800" fill="#065F46">Pseudo-code (chat)</text>
+<text x="56" y="900" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="600" fill="#0F172A">claims = verify_jwt(req)</text>
+<text x="56" y="925" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="600" fill="#0F172A">filt = build_prefilter(claims)          # NOT from req.json</text>
+<text x="56" y="950" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="600" fill="#0F172A">hits = search(tenant_ns(claims.tenant), q, prefilter=filt)</text>
+<text x="56" y="975" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="600" fill="#0F172A">return render(llm(user=q, data=output_gate(hits)), csp=LOCKDOWN)</text>
+<text x="56" y="1010" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="600" fill="#64748B">No tools bound by default.</text>
 </svg>

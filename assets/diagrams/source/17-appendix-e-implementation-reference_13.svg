@@ -1,13 +1,13 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1480" height="920" viewBox="0 0 1480 920">
 
   <defs>
-    <marker id="b13arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+    <marker id="b13arr" markerUnits="userSpaceOnUse" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="9" markerHeight="9" orient="auto">
       <path d="M 0 0 L 10 5 L 0 10 z" fill="#0F172A"/>
     </marker>
-    <marker id="b13arrG" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+    <marker id="b13arrG" markerUnits="userSpaceOnUse" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="9" markerHeight="9" orient="auto">
       <path d="M 0 0 L 10 5 L 0 10 z" fill="#047857"/>
     </marker>
-    <marker id="b13arrR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+    <marker id="b13arrR" markerUnits="userSpaceOnUse" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="9" markerHeight="9" orient="auto">
       <path d="M 0 0 L 10 5 L 0 10 z" fill="#B91C1C"/>
     </marker>
     <filter id="b13soft" x="-8%" y="-8%" width="116%" height="116%">
@@ -78,9 +78,7 @@
 
 
   <rect x="400" y="310" width="320" height="56" rx="10" fill="#FFF1F2" stroke="#B91C1C" stroke-width="1.4" filter="url(#b13soft)"/>
-  <circle cx="416" cy="326" r="10" fill="#B91C1C"/>
-  <text x="416" y="330" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" font-weight="700" fill="#fff"></text>
-  <text x="432" y="330" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="700" fill="#0F172A">filter from request.json</text>
+  <text x="412" y="330" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="700" fill="#0F172A">filter from request.json</text>
   <text x="412" y="350" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" fill="#64748B">attacker sets tenant/user</text>
 
 
@@ -130,9 +128,9 @@
 <text x="1160" y="490" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="600" fill="#B91C1C">Tenant A → Tenant B index</text>
 <text x="1160" y="515" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="600" fill="#B91C1C">Markdown img → evil.com</text>
 <path d="M720,260 C760,260 780,260 800,258" fill="none" stroke="#B91C1C" stroke-width="2" marker-end="url(#b13arrR)"/>
-<text x="740" y="248" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" font-weight="600" fill="#B91C1C">poisoned chunks</text>
-<path d="M940,530 C940,600 600,620 400,340" fill="none" stroke="#B91C1C" stroke-width="2.2" marker-end="url(#b13arrR)"/>
-<text x="700" y="600" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="600" fill="#B91C1C">EXFIL / cross-user retrieve</text>
+<text x="760" y="246" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" font-weight="600" fill="#B91C1C">poisoned chunks</text>
+<path d="M560,366 C560,500 680,495 800,495" fill="none" stroke="#B91C1C" stroke-width="2.2" marker-end="url(#b13arrR)"/>
+<text x="680" y="545" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="600" fill="#B91C1C">EXFIL / cross-user retrieve</text>
 <rect x="40" y="640" width="1060" height="80" rx="12" fill="#FFFFFF" stroke="#94A3B8"/>
 <text x="60" y="675" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="13" font-weight="600" fill="#0F172A">Naive mental model: &quot;the chatbot searches everything and the model is careful.&quot;</text>
 <text x="60" y="700" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="600" fill="#64748B">Reality: the model will answer from whatever unauthorized chunks you put in the prompt.</text>

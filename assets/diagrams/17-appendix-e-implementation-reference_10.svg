@@ -1,13 +1,13 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1280" height="980" viewBox="0 0 1280 980">
 
   <defs>
-    <marker id="a10arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+    <marker id="a10arr" markerUnits="userSpaceOnUse" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="9" markerHeight="9" orient="auto">
       <path d="M 0 0 L 10 5 L 0 10 z" fill="#0F172A"/>
     </marker>
-    <marker id="a10arrG" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+    <marker id="a10arrG" markerUnits="userSpaceOnUse" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="9" markerHeight="9" orient="auto">
       <path d="M 0 0 L 10 5 L 0 10 z" fill="#047857"/>
     </marker>
-    <marker id="a10arrR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+    <marker id="a10arrR" markerUnits="userSpaceOnUse" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="9" markerHeight="9" orient="auto">
       <path d="M 0 0 L 10 5 L 0 10 z" fill="#B91C1C"/>
     </marker>
     <filter id="a10soft" x="-8%" y="-8%" width="116%" height="116%">
@@ -39,50 +39,50 @@
   <rect x="390" y="252" width="342.8" height="20" rx="6" fill="#ECFDF5" stroke="#059669"/>
   <text x="398" y="266" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" font-weight="700" fill="#065F46">MIT: Retrieval ACL + Output Gate (data ≠ instructions)</text>
 
-<rect x="40" y="160" width="280" height="100" rx="12" fill="#FFFFFF" stroke="#E11D48" stroke-width="1.5" filter="url(#a10soft)"/>
-  <text x="180.0" y="186" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="13" font-weight="700" fill="#0F172A">ENTRY channels</text>
-<text x="180" y="200" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" font-weight="600" fill="#B91C1C">prompt · repo/RAG · web</text>
-<text x="180" y="218" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" font-weight="600" fill="#B91C1C">MCP/tool output · rules</text>
-<text x="180" y="236" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" font-weight="600" fill="#B91C1C">memory from prior session</text>
-<path d="M320,210 L390,210" fill="none" stroke="#B91C1C" stroke-width="1.6" marker-end="url(#a10arrR)" stroke-dasharray="5 4"/>
-<text x="350" y="200" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" font-weight="600" fill="#B91C1C">payload in</text>
+<rect x="40" y="160" width="280" height="110" rx="12" fill="#FFFFFF" stroke="#E11D48" stroke-width="1.5" filter="url(#a10soft)"/>
+<text x="180" y="182" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="13" font-weight="600" fill="#0F172A">ENTRY channels</text>
+<text x="180" y="208" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" font-weight="600" fill="#B91C1C">prompt · repo/RAG · web</text>
+<text x="180" y="228" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" font-weight="600" fill="#B91C1C">MCP/tool output · rules</text>
+<text x="180" y="248" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" font-weight="600" fill="#B91C1C">memory from prior session</text>
+<path d="M320,215 L390,215" fill="none" stroke="#B91C1C" stroke-width="1.6" marker-end="url(#a10arrR)" stroke-dasharray="5 4"/>
+<text x="350" y="204" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" font-weight="600" fill="#B91C1C">payload in</text>
 <path d="M620,246 L620,290" fill="none" stroke="#0F172A" stroke-width="1.7" marker-end="url(#a10arr)"/>
 <rect x="400" y="290" width="440" height="64" rx="12" fill="#FFFBEB" stroke="#D97706" stroke-width="1.5" filter="url(#a10soft)"/>
   <text x="620.0" y="314" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="13" font-weight="700" fill="#0F172A">Model decides</text>
   <text x="620.0" y="334" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" fill="#64748B">answer  ·  or emit tool proposal {name, args}</text>
 <path d="M400,322 L220,322" fill="none" stroke="#0F172A" stroke-width="1.7" marker-end="url(#a10arr)"/>
-<text x="310" y="310" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" font-weight="600" fill="#64748B">final output</text>
+<text x="310" y="298" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" font-weight="600" fill="#64748B">final output</text>
 
   <rect x="60" y="304" width="160" height="36" rx="18.0" fill="#FFFFFF" stroke="#94A3B8" stroke-width="1.4"/>
   <text x="140.0" y="326.0" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="700" fill="#0F172A">Return to developer</text>
 
-<path d="M620,354 L620,400" fill="none" stroke="#0F172A" stroke-width="1.7" marker-end="url(#a10arr)"/>
+<path d="M620,354 L620,398" fill="none" stroke="#0F172A" stroke-width="1.7" marker-end="url(#a10arr)"/>
 <text x="640" y="380" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" font-weight="600" fill="#92400E">tool_use (proposal only)</text>
 <polygon points="620,398 692,470 620,542 548,470" fill="#ECFDF5" stroke="#059669" stroke-width="1.8"/>
   <text x="620" y="468" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="700" fill="#0F172A">Intent Gate</text>
   <text x="620" y="484" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" fill="#64748B">allow · HITL · deny</text>
-
-  <rect x="710" y="450" width="262.20000000000005" height="20" rx="6" fill="#ECFDF5" stroke="#059669"/>
-  <text x="718" y="464" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" font-weight="700" fill="#065F46">MIT: capability profile + effect metadata</text>
-
-
-  <rect x="710" y="474" width="231.20000000000002" height="20" rx="6" fill="#ECFDF5" stroke="#059669"/>
-  <text x="718" y="488" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" font-weight="700" fill="#065F46">MIT: param binding · write-path deny</text>
-
 <path d="M548,470 L360,470" fill="none" stroke="#B91C1C" stroke-width="1.7" marker-end="url(#a10arr)"/>
 
-  <rect x="200" y="452" width="160" height="36" rx="18.0" fill="#FFF1F2" stroke="#B91C1C" stroke-width="1.4"/>
-  <text x="280.0" y="474.0" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="700" fill="#B91C1C">Deny / stop</text>
+  <rect x="180" y="452" width="180" height="36" rx="18.0" fill="#FFF1F2" stroke="#B91C1C" stroke-width="1.4"/>
+  <text x="270.0" y="474.0" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="700" fill="#B91C1C">Deny / stop</text>
 
 <path d="M692,470 L860,470" fill="none" stroke="#D97706" stroke-width="1.7" marker-end="url(#a10arr)"/>
-<rect x="860" y="430" width="280" height="80" rx="12" fill="#FEF3C7" stroke="#D97706" stroke-width="1.5" filter="url(#a10soft)"/>
-  <text x="1000.0" y="454" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="13" font-weight="700" fill="#0F172A">HITL if high-risk</text>
-  <text x="1000.0" y="474" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" fill="#64748B">deploy · protected push · new egress · secrets paths → human decides</text>
-<path d="M1000,510 L1000,580" fill="none" stroke="#047857" stroke-width="1.7" marker-end="url(#a10arrG)"/>
-<text x="1010" y="550" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" font-weight="600" fill="#047857">approved</text>
-<path d="M1000,580 L840,700" fill="none" stroke="#047857" stroke-width="1.7" marker-end="url(#a10arrG)"/>
+<rect x="860" y="430" width="300" height="80" rx="12" fill="#FEF3C7" stroke="#D97706" stroke-width="1.5" filter="url(#a10soft)"/>
+  <text x="1010.0" y="454" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="13" font-weight="700" fill="#0F172A">HITL if high-risk</text>
+  <text x="1010.0" y="474" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" fill="#64748B">deploy · protected push · new egress</text>
+<path d="M1010,510 L1010,580" fill="none" stroke="#047857" stroke-width="1.7" marker-end="url(#a10arrG)"/>
+<text x="1020" y="550" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" font-weight="600" fill="#047857">approved</text>
+<path d="M1010,580 L840,700" fill="none" stroke="#047857" stroke-width="1.7" marker-end="url(#a10arrG)"/>
 <path d="M620,542 L620,670" fill="none" stroke="#047857" stroke-width="1.7" marker-end="url(#a10arrG)"/>
-<text x="640" y="600" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" font-weight="600" fill="#047857">allow (in-policy)</text>
+<text x="640" y="585" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" font-weight="600" fill="#047857">allow (in-policy)</text>
+
+  <rect x="280" y="555" width="262.20000000000005" height="20" rx="6" fill="#ECFDF5" stroke="#059669"/>
+  <text x="288" y="569" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" font-weight="700" fill="#065F46">MIT: capability profile + effect metadata</text>
+
+
+  <rect x="280" y="583" width="231.20000000000002" height="20" rx="6" fill="#ECFDF5" stroke="#059669"/>
+  <text x="288" y="597" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" font-weight="700" fill="#065F46">MIT: param binding · write-path deny</text>
+
 <rect x="400" y="670" width="440" height="70" rx="12" fill="#EFF6FF" stroke="#2563EB" stroke-width="1.5" filter="url(#a10soft)"/>
   <text x="620.0" y="694" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="13" font-weight="700" fill="#0F172A">Tool / MCP executes</text>
   <text x="620.0" y="714" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" fill="#64748B">brokered user token in header — never in model context</text>
@@ -94,9 +94,9 @@
 <rect x="980" y="640" width="260" height="70" rx="12" fill="#FFF1F2" stroke="#E11D48" stroke-width="1.5" filter="url(#a10soft)"/>
   <text x="1110.0" y="664" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="13" font-weight="700" fill="#0F172A">tool_result</text>
   <text x="1110.0" y="684" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" fill="#64748B">re-enters as DATA via Output Gate</text>
-<path d="M1110,640 L1110,322" fill="none" stroke="#0F172A" stroke-width="1.6" marker-end="url(#a10arr)" stroke-dasharray="5 4"/>
-<path d="M1110,322 L840,322" fill="none" stroke="#0F172A" stroke-width="1.6" marker-end="url(#a10arr)" stroke-dasharray="5 4"/>
-<text x="1125" y="480" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" font-weight="600" fill="#92400E">bounded loop</text>
+<path d="M1140,640 L1140,322" fill="none" stroke="#0F172A" stroke-width="1.6" marker-end="url(#a10arr)" stroke-dasharray="5 4"/>
+<path d="M1140,322 L840,322" fill="none" stroke="#0F172A" stroke-width="1.6" marker-end="url(#a10arr)" stroke-dasharray="5 4"/>
+<text x="1155" y="480" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" font-weight="600" fill="#92400E">bounded loop</text>
 
   <rect x="980" y="720" width="187.8" height="20" rx="6" fill="#ECFDF5" stroke="#059669"/>
   <text x="988" y="734" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" font-weight="700" fill="#065F46">MIT: OG again + autonomy caps</text>
@@ -107,12 +107,12 @@
 <path d="M400,700 C320,700 280,700 300,700" fill="none" stroke="#059669" stroke-width="1.6" stroke-dasharray="5 4" marker-end="url(#a10arrG)"/>
 <text x="340" y="688" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" font-weight="600" fill="#047857">write</text>
 
-  <rect x="40" y="770" width="448.2" height="20" rx="6" fill="#ECFDF5" stroke="#059669"/>
-  <text x="48" y="784" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" font-weight="700" fill="#065F46">MIT: write-path deny for rules/mcp.json/hooks · no imperative-as-policy</text>
+  <rect x="52" y="770" width="448.2" height="20" rx="6" fill="#ECFDF5" stroke="#059669"/>
+  <text x="60" y="784" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" font-weight="700" fill="#065F46">MIT: write-path deny for rules/mcp.json/hooks · no imperative-as-policy</text>
 
-<path d="M180,645 C180,500 300,230 390,210" fill="none" stroke="#E11D48" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#a10arrR)"/>
-<text x="200" y="520" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" font-weight="600" fill="#B91C1C">read next session</text>
-<text x="200" y="536" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" font-weight="600" fill="#64748B">(still untrusted data)</text>
+<path d="M120,660 C40,520 80,280 390,210" fill="none" stroke="#E11D48" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#a10arrR)"/>
+<text x="36" y="420" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" font-weight="600" fill="#B91C1C">read next session</text>
+<text x="36" y="436" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" font-weight="600" fill="#64748B">(still untrusted data)</text>
 <rect x="32" y="860" width="1216" height="88" rx="12" fill="#FFFFFF" stroke="#059669" stroke-width="1.5"/>
 <text x="52" y="890" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="13" font-weight="800" fill="#047857">Axiom</text>
 <text x="52" y="912" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="600" fill="#0F172A">Memory / RAG / tool_result can be poisoned — treat as untrusted DATA. Never let them grant tools, set payee/path/account, or rewrite rules.</text>

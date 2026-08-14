@@ -36,15 +36,19 @@ def esc(s: str) -> str:
 
 
 def defs(p: str) -> str:
+    mk = (
+        'markerUnits="userSpaceOnUse" viewBox="0 0 10 10" refX="10" refY="5" '
+        'markerWidth="9" markerHeight="9" orient="auto"'
+    )
     return f"""
   <defs>
-    <marker id="{p}arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+    <marker id="{p}arr" {mk}>
       <path d="M 0 0 L 10 5 L 0 10 z" fill="{C['ink']}"/>
     </marker>
-    <marker id="{p}arrG" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+    <marker id="{p}arrG" {mk}>
       <path d="M 0 0 L 10 5 L 0 10 z" fill="{C['ok']}"/>
     </marker>
-    <marker id="{p}arrR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+    <marker id="{p}arrR" {mk}>
       <path d="M 0 0 L 10 5 L 0 10 z" fill="{C['danger']}"/>
     </marker>
     <filter id="{p}soft" x="-8%" y="-8%" width="116%" height="116%">
@@ -78,14 +82,17 @@ def zone(x, y, w, h, label, fill, stroke, header) -> str:
 
 
 def card(x, y, w, h, num, title, sub, fill, stroke, num_bg, p="") -> str:
-    soft = f' filter="url(#{p}soft)"' if p else ""
-    # fix: use p in filter id
     soft = f' filter="url(#{p}soft)"' if p else ' filter="url(#soft)"'
-    return f"""
-  <rect x="{x}" y="{y}" width="{w}" height="{h}" rx="10" fill="{fill}" stroke="{stroke}" stroke-width="1.4"{soft}/>
+    badge = ""
+    title_x = x + 12
+    if num:
+        badge = f"""
   <circle cx="{x + 16}" cy="{y + 16}" r="10" fill="{num_bg}"/>
-  <text x="{x + 16}" y="{y + 20}" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" font-weight="700" fill="#fff">{esc(num)}</text>
-  <text x="{x + 32}" y="{y + 20}" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="700" fill="{C['ink']}">{esc(title)}</text>
+  <text x="{x + 16}" y="{y + 20}" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" font-weight="700" fill="#fff">{esc(num)}</text>"""
+        title_x = x + 32
+    return f"""
+  <rect x="{x}" y="{y}" width="{w}" height="{h}" rx="10" fill="{fill}" stroke="{stroke}" stroke-width="1.4"{soft}/>{badge}
+  <text x="{title_x}" y="{y + 20}" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="700" fill="{C['ink']}">{esc(title)}</text>
   <text x="{x + 12}" y="{y + 40}" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" fill="{C['muted']}">{esc(sub)}</text>
 """
 
@@ -158,11 +165,11 @@ def svg_13() -> str:
         label(1160, 465, "Alice query → Bob's docs", C["danger"], 12, "start"),
         label(1160, 490, "Tenant A → Tenant B index", C["danger"], 12, "start"),
         label(1160, 515, "Markdown img → evil.com", C["danger"], 12, "start"),
-        # red flows
+        # red flows — horizontal approach into Chat render left edge (clean arrow tangent)
         f'<path d="M720,260 C760,260 780,260 800,258" fill="none" stroke="{C["danger"]}" stroke-width="2" marker-end="url(#{p}arrR)"/>',
-        label(740, 248, "poisoned chunks", C["danger"], 10),
-        f'<path d="M940,530 C940,600 600,620 400,340" fill="none" stroke="{C["danger"]}" stroke-width="2.2" marker-end="url(#{p}arrR)"/>',
-        label(700, 600, "EXFIL / cross-user retrieve", C["danger"], 12),
+        label(760, 246, "poisoned chunks", C["danger"], 10),
+        f'<path d="M560,366 C560,500 680,495 800,495" fill="none" stroke="{C["danger"]}" stroke-width="2.2" marker-end="url(#{p}arrR)"/>',
+        label(680, 545, "EXFIL / cross-user retrieve", C["danger"], 12),
         f'<rect x="40" y="640" width="1060" height="80" rx="12" fill="{C["panel"]}" stroke="{C["line"]}"/>',
         label(60, 675, "Naive mental model: \"the chatbot searches everything and the model is careful.\"", C["ink"], 13, "start"),
         label(60, 700, "Reality: the model will answer from whatever unauthorized chunks you put in the prompt.", C["muted"], 12, "start"),
@@ -219,10 +226,10 @@ def svg_14() -> str:
         card(1080, 350, 440, 56, "", "Prefer no tools", "pipeline chat (Example A Flow A)", C["panel"], C["model_bd"], C["model_bd"], p),
         f'<rect x="1060" y="450" width="480" height="100" rx="14" fill="{C["action_bg"]}" stroke="{C["action_bd"]}" filter="url(#{p}soft)"/>',
         card(1080, 470, 440, 60, "11", "Render surface", "CSP lockdown · no remote img/connect", C["control_bg"], C["control_bd"], C["control_bd"], p),
-        # arrows
-        arrow(266, 400, 520, 300, "arrG", C["ok"], p=p),
-        arrow(1000, 460, 1060, 308, "arrG", C["ok"], p=p),
-        arrow(1300, 430, 1300, 450, "arrG", C["ok"], p=p),
+        # arrows — edge-to-edge, no strikethrough of cards
+        arrow(460, 368, 540, 368, "arrG", C["ok"], p=p),
+        f'<path d="M1000,455 H1050 V308 H1080" fill="none" stroke="{C["ok"]}" stroke-width="1.6" marker-end="url(#{p}arrG)"/>',
+        arrow(1300, 406, 1300, 470, "arrG", C["ok"], p=p),
         # bottom axiom
         f'<rect x="36" y="580" width="1504" height="100" rx="12" fill="{C["panel"]}" stroke="{C["ok"]}" stroke-width="1.5"/>',
         label(56, 610, "Primary enforcement chain", C["ok"], 14, "start", "800"),
@@ -311,32 +318,32 @@ def svg_15() -> str:
         step_r(330, "C4", "Output Gate", "hits enter prompt as DATA, not instructions", "control"),
         step_r(390, "C5", "LLM complete (no tools)", "answer text only — pipeline shape", "model"),
         step_r(450, "C6", "CSP-hardened render", "no remote img/connect · encode markdown", "action"),
-        # connectors note
-        f'<rect x="36" y="480" width="700" height="200" rx="12" fill="{C["panel"]}" stroke="{C["ok"]}"/>',
-        label(56, 510, "Identity is the spine", C["ok"], 14, "start", "800"),
-        label(56, 540, "Upload and chat both derive tenancy from the token.", C["ink"], 12, "start"),
-        label(56, 565, "The model never sees credentials and never sets filters.", C["ink"], 12, "start"),
-        label(56, 590, "Poisoned files stay under the uploader's ACL;", C["ink"], 12, "start"),
-        label(56, 615, "they cannot widen retrieval for other users.", C["ink"], 12, "start"),
-        label(56, 650, "If you add tools later → Example A gates.", C["muted"], 12, "start"),
+        # mid panels start below C6 (y=450+48=498) — keep a clear gutter
+        f'<rect x="36" y="520" width="700" height="160" rx="12" fill="{C["panel"]}" stroke="{C["ok"]}"/>',
+        label(56, 550, "Identity is the spine", C["ok"], 14, "start", "800"),
+        label(56, 580, "Upload and chat both derive tenancy from the token.", C["ink"], 12, "start"),
+        label(56, 605, "The model never sees credentials and never sets filters.", C["ink"], 12, "start"),
+        label(56, 630, "Poisoned files stay under the uploader's ACL;", C["ink"], 12, "start"),
+        label(56, 655, "they cannot widen retrieval for other users.", C["ink"], 12, "start"),
+        label(56, 680, "If you add tools later → Example A gates.", C["muted"], 12, "start"),
         f'<rect x="760" y="520" width="680" height="160" rx="12" fill="{C["panel"]}" stroke="{C["danger"]}"/>',
         label(780, 550, "Attacks stopped on this diagram", C["danger"], 14, "start", "800"),
-        label(780, 580, "• Client forges tenant_id / user_id", C["ink"], 12, "start"),
-        label(780, 605, "• Alice retrieves Bob's private doc", C["ink"], 12, "start"),
-        label(780, 630, "• Markdown image phones home (EchoLeak-class)", C["ink"], 12, "start"),
-        label(780, 655, "• Upload becomes global corpus without ownership", C["ink"], 12, "start"),
+        label(780, 585, "• Client forges tenant_id / user_id", C["ink"], 12, "start"),
+        label(780, 610, "• Alice retrieves Bob's private doc", C["ink"], 12, "start"),
+        label(780, 635, "• Markdown image phones home (EchoLeak-class)", C["ink"], 12, "start"),
+        label(780, 660, "• Upload becomes global corpus without ownership", C["ink"], 12, "start"),
         # bottom residual
-        f'<rect x="36" y="720" width="1404" height="100" rx="12" fill="{C["panel"]}" stroke="{C["line"]}"/>',
-        label(56, 755, "Honest residual", C["ink"], 13, "start", "800"),
-        label(56, 780, "A user can still receive a wrong summary of a file they own if that file is poisoned (LLM09).", C["muted"], 12, "start"),
-        label(56, 805, "Deliberate oversharing and shared-inference KV side channels are out of band for RAG ACL — see Ch.7 KV Cache / Example C.", C["muted"], 12, "start"),
-        f'<rect x="36" y="850" width="1404" height="200" rx="12" fill="{C["control_bg"]}" stroke="{C["control_bd"]}"/>',
-        label(56, 880, "Pseudo-code (chat)", C["control_hd"], 13, "start", "800"),
-        label(56, 910, "claims = verify_jwt(req)", C["ink"], 12, "start"),
-        label(56, 935, "filt = build_prefilter(claims)          # NOT from req.json", C["ink"], 12, "start"),
-        label(56, 960, "hits = search(tenant_ns(claims.tenant), q, prefilter=filt)", C["ink"], 12, "start"),
-        label(56, 985, "return render(llm(user=q, data=output_gate(hits)), csp=LOCKDOWN)", C["ink"], 12, "start"),
-        label(56, 1020, "No tools bound by default.", C["muted"], 12, "start"),
+        f'<rect x="36" y="710" width="1404" height="100" rx="12" fill="{C["panel"]}" stroke="{C["line"]}"/>',
+        label(56, 745, "Honest residual", C["ink"], 13, "start", "800"),
+        label(56, 770, "A user can still receive a wrong summary of a file they own if that file is poisoned (LLM09).", C["muted"], 12, "start"),
+        label(56, 795, "Deliberate oversharing and shared-inference KV side channels are out of band for RAG ACL — see Ch.7 KV Cache / Example C.", C["muted"], 12, "start"),
+        f'<rect x="36" y="840" width="1404" height="200" rx="12" fill="{C["control_bg"]}" stroke="{C["control_bd"]}"/>',
+        label(56, 870, "Pseudo-code (chat)", C["control_hd"], 13, "start", "800"),
+        label(56, 900, "claims = verify_jwt(req)", C["ink"], 12, "start"),
+        label(56, 925, "filt = build_prefilter(claims)          # NOT from req.json", C["ink"], 12, "start"),
+        label(56, 950, "hits = search(tenant_ns(claims.tenant), q, prefilter=filt)", C["ink"], 12, "start"),
+        label(56, 975, "return render(llm(user=q, data=output_gate(hits)), csp=LOCKDOWN)", C["ink"], 12, "start"),
+        label(56, 1010, "No tools bound by default.", C["muted"], 12, "start"),
         "</svg>",
     ]
     return "\n".join(parts)
