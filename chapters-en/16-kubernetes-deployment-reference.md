@@ -390,4 +390,5 @@ Kubernetes secures **where** the model runs; MLSecOps secures **what** runs and 
 ### References / Source mapping
 
 **Implementation guidance (this guide)**
-- [E.1.3 Self-hosted LLM architecture card](17-appendix-e-implementation-reference.md#e13-self-hosted-llm-vllm--kserve-on-kubernetes) (Chapter 17); sections above in this chapter
+- [E.1.3 Self-hosted LLM architecture card](17-appendix-e-implementation-reference.md#e13-self-hosted-llm-vllmkserve-on-kubernetes) (Chapter 17); sections above in this chapter
+- [Appendix E.7.3 — Self-hosted model platform worked example](17-appendix-e-implementation-reference.md#e73-example-c-self-hosted-model-platform-vllmkserve-on-kubernetes) (admit + serve + KV/GPU isolation)

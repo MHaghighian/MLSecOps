@@ -323,7 +323,8 @@ LeftoverLocals-style **GPU memory residue** ([Advanced Multi-Tenant hardening](#
 - [Cloud Native and Multi-Tenant deployment](#cloud-native-and-multi-tenant-deployment); [Advanced Multi-Tenant hardening](#advanced-multi-tenant-hardening)
 - [Chapter 16 — GPU isolation and shared inference](16-kubernetes-deployment-reference.md#gpu-isolation-and-shared-inference)
 - [Chapter 4 — Information leakage from Embedding](04-data-security-privacy.md#information-leakage-from-embedding)
-- [Appendix E.1.3 Self-hosted LLM](17-appendix-e-implementation-reference.md#e13-self-hosted-llm-vllm--kserve-on-kubernetes)
+- [Appendix E.1.3 Self-hosted LLM](17-appendix-e-implementation-reference.md#e13-self-hosted-llm-vllmkserve-on-kubernetes)
+- [Appendix E.7.3 — Self-hosted model platform](17-appendix-e-implementation-reference.md#e73-example-c-self-hosted-model-platform-vllmkserve-on-kubernetes) (admit + tenant KV bind)
 
 ## Fine-tuning risks
 
@@ -929,7 +930,9 @@ These defaults pair with the structural agent patterns above ([Dual-LLM / CaMeL,
 - [Cloud Native and Multi-Tenant deployment](#cloud-native-and-multi-tenant-deployment); [Downstream conventional injection](#downstream-conventional-injection)
 - [Chapter 8 — Tool trust boundary](08-agentic-ai-security.md#tool-trust-boundary)
 - [Appendix E.7.1 — AI coding assistant worked example](17-appendix-e-implementation-reference.md#e71-example-a-ai-coding-assistant-agent-mcp-ide-host) (agent + MCP + code-RAG end-to-end)
-- [Appendix E.7.2 — Multi-tenant RAG SaaS worked example](17-appendix-e-implementation-reference.md#e72-example-b-multi-tenant-rag-saas-upload--per-user-chatbot) (upload + per-user RLS)
+- [Appendix E.7.2 — Multi-tenant RAG SaaS worked example](17-appendix-e-implementation-reference.md#e72-example-b-multi-tenant-rag-saas-upload-and-per-user-chatbot) (upload + per-user RLS)
+- [Appendix E.7.3 — Self-hosted model platform](17-appendix-e-implementation-reference.md#e73-example-c-self-hosted-model-platform-vllmkserve-on-kubernetes) (KV / GPU isolation + signed admit)
+- [Appendix E.7.4 — Customer-facing website](17-appendix-e-implementation-reference.md#e74-example-d-customer-facing-website-rag-chatbot-and-background-agents) (RAG chat + queued agents)
 
 ## Practical principle
 

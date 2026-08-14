@@ -46,15 +46,19 @@ def esc(s: str) -> str:
 
 def defs(prefix: str = "") -> str:
     p = prefix
+    mk = (
+        'markerUnits="userSpaceOnUse" viewBox="0 0 10 10" refX="10" refY="5" '
+        'markerWidth="9" markerHeight="9" orient="auto"'
+    )
     return f"""
   <defs>
-    <marker id="{p}arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+    <marker id="{p}arr" {mk}>
       <path d="M 0 0 L 10 5 L 0 10 z" fill="{C['ink']}"/>
     </marker>
-    <marker id="{p}arrG" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+    <marker id="{p}arrG" {mk}>
       <path d="M 0 0 L 10 5 L 0 10 z" fill="{C['ok']}"/>
     </marker>
-    <marker id="{p}arrR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+    <marker id="{p}arrR" {mk}>
       <path d="M 0 0 L 10 5 L 0 10 z" fill="{C['danger']}"/>
     </marker>
     <filter id="{p}soft" x="-8%" y="-8%" width="116%" height="116%">
@@ -79,14 +83,21 @@ def title_bar(w: int, title: str, subtitle: str, badge: str, color: str) -> str:
 
 
 def box(x, y, w, h, fill, stroke, title, sub="", title_size=13, soft=True, prefix="") -> str:
+    """Title near top; subtitle below it with fixed padding (never on the bottom stroke)."""
     f = f' filter="url(#{prefix}soft)"' if soft else ""
+    if sub:
+        title_y = y + 24
+        sub_y = y + 44
+    else:
+        title_y = y + h // 2 + 5
+        sub_y = title_y
     lines = [
         f'<rect x="{x}" y="{y}" width="{w}" height="{h}" rx="12" fill="{fill}" stroke="{stroke}" stroke-width="1.5"{f}/>',
-        f'<text x="{x + w/2}" y="{y + (26 if not sub else 24)}" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="{title_size}" font-weight="700" fill="{C["ink"]}">{esc(title)}</text>',
+        f'<text x="{x + w/2}" y="{title_y}" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="{title_size}" font-weight="700" fill="{C["ink"]}">{esc(title)}</text>',
     ]
     if sub:
         lines.append(
-            f'<text x="{x + w/2}" y="{y + 44}" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" fill="{C["muted"]}">{esc(sub)}</text>'
+            f'<text x="{x + w/2}" y="{sub_y}" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" fill="{C["muted"]}">{esc(sub)}</text>'
         )
     return "\n  ".join(lines)
 
@@ -155,48 +166,49 @@ def svg_10() -> str:
         # Context assembled — with entry callouts
         box(390, 168, 460, 78, C["untrusted_bg"], C["untrusted_bd"], "Context assembled", "system · config · memory · history · RAG · open files", prefix=p),
         mit_badge(390, 252, "MIT: Retrieval ACL + Output Gate (data ≠ instructions)"),
-        # Entry sources
-        box(40, 160, 280, 100, C["panel"], C["untrusted_bd"], "ENTRY channels", "", 13, True, p),
-        label(180, 200, "prompt · repo/RAG · web", C["danger"], 11),
-        label(180, 218, "MCP/tool output · rules", C["danger"], 11),
-        label(180, 236, "memory from prior session", C["danger"], 11),
-        arrow(320, 210, 390, 210, "arrR", C["danger"], True, 1.6, p),
-        label(350, 200, "payload in", C["danger"], 10),
+        # Entry sources — title on top, body below (no centered-title collision)
+        f'<rect x="40" y="160" width="280" height="110" rx="12" fill="{C["panel"]}" stroke="{C["untrusted_bd"]}" stroke-width="1.5" filter="url(#{p}soft)"/>',
+        label(180, 182, "ENTRY channels", C["ink"], 13),
+        label(180, 208, "prompt · repo/RAG · web", C["danger"], 11),
+        label(180, 228, "MCP/tool output · rules", C["danger"], 11),
+        label(180, 248, "memory from prior session", C["danger"], 11),
+        arrow(320, 215, 390, 215, "arrR", C["danger"], True, 1.6, p),
+        label(350, 204, "payload in", C["danger"], 10),
         # Model decides
         arrow(620, 246, 620, 290, "arr", C["ink"], prefix=p),
         box(400, 290, 440, 64, C["model_bg"], C["model_bd"], "Model decides", "answer  ·  or emit tool proposal {name, args}", prefix=p),
         # Final output left
         arrow(400, 322, 220, 322, "arr", C["ink"], prefix=p),
-        label(310, 310, "final output", C["muted"], 10),
+        label(310, 298, "final output", C["muted"], 10),
         pill(60, 304, 160, 36, C["panel"], C["line"], "Return to developer"),
-        # tool_use down
-        arrow(620, 354, 620, 400, "arr", C["ink"], prefix=p),
+        # tool_use down into Intent Gate (clear of MIT badges)
+        arrow(620, 354, 620, 398, "arr", C["ink"], prefix=p),
         label(640, 380, "tool_use (proposal only)", C["model_hd"], 11, "start"),
-        # Policy diamond
+        # Policy diamond — MIT badges BELOW the diamond (left of allow shaft), never on deny path
         diamond(620, 470, 72, C["control_bg"], C["control_bd"], "Intent Gate", "allow · HITL · deny"),
-        mit_badge(710, 450, "MIT: capability profile + effect metadata"),
-        mit_badge(710, 474, "MIT: param binding · write-path deny"),
-        # deny branch (left)
+        # deny branch (left) — full clear corridor
         arrow(548, 470, 360, 470, "arr", C["danger"], prefix=p),
-        pill(200, 452, 160, 36, C["untrusted_bg"], C["danger"], "Deny / stop", C["danger"]),
-        # HITL branch (right) — only high-risk; not on the default path
+        pill(180, 452, 180, 36, C["untrusted_bg"], C["danger"], "Deny / stop", C["danger"]),
+        # HITL branch (right)
         arrow(692, 470, 860, 470, "arr", C["hitl_bd"], prefix=p),
-        box(860, 430, 280, 80, C["hitl_bg"], C["hitl_bd"], "HITL if high-risk", "deploy · protected push · new egress · secrets paths → human decides", prefix=p),
-        arrow(1000, 510, 1000, 580, "arrG", C["ok"], prefix=p),
-        label(1010, 550, "approved", C["ok"], 10, "start"),
-        arrow(1000, 580, 840, 700, "arrG", C["ok"], prefix=p),
+        box(860, 430, 300, 80, C["hitl_bg"], C["hitl_bd"], "HITL if high-risk", "deploy · protected push · new egress", prefix=p),
+        arrow(1010, 510, 1010, 580, "arrG", C["ok"], prefix=p),
+        label(1020, 550, "approved", C["ok"], 10, "start"),
+        arrow(1010, 580, 840, 700, "arrG", C["ok"], prefix=p),
         # allow (low-risk) straight down — default path
         arrow(620, 542, 620, 670, "arrG", C["ok"], prefix=p),
-        label(640, 600, "allow (in-policy)", C["ok"], 11, "start"),
+        label(640, 585, "allow (in-policy)", C["ok"], 11, "start"),
+        mit_badge(280, 555, "MIT: capability profile + effect metadata"),
+        mit_badge(280, 583, "MIT: param binding · write-path deny"),
         # Tool execute
         box(400, 670, 440, 70, C["action_bg"], C["action_bd"], "Tool / MCP executes", "brokered user token in header — never in model context", prefix=p),
         mit_badge(400, 748, "MIT: Credential Broker + MCP Gateway + downstream authZ"),
-        # tool result loop
+        # tool result loop — dashed return stays right of labels
         arrow(840, 705, 980, 705, "arr", C["ink"], prefix=p),
         box(980, 640, 260, 70, C["untrusted_bg"], C["untrusted_bd"], "tool_result", "re-enters as DATA via Output Gate", prefix=p),
-        arrow(1110, 640, 1110, 322, "arr", C["ink"], True, 1.6, p),
-        arrow(1110, 322, 840, 322, "arr", C["ink"], True, 1.6, p),
-        label(1125, 480, "bounded loop", C["model_hd"], 11, "start"),
+        arrow(1140, 640, 1140, 322, "arr", C["ink"], True, 1.6, p),
+        arrow(1140, 322, 840, 322, "arr", C["ink"], True, 1.6, p),
+        label(1155, 480, "bounded loop", C["model_hd"], 11, "start"),
         mit_badge(980, 720, "MIT: OG again + autonomy caps"),
         # Durable memory
         f'<ellipse cx="180" cy="700" rx="120" ry="55" fill="{C["infra_bg"]}" stroke="{C["infra_bd"]}" stroke-width="1.6"/>',
@@ -205,11 +217,11 @@ def svg_10() -> str:
         # write dashed
         f'<path d="M400,700 C320,700 280,700 300,700" fill="none" stroke="{C["control_bd"]}" stroke-width="1.6" stroke-dasharray="5 4" marker-end="url(#{p}arrG)"/>',
         label(340, 688, "write", C["ok"], 10),
-        mit_badge(40, 770, "MIT: write-path deny for rules/mcp.json/hooks · no imperative-as-policy"),
-        # read to context
-        f'<path d="M180,645 C180,500 300,230 390,210" fill="none" stroke="{C["untrusted_bd"]}" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#{p}arrR)"/>',
-        label(200, 520, "read next session", C["danger"], 10, "start"),
-        label(200, 536, "(still untrusted data)", C["muted"], 10, "start"),
+        mit_badge(52, 770, "MIT: write-path deny for rules/mcp.json/hooks · no imperative-as-policy"),
+        # read to context — bow left of Deny / Return pills
+        f'<path d="M120,660 C40,520 80,280 390,210" fill="none" stroke="{C["untrusted_bd"]}" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#{p}arrR)"/>',
+        label(36, 420, "read next session", C["danger"], 10, "start"),
+        label(36, 436, "(still untrusted data)", C["muted"], 10, "start"),
         # Footer axiom
         f'<rect x="32" y="860" width="1216" height="88" rx="12" fill="{C["panel"]}" stroke="{C["control_bd"]}" stroke-width="1.5"/>',
         label(52, 890, "Axiom", C["ok"], 13, "start", "800"),
@@ -238,35 +250,33 @@ def svg_11() -> str:
             "INFRA",
             C["infra_bd"],
         ),
-        # Cloud runtime box (left)
-        f'<rect x="32" y="100" width="360" height="280" rx="14" fill="{C["infra_bg"]}" stroke="{C["infra_bd"]}" stroke-width="1.6" filter="url(#{p}soft)"/>',
+        # Cloud runtime box (left) — keep clear of the Writes card
+        f'<rect x="32" y="100" width="300" height="280" rx="14" fill="{C["infra_bg"]}" stroke="{C["infra_bd"]}" stroke-width="1.6" filter="url(#{p}soft)"/>',
         label(52, 128, "Cloud / agent runtime", C["ink"], 14, "start", "800"),
-        box(52, 148, 320, 70, C["panel"], C["line"], "Setup phase", "network ON · secrets available for bootstrap", 12, False, p),
-        arrow(212, 218, 212, 248, "arr", C["ink"], prefix=p),
-        box(52, 248, 320, 90, C["control_bg"], C["control_bd"], "Agent phase (hardened)", "network OFF or allowlisted · secrets removed from env · brokered tokens only", 12, False, p),
-        label(52, 360, "Stops: secret theft from env + open exfil", C["ok"], 11, "start"),
+        box(52, 148, 260, 70, C["panel"], C["line"], "Setup phase", "network ON · secrets for bootstrap", 12, False, p),
+        arrow(182, 218, 182, 248, "arr", C["ink"], prefix=p),
+        box(52, 248, 260, 70, C["control_bg"], C["control_bd"], "Agent phase (hardened)", "net OFF · secrets out · brokered tokens", 12, False, p),
+        label(52, 340, "Stops: env secret theft + open exfil", C["ok"], 11, "start"),
         # Main task flow
         box(460, 100, 280, 48, C["panel"], C["ink"], "Agent task starts", "", 13, True, p),
         arrow(600, 148, 600, 180, "arr", C["ink"], prefix=p),
         diamond(600, 240, 58, C["control_bg"], C["control_bd"], "Sandbox", "mode on"),
-        # two parallel mitigations
-        arrow(542, 240, 420, 240, "arrG", C["ok"], prefix=p),
-        arrow(658, 240, 780, 240, "arrG", C["ok"], prefix=p),
-        box(280, 300, 240, 70, C["control_bg"], C["control_bd"], "Writes → workspace only", "deny .env · hooks · mcp.json · rules · CI", 12, True, p),
+        # elbow into the two mitigation boxes (no dangling horizontals)
+        f'<path d="M542,240 L470,240 L470,300" fill="none" stroke="{C["ok"]}" stroke-width="1.6" marker-end="url(#{p}arrG)"/>',
+        f'<path d="M658,240 L840,240 L840,300" fill="none" stroke="{C["ok"]}" stroke-width="1.6" marker-end="url(#{p}arrG)"/>',
+        box(350, 300, 240, 70, C["control_bg"], C["control_bd"], "Writes → workspace only", "deny .env · hooks · mcp.json · rules · CI", 12, True, p),
         box(700, 300, 280, 70, C["control_bg"], C["control_bd"], "Network deny-by-default", "egress allowlist + kill switch (EA)", 12, True, p),
-        # merge to approval
-        arrow(400, 370, 400, 420, "arr", C["ink"], prefix=p),
-        arrow(840, 370, 840, 420, "arr", C["ink"], prefix=p),
-        arrow(400, 430, 600, 470, "arr", C["ink"], prefix=p),
-        arrow(840, 430, 600, 470, "arr", C["ink"], prefix=p),
+        # merge to Approval — last segment is vertical INTO the diamond top (not sideways)
+        f'<path d="M470,370 V450 H600 V460" fill="none" stroke="{C["ink"]}" stroke-width="1.6" marker-end="url(#{p}arr)"/>',
+        f'<path d="M840,370 V450 H600 V460" fill="none" stroke="{C["ink"]}" stroke-width="1.6" marker-end="url(#{p}arr)"/>',
         diamond(600, 530, 70, C["hitl_bg"], C["hitl_bd"], "Approval", "policy"),
-        # outcomes
-        arrow(530, 530, 360, 530, "arr", C["hitl_bd"], prefix=p),
-        box(160, 500, 200, 70, C["hitl_bg"], C["hitl_bd"], "Ask the human", "leave sandbox · new host · untrusted cmd · deploy", 12, True, p),
-        arrow(670, 530, 860, 530, "arrG", C["ok"], prefix=p),
-        box(860, 500, 200, 70, C["action_bg"], C["action_bd"], "Execute", "in-policy · profile-scoped · brokered token", 12, True, p),
-        label(360, 490, "out of policy", C["hitl_bd"], 11),
-        label(780, 490, "in policy", C["ok"], 11),
+        # outcomes — wider boxes so subtitles fit; labels above shafts
+        arrow(530, 530, 400, 530, "arr", C["hitl_bd"], prefix=p),
+        box(140, 500, 260, 70, C["hitl_bg"], C["hitl_bd"], "Ask the human", "leave sandbox · new host · deploy", 12, True, p),
+        arrow(670, 530, 820, 530, "arrG", C["ok"], prefix=p),
+        box(820, 500, 260, 70, C["action_bg"], C["action_bd"], "Execute", "in-policy · profile-scoped · OBO token", 12, True, p),
+        label(465, 508, "out of policy", C["hitl_bd"], 11),
+        label(745, 508, "in policy", C["ok"], 11),
         # Bottom mapping to Example A controls
         f'<rect x="32" y="620" width="1216" height="200" rx="12" fill="{C["panel"]}" stroke="{C["line"]}"/>',
         label(52, 650, "Maps to Example A controls", C["ink"], 14, "start", "800"),
@@ -343,19 +353,19 @@ def svg_12() -> str:
         node(730, 240, 160, 70, "Memory (7)", "untrusted store", C["untrusted_bg"], C["untrusted_bd"]),
         node(910, 240, 180, 70, "Rendering", "sanitize + CSP + no remote", "#fff", C["action_bd"]),
         node(370, 350, 520, 70, "Orchestrator / Reasoning (3)", "plan-then-execute · owns dispatch · binds capability profile", C["model_bg"], C["model_bd"]),
-        edge_mit(370, 320, "MIT before tools: Intent Gate + HITL"),
-        edge_mit(550, 430, "MIT on retrieve: ACL → Output Gate"),
-        edge_mit(730, 430, "MIT on memory: write deny · read as data"),
-        # External
+        edge_mit(370, 318, "MIT before tools: Intent Gate + HITL"),
+        edge_mit(520, 438, "MIT on retrieve: ACL → Output Gate"),
+        edge_mit(760, 438, "MIT on memory: write deny · read as data"),
+        # External — dashed path stays in the right gutter (clear of legend)
         node(1160, 250, 200, 80, "External / MCP (6)", "servers · APIs · git · deploy", C["untrusted_bg"], C["untrusted_bd"]),
         arrow(1090, 275, 1160, 275, "arrG", C["ok"], prefix=p),
-        edge_mit(1160, 220, "MCP Gateway + schema pin"),
-        arrow(1260, 330, 1260, 700, "arr", C["ink"], True, 1.4, p),
+        edge_mit(1160, 200, "MCP Gateway + schema pin"),
+        f'<path d="M1360,290 L1390,290 L1390,860 L1120,860" fill="none" stroke="{C["ink"]}" stroke-width="1.4" stroke-dasharray="5 4" marker-end="url(#{p}arr)"/>',
         # Model
         node(300, 530, 200, 70, "Input handling", "trusted intent + data channel", "#fff", C["model_bd"]),
         node(560, 530, 200, 70, "LLM brain (2)", "untrusted principal", C["model_bg"], C["model_bd"]),
         node(820, 530, 200, 70, "Output handling", "proposal or text only", "#fff", C["model_bd"]),
-        edge_mit(300, 505, "No secrets in context"),
+        edge_mit(300, 498, "No secrets in context"),
         # Infra plane B
         node(180, 680, 150, 70, "Intent Gate", "allow/deny/HITL", C["control_bg"], C["control_bd"]),
         node(360, 680, 150, 70, "Cred Broker", "OBO header token", C["control_bg"], C["control_bd"]),
@@ -367,7 +377,7 @@ def svg_12() -> str:
         node(440, 830, 200, 60, "Secret store (9)", "never in model", C["control_bg"], C["control_bd"]),
         node(680, 830, 200, 60, "Rules / memory files", "write-path deny", C["untrusted_bg"], C["untrusted_bd"]),
         node(920, 830, 200, 60, "Downstream APIs", "Plane C authZ", C["action_bg"], C["action_bd"]),
-        # Side legend
+        # Side legend — clear of External→APIs dashed gutter
         f'<rect x="1160" y="360" width="200" height="280" rx="12" fill="{C["panel"]}" stroke="{C["ok"]}"/>',
         label(1260, 390, "How to read", C["ok"], 13),
         label(1175, 420, "Red-tint boxes =", C["ink"], 11, "start"),

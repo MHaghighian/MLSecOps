@@ -1,16 +1,16 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1480" height="1520" viewBox="0 0 1480 1520">
 
   <defs>
-    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+    <marker id="arr" markerUnits="userSpaceOnUse" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="9" markerHeight="9" orient="auto">
       <path d="M 0 0 L 10 5 L 0 10 z" fill="#0F172A"/>
     </marker>
-    <marker id="arrR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+    <marker id="arrR" markerUnits="userSpaceOnUse" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="9" markerHeight="9" orient="auto">
       <path d="M 0 0 L 10 5 L 0 10 z" fill="#B91C1C"/>
     </marker>
-    <marker id="arrG" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+    <marker id="arrG" markerUnits="userSpaceOnUse" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="9" markerHeight="9" orient="auto">
       <path d="M 0 0 L 10 5 L 0 10 z" fill="#047857"/>
     </marker>
-    <marker id="arrB" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+    <marker id="arrB" markerUnits="userSpaceOnUse" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="9" markerHeight="9" orient="auto">
       <path d="M 0 0 L 10 5 L 0 10 z" fill="#2563EB"/>
     </marker>
     <filter id="soft" x="-8%" y="-8%" width="116%" height="116%">
@@ -45,8 +45,8 @@
   <rect x="106" y="110" width="980" height="56" rx="10" fill="#FFFFFF" stroke="#94A3B8" stroke-width="1.4" filter="url(#soft)"/>
   <text x="124" y="134" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="14" font-weight="700" fill="#0F172A">Developer enters prompt in IDE</text>
   <text x="124" y="154" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" fill="#64748B">User intent is the only trusted instruction channel for this request.</text>
-  <text x="1110" y="134" text-anchor="end" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" font-weight="600" fill="#64748B">1. IDE host</text>
-  <text x="1110" y="154" text-anchor="end" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" fill="#94A3B8">Plane A</text>
+  <text x="1048" y="134" text-anchor="end" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" font-weight="600" fill="#64748B">1. IDE host</text>
+  <text x="1048" y="154" text-anchor="end" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" fill="#94A3B8">Plane A</text>
 
 
   <circle cx="70" cy="216" r="16" fill="#059669"/>
@@ -55,8 +55,8 @@
   <rect x="106" y="188" width="980" height="56" rx="10" fill="#ECFDF5" stroke="#059669" stroke-width="1.4" filter="url(#soft)"/>
   <text x="124" y="212" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="14" font-weight="700" fill="#065F46">IDE → AI Gateway</text>
   <text x="124" y="232" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" fill="#64748B">Authenticate session, apply rate limits, log request metadata, route to orchestrator. Not an injection filter.</text>
-  <text x="1110" y="212" text-anchor="end" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" font-weight="600" fill="#64748B">G. AI Gateway</text>
-  <text x="1110" y="232" text-anchor="end" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" fill="#059669">Plane B</text>
+  <text x="1048" y="212" text-anchor="end" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" font-weight="600" fill="#64748B">G. AI Gateway</text>
+  <text x="1048" y="232" text-anchor="end" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" fill="#059669">Plane B</text>
 
 
   <circle cx="70" cy="294" r="16" fill="#D97706"/>
@@ -65,8 +65,8 @@
   <rect x="106" y="266" width="980" height="56" rx="10" fill="#FFFBEB" stroke="#D97706" stroke-width="1.4" filter="url(#soft)"/>
   <text x="124" y="290" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="14" font-weight="700" fill="#92400E">Gateway → Orchestrator</text>
   <text x="124" y="310" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" fill="#64748B">Trusted code owns the loop. Capability profile is bound here and is immutable for the task.</text>
-  <text x="1110" y="290" text-anchor="end" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" font-weight="600" fill="#64748B">3. Orchestrator</text>
-  <text x="1110" y="310" text-anchor="end" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" fill="#D97706">plan-then-execute</text>
+  <text x="1048" y="290" text-anchor="end" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" font-weight="600" fill="#64748B">3. Orchestrator</text>
+  <text x="1048" y="310" text-anchor="end" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" fill="#D97706">plan-then-execute</text>
 
 
   <circle cx="70" cy="372" r="16" fill="#059669"/>
@@ -75,8 +75,8 @@
   <rect x="106" y="344" width="980" height="56" rx="10" fill="#ECFDF5" stroke="#059669" stroke-width="1.4" filter="url(#soft)"/>
   <text x="124" y="368" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="14" font-weight="700" fill="#065F46">Retrieve under identity pre-filter</text>
   <text x="124" y="388" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" fill="#64748B">Codebase index / live context queried with the developer's entitlements (ACL). Over-scoped chunks never become candidates.</text>
-  <text x="1110" y="368" text-anchor="end" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" font-weight="600" fill="#64748B">4a + ACL</text>
-  <text x="1110" y="388" text-anchor="end" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" fill="#059669">Retrieval ACL</text>
+  <text x="1048" y="368" text-anchor="end" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" font-weight="600" fill="#64748B">4a + ACL</text>
+  <text x="1048" y="388" text-anchor="end" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" fill="#059669">Retrieval ACL</text>
 
 
   <circle cx="70" cy="450" r="16" fill="#059669"/>
@@ -85,8 +85,8 @@
   <rect x="106" y="422" width="980" height="56" rx="10" fill="#ECFDF5" stroke="#059669" stroke-width="1.4" filter="url(#soft)"/>
   <text x="124" y="446" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="14" font-weight="700" fill="#065F46">Output Gate sanitizes context</text>
   <text x="124" y="466" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" fill="#64748B">Retrieved chunks enter as a data channel. Untrusted text cannot become instructions or rewrite tool args.</text>
-  <text x="1110" y="446" text-anchor="end" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" font-weight="600" fill="#64748B">OG. Output Gate</text>
-  <text x="1110" y="466" text-anchor="end" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" fill="#059669">data ≠ instructions</text>
+  <text x="1048" y="446" text-anchor="end" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" font-weight="600" fill="#64748B">OG. Output Gate</text>
+  <text x="1048" y="466" text-anchor="end" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" fill="#059669">data ≠ instructions</text>
 
 
   <circle cx="70" cy="528" r="16" fill="#D97706"/>
@@ -95,8 +95,8 @@
   <rect x="106" y="500" width="980" height="56" rx="10" fill="#FFFBEB" stroke="#D97706" stroke-width="1.4" filter="url(#soft)"/>
   <text x="124" y="524" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="14" font-weight="700" fill="#92400E">Orchestrator → LLM (trusted + data)</text>
   <text x="124" y="544" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" fill="#64748B">Model receives user intent (trusted) + sanitized data. No secrets. No write tools unless profile allows.</text>
-  <text x="1110" y="524" text-anchor="end" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" font-weight="600" fill="#64748B">2. LLM brain</text>
-  <text x="1110" y="544" text-anchor="end" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" fill="#D97706">untrusted principal</text>
+  <text x="1048" y="524" text-anchor="end" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" font-weight="600" fill="#64748B">2. LLM brain</text>
+  <text x="1048" y="544" text-anchor="end" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" fill="#D97706">untrusted principal</text>
 
 
   <circle cx="70" cy="606" r="16" fill="#D97706"/>
@@ -105,8 +105,8 @@
   <rect x="106" y="578" width="980" height="56" rx="10" fill="#FFFBEB" stroke="#D97706" stroke-width="1.4" filter="url(#soft)"/>
   <text x="124" y="602" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="14" font-weight="700" fill="#92400E">LLM emits a proposal only</text>
   <text x="124" y="622" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" fill="#64748B">Return shape: tool name + arguments. The model cannot execute. Proposal is not authority.</text>
-  <text x="1110" y="602" text-anchor="end" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" font-weight="600" fill="#64748B">plan = tool + args</text>
-  <text x="1110" y="622" text-anchor="end" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" fill="#D97706">no side effects</text>
+  <text x="1048" y="602" text-anchor="end" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" font-weight="600" fill="#64748B">plan = tool + args</text>
+  <text x="1048" y="622" text-anchor="end" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" fill="#D97706">no side effects</text>
 
 
   <circle cx="70" cy="684" r="16" fill="#059669"/>
@@ -115,8 +115,8 @@
   <rect x="106" y="656" width="980" height="56" rx="10" fill="#ECFDF5" stroke="#059669" stroke-width="1.4" filter="url(#soft)"/>
   <text x="124" y="680" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="14" font-weight="700" fill="#065F46">Intent Gate authorizes</text>
   <text x="124" y="700" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" fill="#64748B">Check capability profile membership, tool-effect metadata, identity/role, target binding, write-path deny list.</text>
-  <text x="1110" y="680" text-anchor="end" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" font-weight="600" fill="#64748B">IG. Intent Gate</text>
-  <text x="1110" y="700" text-anchor="end" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" fill="#059669">allow / deny / HITL</text>
+  <text x="1048" y="680" text-anchor="end" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" font-weight="600" fill="#64748B">IG. Intent Gate</text>
+  <text x="1048" y="700" text-anchor="end" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" fill="#059669">allow / deny / HITL</text>
 
 
   <circle cx="70" cy="762" r="16" fill="#D97706"/>
@@ -125,8 +125,8 @@
   <rect x="106" y="734" width="980" height="56" rx="10" fill="#FEF3C7" stroke="#D97706" stroke-width="1.4" filter="url(#soft)"/>
   <text x="124" y="758" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="14" font-weight="700" fill="#92400E">HITL for high-risk actions</text>
   <text x="124" y="778" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" fill="#64748B">If effects include destructive / prod / protected branch / new external target: render deterministic facts → human approve/deny.</text>
-  <text x="1110" y="758" text-anchor="end" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" font-weight="600" fill="#64748B">Policy / HITL</text>
-  <text x="1110" y="778" text-anchor="end" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" fill="#D97706">Dev decides</text>
+  <text x="1048" y="758" text-anchor="end" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" font-weight="600" fill="#64748B">Policy / HITL</text>
+  <text x="1048" y="778" text-anchor="end" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" fill="#D97706">Dev decides</text>
 
 
   <circle cx="70" cy="840" r="16" fill="#059669"/>
@@ -135,8 +135,8 @@
   <rect x="106" y="812" width="980" height="56" rx="10" fill="#ECFDF5" stroke="#059669" stroke-width="1.4" filter="url(#soft)"/>
   <text x="124" y="836" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="14" font-weight="700" fill="#065F46">Credential Broker issues token</text>
   <text x="124" y="856" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" fill="#64748B">Short-lived delegated / OBO token for this tool call. Attached in Authorization header — never in args or model context.</text>
-  <text x="1110" y="836" text-anchor="end" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" font-weight="600" fill="#64748B">CB. Broker</text>
-  <text x="1110" y="856" text-anchor="end" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" fill="#059669">RFC 8693 style</text>
+  <text x="1048" y="836" text-anchor="end" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" font-weight="600" fill="#64748B">CB. Broker</text>
+  <text x="1048" y="856" text-anchor="end" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" fill="#059669">RFC 8693 style</text>
 
 
   <circle cx="70" cy="918" r="16" fill="#2563EB"/>
@@ -145,8 +145,8 @@
   <rect x="106" y="890" width="980" height="56" rx="10" fill="#EFF6FF" stroke="#2563EB" stroke-width="1.4" filter="url(#soft)"/>
   <text x="124" y="914" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="14" font-weight="700" fill="#1E40AF">Execute via tools / MCP Gateway</text>
   <text x="124" y="934" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" fill="#64748B">Only allowlisted MCP servers with pinned schemas. Tool runs under the user's scoped token; downstream API enforces authZ.</text>
-  <text x="1110" y="914" text-anchor="end" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" font-weight="600" fill="#64748B">5/6 + M</text>
-  <text x="1110" y="934" text-anchor="end" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" fill="#2563EB">Plane B → C</text>
+  <text x="1048" y="914" text-anchor="end" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" font-weight="600" fill="#64748B">5/6 + M</text>
+  <text x="1048" y="934" text-anchor="end" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" fill="#2563EB">Plane B → C</text>
 
 
   <circle cx="70" cy="996" r="16" fill="#059669"/>
@@ -155,8 +155,8 @@
   <rect x="106" y="968" width="980" height="56" rx="10" fill="#ECFDF5" stroke="#059669" stroke-width="1.4" filter="url(#soft)"/>
   <text x="124" y="992" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="14" font-weight="700" fill="#065F46">Tool result → Output Gate again</text>
   <text x="124" y="1012" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" fill="#64748B">MCP/tool output is untrusted. Sanitize before it re-enters the loop as data.</text>
-  <text x="1110" y="992" text-anchor="end" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" font-weight="600" fill="#64748B">OG (return path)</text>
-  <text x="1110" y="1012" text-anchor="end" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" fill="#059669">re-quarantine</text>
+  <text x="1048" y="992" text-anchor="end" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" font-weight="600" fill="#64748B">OG (return path)</text>
+  <text x="1048" y="1012" text-anchor="end" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" fill="#059669">re-quarantine</text>
 
 
   <circle cx="70" cy="1074" r="16" fill="#D97706"/>
@@ -165,8 +165,8 @@
   <rect x="106" y="1046" width="980" height="56" rx="10" fill="#FFFBEB" stroke="#D97706" stroke-width="1.4" filter="url(#soft)"/>
   <text x="124" y="1070" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="14" font-weight="700" fill="#92400E">Bounded agentic loop</text>
   <text x="124" y="1090" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" fill="#64748B">Iterations / wall-clock / cost caps + loop detection. Profile still immutable. Repeat 6–12 until done or capped.</text>
-  <text x="1110" y="1070" text-anchor="end" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" font-weight="600" fill="#64748B">autonomy cap</text>
-  <text x="1110" y="1090" text-anchor="end" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" fill="#D97706">LLM10 / ASI08</text>
+  <text x="1048" y="1070" text-anchor="end" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" font-weight="600" fill="#64748B">autonomy cap</text>
+  <text x="1048" y="1090" text-anchor="end" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" fill="#D97706">LLM10 / ASI08</text>
 
 
   <circle cx="70" cy="1152" r="16" fill="#059669"/>
@@ -175,8 +175,8 @@
   <rect x="106" y="1124" width="980" height="56" rx="10" fill="#ECFDF5" stroke="#059669" stroke-width="1.4" filter="url(#soft)"/>
   <text x="124" y="1148" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="14" font-weight="700" fill="#065F46">Egress allowlist check</text>
   <text x="124" y="1168" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" fill="#64748B">Any outbound network from tools hits deny-by-default allowlist + kill switch. Blocks exfil even if a tool is tricked.</text>
-  <text x="1110" y="1148" text-anchor="end" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" font-weight="600" fill="#64748B">EA. Egress</text>
-  <text x="1110" y="1168" text-anchor="end" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" fill="#059669">Plane B/C</text>
+  <text x="1048" y="1148" text-anchor="end" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" font-weight="600" fill="#64748B">EA. Egress</text>
+  <text x="1048" y="1168" text-anchor="end" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" fill="#059669">Plane B/C</text>
 
 
   <circle cx="70" cy="1230" r="16" fill="#94A3B8"/>
@@ -185,8 +185,8 @@
   <rect x="106" y="1202" width="980" height="56" rx="10" fill="#FFFFFF" stroke="#94A3B8" stroke-width="1.4" filter="url(#soft)"/>
   <text x="124" y="1226" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="14" font-weight="700" fill="#0F172A">Final response → Gateway → IDE</text>
   <text x="124" y="1246" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" fill="#64748B">Optional secret/DLP scan on exit. Developer sees the result. Every step above was logged to SOC/SIEM.</text>
-  <text x="1110" y="1226" text-anchor="end" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" font-weight="600" fill="#64748B">G → 1 → Dev</text>
-  <text x="1110" y="1246" text-anchor="end" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" fill="#94A3B8">audit trail</text>
+  <text x="1048" y="1226" text-anchor="end" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" font-weight="600" fill="#64748B">G → 1 → Dev</text>
+  <text x="1048" y="1246" text-anchor="end" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" fill="#94A3B8">audit trail</text>
 
 <circle cx="70" cy="1230" r="16" fill="#047857" opacity="0"/>
 <rect x="62" y="1246" width="16" height="40" fill="url(#bgGrad)"/>

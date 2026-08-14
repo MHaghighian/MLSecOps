@@ -1,13 +1,13 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1580" height="980" viewBox="0 0 1580 980">
 
   <defs>
-    <marker id="b14arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+    <marker id="b14arr" markerUnits="userSpaceOnUse" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="9" markerHeight="9" orient="auto">
       <path d="M 0 0 L 10 5 L 0 10 z" fill="#0F172A"/>
     </marker>
-    <marker id="b14arrG" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+    <marker id="b14arrG" markerUnits="userSpaceOnUse" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="9" markerHeight="9" orient="auto">
       <path d="M 0 0 L 10 5 L 0 10 z" fill="#047857"/>
     </marker>
-    <marker id="b14arrR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+    <marker id="b14arrR" markerUnits="userSpaceOnUse" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="9" markerHeight="9" orient="auto">
       <path d="M 0 0 L 10 5 L 0 10 z" fill="#B91C1C"/>
     </marker>
     <filter id="b14soft" x="-8%" y="-8%" width="116%" height="116%">
@@ -134,9 +134,7 @@
 
 
   <rect x="1080" y="350" width="440" height="56" rx="10" fill="#FFFFFF" stroke="#D97706" stroke-width="1.4" filter="url(#b14soft)"/>
-  <circle cx="1096" cy="366" r="10" fill="#D97706"/>
-  <text x="1096" y="370" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" font-weight="700" fill="#fff"></text>
-  <text x="1112" y="370" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="700" fill="#0F172A">Prefer no tools</text>
+  <text x="1092" y="370" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="700" fill="#0F172A">Prefer no tools</text>
   <text x="1092" y="390" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" fill="#64748B">pipeline chat (Example A Flow A)</text>
 
 <rect x="1060" y="450" width="480" height="100" rx="14" fill="#EFF6FF" stroke="#2563EB" filter="url(#b14soft)"/>
@@ -147,9 +145,9 @@
   <text x="1112" y="490" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="700" fill="#0F172A">Render surface</text>
   <text x="1092" y="510" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" fill="#64748B">CSP lockdown · no remote img/connect</text>
 
-<path d="M266,400 L520,300" fill="none" stroke="#047857" stroke-width="1.6" marker-end="url(#b14arrG)"/>
-<path d="M1000,460 L1060,308" fill="none" stroke="#047857" stroke-width="1.6" marker-end="url(#b14arrG)"/>
-<path d="M1300,430 L1300,450" fill="none" stroke="#047857" stroke-width="1.6" marker-end="url(#b14arrG)"/>
+<path d="M460,368 L540,368" fill="none" stroke="#047857" stroke-width="1.6" marker-end="url(#b14arrG)"/>
+<path d="M1000,455 H1050 V308 H1080" fill="none" stroke="#047857" stroke-width="1.6" marker-end="url(#b14arrG)"/>
+<path d="M1300,406 L1300,470" fill="none" stroke="#047857" stroke-width="1.6" marker-end="url(#b14arrG)"/>
 <rect x="36" y="580" width="1504" height="100" rx="12" fill="#FFFFFF" stroke="#047857" stroke-width="1.5"/>
 <text x="56" y="610" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="14" font-weight="800" fill="#047857">Primary enforcement chain</text>
 <text x="56" y="638" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="13" font-weight="600" fill="#0F172A">verified claims → tenant partition → RLS pre-filter → Output Gate → answer (no tools) → CSP render</text>

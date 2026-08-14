@@ -1,16 +1,16 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1480" height="980" viewBox="0 0 1480 980">
 
   <defs>
-    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+    <marker id="arr" markerUnits="userSpaceOnUse" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="9" markerHeight="9" orient="auto">
       <path d="M 0 0 L 10 5 L 0 10 z" fill="#0F172A"/>
     </marker>
-    <marker id="arrR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+    <marker id="arrR" markerUnits="userSpaceOnUse" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="9" markerHeight="9" orient="auto">
       <path d="M 0 0 L 10 5 L 0 10 z" fill="#B91C1C"/>
     </marker>
-    <marker id="arrG" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+    <marker id="arrG" markerUnits="userSpaceOnUse" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="9" markerHeight="9" orient="auto">
       <path d="M 0 0 L 10 5 L 0 10 z" fill="#047857"/>
     </marker>
-    <marker id="arrB" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+    <marker id="arrB" markerUnits="userSpaceOnUse" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="9" markerHeight="9" orient="auto">
       <path d="M 0 0 L 10 5 L 0 10 z" fill="#2563EB"/>
     </marker>
     <filter id="soft" x="-8%" y="-8%" width="116%" height="116%">
@@ -116,37 +116,37 @@
   <text x="518" y="622" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" font-weight="700" fill="#FFFFFF">11</text>
   <text x="536" y="622" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="13" font-weight="700" fill="#0F172A">Cloud runtime</text>
   <text x="514" y="642" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" fill="#64748B">shared / no tenant isolate</text>
-<path d="M460,180 C560,180 720,300 800,369" fill="none" stroke="#0F172A" stroke-width="1.6" marker-end="url(#arr)"/>
-<text x="620" y="250" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" font-weight="600" fill="#64748B">prompt</text>
-<path d="M700,315 L800,289" fill="none" stroke="#0F172A" stroke-width="1.6" marker-end="url(#arr)"/>
-<path d="M700,369 L800,369" fill="none" stroke="#0F172A" stroke-width="1.6" marker-end="url(#arr)"/>
+<path d="M460,145 C620,120 760,200 800,255" fill="none" stroke="#0F172A" stroke-width="1.6" marker-end="url(#arr)"/>
+<text x="640" y="138" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" font-weight="600" fill="#64748B">prompt</text>
+<path d="M720,289 L800,289" fill="none" stroke="#0F172A" stroke-width="1.6" marker-end="url(#arr)"/>
+<path d="M720,369 L800,369" fill="none" stroke="#0F172A" stroke-width="1.6" marker-end="url(#arr)"/>
 <path d="M930,323 L930,335" fill="none" stroke="#0F172A" stroke-width="1.6" marker-end="url(#arr)"/>
 <path d="M860,403 L860,460" fill="none" stroke="#0F172A" stroke-width="1.6" marker-end="url(#arr)"/>
-<text x="870" y="440" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" font-weight="600" fill="#64748B">dispatch tools</text>
+<text x="880" y="438" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" font-weight="600" fill="#64748B">dispatch tools</text>
 <path d="M480,582 L480,600" fill="none" stroke="#0F172A" stroke-width="1.6" marker-end="url(#arr)"/>
-<path d="M900,510 C980,470 1040,400 1040,323" fill="none" stroke="#B91C1C" stroke-width="2" marker-end="url(#arrR)" stroke-dasharray="5 4"/>
-<text x="1055" y="420" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" font-weight="600" fill="#B91C1C">secrets read</text>
-<text x="1055" y="434" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" font-weight="600" fill="#B91C1C">into context</text>
-<path d="M186,145 C240,145 260,220 280,255" fill="none" stroke="#B91C1C" stroke-width="2.2" marker-end="url(#arrR)" stroke-dasharray="5 4"/>
-<text x="200" y="230" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" font-weight="600" fill="#B91C1C">poison repo / web</text>
-<path d="M111,196 C111,280 180,360 240,369" fill="none" stroke="#B91C1C" stroke-width="2.2" marker-end="url(#arrR)" stroke-dasharray="5 4"/>
-<text x="120" y="300" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" font-weight="600" fill="#B91C1C">tool poisoning</text>
-<path d="M360,672 C360,760 200,780 186,196" fill="none" stroke="#B91C1C" stroke-width="2.8" marker-end="url(#arrR)"/>
-<text x="250" y="760" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="600" fill="#B91C1C">EXFIL PATH — open egress → attacker</text>
-<rect x="1120" y="210" width="320" height="500" rx="14" fill="#FFFFFF" stroke="#B91C1C" stroke-width="1.5" filter="url(#soft)"/>
-<text x="1140" y="242" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="14" font-weight="800" fill="#B91C1C">What fails by construction</text>
-<text x="1140" y="270" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" fill="#0F172A">• No retrieval ACL — any indexed chunk</text>
-<text x="1140" y="306" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" fill="#0F172A">  can reach any developer session</text>
-<text x="1140" y="342" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" fill="#0F172A">• No Output Gate — retrieved text is</text>
-<text x="1140" y="378" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" fill="#0F172A">  treated as instructions</text>
-<text x="1140" y="414" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" fill="#0F172A">• No Intent Gate — model proposal</text>
-<text x="1140" y="450" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" fill="#0F172A">  = execution</text>
-<text x="1140" y="486" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" fill="#0F172A">• No MCP allowlist / schema pin</text>
-<text x="1140" y="522" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" fill="#0F172A">• Secrets travel inside the prompt</text>
-<text x="1140" y="558" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" fill="#0F172A">• Egress unrestricted → exfil</text>
-<text x="1140" y="594" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" fill="#0F172A">• Writes allowed to .env, mcp.json,</text>
-<text x="1140" y="630" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" fill="#0F172A">  hooks, CI, rules</text>
-<text x="1140" y="666" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" fill="#0F172A">• Sub-agents inherit full scope</text>
+<path d="M900,510 C980,470 1020,400 1020,323" fill="none" stroke="#B91C1C" stroke-width="2" marker-end="url(#arrR)" stroke-dasharray="5 4"/>
+<text x="1030" y="400" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" font-weight="600" fill="#B91C1C">secrets read</text>
+<text x="1030" y="414" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" font-weight="600" fill="#B91C1C">into context</text>
+<path d="M186,153 C230,170 250,220 280,255" fill="none" stroke="#B91C1C" stroke-width="2.2" marker-end="url(#arrR)" stroke-dasharray="5 4"/>
+<text x="36" y="228" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" font-weight="600" fill="#B91C1C">poison repo / web</text>
+<path d="M80,196 C80,300 160,350 240,369" fill="none" stroke="#B91C1C" stroke-width="2.2" marker-end="url(#arrR)" stroke-dasharray="5 4"/>
+<text x="36" y="320" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" font-weight="600" fill="#B91C1C">tool poisoning</text>
+<path d="M240,672 C80,720 70,400 111,196" fill="none" stroke="#B91C1C" stroke-width="2.8" marker-end="url(#arrR)"/>
+<text x="36" y="750" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="600" fill="#B91C1C">EXFIL PATH — open egress → attacker</text>
+<rect x="1160" y="210" width="280" height="500" rx="14" fill="#FFFFFF" stroke="#B91C1C" stroke-width="1.5" filter="url(#soft)"/>
+<text x="1176" y="242" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="13" font-weight="800" fill="#B91C1C">What fails by construction</text>
+<text x="1176" y="268" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" fill="#0F172A">• No retrieval ACL — any indexed</text>
+<text x="1176" y="302" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" fill="#0F172A">  chunk can reach any session</text>
+<text x="1176" y="336" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" fill="#0F172A">• No Output Gate — retrieved text</text>
+<text x="1176" y="370" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" fill="#0F172A">  treated as instructions</text>
+<text x="1176" y="404" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" fill="#0F172A">• No Intent Gate — model proposal</text>
+<text x="1176" y="438" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" fill="#0F172A">  = execution</text>
+<text x="1176" y="472" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" fill="#0F172A">• No MCP allowlist / schema pin</text>
+<text x="1176" y="506" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" fill="#0F172A">• Secrets travel inside the prompt</text>
+<text x="1176" y="540" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" fill="#0F172A">• Egress unrestricted → exfil</text>
+<text x="1176" y="574" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" fill="#0F172A">• Writes allowed to .env, mcp.json,</text>
+<text x="1176" y="608" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" fill="#0F172A">  hooks, CI, rules</text>
+<text x="1176" y="642" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" fill="#0F172A">• Sub-agents inherit full scope</text>
 <rect x="36" y="900" width="1408" height="52" rx="10" fill="#FFFFFF" stroke="#94A3B8"/>
 
   <rect x="56" y="920" width="16" height="12" rx="3" fill="#FFF1F2" stroke="#E11D48" stroke-width="1"/>
