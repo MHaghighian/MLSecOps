@@ -8,7 +8,7 @@ Official releases: [GitHub Releases](https://github.com/MHaghighian/MLSecOps/rel
 
 **Diagram restore** — inline Mermaid fences restored from `assets/diagrams/source/*.mmd` alongside PNG fallbacks (29 diagrams); Mermaid rendering enabled on MkDocs GitHub Pages. Appendix E `_10`–`_21` remain SVG/PNG-first.
 
-**DOI:** [10.5281/zenodo.21946726](https://doi.org/10.5281/zenodo.21946726) · concept DOI [10.5281/zenodo.21206780](https://doi.org/10.5281/zenodo.21206780) (always resolves to latest; version DOI refreshes after Zenodo ingests this tag)
+**DOI:** [10.5281/zenodo.21950241](https://doi.org/10.5281/zenodo.21950241) · concept DOI [10.5281/zenodo.21206780](https://doi.org/10.5281/zenodo.21206780) (always resolves to latest)
 
 | Format | Link |
 |--------|------|

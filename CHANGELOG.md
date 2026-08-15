@@ -8,6 +8,8 @@ All notable changes to the MLSecOps Guide are documented here.
 
 ### Changed
 
+- **Citation / Zenodo** — version DOI [10.5281/zenodo.21950241](https://doi.org/10.5281/zenodo.21950241) for v1.2.1 (concept DOI [10.5281/zenodo.21206780](https://doi.org/10.5281/zenodo.21206780)).
+
 - **Diagrams** — restore inline Mermaid fences from `assets/diagrams/source/*.mmd` alongside PNG fallbacks (29 diagrams); enable Mermaid rendering on MkDocs Pages. Appendix E `_10`–`_21` remain SVG/PNG-first (no `.mmd`).
 
 ## [1.2.0] — 2026-08-15

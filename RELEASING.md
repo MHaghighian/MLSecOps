@@ -145,7 +145,7 @@ After each release:
 
 - [ ] README version badge and download links updated
 - [ ] GitHub Release published (tags help indexing)
-- [x] Zenodo DOI updated (10.5281/zenodo.21946726)
+- [x] Zenodo DOI updated (10.5281/zenodo.21950241)
 - [ ] Re-request indexing in Search Console for Pages home
 - [ ] One announcement post with link to Pages (not only repo)
 

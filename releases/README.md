@@ -12,7 +12,7 @@ From **v1.1.1** onward, pre-built PDF/DOCX are **not** attached to GitHub Releas
 | Markdown | `chapters-en/` in the repository root |
 | Site | https://mhaghighian.github.io/MLSecOps/ |
 | Maintainer | https://mhsec.me |
-| Zenodo DOI | [10.5281/zenodo.21946726](https://doi.org/10.5281/zenodo.21946726) (updates after Zenodo ingest) |
+| Zenodo DOI | [10.5281/zenodo.21950241](https://doi.org/10.5281/zenodo.21950241)  |
 
 **Release:** https://github.com/MHaghighian/MLSecOps/releases/tag/v1.2.1
 
