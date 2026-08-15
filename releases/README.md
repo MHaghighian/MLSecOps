@@ -4,16 +4,16 @@ Source archives and documentation for the MLSecOps Practical Reference Guide.
 
 From **v1.1.1** onward, pre-built PDF/DOCX are **not** attached to GitHub Releases. Generate Word locally with `python scripts/build-docx.py --render-mermaid` (see [README](../README.md#build-docx-yourself)).
 
-## v1.1.3 (current)
+## v1.2.0 (current)
 
 | Item | Location |
 |------|----------|
-| Source (ZIP) | [v1.1.3 archive](https://github.com/MHaghighian/MLSecOps/archive/refs/tags/v1.1.3.zip) |
+| Source (ZIP) | [v1.2.0 archive](https://github.com/MHaghighian/MLSecOps/archive/refs/tags/v1.2.0.zip) |
 | Markdown | `chapters-en/` in the repository root |
 | Site | https://mhaghighian.github.io/MLSecOps/ |
 | Maintainer | https://mhsec.me |
 
-**Release:** https://github.com/MHaghighian/MLSecOps/releases/tag/v1.1.3
+**Release:** https://github.com/MHaghighian/MLSecOps/releases/tag/v1.2.0
 
 ---
 

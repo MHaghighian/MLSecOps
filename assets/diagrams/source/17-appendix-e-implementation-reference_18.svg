@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1480" height="1100" viewBox="0 0 1480 1100">
+<svg xmlns="http://www.w3.org/2000/svg" width="1480" height="1220" viewBox="0 0 1480 1220">
 
   <defs>
     <marker id="c18arr" markerUnits="userSpaceOnUse" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="9" markerHeight="9" orient="auto">
@@ -19,11 +19,11 @@
     </linearGradient>
   </defs>
 
-<rect width="1480" height="1100" fill="url(#c18bg)"/>
+<rect width="1480" height="1220" fill="url(#c18bg)"/>
 
   <rect width="1480" height="72" fill="#0F172A"/>
   <text x="32" y="32" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="20" font-weight="700" fill="#F8FAFC">Example C — Admit + serve data flows</text>
-  <text x="32" y="54" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" fill="#94A3B8">Left: artifact admit (write). Right: generate (read). CT and LoRA re-enter the left path. KV keys bind tenant + session.</text>
+  <text x="32" y="54" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" fill="#94A3B8">Left: fail-closed admit. Right: authN → authZ → overwrite cache_salt (vLLM ≥ 0.9.0) → generate → purge.</text>
   <rect x="1312" y="22" rx="14" width="136" height="28" fill="#0F766E"/>
   <text x="1380" y="41" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" font-weight="700" fill="#fff">DATA FLOW</text>
 
@@ -40,22 +40,22 @@
   <circle cx="60" cy="234" r="14" fill="#059669"/>
   <text x="60" y="238" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" font-weight="800" fill="#fff">A2</text>
   <rect x="90" y="210" width="620" height="48" rx="10" fill="#ECFDF5" stroke="#059669" stroke-width="1.3"/>
-  <text x="106" y="230" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="700" fill="#0F172A">ModelScan + signature</text>
-  <text x="106" y="248" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" fill="#64748B">cosign verify against trusted keys</text>
+  <text x="106" y="230" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="700" fill="#0F172A">Format + signature</text>
+  <text x="106" y="248" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" fill="#64748B">safetensors allowlist · cosign — fail closed</text>
 
 
   <circle cx="60" cy="294" r="14" fill="#059669"/>
   <text x="60" y="298" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" font-weight="800" fill="#fff">A3</text>
   <rect x="90" y="270" width="620" height="48" rx="10" fill="#ECFDF5" stroke="#059669" stroke-width="1.3"/>
-  <text x="106" y="290" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="700" fill="#0F172A">Admission policy</text>
-  <text x="106" y="308" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" fill="#64748B">digest pin · namespace = GPU tier</text>
+  <text x="106" y="290" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="700" fill="#0F172A">LoRA ↔ base bind</text>
+  <text x="106" y="308" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" fill="#64748B">base_model_digest · arch/dtype · legacy ModelScan if needed</text>
 
 
-  <circle cx="60" cy="354" r="14" fill="#2563EB"/>
+  <circle cx="60" cy="354" r="14" fill="#059669"/>
   <text x="60" y="358" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" font-weight="800" fill="#fff">A4</text>
-  <rect x="90" y="330" width="620" height="48" rx="10" fill="#EFF6FF" stroke="#2563EB" stroke-width="1.3"/>
-  <text x="106" y="350" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="700" fill="#0F172A">Schedule engine</text>
-  <text x="106" y="368" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" fill="#64748B">never :latest · NetworkPolicy to port</text>
+  <rect x="90" y="330" width="620" height="48" rx="10" fill="#ECFDF5" stroke="#059669" stroke-width="1.3"/>
+  <text x="106" y="350" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="700" fill="#0F172A">Admission policy</text>
+  <text x="106" y="368" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" fill="#64748B">digest pin · GPU tier · webhook Fail + HA</text>
 
 
   <circle cx="60" cy="414" r="14" fill="#059669"/>
@@ -71,58 +71,63 @@
   <text x="790" y="178" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" font-weight="800" fill="#fff">S1</text>
   <rect x="820" y="150" width="600" height="48" rx="10" fill="#ECFDF5" stroke="#059669" stroke-width="1.3"/>
   <text x="836" y="170" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="700" fill="#0F172A">Authenticate to engine</text>
-  <text x="836" y="188" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" fill="#64748B">caller mTLS / engine key — not data ACL</text>
+  <text x="836" y="188" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" fill="#64748B">mTLS / SPIFFE / short-lived key — not data ACL</text>
 
 
   <circle cx="790" cy="234" r="14" fill="#059669"/>
   <text x="790" y="238" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" font-weight="800" fill="#fff">S2</text>
   <rect x="820" y="210" width="600" height="48" rx="10" fill="#ECFDF5" stroke="#059669" stroke-width="1.3"/>
-  <text x="836" y="230" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="700" fill="#0F172A">Attest tenant</text>
-  <text x="836" y="248" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" fill="#64748B">from calling app identity — not prompt JSON</text>
+  <text x="836" y="230" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="700" fill="#0F172A">Authorize request</text>
+  <text x="836" y="248" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" fill="#64748B">tenant · model · LoRA · GPU tier · quota</text>
 
 
   <circle cx="790" cy="294" r="14" fill="#059669"/>
   <text x="790" y="298" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" font-weight="800" fill="#fff">S3</text>
   <rect x="820" y="270" width="600" height="48" rx="10" fill="#ECFDF5" stroke="#059669" stroke-width="1.3"/>
-  <text x="836" y="290" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="700" fill="#0F172A">Bind KV key</text>
-  <text x="836" y="308" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" fill="#64748B">(tenant, session) · prefix cache off or scoped</text>
+  <text x="836" y="290" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="700" fill="#0F172A">Overwrite cache_salt</text>
+  <text x="836" y="308" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" fill="#64748B">gateway sets salt (vLLM ≥ 0.9.0) — never client</text>
 
 
   <circle cx="790" cy="354" r="14" fill="#D97706"/>
   <text x="790" y="358" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" font-weight="800" fill="#fff">S4</text>
   <rect x="820" y="330" width="600" height="48" rx="10" fill="#FFFBEB" stroke="#D97706" stroke-width="1.3"/>
   <text x="836" y="350" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="700" fill="#0F172A">Generate</text>
-  <text x="836" y="368" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" fill="#64748B">engine.generate(prompt, kv_partition=key)</text>
+  <text x="836" y="368" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" fill="#64748B">engine.generate(..., kv_partition, cache_salt, lora)</text>
 
 
   <circle cx="790" cy="414" r="14" fill="#059669"/>
   <text x="790" y="418" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" font-weight="800" fill="#fff">S5</text>
   <rect x="820" y="390" width="600" height="48" rx="10" fill="#ECFDF5" stroke="#059669" stroke-width="1.3"/>
   <text x="836" y="410" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="700" fill="#0F172A">Cleanup</text>
-  <text x="836" y="428" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" fill="#64748B">purge KV · sanitize GPU pages on session end</text>
+  <text x="836" y="428" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" fill="#64748B">purge KV · prefer MIG/dedicated over hard sanitize</text>
 
-<rect x="36" y="470" width="700" height="200" rx="12" fill="#FFFFFF" stroke="#047857"/>
+<rect x="36" y="470" width="700" height="220" rx="12" fill="#FFFFFF" stroke="#047857"/>
 <text x="56" y="500" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="14" font-weight="800" fill="#047857">CT / LoRA re-enter Path 1</text>
-<text x="56" y="530" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="600" fill="#0F172A">There is no side door that says &quot;it's only an adapter.&quot;</text>
-<text x="56" y="555" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="600" fill="#0F172A">Engine authentication is not application authorization.</text>
-<text x="56" y="580" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="600" fill="#0F172A">YAML and Helm live in Chapter 16; this is the composition.</text>
-<text x="56" y="620" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="600" fill="#64748B">Managed API instead? Skip C; use E.1.2 + Appendix D.</text>
-<rect x="760" y="470" width="680" height="200" rx="12" fill="#FFFFFF" stroke="#B91C1C"/>
+<text x="56" y="530" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="600" fill="#0F172A">No side door for adapters. Registry resolves LoRA — never client adapter_id.</text>
+<text x="56" y="555" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="600" fill="#0F172A">Caller→engine authN is not application authorization.</text>
+<text x="56" y="580" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="600" fill="#0F172A">Safetensors = format control; ModelScan = legacy serialization — signed ≠ safe.</text>
+<text x="56" y="615" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="600" fill="#64748B">YAML/Helm in Chapter 16. Managed API? Skip C → E.1.2 + Appendix D.</text>
+<rect x="760" y="470" width="680" height="220" rx="12" fill="#FFFFFF" stroke="#B91C1C"/>
 <text x="780" y="500" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="14" font-weight="800" fill="#B91C1C">Attacks stopped on this diagram</text>
 <text x="780" y="535" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="600" fill="#0F172A">• Unsigned / :latest image reaches a GPU</text>
-<text x="780" y="560" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="600" fill="#0F172A">• PromptPeek-class shared prefix cache</text>
-<text x="780" y="585" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="600" fill="#0F172A">• LoRA hot-load skipping ModelScan</text>
-<text x="780" y="610" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="600" fill="#0F172A">• Leftover KV after session end</text>
+<text x="780" y="560" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="600" fill="#0F172A">• PromptPeek / CVE-2025-46570 (no overwritten salt)</text>
+<text x="780" y="585" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="600" fill="#0F172A">• LoRA hot-load / client adapter_id spoof</text>
+<text x="780" y="610" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="600" fill="#0F172A">• Leftover session KV after request end</text>
 <text x="780" y="635" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="600" fill="#0F172A">• Anonymous generate on public :8000</text>
-<rect x="36" y="700" width="1404" height="100" rx="12" fill="#FFFFFF" stroke="#94A3B8"/>
-<text x="56" y="735" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="13" font-weight="800" fill="#0F172A">Honest residual</text>
-<text x="56" y="760" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="600" fill="#64748B">Host/CSP with keys can still read externalized KV (obfuscation is Emerging).</text>
-<text x="56" y="785" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="600" fill="#64748B">A perfectly isolated GPU still answers from Bob's chunk if the app put it in the prompt — see Example B/D.</text>
-<rect x="36" y="830" width="1404" height="220" rx="12" fill="#ECFDF5" stroke="#059669"/>
-<text x="56" y="860" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="13" font-weight="800" fill="#065F46">Pseudo-code (serve)</text>
-<text x="56" y="890" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="600" fill="#0F172A">app = verify_engine_caller(req)          # not data ACL</text>
-<text x="56" y="915" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="600" fill="#0F172A">kv_key = bind(tenant=app.tenant, session=req.session)</text>
-<text x="56" y="940" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="600" fill="#0F172A">out = engine.generate(req.prompt, kv_partition=kv_key)</text>
-<text x="56" y="965" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="600" fill="#0F172A">cleanup_kv(kv_key); sanitize_gpu_pages()</text>
-<text x="56" y="1000" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="600" fill="#64748B">Prefix cache: OFF or tenant-scoped on sensitive tiers.</text>
+<text x="780" y="660" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="600" fill="#0F172A">• Admit continues when cosign/gates are down</text>
+<rect x="36" y="710" width="1404" height="120" rx="12" fill="#FFFFFF" stroke="#94A3B8"/>
+<text x="56" y="740" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="13" font-weight="800" fill="#0F172A">Honest residual</text>
+<text x="56" y="768" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="600" fill="#64748B">Host/CSP can read externalized KV. K8s MIG helps pods; VM multi-tenant needs MIG+vGPU. MPS ≠ isolation.</text>
+<text x="56" y="793" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="600" fill="#64748B">PagedAttention shares one process. LeftoverLocals CVE is non-NVIDIA; KV/VRAM reuse still matters on NVIDIA.</text>
+<text x="56" y="818" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="600" fill="#64748B">App still owns RAG ACL: isolated GPU answers from Bob's chunk if the app put it in the prompt (B/D).</text>
+<rect x="36" y="850" width="1404" height="310" rx="12" fill="#ECFDF5" stroke="#059669"/>
+<text x="56" y="880" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="13" font-weight="800" fill="#065F46">Pseudo-code (serve)</text>
+<text x="56" y="910" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="600" fill="#0F172A">app = verify_engine_caller(req)                 # mTLS / SPIFFE — not data ACL</text>
+<text x="56" y="938" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="600" fill="#0F172A">authorize(app, req)                            # tenant · model · LoRA · tier · quota</text>
+<text x="56" y="966" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="600" fill="#0F172A">lora = registry.adapter_for(app.tenant)        # never body.adapter_id</text>
+<text x="56" y="994" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="600" fill="#0F172A">req.cache_salt = app.tenant                   # OVERWRITE client salt (vLLM ≥ 0.9.0)</text>
+<text x="56" y="1022" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="600" fill="#0F172A">out = engine.generate(req.prompt, kv_partition=kv, cache_salt=req.cache_salt, lora=lora)</text>
+<text x="56" y="1050" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="600" fill="#0F172A">cleanup_kv(kv)                                 # prefer MIG/dedicated over claiming full sanitize</text>
+<text x="56" y="1085" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="600" fill="#64748B">High sensitivity: prefix OFF or dedicated replica. Omit/forward client salt ⇒ unsafe share.</text>
+<text x="56" y="1115" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="600" fill="#64748B">Telemetry: tenant/model/tokens/latency only — no raw prompt/completion by default.</text>
 </svg>

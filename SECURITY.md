@@ -26,11 +26,12 @@ For vulnerabilities in **your** production AI systems, maintain your own disclos
 
 | Version | Supported |
 |---------|-----------|
-| v1.1.3 | Yes |
-| v1.1.2 | Yes — security fixes only; use v1.1.3 for current content |
-| v1.1.1 | Yes — security fixes only; use v1.1.3 for current content |
-| v1.1.0 | Yes — security fixes only; use v1.1.3 for current content |
-| v1.0.x | Yes — security fixes only; use v1.1.3 for current content |
+| v1.2.0 | Yes |
+| v1.1.3 | Yes — security fixes only; use v1.2.0 for current content |
+| v1.1.2 | Yes — security fixes only; use v1.2.0 for current content |
+| v1.1.1 | Yes — security fixes only; use v1.2.0 for current content |
+| v1.1.0 | Yes — security fixes only; use v1.2.0 for current content |
+| v1.0.x | Yes — security fixes only; use v1.2.0 for current content |
 
 Older draft tags may not receive updates.
 
