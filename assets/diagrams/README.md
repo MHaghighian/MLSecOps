@@ -13,9 +13,26 @@ Static diagram exports used in the guide (GitHub, Word, PDF, MkDocs).
 | `11-governance-evidence.md` | `11-governance-evidence_01.png`, `_02.png` | `source/11-governance-evidence_*.mmd` |
 | `12-threat-control-tools-map.md` | `12-threat-control-tools-map_01.png` | `source/12-threat-control-tools-map_01.mmd` |
 | `16-kubernetes-deployment-reference.md` | `16-kubernetes-deployment-reference_01.png` | `source/16-kubernetes-deployment-reference_01.mmd` |
-| `17-appendix-e-implementation-reference.md` | `17-appendix-e-implementation-reference_01.png` … `_06.png` | `source/17-appendix-e-implementation-reference_*.mmd` |
+| `17-appendix-e-implementation-reference.md` | `17-appendix-e-implementation-reference_01.png` … `_21.png` (+ `_07`–`_21.svg` hand-crafted where noted) | `source/17-appendix-e-implementation-reference_*.mmd` (+ `_07`–`_21.svg`) |
 
-**Regenerate PNGs:** edit `source/*.mmd`, then from the repository root run:
+**Example A diagrams (`_07`–`_12`):** hand-crafted SVG (design source) + PNG (embedded in chapters). Mermaid `.mmd` for `_07`–`_09` kept as fallback only; `_10`–`_12` are SVG-first (loop/memory, infra, layers).
+
+**Example B diagrams (`_13`–`_15`):** SVG-first (unsecured, secured, ingest+chat flows).
+
+**Example C diagrams (`_16`–`_18`):** SVG-first (unsecured serving, secured admit+isolate, admit/serve flows).
+
+**Example D diagrams (`_19`–`_21`):** SVG-first (unsecured website, secured split runtimes, chat/enqueue flows).
+
+```bash
+python scripts/gen_example_a_svgs.py
+python scripts/gen_example_a_flow_mitigation_svgs.py
+python scripts/gen_example_b_svgs.py
+python scripts/gen_example_c_svgs.py --png
+python scripts/gen_example_d_svgs.py --png
+# then rasterize source/*.svg → assets/diagrams/*.png (e.g. @resvg/resvg-js)
+```
+
+**Regenerate other PNGs:** edit `source/*.mmd`, then from the repository root run:
 
 ```bash
 python scripts/build-docx.py --render-mermaid
