@@ -17,7 +17,7 @@ That gap is why I published the **MLSecOps Practical Reference Guide** — an op
 
 **Read the guide:** [l4tr0d3ctism.github.io/MLSecOps](https://l4tr0d3ctism.github.io/MLSecOps/)  
 **Source & downloads:** [github.com/l4tr0d3ctism/MLSecOps](https://github.com/l4tr0d3ctism/MLSecOps)  
-**Cite (DOI):** [10.5281/zenodo.21946726](https://doi.org/10.5281/zenodo.21946726)  
+**Cite (DOI):** [10.5281/zenodo.21950241](https://doi.org/10.5281/zenodo.21950241)  
 **License:** CC BY-SA 4.0
 
 ---
@@ -164,7 +164,7 @@ If you are building or securing AI systems in production, I hope this reference 
 
 **Start reading:** [MLSecOps Practical Reference Guide](https://l4tr0d3ctism.github.io/MLSecOps/)  
 **Repository:** [github.com/l4tr0d3ctism/MLSecOps](https://github.com/l4tr0d3ctism/MLSecOps)  
-**DOI:** [10.5281/zenodo.21946726](https://doi.org/10.5281/zenodo.21946726)
+**DOI:** [10.5281/zenodo.21950241](https://doi.org/10.5281/zenodo.21950241)
 
 ---
 
