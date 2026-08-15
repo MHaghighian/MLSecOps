@@ -106,6 +106,13 @@ Correct controls:
 
 An intelligent agent with access to many sensitive tools can, under `Prompt Injection` or planning error, turn from assistant into an internal attacker. The [agent DO's and DON'Ts checklist in Chapter 8](08-agentic-ai-security.md#agent-security-dos-and-donts) and [six attack domains](08-agentic-ai-security.md#six-attack-domains) provide the positive control model for this anti-pattern.
 
+```mermaid
+flowchart LR
+    PromptInjection[Prompt Injection] --> Agent[Over-privileged Agent]
+    Agent --> Tool[Dangerous Tool]
+    Tool --> Impact[Data Leak or Destructive Action]
+```
+
 ![](../assets/diagrams/09-anti-patterns_01.png)
 
 *Figure - How an agent with many sensitive tools can turn from assistant into an internal attacker under prompt injection, and the scoped-tool control model that contains it.*

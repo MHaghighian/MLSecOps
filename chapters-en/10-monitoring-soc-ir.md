@@ -12,6 +12,15 @@ Monitoring in `MLSecOps` must see three layers simultaneously:
 | `Data Health Monitoring` | `Data Drift`, `Concept Drift`, `Schema Deviation`, missing values, data distribution change and user behavior patterns |
 | `Security Monitoring` | `Prompt Injection`, `Jailbreak`, `Tool Abuse`, Shadow AI egress, MCP tool-call anomalies, `Model Extraction`, `RAG Poisoning`, `Memory Poisoning`, `Context Poisoning`, and abnormal user or Agent behavior |
 
+```mermaid
+flowchart TB
+    Monitoring[AI Monitoring] --> Perf[Model Performance]
+    Monitoring --> Data[Data Health and Drift]
+    Monitoring --> Security[Security Monitoring]
+    Security --> SOC[SIEM and SOC]
+    SOC --> IR[Incident Response]
+```
+
 ![](../assets/diagrams/10-monitoring-soc-ir_01.png)
 
 *Figure - The three monitoring layers MLSecOps must observe simultaneously: model performance, data health, and security.*
@@ -164,6 +173,13 @@ Thresholds must be set based on real baseline from staging or production environ
 - [MCP security](07-llm-rag-security.md#model-context-protocol-mcp-security) (Chapter 7)
 
 ## Sample attack chain
+
+```mermaid
+flowchart LR
+    A[Prompt Injection] --> B[Tool Abuse]
+    B --> C[Unauthorized Access]
+    C --> D[Data Exfiltration]
+```
 
 ![](../assets/diagrams/10-monitoring-soc-ir_02.png)
 

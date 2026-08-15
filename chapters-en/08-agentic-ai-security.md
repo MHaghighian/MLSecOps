@@ -47,6 +47,20 @@ Not every LLM deployment is an agent. Security scope changes when the system can
 
 Agents combine a language model with orchestration, memory, data sources, and tools. Data flows from user goals through the agent to actions and results. **Every component, connector, and data path in this diagram is a potential attack surface**—mapped in [Agent attack surface](#agent-attack-surface) below.
 
+```mermaid
+flowchart TB
+    User[User / Goals] --> Agent[Agent orchestrator]
+    Agent --> LLM[LLM brain]
+    Agent --> Memory["Memory: STM / LTM / vector"]
+    Agent --> DataSources["Data sources: RAG / DB / web"]
+    Agent --> Tools["Tools: MCP / APIs / plugins"]
+    LLM --> Agent
+    Memory --> Agent
+    DataSources --> Agent
+    Tools --> Actions[Actions and results]
+    Actions --> User
+```
+
 ![](../assets/diagrams/08-agentic-ai-security_01.png)
 
 *Figure - Agent reference architecture, showing data flow from user goals through the orchestrator, LLM, memory, data sources, and tools to actions, with every component and connector marked as a potential attack surface.*
@@ -73,6 +87,15 @@ Agents combine a language model with orchestration, memory, data sources, and to
 ## Agent think–act cycle and control points
 
 Agents loop through observation, reasoning, planning, action, and learning. Attackers can intervene at each stage; defenses should map to the same stages.
+
+```mermaid
+flowchart LR
+    Observe[Observe] --> Reason[Reason]
+    Reason --> Plan[Plan]
+    Plan --> Act[Act]
+    Act --> Learn[Learn]
+    Learn --> Observe
+```
 
 ![](../assets/diagrams/08-agentic-ai-security_02.png)
 
@@ -177,6 +200,16 @@ Main controls for this boundary are:
 | `Sandbox` | tool runs in a separate container with minimal mount and egress. |
 | `Intent Gate` | before each tool invocation, the policy engine decides allow, deny, or HITL. |
 | `Output Gate` | tool output is filtered before entering agent context. |
+
+```mermaid
+flowchart LR
+    User[User] --> Agent[Agent]
+    Agent --> IntentGate[Intent Gate]
+    IntentGate --> Tool[Tool]
+    Tool --> OutputGate[Output Gate]
+    OutputGate --> Agent
+    Agent --> Response[Final Response]
+```
 
 ![](../assets/diagrams/08-agentic-ai-security_03.png)
 
@@ -293,6 +326,20 @@ Suppose an agent is connected to an internal CRM system. An attacker creates a p
 
 If no output gate exists, the agent inserts this text directly into context, plans execution of `export_users` in the next step, and information leaves the system. Main failure points are lack of output gate, weak intent gate, and writing poisoned content to memory without filtering.
 
+```mermaid
+sequenceDiagram
+    participant U as User
+    participant A as Agent
+    participant T as Tool
+    participant G as Output Gate
+    U->>A: Summarize ticket
+    A->>T: get_ticket(12345)
+    T->>A: JSON with hidden malicious instruction
+    A->>G: Validate tool output
+    G-->>A: Strip instruction or block
+    A->>U: Safe summary
+```
+
 ![](../assets/diagrams/08-agentic-ai-security_04.png)
 
 *Figure - Tool output injection chain, where a poisoned CRM ticket field feeds a malicious instruction into agent context and triggers an unsafe `export_users` action when no Output Gate is present.*
@@ -379,6 +426,13 @@ Controls: per-session turn limits, session risk scoring, anomaly detection on co
 
 Agent exfiltration often follows four stages. Map controls to each stage in threat modeling and SOC playbooks.
 
+```mermaid
+flowchart LR
+    A[Access sensitive data] --> B[Process in agent context]
+    B --> C[Disclose in output or tool args]
+    C --> D[Exfiltrate to attacker destination]
+```
+
 ![](../assets/diagrams/08-agentic-ai-security_05.png)
 
 *Figure - The four-stage agent data exfiltration model (access, process, disclose, exfiltrate) with controls mapped to each stage for threat modeling and SOC playbooks.*
@@ -407,6 +461,18 @@ Common vectors: oversharing in responses, traces and debug logs, uncontrolled ex
 ## Multi-Agent
 
 In `Multi-Agent` architectures, trust must not transfer from parent agent to sub-agent. Each hop is a new security boundary.
+
+```mermaid
+flowchart TB
+    User --> Orchestrator
+    Orchestrator --> PEP1[Policy Enforcement Point]
+    PEP1 --> SubAgentA
+    PEP1 --> SubAgentB
+    SubAgentA --> PEP2[Policy Enforcement Point]
+    SubAgentB --> PEP3[Policy Enforcement Point]
+    PEP2 --> ToolA
+    PEP3 --> ToolB
+```
 
 ![](../assets/diagrams/08-agentic-ai-security_06.png)
 

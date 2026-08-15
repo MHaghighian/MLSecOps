@@ -73,6 +73,16 @@ For broader threat–control coverage across all AI types, use the [OWASP AI Exc
 
 ## Tool Layers
 
+```mermaid
+flowchart TB
+    L1[L1 Data Controls] --> L2[L2 Scanning and Validation]
+    L2 --> L3[L3 Supply Chain Security]
+    L3 --> L4[L4 Policy as Code]
+    L4 --> L5[L5 Registry and Signing]
+    L5 --> L6[L6 Runtime Guardrails]
+    L6 --> L7[L7 Observability and SOC]
+```
+
 ![](../assets/diagrams/12-threat-control-tools-map_01.png)
 
 *Figure - The layered tool architecture (L1-L7) spanning data and experimentation, security scanning, supply chain, policy-as-code, registry, runtime guardrails, and SOC.*

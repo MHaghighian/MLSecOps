@@ -27,6 +27,20 @@ Each card lists minimum security boundaries, primary control points ([Chapter 6]
 
 **Worked examples:** [E.7.2 Example B](#e72-example-b-multi-tenant-rag-saas-upload-and-per-user-chatbot) (multi-tenant upload + RLS); [E.7.4 Example D](#e74-example-d-customer-facing-website-rag-chatbot-and-background-agents) (company KB + queued agents).
 
+```mermaid
+flowchart LR
+    User[User] --> GW[AI Gateway]
+    GW --> AuthZ[AuthZ and DLP ingress]
+    AuthZ --> Ret[Retriever with ACL]
+    Ret --> VDB[Vector DB]
+    VDB --> Ctx[Filtered context]
+    Ctx --> LLM[LLM]
+    LLM --> Out[Output gate and DLP]
+    Out --> User
+    Ingest[Ingest pipeline] --> Scan[Ingest scan]
+    Scan --> VDB
+```
+
 ![](../assets/diagrams/17-appendix-e-implementation-reference_01.png)
 
 *Figure - Enterprise RAG architecture card, showing the ingest, retrieval, runtime, and re-index security boundaries for an internal knowledge base.*
@@ -46,6 +60,18 @@ Each card lists minimum security boundaries, primary control points ([Chapter 6]
 ### E.1.2 Managed AI API (Azure OpenAI, Amazon Bedrock, Google Vertex AI)
 
 **When to use:** Provider hosts base model weights; customer controls prompts, RAG, gateway, keys, and logging. This is a **substrate** under product topologies (Examples A/B/D), not a separate worked example — pair with Appendix D Evidence fields.
+
+```mermaid
+flowchart TB
+    User[User or App] --> Proxy[Enterprise gateway]
+    Proxy --> DLP[DLP ingress]
+    DLP --> API[Provider API]
+    API --> Safety[Provider safety]
+    Safety --> Proxy
+    Proxy --> Log[SIEM and Evidence]
+    RAG[RAG customer data] --> Proxy
+    Keys[Vault creds] --> Proxy
+```
 
 ![](../assets/diagrams/17-appendix-e-implementation-reference_02.png)
 
@@ -76,6 +102,17 @@ Each card lists minimum security boundaries, primary control points ([Chapter 6]
 
 **When to use:** Organization controls model weights, inference stack, and cluster.
 
+```mermaid
+flowchart TB
+    User[Client] --> GW[AI Gateway]
+    GW --> Inf[Inference namespace]
+    Inf --> vLLM[vLLM or KServe]
+    vLLM --> Reg[Signed model registry]
+    Admit[Kyverno admission] --> Inf
+    Net[NetworkPolicy] --> Inf
+    SOC[SIEM Falco] --> Inf
+```
+
 ![](../assets/diagrams/17-appendix-e-implementation-reference_03.png)
 
 *Figure - Self-hosted LLM architecture card for vLLM/KServe on Kubernetes, showing supply-chain, cluster, runtime, and retrain control boundaries.*
@@ -97,6 +134,19 @@ Each card lists minimum security boundaries, primary control points ([Chapter 6]
 ### E.1.4 Agent with tools (MCP / APIs)
 
 **When to use:** LLM can invoke tools, read files, or perform multi-step actions.
+
+```mermaid
+flowchart TB
+    User[User goals] --> Orch[Agent orchestrator]
+    Orch --> LLM[LLM]
+    Orch --> Mem[Memory]
+    Orch --> IG[Intent Gate]
+    IG --> Tools[MCP APIs scoped]
+    Tools --> Act[Actions]
+    Act --> OG[Output Gate]
+    OG --> User
+    Tools --> SOC[Tool telemetry]
+```
 
 ![](../assets/diagrams/17-appendix-e-implementation-reference_04.png)
 
@@ -122,6 +172,18 @@ Each card lists minimum security boundaries, primary control points ([Chapter 6]
 **When to use:** Multiple agents delegate tasks, share memory, or call each other.
 
 **Worked example:** sub-agent scope in [E.7.1 Example A](#e71-example-a-ai-coding-assistant-agent-mcp-ide-host) (component 8); a dedicated swarm example would repeat Intent Gate / scope rules.
+
+```mermaid
+flowchart LR
+    User[User] --> A1[Agent A]
+    A1 --> A2[Agent B]
+    A2 --> Tools[Shared tools]
+    A1 --> Bus[Message bus]
+    A2 --> Bus
+    Policy[Policy engine] --> A1
+    Policy --> A2
+    Bus --> SOC[Trace ID]
+```
 
 ![](../assets/diagrams/17-appendix-e-implementation-reference_05.png)
 
@@ -186,6 +248,20 @@ Use this matrix to select **mandatory control themes** by architecture. Map each
 **Reference implementation flow (implementation-neutral):**
 
 Organizations often implement the lifecycle through existing delivery tooling. A typical **pattern** (not a mandated stack):
+
+```mermaid
+flowchart TB
+    Change[Approved change] --> Load[Load artifacts]
+    Load --> Scan[Security scan]
+    Scan --> Tests[Security validation]
+    Tests --> Policy[Policy decision]
+    Policy -->|Pass| Integrity[Integrity check]
+    Policy -->|Fail| Block[Block or exception]
+    Integrity --> Pack[Evidence Pack]
+    Pack --> Release[Release decision]
+    Release --> Deploy[Deploy]
+    Deploy --> Monitor[Runtime monitor]
+```
 
 ![](../assets/diagrams/17-appendix-e-implementation-reference_06.png)
 
@@ -495,6 +571,57 @@ The design goal is not to make the model "safe to trust." It is to bound the mod
 
 
 
+```mermaid
+flowchart TB
+    Attacker([Attacker])
+
+    C1["1.IDE host / client<br/>(sees all tool defs)"]
+
+    subgraph UNTRUSTED[Untrusted inputs - no validation]
+        C4a["4a.Codebase index<br/>(vector DB / RAG)"]
+        C4b["4b.Live context<br/>(open files / web / docs)"]
+        C6["6.MCP servers<br/>(local + remote)"]
+        C7["7.Memory / rules"]
+    end
+
+    subgraph MODEL[Model zone]
+        C2["2.LLM brain"]
+        C3["3.Agent orchestrator<br/>(thin passthrough)"]
+    end
+
+    subgraph ACTION[Action zone - broad standing authority]
+        C5["5.Tools: shell / file / git / deploy"]
+        C8["8.Sub-agents"]
+        C9["9.Secrets inline in context"]
+        C10["10.Egress (open)"]
+        C11["11.Cloud runtime (shared)"]
+    end
+
+    C1 --> C3
+    C4a --> C2
+    C4b --> C2
+    C6 --> C3
+    C7 --> C2
+    C2 --> C3
+    C3 --> C5
+    C5 --> C8
+    C9 -. read into context .-> C2
+    C3 -. runs in .-> C11
+    C5 ==> C10
+    C10 ==> Attacker
+
+    Attacker -. "poison repo / web / MCP" .-> C4a
+    Attacker -. tool poisoning .-> C6
+
+    classDef untrusted fill:#fde8e8,stroke:#e02424,color:#000;
+    classDef action fill:#fef3c7,stroke:#d97706,color:#000;
+    classDef attacker fill:#fca5a5,stroke:#b91c1c,color:#000;
+    class C4a,C4b,C6,C7 untrusted;
+    class C5,C8,C9,C10,C11 action;
+    class Attacker attacker;
+    linkStyle 10,11,12,13 stroke:#b91c1c,stroke-width:3px;
+```
+
 ![](../assets/diagrams/17-appendix-e-implementation-reference_07.png)
 
 *Figure - Unsecured AI coding assistant. Untrusted inputs (codebase index, live context, MCP servers, memory) flow directly into the model and tools; secrets sit inside the model context; and the red path shows poisoned content driving a tool chain out through open egress to an attacker.*
@@ -522,6 +649,63 @@ The numbered components are the spine of this example and are referenced through
 
 
 
+```mermaid
+flowchart TB
+    C1["1.IDE host / client"]
+
+    subgraph UNTRUSTED[Untrusted inputs]
+        C4a["4a.Codebase index<br/>(vector DB / RAG)"]
+        C4b["4b.Live context<br/>(files / web / docs)"]
+        C6["6.MCP servers"]
+        C7["7.Memory / rules"]
+    end
+
+    subgraph CONTROL[Control plane - trusted, deterministic code]
+        G["G.AI Gateway"]
+        ACL["ACL.Retrieval ACL<br/>+ ingest filter"]
+        M["M.MCP Gateway<br/>+ schema pin / scan"]
+        OG["OG.Output Gate"]
+        IG["IG.Intent Gate<br/>+ Policy / HITL"]
+        CB["CB.Credential Broker"]
+        EA["EA.Egress allowlist<br/>+ kill switch"]
+    end
+
+    subgraph MODEL[Model zone - untrusted principal]
+        C2["2.LLM brain"]
+        C3["3.Agent orchestrator<br/>(Dual-LLM / plan-then-execute)"]
+    end
+
+    subgraph ACTION[Action zone - least privilege]
+        C5["5.Tools (scoped)"]
+        C8["8.Sub-agents (no inherit)"]
+        C10["10.Egress"]
+        C11["11.Cloud runtime (tenant-isolated)"]
+    end
+
+    C9[("9.Secret store")]
+
+    C1 --> G --> C2
+    C4a --> ACL --> OG
+    C4b --> OG
+    C6 --> M --> OG
+    C7 --> OG
+    OG --> C3
+    C2 --> C3
+    C3 --> IG --> C5
+    C5 --> C8
+    C9 --> CB
+    CB -. token out-of-band .-> C5
+    C5 --> EA --> C10
+    C3 -. runs in .-> C11
+
+    classDef untrusted fill:#fde8e8,stroke:#e02424,color:#000;
+    classDef control fill:#def7ec,stroke:#0e9f6e,color:#000;
+    classDef action fill:#e1effe,stroke:#3f83f8,color:#000;
+    class C4a,C4b,C6,C7 untrusted;
+    class G,M,OG,IG,CB,EA,ACL,C9 control;
+    class C5,C8,C10,C11 action;
+```
+
 ![](../assets/diagrams/17-appendix-e-implementation-reference_08.png)
 
 *Figure - Secure AI coding assistant. The same numbered components are unchanged, but every untrusted-to-trusted crossing now passes through a deterministic control-plane node (AI Gateway, Retrieval ACL, MCP Gateway, Output Gate, Intent Gate, Credential Broker, Egress allowlist), and secrets move to a broker that never enters the model.*
@@ -541,6 +725,50 @@ The system separates into **three planes**. Confusing them is the source of most
 #### Request data flow — proposal versus execution
 
 
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor Dev as Developer
+    participant IDE as 1.IDE host
+    participant G as G.AI Gateway
+    participant O as 3.Orchestrator
+    participant IDX as 4a.Index + ACL
+    participant OG as OG.Output Gate
+    participant LLM as 2.LLM brain
+    participant IG as IG.Intent Gate + HITL
+    participant CB as CB.Credential Broker
+    participant T as 5/6.Tool + MCP via M
+    participant EA as EA.Egress allowlist
+
+    Dev->>IDE: enter prompt
+    IDE->>G: prompt + context refs
+    G->>O: validated request (input scan, rate limit)
+    O->>IDX: retrieve with identity pre-filter
+    IDX->>OG: top-k code chunks
+    OG->>O: sanitized context as data, not instructions
+    O->>LLM: user intent (trusted) + data channel
+    LLM->>O: plan = tool name + args only
+    O->>IG: authorize(tool, args, identity, risk)
+    alt high-risk action (delete / push / deploy / pay)
+        IG->>Dev: HITL prompt with deterministic facts
+        Dev->>IG: approve or deny
+    end
+    IG->>CB: request scoped token (delegated / OBO)
+    CB->>T: invoke tool, token attached out-of-band
+    T->>OG: tool / MCP result
+    OG->>O: sanitized result
+    loop bounded iterations (autonomy cap)
+        O->>LLM: next step with sanitized state
+        LLM->>O: next tool call or final answer
+    end
+    O->>EA: any outbound request
+    EA-->>O: allow or block (allowlist)
+    O->>G: final response
+    G->>IDE: output (DLP / secret scan)
+    IDE->>Dev: result
+    Note over G,EA: every step logged to SOC / SIEM
+```
 
 ![](../assets/diagrams/17-appendix-e-implementation-reference_09.png)
 
