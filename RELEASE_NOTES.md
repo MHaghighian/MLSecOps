@@ -6,7 +6,7 @@ Official releases: [GitHub Releases](https://github.com/MHaghighian/MLSecOps/rel
 
 ## v1.2.0 — 2026-08-15
 
-**Example C secure-by-design hardening** — Appendix E self-hosted serving platform deepened with researched controls (gateway authZ, overwritten `cache_salt`, fail-closed admit, MIG/MPS/LeftoverLocals accuracy) and regenerated diagrams.
+**Example C secure-by-design hardening** — Appendix E self-hosted serving platform deepened with researched controls (gateway authZ, prefix-cache trust boundary, fail-closed admit, MIG/MPS/LeftoverLocals accuracy) and regenerated diagrams.
 
 **DOI:** [10.5281/zenodo.21945904](https://doi.org/10.5281/zenodo.21945904) · [record](https://zenodo.org/records/21945904) (concept DOI [10.5281/zenodo.21206780](https://doi.org/10.5281/zenodo.21206780) always resolves to latest)
 
@@ -20,7 +20,8 @@ Official releases: [GitHub Releases](https://github.com/MHaghighian/MLSecOps/rel
 
 ### Highlights
 
-- Example C: caller→engine authN + gateway authZ; overwrite `cache_salt` (vLLM ≥ 0.9.0 / CVE-2025-46570)
+- Example C: caller→engine authN + gateway authZ; engine key ≠ tenant PEP
+- Prefix cache: gateway-overwritten **stable** `cache_salt` (vLLM ≥ 0.9.0 / CVE-2025-46570); omit salt ⇒ global share
 - Safetensors allowlist; ModelScan for legacy formats; fail-closed Kyverno + HA
 - MIG K8s vs VM wording; MPS not isolation; LeftoverLocals NVIDIA nuance
 - Regenerated Example C diagrams `_16`–`_18`
