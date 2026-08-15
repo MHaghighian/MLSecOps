@@ -8,7 +8,7 @@ Official releases: [GitHub Releases](https://github.com/MHaghighian/MLSecOps/rel
 
 **Example C secure-by-design hardening** — Appendix E self-hosted serving platform deepened with researched controls (gateway authZ, overwritten `cache_salt`, fail-closed admit, MIG/MPS/LeftoverLocals accuracy) and regenerated diagrams.
 
-**DOI:** [10.5281/zenodo.21206781](https://doi.org/10.5281/zenodo.21206781) (publish a new Zenodo version from tag `v1.2.0` after GitHub Release)
+**DOI:** [10.5281/zenodo.21945904](https://doi.org/10.5281/zenodo.21945904) · [record](https://zenodo.org/records/21945904) (concept DOI [10.5281/zenodo.21206780](https://doi.org/10.5281/zenodo.21206780) always resolves to latest)
 
 | Format | Link |
 |--------|------|
@@ -33,7 +33,7 @@ Full change history: [CHANGELOG.md](CHANGELOG.md).
 
 **KV Cache security** — Ch.7 section on inference KV privacy (reconstruction vs side-channel), `CAG`, and Emerging KV-Cloak-class controls; maintainer site [mhsec.me](https://mhsec.me) on the documentation site.
 
-**DOI:** [10.5281/zenodo.21206781](https://doi.org/10.5281/zenodo.21206781) (publish a new Zenodo version from tag `v1.1.3` after GitHub Release)
+**DOI:** [10.5281/zenodo.21611010](https://doi.org/10.5281/zenodo.21611010) · [record](https://zenodo.org/records/21611010)
 
 | Format | Link |
 |--------|------|
@@ -57,7 +57,7 @@ Full change history: [CHANGELOG.md](CHANGELOG.md).
 
 **Secure by design + prompt-injection architecture** — L0–L3 design-level prompt-injection defenses; Secure by design defaults across Ch.1/4/7/8 ([PR #5](https://github.com/MHaghighian/MLSecOps/pull/5)); tool maturity labels; Pages/sitemap host fix after account rename.
 
-**DOI:** [10.5281/zenodo.21206781](https://doi.org/10.5281/zenodo.21206781) (publish a new Zenodo version from tag `v1.1.2` after GitHub Release)
+**DOI:** [10.5281/zenodo.21575124](https://doi.org/10.5281/zenodo.21575124) · [record](https://zenodo.org/records/21575124)
 
 | Format | Link |
 |--------|------|
@@ -81,7 +81,7 @@ Full change history: [CHANGELOG.md](CHANGELOG.md).
 
 **Community review + Issue #1 format restore** — citation and content fixes from [PR #3](https://github.com/l4tr0d3ctism/MLSecOps/pull/3); per-section `References / Source mapping` blocks restored; PDF/DOCX no longer attached to releases.
 
-**DOI:** [10.5281/zenodo.21206781](https://doi.org/10.5281/zenodo.21206781) (publish a new Zenodo version from tag `v1.1.1` after GitHub Release)
+**DOI:** [10.5281/zenodo.21399100](https://doi.org/10.5281/zenodo.21399100) · [record](https://zenodo.org/records/21399100)
 
 | Format | Link |
 |--------|------|
@@ -101,11 +101,7 @@ Full change history: [CHANGELOG.md](CHANGELOG.md).
 
 ---
 
-## v1.1.0 — 2026-07-11
-
-**Traceability and mapping release** — per-section `References / Source mapping` across all chapters; OWASP AI Exchange complementary integration; community Issues [#1](https://github.com/l4tr0d3ctism/MLSecOps/issues/1) and [#2](https://github.com/l4tr0d3ctism/MLSecOps/issues/2) addressed.
-
-**DOI:** [10.5281/zenodo.21206781](https://doi.org/10.5281/zenodo.21206781)
+**DOI:** [10.5281/zenodo.21302157](https://doi.org/10.5281/zenodo.21302157) · [record](https://zenodo.org/records/21302157)
 
 | Format | Link |
 |--------|------|

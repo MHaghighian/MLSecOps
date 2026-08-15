@@ -18,26 +18,26 @@ Pre-built PDF/DOCX are **not** uploaded to GitHub Releases. Readers who need Wor
 
 ### Git
 
-- [ ] Commit: `docs: release v1.2.0 — Example C secure-by-design hardening`
-- [ ] `git push origin main`
-- [ ] `git tag -a v1.2.0 -m "MLSecOps Practical Reference Guide v1.2.0"`
-- [ ] `git push origin v1.2.0`
+- [x] Commit: `docs: release v1.2.0 — Example C secure-by-design hardening`
+- [x] `git push origin main`
+- [x] `git tag -a v1.2.0 -m "MLSecOps Practical Reference Guide v1.2.0"`
+- [x] `git push origin v1.2.0`
 
 ### GitHub Release
 
-1. Create release from tag **v1.2.0** (no PDF/DOCX assets)
-2. Title: **v1.2.0 — MLSecOps Practical Reference Guide**
-3. Body: copy from [releases/v1.2.0-RELEASE-BODY.md](releases/v1.2.0-RELEASE-BODY.md) or [RELEASE_NOTES.md](RELEASE_NOTES.md)
+1. [x] Create release from tag **v1.2.0** (no PDF/DOCX assets)
+2. [x] Title: **v1.2.0 — MLSecOps Practical Reference Guide**
+3. [x] Body: copy from [releases/v1.2.0-RELEASE-BODY.md](releases/v1.2.0-RELEASE-BODY.md) or [RELEASE_NOTES.md](RELEASE_NOTES.md)
 
 ### Zenodo
 
-1. Publish new version from tag `v1.2.0` on [Zenodo record](https://zenodo.org/records/21206781)
-2. Confirm DOI landing page lists v1.2.0
+1. [x] Publish new version from tag `v1.2.0` on [Zenodo record](https://zenodo.org/records/21945904)
+2. [x] Confirm DOI landing page lists v1.2.0 — DOI `10.5281/zenodo.21945904`
 
 ### Post-release
 
-- [ ] Verify GitHub Pages deploy (https://mhaghighian.github.io/MLSecOps/)
-- [ ] Confirm mhsec.me globe icon / home link visible
+- [x] Verify GitHub Pages deploy (https://mhaghighian.github.io/MLSecOps/)
+- [x] Confirm mhsec.me globe icon / home link visible
 - [ ] Optional: announce in GitHub Discussions
 
 ---
@@ -147,7 +147,7 @@ After each release:
 
 - [ ] README version badge and download links updated
 - [ ] GitHub Release published (tags help indexing)
-- [ ] Zenodo DOI updated
+- [x] Zenodo DOI updated (10.5281/zenodo.21945904)
 - [ ] Re-request indexing in Search Console for Pages home
 - [ ] One announcement post with link to Pages (not only repo)
 

@@ -5,9 +5,9 @@ type: book
 authors:
   - family-names: Haghighian
     given-names: Moslem
-doi: 10.5281/zenodo.21206781
+doi: 10.5281/zenodo.21945904
 repository-code: "https://github.com/MHaghighian/MLSecOps"
-url: "https://doi.org/10.5281/zenodo.21206781"
+url: "https://doi.org/10.5281/zenodo.21945904"
 repository-artifact: "https://github.com/MHaghighian/MLSecOps/releases/tag/v1.2.0"
 license: CC-BY-SA-4.0
 version: 1.2.0
@@ -28,6 +28,6 @@ preferred-citation:
   title: "MLSecOps Practical Reference Guide"
   version: 1.2.0
   year: 2026
-  doi: 10.5281/zenodo.21206781
-  url: "https://doi.org/10.5281/zenodo.21206781"
-  notes: "Open practical reference guide. Not an official industry standard. Publish Zenodo version from tag v1.2.0 after GitHub Release."
+  doi: 10.5281/zenodo.21945904
+  url: "https://doi.org/10.5281/zenodo.21945904"
+  notes: "Open practical reference guide. Not an official industry standard. Version DOI for v1.2.0; concept DOI 10.5281/zenodo.21206780 resolves to the latest version."
