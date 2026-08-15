@@ -295,6 +295,7 @@ LeftoverLocals-style **GPU memory residue** ([Advanced Multi-Tenant hardening](#
 | Priority | Control | Threats addressed | Maturity |
 |---|---|---|---|
 | **Required (self-hosted / multi-tenant)** | Tenant-partitioned KV; no cross-tenant prefix reuse for sensitive tiers; session/request cleanup; cache keys bind tenant (and user where needed) | Cross-tenant leak, PromptPeek-class side channels | Mature operational pattern |
+| **Required (vLLM / shared prefix cache)** | Engine ≥ 0.9.0 **and** gateway-**overwritten** **stable** `cache_salt` (drop client salt); omit salt ⇒ global share (`CVE-2025-46570` class). Prefer `sha256` / `sha256_cbor` over non-crypto prefix hashes on shared multi-tenant replicas. See [Example C](17-appendix-e-implementation-reference.md#e73-example-c-self-hosted-model-platform-vllmkserve-on-kubernetes). | Shared-cache TTFT timing | Mature (config + gateway) |
 | **Required** | Prefer engine features that avoid sticky shared blocks across security domains; document whether prefix caching is on | Shared-cache side channels | Mature (config) |
 | **Strongly recommended** | Confidential-compute / MaaS designs: treat **externalized** plaintext KV as in-scope for risk assessment (TLS to the client does not cover this) | Direct host/CSP read | Mature (threat modeling) |
 | **Emerging** | Reversible matrix **obfuscation** of stored KV (e.g. **KV-Cloak**: invertible transforms + per-block permutation, with operator fusion to keep latency low)—**not** a substitute for AES at rest of the whole host, and **not** integrity protection | Direct reconstruction (Inversion / Collision / Injection) when tensors are stolen without keys | Research/Lab → Emerging (NDSS 2026 + public prototype) |
@@ -312,7 +313,8 @@ LeftoverLocals-style **GPU memory residue** ([Advanced Multi-Tenant hardening](#
 **Systems / implementation (informative)**
 - Hugging Face Transformers — generation caching / KV documentation
 - NVIDIA TensorRT-LLM — KV cache management
-- vLLM — PagedAttention and prefix caching
+- vLLM — PagedAttention, Automatic Prefix Caching, and `cache_salt` (≥ 0.9.0; set by gateway on multi-tenant replicas)
+- `CVE-2025-46570` — prefix-cache timing side channel (vLLM < 0.9.0; salt must still be applied on ≥ 0.9.0)
 
 **Emerging / research**
 - Luo, Z. et al. (2026). *Shadow in the Cache: Unveiling and Mitigating Privacy Risks of KV-cache in LLM Inference* (KV-Cloak). NDSS 2026. https://arxiv.org/abs/2508.09442 — *documented research*; code: https://github.com/SiO-2/kvcloak

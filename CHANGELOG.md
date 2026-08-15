@@ -4,13 +4,17 @@ All notable changes to the MLSecOps Guide are documented here.
 
 ## [Unreleased]
 
+### Changed
+
+- **Appendix E.7.3 / Ch.7** — make the gateway + prefix-cache trust break explicit: engine key ≠ tenant PEP; omit `cache_salt` ⇒ global share even on vLLM ≥ 0.9.0; stable (not per-request) gateway-overwritten salt; reuse isolation ≠ capacity isolation; prefer crypto-safe prefix hash on shared replicas. Sources: vLLM prefix-caching docs, cache-salting RFC #16016, `CVE-2025-46570`.
+
 ## [1.2.0] — 2026-08-15
 
 ### Changed
 
 - **Citation / Zenodo** — version DOI [10.5281/zenodo.21945904](https://doi.org/10.5281/zenodo.21945904) for v1.2.0 (concept DOI [10.5281/zenodo.21206780](https://doi.org/10.5281/zenodo.21206780)).
 
-- **Appendix E.7.3 Example C** — deepen secure-by-design composition: caller→engine authN (not "to the GPU"); gateway serve-path authZ; gateway-**overwritten** vLLM `cache_salt` (≤ CVE-2025-46570 / ≥ 0.9.0); safetensors allowlist with ModelScan on legacy formats; fail-closed admit + Kyverno HA; LoRA↔`base_model_digest`; MIG K8s-vs-VM wording; MPS not isolation; LeftoverLocals NVIDIA nuance + KV/VRAM hygiene; credential lifecycle; telemetry without raw prompts. Regenerated diagrams `_16`–`_18`.
+- **Appendix E.7.3 Example C** — deepen secure-by-design composition: caller→engine authN (not "to the GPU"); gateway serve-path authZ; gateway-**overwritten** vLLM `cache_salt` (`CVE-2025-46570` / ≥ 0.9.0); safetensors allowlist with ModelScan on legacy formats; fail-closed admit + Kyverno HA; LoRA↔`base_model_digest`; MIG K8s-vs-VM wording; MPS not isolation; LeftoverLocals NVIDIA nuance + KV/VRAM hygiene; credential lifecycle; telemetry without raw prompts. Regenerated diagrams `_16`–`_18`.
 
 ## [1.1.3] — 2026-07-26
 

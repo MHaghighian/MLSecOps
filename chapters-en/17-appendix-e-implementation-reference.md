@@ -1111,8 +1111,9 @@ authorize(app, request)                       # tenant, model, LoRA, GPU tier, q
 tenant = app.tenant                           # attested identity — never request JSON / client adapter_id
 lora = registry.adapter_for(tenant)           # gateway/registry bind — not body.adapter_id
 kv_key = bind(tenant=tenant, session=request.session_id)
-request.cache_salt = tenant                   # OVERWRITE any client-supplied salt; never forward as-is
-# omit salt ⇒ global share (unsafe). high sensitivity: prefix OFF or per-tenant replica
+# Stable per-tenant salt (not a per-request UUID). DROP client cache_salt; OVERWRITE here.
+request.cache_salt = stable_salt(tenant)      # omit salt ⇒ global share (unsafe on shared replicas)
+# high sensitivity: prefix OFF or dedicated replica / MIG — salt is reuse isolation, not capacity isolation
 out = engine.generate(request.prompt, kv_partition=kv_key, cache_salt=request.cache_salt, lora=lora)
 cleanup_kv(kv_key)                            # end of session / request
 # prefer isolate (MIG device / dedicated GPU / separate pod) over claiming full GPU sanitize
@@ -1149,6 +1150,30 @@ caller → quota (TPM / RPM / concurrency)
 
 Stamp `X-Tenant-ID` (and model/LoRA) from the attested identity at the gateway—never from the client body.
 
+**Why the engine is not the PEP.** Self-hosted engines commonly expose a **single shared API key** (or none behind a ClusterIP). That key proves "this caller may hit *this* generate loop"—not "this caller may load *that* tenant's LoRA, burn *that* quota, or share *that* prefix cache." Multi-tenant policy therefore belongs in Plane B (gateway / inference router). Treating the serving plane as trusted collapses here first: a correct engine credential + a client-chosen `tenant_id` / `adapter_id` is enough for cross-tenant load and scrape.
+
+#### Where the trust boundary actually breaks (gateway + cache)
+
+| Break point | Naive assumption | What fails | Secure-by-design fix |
+| ----------- | ---------------- | ---------- | -------------------- |
+| **Gateway authZ** | "Engine key / mTLS to the pod = tenant isolation" | Confused deputy: any authorized caller can hit any model/LoRA/tier the engine will load | AuthZ matrix above; stamp tenant/model/LoRA from attested identity; no public engine |
+| **Prefix / `cache_salt`** | "Prefix cache is only a TTFT knob" / "clients set their own salt" | PromptPeek-class TTFT leakage across co-tenants; client salt spoofing collapses isolation | Gateway-**overwritten** stable salt; omit salt ⇒ **global** share (unsafe on shared replicas) |
+| **Salt lifecycle** | Random UUID per request "for security" | Every request is a cold miss → teams disable salting to recover TTFT | **Stable** salt per trust group (tenant, or tenant+env); tighten to user-level only when isolation > cache reuse |
+| **Hash algo** | Default / fastest prefix hash everywhere | Non-crypto hashes (e.g. `xxhash`) raise collision risk in multi-tenant pools (vLLM docs) | Prefer `sha256` / `sha256_cbor` for shared multi-tenant replicas; document the trade |
+| **Reuse vs capacity** | "`cache_salt` alone = fair multi-tenancy" | Salt isolates *who can hit whose blocks*; it does **not** stop one tenant filling the pool | Quotas / separate replicas for noisy or high-assurance tenants |
+
+vLLM's own cache-salting RFC notes that multi-tenant deployments sit behind a gateway and that **providers should set the salt**—they need not expose the field to end clients. `CVE-2025-46570` (vLLM **< 0.9.0**) is the tracked timing channel; **≥ 0.9.0** adds `cache_salt`, but **shipping ≥ 0.9.0 without setting a salt still leaves a globally shared prefix cache**.
+
+#### Prefix-cache salt rules (operational)
+
+```text
+1. Upgrade shared multi-tenant engines to vLLM ≥ 0.9.0 (or equivalent with salt isolation).
+2. At the gateway: DROP any client cache_salt; OVERWRITE with server-chosen salt.
+3. Default salt = f(tenant_id)  [optionally + environment]. Stable across requests in the trust group.
+4. High sensitivity / hostile co-tenancy: prefix cache OFF, or dedicated replica / MIG device / pod.
+5. Never log raw prompts to "debug cache hits"; log tenant, model, TTFT, cache_hit boolean only.
+```
+
 #### Credential lifecycle (engine identity)
 
 ```text
@@ -1165,9 +1190,9 @@ Prefer SPIFFE/SPIRE or cloud workload identity over a long-lived cluster-wide en
 | 1   | **Admit only signed, format-controlled artifacts** | digest pin + cosign; safetensors allowlist; ModelScan on legacy pickle/H5/SavedModel; fail closed if gates are down | supply-chain implant, pickle/RCE weights (`LLM03`) |
 | 2   | **Serving identity is not data identity**     | caller→engine authN (mTLS/key) ≠ RAG ACL; engine key never implies customer-data rights                                               | confused deputy, "the GPU is the PEP"              |
 | 3   | **KV and GPU state are tenant-partitioned**   | cache keys bind tenant (and session); session cleanup; logical keys alone do not fix shared-process batching                         | PromptPeek-class leak, leftover KV (`LLM02`)       |
-| 4   | **Prefix cache is a security setting**        | OFF or gateway-**overwritten** `cache_salt` (vLLM ≥ 0.9.0); never omit salt / never trust client salt on shared replicas                | cross-tenant prompt timing (`CVE-2025-46570`)      |
+| 4   | **Prefix cache is a security setting**        | OFF or gateway-**overwritten** **stable** `cache_salt` (vLLM ≥ 0.9.0); omit salt ⇒ global share; never trust client salt; prefer crypto-safe prefix hash on shared replicas | cross-tenant prompt timing (`CVE-2025-46570`) |
 | 5   | **CT / adapters use the same control points** | LoRA bound to `base_model_digest` + arch/dtype; safetensors; sign, admit, CP 4/7/8/9; scan when format requires it                    | skipped gates, poisoned adapters (`LLM04`)         |
-| 6   | **Gateway does authN and authZ**              | no public engine; authorize tenant/model/LoRA/tier/quota; audit metadata without raw prompts                                          | anonymous GPU, confused model load, scrape         |
+| 6   | **Gateway does authN and authZ**              | engine key ≠ tenant PEP; authorize tenant/model/LoRA/tier/quota; stamp identity headers; audit metadata without raw prompts             | anonymous GPU, confused model load, scrape         |
 | 7   | **Externalized KV / CAG has a lifecycle**     | persisted KV is a sensitive artifact: access control, rotate, purge — not scratch disk                                                | durable reconstruction / theft                     |
 | 8   | **GPU / KV residue is in scope**              | purge session KV; prefer MIG device / dedicated GPU / separate pod; do not treat MPS or "sanitize pages" as complete                  | block reuse / VRAM residue; LeftoverLocals on non-NVIDIA |
 | 9   | **Egress from serving pods is allowlisted**   | engines and sidecars cannot phone home or mine                                                                                        | cluster compromise → exfil                         |
@@ -1206,7 +1231,8 @@ generate(prompt, caller):
   if sensitivity(tenant) == "high":
       prefix_cache = OFF                           # or dedicated replica / MIG device
   else:
-      cache_salt = overwrite(client_salt, tenant)  # never forward client-chosen salt
+      drop(client.cache_salt)
+      cache_salt = stable_salt(tenant)             # OVERWRITE; never forward client salt
   out = engine.generate(prompt, kv_partition=kv_key, cache_salt=cache_salt)  # vLLM ≥ 0.9.0
   on_session_end: purge(kv_key)
   # do not claim complete GPU sanitize; prefer no hostile co-tenancy
@@ -1220,7 +1246,9 @@ generate(prompt, caller):
 Anti-patterns:
 
 - Global prefix cache "because TTFT" on a multi-tenant GPU (omit `cache_salt`, or vLLM < 0.9.0 without other isolation)
+- Shipping vLLM ≥ 0.9.0 but never setting `cache_salt` (API exists; isolation does not apply itself)
 - Forwarding a client-supplied `cache_salt` unchanged
+- Per-request random salt that kills reuse, then turning isolation off to "fix latency"
 - Treating **MPS** or software time-slice as tenant isolation
 - KV pages on NFS/object storage with cluster-wide read
 - Engine ServiceAccount that can mount every tenant's cache volume
@@ -1233,7 +1261,7 @@ Anti-patterns:
 
 **Illustration 1 — unsigned model reaches the GPU (principle 1).** A data scientist pulls `org/cool-llama` and deploys with `image: vllm/vllm-openai:latest`. Admission in production namespaces requires cosign-verified digests, a safetensors (or scanned legacy) artifact, and Evidence Pack. The deploy fails closed (webhook Fail; Kyverno HA so Fail does not become an outage-only DoS). Residual: a signed-but-malicious insider artifact still needs human release (control point 8).
 
-**Illustration 2 — PromptPeek-class prefix leak (principles 3, 4).** Tenant A's system prompt is a long, stable prefix. Tenant B, on the same replica with shared prefix KV, measures TTFT while guessing A's prefix (PromptPeek / NDSS 2025; related timing issues tracked as `CVE-2025-46570` in vLLM < 0.9.0). With prefix cache off, or gateway-**overwritten** `cache_salt` per tenant on vLLM ≥ 0.9.0, B's hits never see A's blocks. Isolation, not a classifier, removes the channel.
+**Illustration 2 — PromptPeek-class prefix leak (principles 3, 4).** Tenant A's system prompt is a long, stable prefix. Tenant B, on the same replica with shared prefix KV, measures TTFT while guessing A's prefix (PromptPeek / NDSS 2025; `CVE-2025-46570` on vLLM < 0.9.0). Upgrade alone is incomplete: on ≥ 0.9.0, **omitted** `cache_salt` still shares the global prefix pool. With prefix cache off, or a gateway-**overwritten** **stable** per-tenant salt, B's hits never see A's blocks. Isolation, not a classifier, removes the channel.
 
 **Illustration 3 — LoRA skips controls (principle 5).** An engineer drops an adapter into the serving volume, or a client sends `adapter_id` for another tenant. Path 1 requires safetensors + base-digest bind + sign + admit; legacy pickle paths also require ModelScan. The gateway resolves LoRA from the registry only.
 
@@ -1244,7 +1272,7 @@ Anti-patterns:
 
 | Level      | Controls                                                                                                                                                                                                                                                                                                                                                                                                 |
 | ---------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `MUST`     | digest-pinned, cosign-verified images; safetensors allowlist (ModelScan on legacy formats); fail-closed admit + webhook HA; gateway authN **and** authZ; overwrite `cache_salt` (vLLM ≥ 0.9.0) or disable prefix on shared replicas; tenant-bound KV + session purge; default-deny NetworkPolicy; short-lived engine identity ≠ data-plane; CT/LoRA same Path 1 with base-digest bind; Evidence Pack; no raw prompts in default telemetry |
+| `MUST`     | digest-pinned, cosign-verified images; safetensors allowlist (ModelScan on legacy formats); fail-closed admit + webhook HA; gateway authN **and** authZ (engine key ≠ tenant PEP); gateway-overwritten **stable** `cache_salt` (vLLM ≥ 0.9.0) or disable prefix on shared replicas—omit salt ⇒ global share; tenant-bound KV + session purge; default-deny NetworkPolicy; short-lived engine identity ≠ data-plane; CT/LoRA same Path 1 with base-digest bind; Evidence Pack; no raw prompts in default telemetry |
 | `SHOULD`   | MIG device plugin or dedicated GPUs for sensitive tiers (not MPS); rotate/revoke keys; runtime sensors; CAG/KV snapshot IAM + purge; isolation deny-suite tests; document MIG VM vs K8s semantics |
 | `ADVANCED` | confidential compute for externalized KV; KV-Cloak-class obfuscation; per-tenant engine replicas; attested node identity; MIG-backed vGPU when hypervisor VM multi-tenancy is required |
 
@@ -1270,7 +1298,7 @@ Anti-patterns:
 | Component                     | Built into "the model server"? | In practice                                                                                                                                                                                               |
 | ----------------------------- | ------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | vLLM / KServe generate loop   | Yes                            | vendor/engine                                                                                                                                                                                             |
-| Prefix-cache / `cache_salt`   | Yes, as *perf* + isolation API | **you** overwrite salt at gateway (vLLM ≥ 0.9.0); never trust client salt                                                                                                                              |
+| Prefix-cache / `cache_salt`   | Yes, as *perf* + isolation API | **you** overwrite a **stable** salt at gateway (vLLM ≥ 0.9.0); never trust client salt; omit ⇒ global share                                                                                                                              |
 | Cosign / Kyverno / digest pin | No                             | platform (Plane B); webhook Fail + HA                                                                                                                                                                 |
 | GPU MIG / node pools          | Cluster feature                | SRE (Plane C); MIG for K8s pods; MIG+vGPU for VM multi-tenancy; never treat MPS as isolation                                                                                                          |
 | RAG ACL / Intent Gate         | No                             | calling apps (product plane) — [Example C](#e73-example-c-self-hosted-model-platform-vllmkserve-on-kubernetes) does not replace [Example B](#e72-example-b-multi-tenant-rag-saas-upload-and-per-user-chatbot) or [Example A](#e71-example-a-ai-coding-assistant-agent-mcp-ide-host)                                                                                                                                                        |
@@ -1290,7 +1318,7 @@ These defaults remove unsigned-to-GPU, cross-tenant sticky prefix KV, skipped ad
 - OWASP LLM Top 10 (2025): `LLM02` Sensitive Information Disclosure; `LLM03` Supply Chain; `LLM04` Data and Model Poisoning; `LLM10` Unbounded Consumption
 - MITRE ATLAS: supply-chain and inference-infra techniques
 - CERT VU#446598 / LeftoverLocals `CVE-2023-4969` (NVIDIA: not affected; some AMD/Apple/Qualcomm: affected)
-- `CVE-2025-46570` — vLLM prefix-cache timing side channel (patched ≥ 0.9.0 via `cache_salt`)
+- `CVE-2025-46570` — vLLM prefix-cache timing side channel (affected **< 0.9.0**; ≥ 0.9.0 adds `cache_salt` — must be **set** by the gateway on shared replicas)
 - OpenTelemetry: handling sensitive data / Collector redaction for GenAI attributes
 
 **Emerging / research**
@@ -1306,11 +1334,11 @@ These defaults remove unsigned-to-GPU, cross-tenant sticky prefix KV, skipped ad
 - [E.1.3 Self-hosted LLM](#e13-self-hosted-llm-vllmkserve-on-kubernetes); [Chapter 16](16-kubernetes-deployment-reference.md); [Chapter 5](05-model-artifact-supply-chain.md); [Chapter 7 — KV Cache security](07-llm-rag-security.md#kv-cache-security); [Chapter 6 CT cycle](06-pipeline.md#continuous-training-cycle)
 - [Example A](#e71-example-a-ai-coding-assistant-agent-mcp-ide-host) / [Example B](#e72-example-b-multi-tenant-rag-saas-upload-and-per-user-chatbot) / [Example D](#e74-example-d-customer-facing-website-rag-chatbot-and-background-agents) (calling-app controls this platform does not replace)
 - [LeftoverLocals case study](13-case-studies.md#leftoverlocals-cve-2023-4969--documented-incident)
-- vLLM Automatic Prefix Caching / `cache_salt` (≥ 0.9.0); Protect AI ModelScan (legacy serialization); safetensors format control; Sigstore cosign + Kyverno `Enforce` + webhook `Fail` with HA
+- vLLM Automatic Prefix Caching / `cache_salt` (≥ 0.9.0); vLLM RFC *Cache Salting* (#16016) — gateway sets salt, need not expose to clients; Protect AI ModelScan (legacy serialization); safetensors format control; Sigstore cosign + Kyverno `Enforce` + webhook `Fail` with HA
 
 **Author practical guidance**
 
-- *Caller→engine authN is not GPU auth and not application authorization; gateway authZ + overwritten `cache_salt`; safetensors allowlist before ModelScan-on-legacy; MIG helps on K8s but is not absolute—and MPS is not isolation; telemetry must not re-open the data plane*
+- *Trust breaks at gateway authZ and prefix-cache reuse—not "at the GPU." Engine key ≠ tenant PEP; overwrite a **stable** `cache_salt` (omit ⇒ global share); reuse isolation ≠ capacity isolation; safetensors allowlist before ModelScan-on-legacy; MIG helps on K8s but is not absolute—and MPS is not isolation; telemetry must not re-open the data plane*
 
 ### E.7.4 Example D: Customer-facing website (RAG chatbot and background agents)
 
