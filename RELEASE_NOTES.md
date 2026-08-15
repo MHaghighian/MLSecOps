@@ -1,6 +1,31 @@
-﻿# Release Notes
+# Release Notes
 
-Official releases: [GitHub Releases](https://github.com/l4tr0d3ctism/MLSecOps/releases)
+Official releases: [GitHub Releases](https://github.com/MHaghighian/MLSecOps/releases)
+
+---
+
+## v1.2.0 — 2026-08-15
+
+**Example C secure-by-design hardening** — Appendix E self-hosted serving platform deepened with researched controls (gateway authZ, overwritten `cache_salt`, fail-closed admit, MIG/MPS/LeftoverLocals accuracy) and regenerated diagrams.
+
+**DOI:** [10.5281/zenodo.21206781](https://doi.org/10.5281/zenodo.21206781) (publish a new Zenodo version from tag `v1.2.0` after GitHub Release)
+
+| Format | Link |
+|--------|------|
+| Source (ZIP) | [Source code (zip)](https://github.com/MHaghighian/MLSecOps/archive/refs/tags/v1.2.0.zip) |
+| Markdown | `chapters-en/` in this repository |
+| Site | https://mhaghighian.github.io/MLSecOps/ |
+| Maintainer | https://mhsec.me |
+| Word (optional) | `python scripts/build-docx.py --render-mermaid` |
+
+### Highlights
+
+- Example C: caller→engine authN + gateway authZ; overwrite `cache_salt` (vLLM ≥ 0.9.0 / CVE-2025-46570)
+- Safetensors allowlist; ModelScan for legacy formats; fail-closed Kyverno + HA
+- MIG K8s vs VM wording; MPS not isolation; LeftoverLocals NVIDIA nuance
+- Regenerated Example C diagrams `_16`–`_18`
+
+Full change history: [CHANGELOG.md](CHANGELOG.md).
 
 ---
 
