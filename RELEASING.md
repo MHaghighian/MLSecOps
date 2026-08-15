@@ -31,8 +31,8 @@ Pre-built PDF/DOCX are **not** uploaded to GitHub Releases. Readers who need Wor
 
 ### Zenodo
 
-1. [x] Publish new version from tag `v1.2.0` on [Zenodo record](https://zenodo.org/records/21945904)
-2. [x] Confirm DOI landing page lists v1.2.0 — DOI `10.5281/zenodo.21945904`
+1. [x] Publish new version from tag `v1.2.0` on [Zenodo record](https://zenodo.org/records/21946708)
+2. [x] Confirm DOI landing page lists v1.2.0 — DOI `10.5281/zenodo.21946708`
 
 ### Post-release
 
@@ -147,7 +147,7 @@ After each release:
 
 - [ ] README version badge and download links updated
 - [ ] GitHub Release published (tags help indexing)
-- [x] Zenodo DOI updated (10.5281/zenodo.21945904)
+- [x] Zenodo DOI updated (10.5281/zenodo.21946708)
 - [ ] Re-request indexing in Search Console for Pages home
 - [ ] One announcement post with link to Pages (not only repo)
 

@@ -4,7 +4,7 @@
 
 [![Status](https://img.shields.io/badge/status-stable-blue)](CHANGELOG.md)
 [![Version](https://img.shields.io/badge/version-v1.2.0-lightgrey)](CHANGELOG.md)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21945904.svg)](https://doi.org/10.5281/zenodo.21945904)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21946708.svg)](https://doi.org/10.5281/zenodo.21946708)
 [![Documentation](https://img.shields.io/badge/docs-mhaghighian.github.io%2FMLSecOps-blue)](https://mhaghighian.github.io/MLSecOps/)
 [![License: CC BY-SA 4.0](https://img.shields.io/badge/License-CC%20BY--SA%204.0-green.svg)](LICENSE)
 
@@ -18,7 +18,7 @@ It covers **LLM security**, **RAG security**, **agentic AI**, **MCP**, **AI supp
 | **Source repository** | [github.com/MHaghighian/MLSecOps](https://github.com/MHaghighian/MLSecOps) |
 | **Maintainer site** | [mhsec.me](https://mhsec.me) |
 | **Latest release** | [v1.2.0](https://github.com/MHaghighian/MLSecOps/releases/tag/v1.2.0) |
-| **Cite (DOI)** | [10.5281/zenodo.21945904](https://doi.org/10.5281/zenodo.21945904) |
+| **Cite (DOI)** | [10.5281/zenodo.21946708](https://doi.org/10.5281/zenodo.21946708) |
 
 ---
 
@@ -110,7 +110,7 @@ Executive lifecycle (detail in [Chapter 6](chapters-en/06-pipeline.md)):
 
 ## Downloads
 
-**Latest release:** **v1.2.0** · [Zenodo DOI](https://doi.org/10.5281/zenodo.21945904)
+**Latest release:** **v1.2.0** · [Zenodo DOI](https://doi.org/10.5281/zenodo.21946708)
 
 | Format | Link |
 |--------|------|
@@ -149,7 +149,7 @@ The build uses **Pandoc** with the project Word template (`scripts/templates/ref
 | **What is MLSecOps?** | Security practices for the ML/AI lifecycle — extending DevSecOps with model, data, LLM, RAG, agent, and runtime controls. |
 | **Is this an official OWASP or NIST document?** | No. It references those frameworks but is an independent open-source guide (CC BY-SA 4.0). |
 | **Where should I start reading?** | [Documentation site](https://mhaghighian.github.io/MLSecOps/) or [Chapter 1](chapters-en/01-intro.md). |
-| **How do I cite this work?** | Use the [Zenodo DOI](https://doi.org/10.5281/zenodo.21945904) or [CITATION.cff](CITATION.cff). |
+| **How do I cite this work?** | Use the [Zenodo DOI](https://doi.org/10.5281/zenodo.21946708) or [CITATION.cff](CITATION.cff). |
 
 ---
 
@@ -189,7 +189,7 @@ See [CITATION.cff](CITATION.cff) for machine-readable metadata.
 
 ```text
 Haghighian, M. (2026). MLSecOps Practical Reference Guide (v1.2.0).
-Zenodo. https://doi.org/10.5281/zenodo.21945904
+Zenodo. https://doi.org/10.5281/zenodo.21946708
 ```
 
 ---
