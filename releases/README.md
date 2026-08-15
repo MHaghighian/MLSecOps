@@ -12,7 +12,7 @@ From **v1.1.1** onward, pre-built PDF/DOCX are **not** attached to GitHub Releas
 | Markdown | `chapters-en/` in the repository root |
 | Site | https://mhaghighian.github.io/MLSecOps/ |
 | Maintainer | https://mhsec.me |
-| Zenodo DOI | [10.5281/zenodo.21946708](https://doi.org/10.5281/zenodo.21946708) |
+| Zenodo DOI | [10.5281/zenodo.21946726](https://doi.org/10.5281/zenodo.21946726) |
 
 **Release:** https://github.com/MHaghighian/MLSecOps/releases/tag/v1.2.0
 
@@ -45,7 +45,7 @@ Traceability and OWASP AI Exchange integration (2026-07-11).
 ## v1.0.1
 
 Zenodo archival tag — identical guide content to v1.0.0.  
-**DOI:** [10.5281/zenodo.21946708](https://doi.org/10.5281/zenodo.21946708)
+**DOI:** [10.5281/zenodo.21946726](https://doi.org/10.5281/zenodo.21946726)
 
 ## v1.0.0
 
