@@ -1,6 +1,6 @@
 # Table of Contents
 
-**MLSecOps Practical Reference Guide v1.2.0** — Securing AI Systems Across the Lifecycle
+**MLSecOps Practical Reference Guide v1.2.1** — Securing AI Systems Across the Lifecycle
 
 ---
 

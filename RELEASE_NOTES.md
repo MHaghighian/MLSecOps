@@ -4,6 +4,31 @@ Official releases: [GitHub Releases](https://github.com/MHaghighian/MLSecOps/rel
 
 ---
 
+## v1.2.1 — 2026-08-15
+
+**Diagram restore** — inline Mermaid fences restored from `assets/diagrams/source/*.mmd` alongside PNG fallbacks (29 diagrams); Mermaid rendering enabled on MkDocs GitHub Pages. Appendix E `_10`–`_21` remain SVG/PNG-first.
+
+**DOI:** [10.5281/zenodo.21946726](https://doi.org/10.5281/zenodo.21946726) · concept DOI [10.5281/zenodo.21206780](https://doi.org/10.5281/zenodo.21206780) (always resolves to latest; version DOI refreshes after Zenodo ingests this tag)
+
+| Format | Link |
+|--------|------|
+| Source (ZIP) | [Source code (zip)](https://github.com/MHaghighian/MLSecOps/archive/refs/tags/v1.2.1.zip) |
+| Markdown | `chapters-en/` in this repository |
+| Site | https://mhaghighian.github.io/MLSecOps/ |
+| Maintainer | https://mhsec.me |
+| Word (optional) | `python scripts/build-docx.py --render-mermaid` |
+
+### Highlights
+
+- Restore 29 inline Mermaid diagrams from `assets/diagrams/source/*.mmd`
+- PNG kept under each diagram for GitHub/Word reliability
+- MkDocs Pages Mermaid render (`mermaid@10` + init script)
+- Appendix E Examples A–D `_10`–`_21` stay SVG/PNG-first
+
+Full change history: [CHANGELOG.md](CHANGELOG.md).
+
+---
+
 ## v1.2.0 — 2026-08-15
 
 **Example C secure-by-design hardening** — Appendix E self-hosted serving platform deepened with researched controls (gateway authZ, prefix-cache trust boundary, fail-closed admit, MIG/MPS/LeftoverLocals accuracy) and regenerated diagrams.
