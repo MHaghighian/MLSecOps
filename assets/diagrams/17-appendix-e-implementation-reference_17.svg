@@ -1,0 +1,180 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1580" height="1000" viewBox="0 0 1580 1000">
+
+  <defs>
+    <marker id="c17arr" markerUnits="userSpaceOnUse" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="9" markerHeight="9" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#0F172A"/>
+    </marker>
+    <marker id="c17arrG" markerUnits="userSpaceOnUse" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="9" markerHeight="9" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#047857"/>
+    </marker>
+    <marker id="c17arrR" markerUnits="userSpaceOnUse" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="9" markerHeight="9" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#B91C1C"/>
+    </marker>
+    <filter id="c17soft" x="-8%" y="-8%" width="116%" height="116%">
+      <feDropShadow dx="0" dy="2" stdDeviation="2.5" flood-color="#0F172A" flood-opacity="0.08"/>
+    </filter>
+    <linearGradient id="c17bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#F8FAFC"/>
+      <stop offset="100%" stop-color="#EEF2F7"/>
+    </linearGradient>
+  </defs>
+
+<rect width="1580" height="1000" fill="url(#c17bg)"/>
+
+  <rect width="1580" height="72" fill="#0F172A"/>
+  <text x="32" y="32" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="20" font-weight="700" fill="#F8FAFC">Example C — Secure self-hosted serving platform</text>
+  <text x="32" y="54" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" fill="#94A3B8">Signed artifacts at admission · tenant-bound KV · GPU tiers · gateway in front of the engine · CT same path.</text>
+  <rect x="1412" y="22" rx="14" width="136" height="28" fill="#047857"/>
+  <text x="1480" y="41" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" font-weight="700" fill="#fff">SECURED</text>
+
+<rect x="36" y="95" width="200" height="36" rx="8" fill="#EEF2FF" stroke="#6366F1"/>
+<text x="136" y="118" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" font-weight="600" fill="#0F172A">Plane A — apps</text>
+<rect x="250" y="95" width="240" height="36" rx="8" fill="#ECFDF5" stroke="#059669"/>
+<text x="370" y="118" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" font-weight="600" fill="#0F172A">Plane B — serving control</text>
+<rect x="1076" y="95" width="240" height="36" rx="8" fill="#EFF6FF" stroke="#2563EB"/>
+<text x="1196" y="118" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" font-weight="600" fill="#0F172A">Plane C — cluster / GPU</text>
+<text x="560" y="118" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="600" fill="#64748B">Engine key ≠ data-plane PEP</text>
+
+  <rect x="36" y="150" width="200" height="56" rx="10" fill="#EEF2FF" stroke="#6366F1" stroke-width="1.4" filter="url(#c17soft)"/>
+  <circle cx="52" cy="166" r="10" fill="#6366F1"/>
+  <text x="52" y="170" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" font-weight="700" fill="#fff">1</text>
+  <text x="68" y="170" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="700" fill="#0F172A">Calling apps</text>
+  <text x="48" y="190" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" fill="#64748B">still own RAG / OBO</text>
+
+
+  <rect x="260" y="152" width="230" height="52" rx="10" fill="#ECFDF5" stroke="#059669" stroke-width="1.5" filter="url(#c17soft)"/>
+  <rect x="260" y="152" width="32" height="52" rx="10" fill="#059669"/>
+  <rect x="274" y="152" width="18" height="52" fill="#059669"/>
+  <text x="276" y="182.0" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" font-weight="800" fill="#fff">G</text>
+  <text x="302" y="170" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" font-weight="700" fill="#065F46">AI Gateway</text>
+  <text x="302" y="186" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" fill="#64748B">engine authN · quota · audit</text>
+
+<path d="M236,178 L260,178" fill="none" stroke="#047857" stroke-width="1.6" marker-end="url(#c17arrG)"/>
+<rect x="36" y="230" width="500" height="300" rx="14" fill="#ECFDF5" stroke="#059669" stroke-width="1.4" filter="url(#c17soft)"/>
+<text x="56" y="258" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="13" font-weight="800" fill="#065F46">ADMIT PATH (artifacts)</text>
+
+  <rect x="56" y="275" width="460" height="48" rx="10" fill="#ECFDF5" stroke="#059669" stroke-width="1.5" filter="url(#c17soft)"/>
+  <rect x="56" y="275" width="32" height="48" rx="10" fill="#059669"/>
+  <rect x="70" y="275" width="18" height="48" fill="#059669"/>
+  <text x="72" y="303.0" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" font-weight="800" fill="#fff">AD</text>
+  <text x="98" y="293" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" font-weight="700" fill="#065F46">Admission</text>
+  <text x="98" y="309" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" fill="#64748B">cosign · digest pin · ModelScan</text>
+
+
+  <rect x="56" y="340" width="220" height="56" rx="10" fill="#FFFFFF" stroke="#059669" stroke-width="1.4" filter="url(#c17soft)"/>
+  <circle cx="72" cy="356" r="10" fill="#059669"/>
+  <text x="72" y="360" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" font-weight="700" fill="#fff">4</text>
+  <text x="88" y="360" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="700" fill="#0F172A">Registry</text>
+  <text x="68" y="380" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" fill="#64748B">signed OCI / snapshots</text>
+
+
+  <rect x="296" y="340" width="220" height="56" rx="10" fill="#FFFFFF" stroke="#059669" stroke-width="1.4" filter="url(#c17soft)"/>
+  <circle cx="312" cy="356" r="10" fill="#059669"/>
+  <text x="312" y="360" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" font-weight="700" fill="#fff">8</text>
+  <text x="328" y="360" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="700" fill="#0F172A">Adapters</text>
+  <text x="308" y="380" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" fill="#64748B">same Path 1 as weights</text>
+
+
+  <rect x="56" y="420" width="460" height="70" rx="10" fill="#FFFFFF" stroke="#059669" stroke-width="1.4" filter="url(#c17soft)"/>
+  <circle cx="72" cy="436" r="10" fill="#059669"/>
+  <text x="72" y="440" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" font-weight="700" fill="#fff">11</text>
+  <text x="88" y="440" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="700" fill="#0F172A">CT / LoRA promote</text>
+  <text x="68" y="460" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" fill="#64748B">scan · sign · admit · Evidence Pack — no side door</text>
+
+<rect x="556" y="230" width="500" height="300" rx="14" fill="#ECFDF5" stroke="#059669" stroke-width="1.4" filter="url(#c17soft)"/>
+<text x="576" y="258" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="13" font-weight="800" fill="#065F46">SERVE PATH (inference)</text>
+
+  <rect x="576" y="275" width="460" height="48" rx="10" fill="#ECFDF5" stroke="#059669" stroke-width="1.5" filter="url(#c17soft)"/>
+  <rect x="576" y="275" width="32" height="48" rx="10" fill="#059669"/>
+  <rect x="590" y="275" width="18" height="48" fill="#059669"/>
+  <text x="592" y="303.0" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" font-weight="800" fill="#fff">KV</text>
+  <text x="618" y="293" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" font-weight="700" fill="#065F46">Tenant KV bind</text>
+  <text x="618" y="309" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" fill="#64748B">key = (tenant, session) · cleanup</text>
+
+
+  <rect x="576" y="340" width="220" height="56" rx="10" fill="#FFFFFF" stroke="#059669" stroke-width="1.4" filter="url(#c17soft)"/>
+  <circle cx="592" cy="356" r="10" fill="#059669"/>
+  <text x="592" y="360" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" font-weight="700" fill="#fff">5</text>
+  <text x="608" y="360" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="700" fill="#0F172A">vLLM / KServe</text>
+  <text x="588" y="380" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" fill="#64748B">NetworkPolicy to engine</text>
+
+
+  <rect x="816" y="340" width="220" height="56" rx="10" fill="#FFFFFF" stroke="#059669" stroke-width="1.4" filter="url(#c17soft)"/>
+  <circle cx="832" cy="356" r="10" fill="#059669"/>
+  <text x="832" y="360" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" font-weight="700" fill="#fff">7</text>
+  <text x="848" y="360" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="700" fill="#0F172A">KV / CAG</text>
+  <text x="828" y="380" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" fill="#64748B">lifecycle: create · purge</text>
+
+
+  <rect x="576" y="420" width="460" height="70" rx="10" fill="#FFFFFF" stroke="#059669" stroke-width="1.4" filter="url(#c17soft)"/>
+  <circle cx="592" cy="436" r="10" fill="#059669"/>
+  <text x="592" y="440" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" font-weight="700" fill="#fff">6</text>
+  <text x="608" y="440" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="700" fill="#0F172A">GPU pool</text>
+  <text x="588" y="460" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" fill="#64748B">MIG or dedicated nodes for sensitive tiers · sanitize pages</text>
+
+<rect x="1076" y="230" width="468" height="180" rx="14" fill="#EFF6FF" stroke="#2563EB" filter="url(#c17soft)"/>
+<text x="1096" y="258" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="800" fill="#2563EB">CLUSTER (Plane C)</text>
+
+  <rect x="1096" y="275" width="428" height="56" rx="10" fill="#FFFFFF" stroke="#2563EB" stroke-width="1.4" filter="url(#c17soft)"/>
+  <circle cx="1112" cy="291" r="10" fill="#2563EB"/>
+  <text x="1112" y="295" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" font-weight="700" fill="#fff">9</text>
+  <text x="1128" y="295" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="700" fill="#0F172A">Serving identity</text>
+  <text x="1108" y="315" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" fill="#64748B">engine key authenticates TO the GPU</text>
+
+
+  <rect x="1096" y="345" width="428" height="48" rx="10" fill="#FFFFFF" stroke="#2563EB" stroke-width="1.4" filter="url(#c17soft)"/>
+  <circle cx="1112" cy="361" r="10" fill="#2563EB"/>
+  <text x="1112" y="365" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" font-weight="700" fill="#fff">10</text>
+  <text x="1128" y="365" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="700" fill="#0F172A">Default-deny + egress allowlist</text>
+  <text x="1108" y="385" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" fill="#64748B">no public :8000</text>
+
+<rect x="1076" y="430" width="468" height="100" rx="14" fill="#FFFBEB" stroke="#D97706" filter="url(#c17soft)"/>
+<text x="1096" y="460" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="800" fill="#92400E">Prefix cache = security setting</text>
+<text x="1096" y="490" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" font-weight="600" fill="#0F172A">OFF or tenant-scoped on sensitive tiers — never global sticky prefix.</text>
+<rect x="36" y="560" width="1508" height="100" rx="12" fill="#FFFFFF" stroke="#047857" stroke-width="1.5"/>
+<text x="56" y="590" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="14" font-weight="800" fill="#047857">Primary enforcement chain</text>
+<text x="56" y="618" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="13" font-weight="600" fill="#0F172A">signed artifact → admit to GPU tier → gateway engine authN → KV key bind → generate → session cleanup</text>
+<text x="56" y="642" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="600" fill="#64748B">A correct engine key does not make Bob's chunks legal in Alice's prompt. Application ACL stays in Plane A (B/D).</text>
+<rect x="36" y="680" width="740" height="260" rx="12" fill="#FFFFFF" stroke="#94A3B8"/>
+<text x="56" y="710" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="14" font-weight="800" fill="#0F172A">Two identities</text>
+<text x="56" y="745" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="600" fill="#0F172A">Engine key / SA: may this caller hit this replica?</text>
+<text x="56" y="775" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="600" fill="#0F172A">App user token: whose data is in the prompt? (not here)</text>
+<text x="56" y="815" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="600" fill="#B91C1C">Anti-pattern: one cluster-wide ServiceAccount</text>
+<text x="56" y="845" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="600" fill="#B91C1C">Anti-pattern: prefix cache ON for multi-tenant GPU</text>
+<text x="56" y="875" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="600" fill="#B91C1C">Anti-pattern: LoRA hot-load from an unsigned blob</text>
+<rect x="800" y="680" width="744" height="260" rx="12" fill="#FFFFFF" stroke="#94A3B8"/>
+<text x="820" y="710" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="14" font-weight="800" fill="#0F172A">Control map</text>
+
+  <rect x="820" y="735" width="340" height="48" rx="10" fill="#ECFDF5" stroke="#059669" stroke-width="1.5" filter="url(#c17soft)"/>
+  <rect x="820" y="735" width="32" height="48" rx="10" fill="#059669"/>
+  <rect x="834" y="735" width="18" height="48" fill="#059669"/>
+  <text x="836" y="763.0" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" font-weight="800" fill="#fff">AD</text>
+  <text x="862" y="753" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" font-weight="700" fill="#065F46">Admit</text>
+  <text x="862" y="769" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" fill="#64748B">cosign · scan · digest</text>
+
+
+  <rect x="1180" y="735" width="340" height="48" rx="10" fill="#ECFDF5" stroke="#059669" stroke-width="1.5" filter="url(#c17soft)"/>
+  <rect x="1180" y="735" width="32" height="48" rx="10" fill="#059669"/>
+  <rect x="1194" y="735" width="18" height="48" fill="#059669"/>
+  <text x="1196" y="763.0" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" font-weight="800" fill="#fff">KV</text>
+  <text x="1222" y="753" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" font-weight="700" fill="#065F46">KV bind</text>
+  <text x="1222" y="769" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" fill="#64748B">tenant · session · purge</text>
+
+
+  <rect x="820" y="805" width="340" height="48" rx="10" fill="#ECFDF5" stroke="#059669" stroke-width="1.5" filter="url(#c17soft)"/>
+  <rect x="820" y="805" width="32" height="48" rx="10" fill="#059669"/>
+  <rect x="834" y="805" width="18" height="48" fill="#059669"/>
+  <text x="836" y="833.0" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" font-weight="800" fill="#fff">G</text>
+  <text x="862" y="823" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" font-weight="700" fill="#065F46">Gateway</text>
+  <text x="862" y="839" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" fill="#64748B">no public engine</text>
+
+
+  <rect x="1180" y="805" width="340" height="48" rx="10" fill="#ECFDF5" stroke="#059669" stroke-width="1.5" filter="url(#c17soft)"/>
+  <rect x="1180" y="805" width="32" height="48" rx="10" fill="#059669"/>
+  <rect x="1194" y="805" width="18" height="48" fill="#059669"/>
+  <text x="1196" y="833.0" text-anchor="middle" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" font-weight="800" fill="#fff">GPU</text>
+  <text x="1222" y="823" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="11" font-weight="700" fill="#065F46">Isolate</text>
+  <text x="1222" y="839" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="10" fill="#64748B">MIG / sanitize / deny egress</text>
+
+<text x="820" y="890" text-anchor="start" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="600" fill="#64748B">YAML stays in Chapter 16 — this card is the composition.</text>
+</svg>

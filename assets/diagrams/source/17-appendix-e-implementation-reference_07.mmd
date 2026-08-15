@@ -1,0 +1,48 @@
+flowchart TB
+    Attacker([Attacker])
+
+    C1["1.IDE host / client<br/>(sees all tool defs)"]
+
+    subgraph UNTRUSTED[Untrusted inputs - no validation]
+        C4a["4a.Codebase index<br/>(vector DB / RAG)"]
+        C4b["4b.Live context<br/>(open files / web / docs)"]
+        C6["6.MCP servers<br/>(local + remote)"]
+        C7["7.Memory / rules"]
+    end
+
+    subgraph MODEL[Model zone]
+        C2["2.LLM brain"]
+        C3["3.Agent orchestrator<br/>(thin passthrough)"]
+    end
+
+    subgraph ACTION[Action zone - broad standing authority]
+        C5["5.Tools: shell / file / git / deploy"]
+        C8["8.Sub-agents"]
+        C9["9.Secrets inline in context"]
+        C10["10.Egress (open)"]
+        C11["11.Cloud runtime (shared)"]
+    end
+
+    C1 --> C3
+    C4a --> C2
+    C4b --> C2
+    C6 --> C3
+    C7 --> C2
+    C2 --> C3
+    C3 --> C5
+    C5 --> C8
+    C9 -. read into context .-> C2
+    C3 -. runs in .-> C11
+    C5 ==> C10
+    C10 ==> Attacker
+
+    Attacker -. "poison repo / web / MCP" .-> C4a
+    Attacker -. tool poisoning .-> C6
+
+    classDef untrusted fill:#fde8e8,stroke:#e02424,color:#000;
+    classDef action fill:#fef3c7,stroke:#d97706,color:#000;
+    classDef attacker fill:#fca5a5,stroke:#b91c1c,color:#000;
+    class C4a,C4b,C6,C7 untrusted;
+    class C5,C8,C9,C10,C11 action;
+    class Attacker attacker;
+    linkStyle 10,11,12,13 stroke:#b91c1c,stroke-width:3px;

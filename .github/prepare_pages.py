@@ -42,7 +42,22 @@ def rewrite_links(text: str) -> str:
         text = text.replace(f"]({old}#", f"]({new}#")
     text = re.sub(
         r"#e13-self-hosted-llm-vllm--kserve-on-kubernetes",
-        "#e13-self-hosted-llm-vllm-kserve-on-kubernetes",
+        "#e13-self-hosted-llm-vllmkserve-on-kubernetes",
+        text,
+    )
+    text = re.sub(
+        r"#e13-self-hosted-llm-vllm-kserve-on-kubernetes",
+        "#e13-self-hosted-llm-vllmkserve-on-kubernetes",
+        text,
+    )
+    text = re.sub(
+        r"#e72-example-b-multi-tenant-rag-saas-upload--per-user-chatbot",
+        "#e72-example-b-multi-tenant-rag-saas-upload-and-per-user-chatbot",
+        text,
+    )
+    text = re.sub(
+        r"#e74-example-d-customer-facing-website-rag-chatbot--background-agents",
+        "#e74-example-d-customer-facing-website-rag-chatbot-and-background-agents",
         text,
     )
     text = re.sub(

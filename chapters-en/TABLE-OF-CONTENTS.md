@@ -334,7 +334,7 @@
 - [E.1 Architecture Cards](17-appendix-e-implementation-reference.md#e1-architecture-cards)
   - [Enterprise RAG](17-appendix-e-implementation-reference.md#e11-enterprise-rag-internal-knowledge-base)
   - [Managed AI API](17-appendix-e-implementation-reference.md#e12-managed-ai-api-azure-openai-amazon-bedrock-google-vertex-ai)
-  - [Self-hosted LLM](17-appendix-e-implementation-reference.md#e13-self-hosted-llm-vllm-kserve-on-kubernetes)
+  - [Self-hosted LLM](17-appendix-e-implementation-reference.md#e13-self-hosted-llm-vllmkserve-on-kubernetes)
   - [Agent with tools](17-appendix-e-implementation-reference.md#e14-agent-with-tools-mcp-apis)
   - [Multi-agent](17-appendix-e-implementation-reference.md#e15-multi-agent-system)
   - [Classic ML](17-appendix-e-implementation-reference.md#e16-classic-ml-tabular-vision-no-llm)
@@ -343,6 +343,11 @@
 - [E.4 Evidence Pack Template](17-appendix-e-implementation-reference.md#e4-evidence-pack-template)
 - [E.5 Operational Playbooks](17-appendix-e-implementation-reference.md#e5-operational-playbooks)
 - [E.6 Master Control Matrix](17-appendix-e-implementation-reference.md#e6-master-control-matrix)
+- [E.7 Secure-by-design worked examples](17-appendix-e-implementation-reference.md#e7-secure-by-design-worked-examples)
+  - [Example A: AI coding assistant (agent, MCP, IDE host)](17-appendix-e-implementation-reference.md#e71-example-a-ai-coding-assistant-agent-mcp-ide-host)
+  - [Example B: Multi-tenant RAG SaaS (upload and per-user chatbot)](17-appendix-e-implementation-reference.md#e72-example-b-multi-tenant-rag-saas-upload-and-per-user-chatbot)
+  - [Example C: Self-hosted model platform (vLLM/KServe on Kubernetes)](17-appendix-e-implementation-reference.md#e73-example-c-self-hosted-model-platform-vllmkserve-on-kubernetes)
+  - [Example D: Customer-facing website (RAG chatbot and background agents)](17-appendix-e-implementation-reference.md#e74-example-d-customer-facing-website-rag-chatbot-and-background-agents)
 - [Practical summary](17-appendix-e-implementation-reference.md#practical-summary)
 
 ---

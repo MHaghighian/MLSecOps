@@ -1,0 +1,54 @@
+flowchart TB
+    C1["1.IDE host / client"]
+
+    subgraph UNTRUSTED[Untrusted inputs]
+        C4a["4a.Codebase index<br/>(vector DB / RAG)"]
+        C4b["4b.Live context<br/>(files / web / docs)"]
+        C6["6.MCP servers"]
+        C7["7.Memory / rules"]
+    end
+
+    subgraph CONTROL[Control plane - trusted, deterministic code]
+        G["G.AI Gateway"]
+        ACL["ACL.Retrieval ACL<br/>+ ingest filter"]
+        M["M.MCP Gateway<br/>+ schema pin / scan"]
+        OG["OG.Output Gate"]
+        IG["IG.Intent Gate<br/>+ Policy / HITL"]
+        CB["CB.Credential Broker"]
+        EA["EA.Egress allowlist<br/>+ kill switch"]
+    end
+
+    subgraph MODEL[Model zone - untrusted principal]
+        C2["2.LLM brain"]
+        C3["3.Agent orchestrator<br/>(Dual-LLM / plan-then-execute)"]
+    end
+
+    subgraph ACTION[Action zone - least privilege]
+        C5["5.Tools (scoped)"]
+        C8["8.Sub-agents (no inherit)"]
+        C10["10.Egress"]
+        C11["11.Cloud runtime (tenant-isolated)"]
+    end
+
+    C9[("9.Secret store")]
+
+    C1 --> G --> C2
+    C4a --> ACL --> OG
+    C4b --> OG
+    C6 --> M --> OG
+    C7 --> OG
+    OG --> C3
+    C2 --> C3
+    C3 --> IG --> C5
+    C5 --> C8
+    C9 --> CB
+    CB -. token out-of-band .-> C5
+    C5 --> EA --> C10
+    C3 -. runs in .-> C11
+
+    classDef untrusted fill:#fde8e8,stroke:#e02424,color:#000;
+    classDef control fill:#def7ec,stroke:#0e9f6e,color:#000;
+    classDef action fill:#e1effe,stroke:#3f83f8,color:#000;
+    class C4a,C4b,C6,C7 untrusted;
+    class G,M,OG,IG,CB,EA,ACL,C9 control;
+    class C5,C8,C10,C11 action;
