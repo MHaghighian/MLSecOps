@@ -506,9 +506,13 @@ This appendix maps key claims in the guide to verifiable references:
 
 ## Mermaid Diagram Guide
 
-Diagrams in `chapters-en/` are **PNG images** (`assets/diagrams/`). Mermaid **source** for regeneration lives in `assets/diagrams/source/*.mmd` (edit there, then re-export PNG for Word/PDF).
+Diagrams in `chapters-en/` ship as **Mermaid source** (editable) plus **PNG** (GitHub / Word / PDF fallback). Canonical Mermaid files also live in `assets/diagrams/source/*.mmd`.
 
-GitHub's built-in Mermaid viewer is unreliable for complex flowcharts (layout errors, old parser); PNG avoids the loading spinner and *Unable to render rich display* errors.
+- **GitHub / MkDocs:** Mermaid fences render when the viewer supports them; PNGs remain under each diagram for reliability.
+- **Appendix E Examples A–D (`_10`–`_21`):** SVG-first diagrams (hand-crafted); PNG only — no Mermaid source.
+- **Regenerate PNGs:** edit `assets/diagrams/source/*.mmd`, then `python scripts/build-docx.py --render-mermaid`.
+
+GitHub's built-in Mermaid viewer can still fail on some complex `flowchart LR` charts; keep the PNG line as the durable display.
 
 ### References / Source mapping
 

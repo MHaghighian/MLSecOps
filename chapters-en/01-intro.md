@@ -282,6 +282,16 @@ This is a design stance, not a single control. The chapters that follow apply it
 
 `AI-BOM` extends `SBOM` for AI-specific artifacts. At minimum it should describe model origin, dataset lineage, training framework, fine-tuning history, dependencies, evaluation results, security tests, and deployment artifacts. Full requirements, tooling, and lifecycle integration are covered in [Chapter 5](05-model-artifact-supply-chain.md).
 
+```mermaid
+flowchart TB
+    DevSecOps["DevSecOps: Code, CI/CD, Infra, Secrets"] --> MLSecOps[MLSecOps]
+    MLSecOps --> Data[Data Security]
+    MLSecOps --> Model[Model and Artifact Security]
+    MLSecOps --> Lifecycle[Lifecycle Security Controls]
+    MLSecOps --> Runtime[AI Runtime Guardrails]
+    MLSecOps --> SOC[Monitoring and SOC]
+```
+
 ![](../assets/diagrams/01-intro_01.png)
 *Figure - How MLSecOps extends the DevSecOps foundation to AI-specific assets and supply-chain evidence such as SBOM and AI-BOM.*
 
@@ -297,6 +307,18 @@ This is a design stance, not a single control. The chapters that follow apply it
 ## Lifecycle Overview
 
 The following lifecycle provides the conceptual foundation for the remainder of this guide.
+
+```mermaid
+flowchart LR
+    A[Data Ingest] --> B["Train / Fine-tune"]
+    B --> C[Evaluate]
+    C --> D[Security Test]
+    D --> E["Sign & Register"]
+    E --> F[Deploy]
+    F --> G[Runtime Monitor]
+    G --> H[SOC / IR]
+    H -.-> A
+```
 
 ![](../assets/diagrams/01-intro_02.png)
 *Figure - The end-to-end MLSecOps lifecycle stages, from data ingest through runtime and SOC, that structure the rest of this guide.*

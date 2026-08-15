@@ -23,6 +23,17 @@ This chapter provides **operational reference patterns** for deploying and harde
 
 ## Reference architecture
 
+```mermaid
+flowchart TB
+    User[Client / Agent] --> GW[AI Gateway namespace]
+    GW --> Inf[ai-inference namespace]
+    Inf --> Reg[Signed model registry]
+    Kyverno[Kyverno admission] -.-> Inf
+    NP[NetworkPolicy default-deny] -.-> Inf
+    SOC[SIEM / runtime monitor] --> Inf
+    GW --> SOC
+```
+
 ![](../assets/diagrams/16-kubernetes-deployment-reference_01.png)
 
 *Figure - Layered reference architecture for ML/LLM inference on Kubernetes, mapping edge, namespace, admission, network, workload, runtime, and supply-chain layers to their security objectives and controls.*

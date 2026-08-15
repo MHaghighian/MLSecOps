@@ -36,7 +36,7 @@ Thank you for helping improve an open **practical reference** for AI security ac
 ### Format
 
 - Markdown only for chapter content  
-- Diagrams: edit `assets/diagrams/source/*.mmd`, export PNG to `assets/diagrams/`; chapters use `![](../assets/diagrams/…png)` (GitHub’s Mermaid viewer is unreliable for complex charts)
+- Diagrams: edit `assets/diagrams/source/*.mmd` (and the matching ` ```mermaid ` fence in the chapter), export PNG to `assets/diagrams/`; chapters keep both Mermaid + `![](../assets/diagrams/…png)` so GitHub/Word stay reliable if Mermaid fails to render
 - Tables for mappings  
 - Tool commands belong in [Ch.12 appendix](chapters-en/12-threat-control-tools-map.md#appendix-informative-tool-command-reference) — optional reading  
 - End major sections with **`### References / Source mapping`** when adding factual controls or threat claims — see [Ch.15 traceability convention](chapters-en/15-conclusion-appendix.md#traceability-and-source-mapping-convention)

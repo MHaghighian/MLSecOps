@@ -31,6 +31,23 @@ Governance means that decisions related to the model, data, risk, and release ar
 
 ### Shadow AI vs sanctioned MLSecOps path
 
+```mermaid
+flowchart LR
+    subgraph shadow [Shadow AI — ungoverned]
+        U1[Personal ChatGPT]
+        U2[Browser extension]
+        U3[Personal API key]
+    end
+    subgraph sanctioned [Sanctioned MLSecOps]
+        GW[Enterprise AI Gateway]
+        GW --> Policy[Policy + DLP]
+        Policy --> LLM[Approved model tenant]
+        GW --> EP[Evidence Pack / audit log]
+    end
+    User[Employee] --> shadow
+    User --> sanctioned
+```
+
 ![](../assets/diagrams/11-governance-evidence_01.png)
 
 *Figure - Data flow contrast between ungoverned shadow AI tools and the sanctioned MLSecOps path with gateway and DLP controls.*
@@ -437,6 +454,17 @@ For organizations with strict audit requirements, an advanced option is to use `
 ## Security validation and assurance
 
 A control without measurement of effectiveness is only a checkbox. The assurance loop must show that gates are actually effective and that deploy decisions are made based on numeric criteria.
+
+```mermaid
+flowchart LR
+    TM[Threat Model] --> CD[Control Design]
+    CD --> TH[Test Harness]
+    TH --> AC[Acceptance Criteria]
+    AC --> Deploy[Deploy]
+    Deploy --> Monitor[Runtime Monitor]
+    Monitor --> Measure[Measure]
+    Measure --> Retest[Regression Retest]
+```
 
 ![](../assets/diagrams/11-governance-evidence_02.png)
 

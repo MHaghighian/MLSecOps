@@ -53,6 +53,19 @@ Before a release, retrain, index change, managed-model configuration change, or 
 - [Threat landscape](03-threat-landscape.md) (Chapter 3)
 - [Release decision model](#release-decision-model)
 
+```mermaid
+flowchart LR
+    A["1 Initiate Change"] --> B["2 Load Artifacts"]
+    B --> C["3 Security and Quality Review"]
+    C --> D["4 Data / Artifact Decision"]
+    D --> E["5 Train or Configure"]
+    E --> F["6 Evaluate"]
+    F --> G["7 Security Validation"]
+    G --> H["8 Release Decision"]
+    H --> I["9 Integrity and Provenance"]
+    I --> J["10 Store and Monitor"]
+```
+
 ![](../assets/diagrams/06-pipeline_01.png)
 *Figure - The MLSecOps lifecycle control model: prerequisite planning and threat modeling feeding the ten control points from change initiation to storage and monitoring.*
 
@@ -150,6 +163,17 @@ Every `CT` cycle repeats the blocking decisions at 4, 7, 8 with integrity/proven
 - [Control points in CT cycle](#control-points-in-ct-cycle)
 - [Release decision model](#release-decision-model)
 - [Continuous monitoring](10-monitoring-soc-ir.md) (Chapter 10)
+
+```mermaid
+flowchart TB
+    Monitor[Runtime Monitoring] --> Drift[Drift or New Data Detected]
+    Drift --> Trigger[Trigger CT Review]
+    Trigger --> Controls[Apply Lifecycle Control Points]
+    Controls --> Canary[Canary or Shadow Deployment]
+    Canary --> Decision{Metrics OK?}
+    Decision -->|Yes| Promote[Promote Signed Model]
+    Decision -->|No| Rollback[Rollback to Previous Signed Model]
+```
 
 ![](../assets/diagrams/06-pipeline_02.png)
 *Figure - The Continuous Training cycle re-running the required lifecycle control points and decision points on each retrain, with no security shortcuts.*

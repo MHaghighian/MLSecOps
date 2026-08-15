@@ -4,6 +4,10 @@ All notable changes to the MLSecOps Guide are documented here.
 
 ## [Unreleased]
 
+### Changed
+
+- **Diagrams** — restore inline Mermaid fences from `assets/diagrams/source/*.mmd` alongside PNG fallbacks (29 diagrams); enable Mermaid rendering on MkDocs Pages. Appendix E `_10`–`_21` remain SVG/PNG-first (no `.mmd`).
+
 ## [1.2.0] — 2026-08-15
 
 ### Changed

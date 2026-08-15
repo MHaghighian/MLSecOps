@@ -38,4 +38,6 @@ python scripts/gen_example_d_svgs.py --png
 python scripts/build-docx.py --render-mermaid
 ```
 
-**Why not ` ```mermaid ` in markdown?** GitHub's Mermaid renderer often fails on long `flowchart LR` chains and special characters, showing a spinner then *Unable to render rich display* even when the PNG below would display correctly.
+**Publishing:** chapters include both a ` ```mermaid ` fence (from these sources) and the PNG under it. MkDocs Pages renders Mermaid via `extra_javascript`; GitHub/Word keep the PNG as fallback.
+
+**Why PNG remains:** GitHub's Mermaid renderer often fails on long `flowchart LR` chains and special characters, showing a spinner then *Unable to render rich display*.

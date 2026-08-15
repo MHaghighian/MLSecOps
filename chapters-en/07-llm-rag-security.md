@@ -99,6 +99,18 @@ Protect augmentation data at control points **4** (ingest decision), **5** (inde
 
 ## Secure architecture for RAG
 
+```mermaid
+flowchart LR
+    User[User Query] --> Gateway[AI Gateway]
+    Gateway --> Policy[Policy and AuthZ]
+    Policy --> Retriever[Retriever]
+    Retriever --> VectorDB[Vector DB]
+    VectorDB --> Context[Filtered Context]
+    Context --> LLM[LLM]
+    LLM --> OutputGate[Output Gate]
+    OutputGate --> User
+```
+
 ![](../assets/diagrams/07-llm-rag-security_01.png)
 
 *Figure - Secure RAG reference architecture showing the ingest boundary, retriever, reranker, and context-assembly layers where source validation, ACL, and prompt separation controls apply.*
@@ -398,6 +410,20 @@ Direct `Prompt Injection` occurs when the user explicitly sends a malicious inst
 
 Sample attack path:
 
+```mermaid
+sequenceDiagram
+    participant A as Attacker
+    participant D as External Document
+    participant R as RAG System
+    participant L as LLM
+    participant U as User
+    A->>D: Inject malicious instruction
+    U->>R: Ask normal question
+    R->>D: Retrieve document
+    R->>L: Send context with hidden instruction
+    L->>U: Produce unsafe or manipulated answer
+```
+
 ![](../assets/diagrams/07-llm-rag-security_02.png)
 
 *Figure - Sample indirect prompt-injection attack path, where a malicious instruction hidden in an external source enters the model context through RAG or a tool rather than the user prompt.*
@@ -618,6 +644,17 @@ Agents and IDEs (Cursor, Claude Desktop, VS Code extensions) connect to tools vi
 > **References:** [OWASP MCP Top 10](https://owasp.org/www-project-mcp-top-10/), [OWASP MCP Security Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/MCP_Security_Cheat_Sheet.html), [AISVS C10 MCP Security](https://github.com/OWASP/AISVS/blob/main/1.0/en/0x10-C10-MCP-Security.md) (planned requirements).
 
 ### Architecture and trust boundaries
+
+```mermaid
+flowchart LR
+    User[User] --> Host[MCP Host / IDE]
+    Host --> Client[MCP Client]
+    Client --> GW[MCP Gateway optional]
+    GW --> S1[MCP Server A]
+    GW --> S2[MCP Server B]
+    S1 --> Tools[Tools / APIs / Data]
+    S2 --> Tools
+```
 
 ![](../assets/diagrams/07-llm-rag-security_03.png)
 
