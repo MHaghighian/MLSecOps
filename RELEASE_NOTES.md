@@ -8,7 +8,7 @@ Official releases: [GitHub Releases](https://github.com/MHaghighian/MLSecOps/rel
 
 **Example C secure-by-design hardening** — Appendix E self-hosted serving platform deepened with researched controls (gateway authZ, prefix-cache trust boundary, fail-closed admit, MIG/MPS/LeftoverLocals accuracy) and regenerated diagrams.
 
-**DOI:** [10.5281/zenodo.21946708](https://doi.org/10.5281/zenodo.21946708) · [record](https://zenodo.org/records/21946708) (concept DOI [10.5281/zenodo.21206780](https://doi.org/10.5281/zenodo.21206780) always resolves to latest)
+**DOI:** [10.5281/zenodo.21946726](https://doi.org/10.5281/zenodo.21946726) · [record](https://zenodo.org/records/21946726) (concept DOI [10.5281/zenodo.21206780](https://doi.org/10.5281/zenodo.21206780) always resolves to latest)
 
 | Format | Link |
 |--------|------|
