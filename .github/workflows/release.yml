@@ -1,4 +1,4 @@
-﻿name: Create Release
+name: Create Release
 
 # Manual workflow — source/docs release + integrity manifest. See RELEASING.md
 on:
@@ -51,7 +51,7 @@ jobs:
         run: python scripts/generate_release_manifest.py -o SHA256SUMS
 
       - name: Install cosign
-        uses: sigstore/cosign-installer@v3.7.0
+        uses: sigstore/cosign-installer@v4.1.2
 
       - name: Sign SHA256SUMS (keyless)
         run: cosign sign-blob --yes --bundle SHA256SUMS.sigstore.json SHA256SUMS
