@@ -1,4 +1,4 @@
-﻿name: Create Release
+name: Create Release
 
 # Manual workflow — source/docs release + integrity manifest. See RELEASING.md
 on:
@@ -57,7 +57,7 @@ jobs:
         run: cosign sign-blob --yes --bundle SHA256SUMS.sigstore.json SHA256SUMS
 
       - name: Create GitHub Release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           tag_name: ${{ inputs.tag }}
           name: MLSecOps Guide ${{ inputs.tag }}
