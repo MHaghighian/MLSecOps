@@ -342,7 +342,7 @@ This guide is a **community reference**, not an OWASP publication. Before extern
 
 ## Traceability and source mapping convention
 
-This guide distinguishes four types of security content. Per-section **`References / Source mapping`** blocks (from v1.1.0) make that distinction explicit for audit, governance, and peer review—addressing community feedback on traceability ([GitHub Issue #1](https://github.com/l4tr0d3ctism/MLSecOps/issues/1)).
+This guide distinguishes four types of security content. Per-section **`References / Source mapping`** blocks (from v1.1.0) make that distinction explicit for audit, governance, and peer review—addressing community feedback on traceability ([GitHub Issue #1](https://github.com/MHaghighian/MLSecOps/issues/1)).
 
 | Type | Meaning | How it appears |
 |---|---|---|

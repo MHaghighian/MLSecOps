@@ -15,8 +15,8 @@ Teams are not short on frameworks. OWASP LLM Top 10, MITRE ATLAS, NIST AI RMF, I
 
 That gap is why I published the **MLSecOps Practical Reference Guide** — an open-source handbook for securing AI systems in real production environments.
 
-**Read the guide:** [l4tr0d3ctism.github.io/MLSecOps](https://l4tr0d3ctism.github.io/MLSecOps/)  
-**Source & downloads:** [github.com/l4tr0d3ctism/MLSecOps](https://github.com/l4tr0d3ctism/MLSecOps)  
+**Read the guide:** [mhaghighian.github.io/MLSecOps](https://mhaghighian.github.io/MLSecOps/)  
+**Source & downloads:** [github.com/MHaghighian/MLSecOps](https://github.com/MHaghighian/MLSecOps)  
 **Cite (DOI):** [10.5281/zenodo.21950241](https://doi.org/10.5281/zenodo.21950241)  
 **License:** CC BY-SA 4.0
 
@@ -122,9 +122,9 @@ You do not need to read all seventeen chapters before doing anything useful.
 | Production rollout | Appendix E → Ch.6 |
 
 The documentation site includes search, table of contents, and chapter navigation:  
-[https://l4tr0d3ctism.github.io/MLSecOps/](https://l4tr0d3ctism.github.io/MLSecOps/)
+[https://mhaghighian.github.io/MLSecOps/](https://mhaghighian.github.io/MLSecOps/)
 
-Downloads (PDF, DOCX, source ZIP) are available on [GitHub Releases v1.1.0](https://github.com/l4tr0d3ctism/MLSecOps/releases/tag/v1.1.0).
+Downloads (PDF, DOCX, source ZIP) are available on [GitHub Releases v1.1.0](https://github.com/MHaghighian/MLSecOps/releases/tag/v1.1.0).
 
 ---
 
@@ -162,15 +162,15 @@ Frameworks give us vocabulary. MLSecOps, in this guide, is an attempt to give te
 
 If you are building or securing AI systems in production, I hope this reference saves you time and sparks better conversations with your team.
 
-**Start reading:** [MLSecOps Practical Reference Guide](https://l4tr0d3ctism.github.io/MLSecOps/)  
-**Repository:** [github.com/l4tr0d3ctism/MLSecOps](https://github.com/l4tr0d3ctism/MLSecOps)  
+**Start reading:** [MLSecOps Practical Reference Guide](https://mhaghighian.github.io/MLSecOps/)  
+**Repository:** [github.com/MHaghighian/MLSecOps](https://github.com/MHaghighian/MLSecOps)  
 **DOI:** [10.5281/zenodo.21950241](https://doi.org/10.5281/zenodo.21950241)
 
 ---
 
 ## Publishing notes (remove before publishing on Medium)
 
-**Canonical link:** Set canonical URL to `https://l4tr0d3ctism.github.io/MLSecOps/` if Medium allows it, or link prominently in the first paragraph (already done).
+**Canonical link:** Set canonical URL to `https://mhaghighian.github.io/MLSecOps/` if Medium allows it, or link prominently in the first paragraph (already done).
 
 **Featured image ideas:** Executive lifecycle diagram from the guide (`01-intro_02.png`) or a simple architecture graphic (gateway → policy → LLM → DLP).
 

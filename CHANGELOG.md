@@ -4,6 +4,10 @@ All notable changes to the MLSecOps Guide are documented here.
 
 ## [Unreleased]
 
+### Changed
+
+- **OpenSSF Best Practices readiness** — canonicalize repo URLs to `MHaghighian/MLSecOps`; strengthen `SECURITY.md` response targets; document docs build checks in `CONTRIBUTING.md`; add Dependabot, PR template, and `docs-check` CI workflow.
+
 ## [1.2.1] — 2026-08-15
 
 ### Changed
@@ -54,7 +58,7 @@ All notable changes to the MLSecOps Guide are documented here.
 
 ### Changed
 
-- Community review merge ([PR #3](https://github.com/l4tr0d3ctism/MLSecOps/pull/3) by [@Ali-Razmjoo](https://github.com/Ali-Razmjoo)): citation fixes (ATLAS/OWASP IDs), scope clarifications, Evidence Pack / maturity wording, Stage 3 naming, Ch.6 worked example, and related chapter edits.
+- Community review merge ([PR #3](https://github.com/MHaghighian/MLSecOps/pull/3) by [@Ali-Razmjoo](https://github.com/Ali-Razmjoo)): citation fixes (ATLAS/OWASP IDs), scope clarifications, Evidence Pack / maturity wording, Stage 3 naming, Ch.6 worked example, and related chapter edits.
 - **Release packaging** — PDF and DOCX are no longer attached to GitHub Releases or linked from the site; generate locally with `scripts/build-docx.py` when needed.
 
 ### Removed
@@ -72,7 +76,7 @@ All notable changes to the MLSecOps Guide are documented here.
 
 - **Per-section traceability (Issue #1)** — `References / Source mapping` blocks on every major `##` section across Chapters 1–17; [traceability convention](chapters-en/15-conclusion-appendix.md#traceability-and-source-mapping-convention) in Ch.15; CONTRIBUTING/GOVERNANCE expectations updated.
 - **OWASP AI Exchange integration** — complementary positioning and per-section source mapping where applicable: Ch.1 Exchange relationship; Ch.2 AI inventory + risk workflow; Ch.5 poisoning taxonomy + model theft paths; Ch.6 three test categories; Ch.7 augmentation data, downstream injection, verification gaps; Ch.12 periodic table cross-ref; `GETTING-STARTED.md` resource selector; Ch.15 Exchange citation.
-- **Ch.1 — Why this guide matters** — explicit reader value proposition, learning outcomes, and practical takeaways ([Issue #2](https://github.com/l4tr0d3ctism/MLSecOps/issues/2)).
+- **Ch.1 — Why this guide matters** — explicit reader value proposition, learning outcomes, and practical takeaways ([Issue #2](https://github.com/MHaghighian/MLSecOps/issues/2)).
 - **Ch.1 — Guide at a glance** — audience, goal, outputs, and scope summary after Abstract.
 
 ### Changed
