@@ -19,6 +19,10 @@ COPY_ROOT_FILES = [
     ("SECURITY.md", "security.md"),
     ("RELEASE_NOTES.md", "release-notes.md"),
     ("GOVERNANCE.md", "governance.md"),
+    ("DCO.md", "dco.md"),
+    ("DESIGN.md", "design.md"),
+    ("RELEASE-INTEGRITY.md", "release-integrity.md"),
+    ("RELEASING.md", "releasing.md"),
 ]
 
 LINK_REWRITES = {
@@ -29,10 +33,20 @@ LINK_REWRITES = {
     "SECURITY.md": "security.md",
     "RELEASE_NOTES.md": "release-notes.md",
     "GOVERNANCE.md": "governance.md",
+    "DCO.md": "dco.md",
+    "DESIGN.md": "design.md",
+    "RELEASE-INTEGRITY.md": "release-integrity.md",
+    "RELEASING.md": "releasing.md",
     "../CHANGELOG.md": "../changelog.md",
     "../GETTING-STARTED.md": "../getting-started.md",
     "../references/AARM-ALIGNMENT.md": "../references/aarm-alignment.md",
     "references/AARM-ALIGNMENT.md": "references/aarm-alignment.md",
+    # Non-doc paths → GitHub (MkDocs --strict cannot resolve repo files)
+    "requirements-pages.txt": "https://github.com/MHaghighian/MLSecOps/blob/main/requirements-pages.txt",
+    "scripts/requirements-docx.txt": "https://github.com/MHaghighian/MLSecOps/blob/main/scripts/requirements-docx.txt",
+    ".github/dependabot.yml": "https://github.com/MHaghighian/MLSecOps/blob/main/.github/dependabot.yml",
+    ".github/workflows/": "https://github.com/MHaghighian/MLSecOps/tree/main/.github/workflows/",
+    "releases/v1.2.1-RELEASE-BODY.md": "https://github.com/MHaghighian/MLSecOps/blob/main/releases/v1.2.1-RELEASE-BODY.md",
 }
 
 
