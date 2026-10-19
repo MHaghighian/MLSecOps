@@ -95,7 +95,7 @@ Traditional DevSecOps does not fully address model artifacts, training data, LLM
 | LLM / RAG / Agent | [Ch.7](chapters-en/07-llm-rag-security.md) → [Ch.8](chapters-en/08-agentic-ai-security.md) |
 | Production rollout | [Appendix E](chapters-en/17-appendix-e-implementation-reference.md) → [Ch.6](chapters-en/06-pipeline.md) |
 
-Project status, roadmap, and governance: [GOVERNANCE.md](GOVERNANCE.md) · [CHANGELOG.md](CHANGELOG.md).
+Project status, roadmap, and governance: [GOVERNANCE.md](GOVERNANCE.md) · [DESIGN.md](DESIGN.md) · [CHANGELOG.md](CHANGELOG.md) · [DCO.md](DCO.md).
 
 ---
 
