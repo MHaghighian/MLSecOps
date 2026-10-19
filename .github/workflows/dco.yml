@@ -1,4 +1,5 @@
 # Require Developer Certificate of Origin (Signed-off-by) on every PR commit.
+# Dependabot / GitHub Actions bot commits are exempt (automated dependency bumps).
 name: DCO
 
 on:
@@ -14,7 +15,7 @@ jobs:
     name: Signed-off-by
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
@@ -22,11 +23,24 @@ jobs:
         env:
           BASE: ${{ github.event.pull_request.base.sha }}
           HEAD: ${{ github.event.pull_request.head.sha }}
+          ACTOR: ${{ github.event.pull_request.user.login }}
         run: |
           set -euo pipefail
+          case "$ACTOR" in
+            dependabot[bot]|dependabot-preview[bot]|github-actions[bot])
+              echo "Skipping DCO for bot PR author: $ACTOR"
+              exit 0
+              ;;
+          esac
           missing=0
           while IFS= read -r sha; do
             body="$(git log -1 --format=%B "$sha")"
+            author="$(git log -1 --format='%an <%ae>' "$sha")"
+            # Skip bot-authored commits inside a human PR
+            if printf '%s\n' "$author" | grep -qiE 'dependabot|github-actions\[bot\]'; then
+              echo "SKIP bot commit $sha ($author)"
+              continue
+            fi
             if ! printf '%s\n' "$body" | grep -qiE '^Signed-off-by: .+ <.+>$'; then
               echo "::error::Missing Signed-off-by on commit $sha"
               git log -1 --oneline "$sha"
