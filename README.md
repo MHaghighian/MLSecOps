@@ -164,7 +164,7 @@ MLSecOps/
 ├── GETTING-STARTED.md    # Role-based reading paths
 ├── CITATION.cff          # Citation metadata (DOI)
 ├── CHANGELOG.md
-└── .github/workflows/    # Pages deploy, releases
+└── .github/workflows/    # Pages deploy, docs CI, releases
 ```
 
 ---

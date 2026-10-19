@@ -4,16 +4,24 @@
 
 If you discover a security issue **in this repository** (exposed credentials, malicious content in a chapter, or a vulnerability in a documentation build script), please **do not** open a public issue with exploit details.
 
-Instead:
+**Preferred reporting channels (in order):**
 
-1. Open a [GitHub Security Advisory](https://github.com/l4tr0d3ctism/MLSecOps/security/advisories/new) (preferred), or  
-2. Contact the maintainer through a private channel with impact and reproduction steps.
+1. [GitHub Private Vulnerability Reporting](https://github.com/MHaghighian/MLSecOps/security/advisories/new) (Security Advisories) — preferred  
+2. Contact the repository owner privately via the email listed on [mhsec.me](https://mhsec.me) or the GitHub profile for [MHaghighian](https://github.com/MHaghighian), with impact and reproduction steps
 
-We will acknowledge reports within a reasonable timeframe and coordinate disclosure.
+### Response targets
+
+| Step | Target |
+|------|--------|
+| Acknowledge receipt | Within **7 days** |
+| Initial assessment / triage | Within **14 days** |
+| Fix or public advisory (when applicable) | Coordinated with reporter; timeline depends on severity |
+
+We follow **coordinated disclosure**. Please give us a reasonable window before public discussion of exploit details.
 
 ## Scope
 
-This policy covers the **MLSecOps Guide repository** — Markdown content, release assets, and any GitHub Actions workflows in this repo.
+This policy covers the **MLSecOps Guide repository** — Markdown content, release assets, documentation build scripts, and GitHub Actions workflows in this repo.
 
 It does **not** cover:
 

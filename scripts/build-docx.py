@@ -41,7 +41,7 @@ DIST = ROOT / "dist"
 TEMPLATE_DIR = SCRIPTS / "templates"
 DEFAULT_TEMPLATE = TEMPLATE_DIR / "reference.docx"
 TEMPLATE_URL = (
-    "https://github.com/l4tr0d3ctism/MLSecOps/releases/download/v1.0.0/"
+    "https://github.com/MHaghighian/MLSecOps/releases/download/v1.0.0/"
     "MLSecOps-Practical-Reference-Guide-v1.0.0.docx"
 )
 IMAGE_WIDTH = "6.3in"

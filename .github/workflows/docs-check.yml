@@ -1,0 +1,36 @@
+name: Docs check
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: docs-check-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  mkdocs:
+    name: MkDocs build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: requirements-pages.txt
+
+      - name: Install MkDocs
+        run: pip install -r requirements-pages.txt
+
+      - name: Prepare docs source
+        run: python .github/prepare_pages.py
+
+      - name: Build site (strict)
+        run: mkdocs build --strict
