@@ -26,8 +26,8 @@ Project maintainers may remove, edit, or reject comments, commits, issues, and o
 
 Instances of abusive, harassing, or otherwise unacceptable behavior may be reported by:
 
-- Opening a **private** security-sensitive report via [GitHub private vulnerability reporting](https://github.com/l4tr0d3ctism/MLSecOps/security/advisories/new) when the concern involves harassment tied to security reports, or
-- Emailing the repository owner (see GitHub profile contact) for CoC matters you do not wish to discuss publicly.
+- Opening a **private** security-sensitive report via [GitHub private vulnerability reporting](https://github.com/MHaghighian/MLSecOps/security/advisories/new) when the concern involves harassment tied to security reports, or
+- Contacting the repository owner via [mhsec.me](https://mhsec.me) or the [MHaghighian](https://github.com/MHaghighian) GitHub profile for CoC matters you do not wish to discuss publicly.
 
 Public issues may be used for general CoC reports when privacy is not required.
 
