@@ -6,7 +6,7 @@ All notable changes to the MLSecOps Guide are documented here.
 
 ### Changed
 
-- **OpenSSF Best Practices readiness** — canonicalize repo URLs to `MHaghighian/MLSecOps`; strengthen `SECURITY.md` response targets; document docs build checks in `CONTRIBUTING.md`; add Dependabot, PR template, and `docs-check` CI workflow.
+- **OpenSSF Best Practices** — earned [baseline-1 badge](https://www.bestpractices.dev/projects/15668); embed badge in README. Earlier readiness work: canonicalize repo URLs to `MHaghighian/MLSecOps`; strengthen `SECURITY.md`; document docs build checks; add Dependabot, PR template, and `docs-check` CI.
 
 ## [1.2.1] — 2026-08-15
 
