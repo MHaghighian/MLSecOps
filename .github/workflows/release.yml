@@ -1,6 +1,6 @@
 ﻿name: Create Release
 
-# Manual workflow — source/docs release (no PDF/DOCX assets). See RELEASING.md
+# Manual workflow — source/docs release + integrity manifest. See RELEASING.md
 on:
   workflow_dispatch:
     inputs:
@@ -11,14 +11,23 @@ on:
 
 permissions:
   contents: write
+  id-token: write
 
 jobs:
   release:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      id-token: write
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          ref: ${{ inputs.tag }}
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
 
       - name: Build release notes
         run: |
@@ -31,11 +40,21 @@ jobs:
             echo "## Downloads"
             echo "- **Documentation:** https://mhaghighian.github.io/MLSecOps/"
             echo "- **Source:** this repository (\`chapters-en/\`)"
+            echo "- **Integrity:** \`SHA256SUMS\` + \`SHA256SUMS.sig\` (see RELEASE-INTEGRITY.md)"
             echo "- **Word (optional):** \`python scripts/build-docx.py --render-mermaid\`"
             echo ""
             echo "## Changelog"
             sed -n '/^## \[/,$p' CHANGELOG.md | head -n 40
           } > release-notes.md
+
+      - name: Generate SHA256SUMS
+        run: python scripts/generate_release_manifest.py -o SHA256SUMS
+
+      - name: Install cosign
+        uses: sigstore/cosign-installer@v3.7.0
+
+      - name: Sign SHA256SUMS (keyless)
+        run: cosign sign-blob --yes --bundle SHA256SUMS.sigstore.json SHA256SUMS
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
@@ -45,3 +64,6 @@ jobs:
           body_path: release-notes.md
           draft: true
           prerelease: ${{ contains(inputs.tag, '-') }}
+          files: |
+            SHA256SUMS
+            SHA256SUMS.sigstore.json

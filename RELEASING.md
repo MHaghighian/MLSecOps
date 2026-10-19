@@ -6,6 +6,27 @@ Checklist for maintainers publishing **v1.2.1** and later versions.
 
 Pre-built PDF/DOCX are **not** uploaded to GitHub Releases. Readers who need Word/PDF run `scripts/build-docx.py` locally.
 
+### Release integrity (required for new official releases)
+
+1. Prefer an annotated **signed** tag when GPG is configured: `git tag -s vX.Y.Z -m "…"`.  
+2. Generate `SHA256SUMS` for the tagged tree:
+
+```bash
+python scripts/generate_release_manifest.py -o SHA256SUMS
+```
+
+3. Sign the manifest (maintainer GPG **or** cosign in the Create Release workflow):
+
+```bash
+gpg --detach-sign -a SHA256SUMS
+# → SHA256SUMS.asc
+```
+
+4. Attach `SHA256SUMS` + signature to the GitHub Release.  
+5. Readers verify per [RELEASE-INTEGRITY.md](RELEASE-INTEGRITY.md).
+
+The **Create Release** workflow generates `SHA256SUMS` and a cosign keyless signature when publishing.
+
 ---
 
 ## v1.2.1 release checklist

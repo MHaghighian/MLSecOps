@@ -23,11 +23,32 @@ Thank you for helping improve an open **practical reference** for AI security ac
 3. Edit Markdown under `chapters-en/` (or project docs at repo root)  
 4. Keep PRs focused — one topic per PR when possible  
 5. Reference chapter and source for factual claims  
-6. Run the local checks below before opening the PR  
+6. Sign off every commit with the DCO (`git commit -s`) — see [DCO.md](DCO.md)  
+7. Run the local checks below before opening the PR  
 
-## Local checks (documentation “tests”)
+## Developer Certificate of Origin
 
-This repository is primarily a Markdown handbook. Continuous checks verify that the documentation site still builds.
+All commits **must** include a `Signed-off-by` line. Details: [DCO.md](DCO.md).
+
+## Dependencies (how we select, obtain, and track them)
+
+This project is documentation-first. Direct language dependencies are minimal and declared in-repo:
+
+| File | Purpose | How obtained | How tracked |
+|------|---------|--------------|-------------|
+| [requirements-pages.txt](requirements-pages.txt) | MkDocs site build (CI + local) | `pip install -r …` | Git + [Dependabot](.github/dependabot.yml) |
+| [scripts/requirements-docx.txt](scripts/requirements-docx.txt) | Optional DOCX export | `pip install -r …` | Git + Dependabot (pip) |
+| GitHub Actions in [`.github/workflows/`](.github/workflows/) | CI/CD | Action marketplace | Dependabot (`github-actions`) |
+
+We prefer pinned or ranged FLOSS packages from PyPI. New dependencies need a short rationale in the PR. We do not vendor unrelated AI security scanner trees into this guide repository.
+
+## Build instructions
+
+**Readers** do not need to build anything: use the [documentation site](https://mhaghighian.github.io/MLSecOps/) or browse `chapters-en/`.
+
+**Maintainers / contributors** (site build):
+
+Requirements: Python 3.12+, pip.
 
 ```bash
 python -m pip install -r requirements-pages.txt
@@ -37,7 +58,7 @@ mkdocs build --strict
 
 GitHub Actions runs the same MkDocs build on pull requests and on `main` (see `.github/workflows/docs-check.yml`).
 
-Optional (Word export):
+Optional (Word export) — also needs [Pandoc](https://pandoc.org/) for `scripts/build-docx.py`:
 
 ```bash
 python -m pip install -r scripts/requirements-docx.txt
