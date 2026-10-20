@@ -6,7 +6,7 @@ All notable changes to the MLSecOps Guide are documented here.
 
 ### Changed
 
-- **OpenSSF Best Practices** — earned [Passing badge](https://www.bestpractices.dev/projects/15668) (Metal series); also holds baseline-2. README embeds the Passing badge. Scorecard intentionally not used (documentation handbook).
+- **OpenSSF Best Practices** — earned [Passing](https://www.bestpractices.dev/projects/15668) (Metal) and [baseline-2](https://www.bestpractices.dev/projects/15668); README embeds both badges separately. Scorecard intentionally not used (documentation handbook).
 
 - **Baseline-2 readiness** — DCO (`DCO.md` + PR check), dependency/build docs in `CONTRIBUTING.md`, member/roles in `GOVERNANCE.md`, `DESIGN.md`, release integrity (`RELEASE-INTEGRITY.md` + manifest script + signed `SHA256SUMS` in Create Release workflow), expanded `SECURITY.md` (CVD public disclosure, secrets, repo security assessment).
 
