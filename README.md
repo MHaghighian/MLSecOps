@@ -8,6 +8,7 @@
 [![Documentation](https://img.shields.io/badge/docs-mhaghighian.github.io%2FMLSecOps-blue)](https://mhaghighian.github.io/MLSecOps/)
 [![License: CC BY-SA 4.0](https://img.shields.io/badge/License-CC%20BY--SA%204.0-green.svg)](LICENSE)
 [![OpenSSF Best Practices](https://www.bestpractices.dev/projects/15668/badge)](https://www.bestpractices.dev/projects/15668)
+[![OpenSSF Baseline](https://www.bestpractices.dev/projects/15668/baseline)](https://www.bestpractices.dev/projects/15668)
 
 **MLSecOps Practical Reference Guide** is an open-source handbook for **AI security**, **machine learning security**, and **secure MLOps** across the full ML lifecycle — from data and training through deployment, runtime monitoring, SOC, and governance.
 
@@ -20,6 +21,7 @@ It covers **LLM security**, **RAG security**, **agentic AI**, **MCP**, **AI supp
 | **Maintainer site** | [mhsec.me](https://mhsec.me) |
 | **Latest release** | [v1.2.1](https://github.com/MHaghighian/MLSecOps/releases/tag/v1.2.1) |
 | **Cite (DOI)** | [10.5281/zenodo.21950241](https://doi.org/10.5281/zenodo.21950241) |
+| **OpenSSF** | [Best Practices Passing](https://www.bestpractices.dev/projects/15668) · [Baseline-2](https://www.bestpractices.dev/projects/15668) |
 
 ---
 

@@ -47,7 +47,7 @@ Most likely / impactful issues for **this docs project** (not reader deployments
 |------|--------|------------|
 | Malicious or misleading content in chapters | Reader harm / reputational | PR review, citations, CI docs build |
 | Compromised GitHub account or Actions secrets | Site defacement, secret leak | Owner-only admin; secrets in Actions only; MFA on GitHub |
-| Supply-chain issue in MkDocs/pip tooling | Bad site build | Pinned requirement ranges; Dependabot; review Dependabot PRs |
+| Supply-chain issue in MkDocs/pip tooling | Bad site build | Pinned/ranged requirements in-repo; review dependency bumps in PRs |
 | Leaked credentials in git history | Unauthorized access | No secrets in repo; rotate if exposed ([GOVERNANCE.md](GOVERNANCE.md)) |
 
 Deeper product threat modeling for AI systems is the subject of the guide itself (e.g. Chapters 2–3, 6–8), not a runtime service in this repository. System actors: [DESIGN.md](DESIGN.md).

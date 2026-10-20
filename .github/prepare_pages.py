@@ -44,7 +44,6 @@ LINK_REWRITES = {
     # Non-doc paths → GitHub (MkDocs --strict cannot resolve repo files)
     "requirements-pages.txt": "https://github.com/MHaghighian/MLSecOps/blob/main/requirements-pages.txt",
     "scripts/requirements-docx.txt": "https://github.com/MHaghighian/MLSecOps/blob/main/scripts/requirements-docx.txt",
-    ".github/dependabot.yml": "https://github.com/MHaghighian/MLSecOps/blob/main/.github/dependabot.yml",
     ".github/workflows/": "https://github.com/MHaghighian/MLSecOps/tree/main/.github/workflows/",
     "releases/v1.2.1-RELEASE-BODY.md": "https://github.com/MHaghighian/MLSecOps/blob/main/releases/v1.2.1-RELEASE-BODY.md",
 }
@@ -105,7 +104,7 @@ def main() -> None:
 
 **v1.2.1** — practical reference for securing AI systems across the ML lifecycle: data, training, deployment, runtime, SOC, and governance.
 
-[GitHub repository](https://github.com/MHaghighian/MLSecOps) · [mhsec.me](https://mhsec.me) · [Getting Started](getting-started.md) · [Zenodo DOI](https://doi.org/10.5281/zenodo.21950241)
+[GitHub repository](https://github.com/MHaghighian/MLSecOps) · [mhsec.me](https://mhsec.me) · [Getting Started](getting-started.md) · [Zenodo DOI](https://doi.org/10.5281/zenodo.21950241) · [OpenSSF Best Practices](https://www.bestpractices.dev/projects/15668)
 
 ## Topics
 
