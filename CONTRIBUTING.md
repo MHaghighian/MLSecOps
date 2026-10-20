@@ -36,9 +36,9 @@ This project is documentation-first. Direct language dependencies are minimal an
 
 | File | Purpose | How obtained | How tracked |
 |------|---------|--------------|-------------|
-| [requirements-pages.txt](requirements-pages.txt) | MkDocs site build (CI + local) | `pip install -r …` | Git + [Dependabot](.github/dependabot.yml) |
-| [scripts/requirements-docx.txt](scripts/requirements-docx.txt) | Optional DOCX export | `pip install -r …` | Git + Dependabot (pip) |
-| GitHub Actions in [`.github/workflows/`](.github/workflows/) | CI/CD | Action marketplace | Dependabot (`github-actions`) |
+| [requirements-pages.txt](requirements-pages.txt) | MkDocs site build (CI + local) | `pip install -r …` | Tracked in git; bump manually in PRs |
+| [scripts/requirements-docx.txt](scripts/requirements-docx.txt) | Optional DOCX export | `pip install -r …` | Tracked in git; bump manually in PRs |
+| GitHub Actions in [`.github/workflows/`](.github/workflows/) | CI/CD | Action marketplace | Pin/bump action versions in workflow PRs |
 
 We prefer pinned or ranged FLOSS packages from PyPI. New dependencies need a short rationale in the PR. We do not vendor unrelated AI security scanner trees into this guide repository.
 
