@@ -44,7 +44,6 @@ LINK_REWRITES = {
     # Non-doc paths → GitHub (MkDocs --strict cannot resolve repo files)
     "requirements-pages.txt": "https://github.com/MHaghighian/MLSecOps/blob/main/requirements-pages.txt",
     "scripts/requirements-docx.txt": "https://github.com/MHaghighian/MLSecOps/blob/main/scripts/requirements-docx.txt",
-    ".github/dependabot.yml": "https://github.com/MHaghighian/MLSecOps/blob/main/.github/dependabot.yml",
     ".github/workflows/": "https://github.com/MHaghighian/MLSecOps/tree/main/.github/workflows/",
     "releases/v1.2.1-RELEASE-BODY.md": "https://github.com/MHaghighian/MLSecOps/blob/main/releases/v1.2.1-RELEASE-BODY.md",
 }
