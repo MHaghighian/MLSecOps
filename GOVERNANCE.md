@@ -28,7 +28,6 @@ No other accounts hold admin or secrets access unless listed here after review. 
 |------|-----|----------------|
 | Repository owner / maintainer | Moslem Haghighian | Merge policy, release tagging, SECURITY contact, Actions secrets, branch/rules settings |
 | Contributors | Community (via PR) | Content fixes and improvements per [CONTRIBUTING.md](CONTRIBUTING.md) and [DCO.md](DCO.md) |
-| Dependabot | GitHub App | Dependency update PRs only |
 | Readers | Public | Consume documentation; no write access |
 
 Actors and system actions: [DESIGN.md](DESIGN.md).

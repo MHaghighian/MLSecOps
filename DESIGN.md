@@ -10,7 +10,6 @@ This repository publishes a **documentation handbook**, not a runtime applicatio
 | **Contributors** | Propose changes via fork + pull request ([CONTRIBUTING.md](CONTRIBUTING.md), [DCO.md](DCO.md)). |
 | **Repository owner / maintainer** | Merge policy, releases, security contact, GitHub admin ([GOVERNANCE.md](GOVERNANCE.md)). |
 | **GitHub Actions** | Automated docs build, Pages deploy, optional release draft ([`.github/workflows/`](.github/workflows/)). |
-| **Dependabot** | Opens PRs for dependency updates (`requirements-pages.txt`, Actions). |
 | **Zenodo** (optional) | DOI deposit on GitHub Release publish. |
 
 ## Actions (happy path)
