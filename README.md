@@ -21,6 +21,7 @@ It covers **LLM security**, **RAG security**, **agentic AI**, **MCP**, **AI supp
 | **Maintainer site** | [mhsec.me](https://mhsec.me) |
 | **Latest release** | [v1.2.1](https://github.com/MHaghighian/MLSecOps/releases/tag/v1.2.1) |
 | **Cite (DOI)** | [10.5281/zenodo.21950241](https://doi.org/10.5281/zenodo.21950241) |
+| **OpenSSF** | [Best Practices Passing](https://www.bestpractices.dev/projects/15668) · [Baseline-2](https://www.bestpractices.dev/projects/15668) |
 
 ---
 
