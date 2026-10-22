@@ -4,13 +4,26 @@ All notable changes to the MLSecOps Guide are documented here.
 
 ## [Unreleased]
 
+## [1.3.0] — 2026-10-22
+
+### Added
+
+- **NIST Cyber AI Profile (IR 8596 iprd)** — CSF 2.0 Community Profile mapping for Secure themes: Ch.11 section, Ch.15 appendix card, Ch.5 AI SBOM/`GV.SC-02` note, Ch.8 AI NHI/least privilege (`PR.AA`), Ch.10 four-way AI traffic classes + IR metadata (dataset/hyperparams), academic CTI (`ID.RA-02`). Explicitly labeled preliminary draft — not a certification claim.
+- **Ch.12 L6** — clarify NeMo Guardrails vs Meta Llama Guard vs Guardrails Hub LlamaGuard7B (archived hub repo).
+
 ### Changed
 
+- **Release decision wording** — normalize across README, Getting Started, Ch.1–2, Ch.6, Appendix E: blocking release decisions at **4, 7, 8** (7 at Level 2+); mandatory integrity checkpoint at **9** before store/deploy (not conflated as a fourth “release decision” of the same type).
+- **SOC / baseline privacy** — co-locate privacy-aware prompt/response handling with MUST telemetry (Ch.6 minimum baseline, Ch.10 SOC prioritization and “only three controls”).
+- **Navigation fixes** — Ch.7 TOC (dedupe MCP; add LLM verification); fix Level 1 and AI Compute Hijacking internal anchors.
+- **Scope clarity** — handbook ≠ bundled CI product (Getting Started + README Implementation Reference note).
 - **Dependencies** — disable Dependabot (remove `.github/dependabot.yml`); track Action/pip bumps manually via maintainer PRs.
-
 - **OpenSSF Best Practices** — earned [Passing](https://www.bestpractices.dev/projects/15668) (Metal) and [baseline-2](https://www.bestpractices.dev/projects/15668); README embeds both badges separately. Scorecard intentionally not used (documentation handbook).
-
 - **Baseline-2 readiness** — DCO (`DCO.md` + PR check), dependency/build docs in `CONTRIBUTING.md`, member/roles in `GOVERNANCE.md`, `DESIGN.md`, release integrity (`RELEASE-INTEGRITY.md` + manifest script + signed `SHA256SUMS` in Create Release workflow), expanded `SECURITY.md` (CVD public disclosure, secrets, repo security assessment).
+
+### Citation
+
+- Cite via concept DOI [10.5281/zenodo.21206780](https://doi.org/10.5281/zenodo.21206780) until a version-specific Zenodo DOI is minted for v1.3.0.
 
 ## [1.2.1] — 2026-08-15
 

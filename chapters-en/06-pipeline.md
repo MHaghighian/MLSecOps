@@ -136,7 +136,7 @@ The model distinguishes between **evidence-producing control points** and **bloc
 
 **Minimum baseline (Level 1):** decision points at **4 and 8** must be explicit and documented; **stage 7 security validation runs on every release** and results are recorded. Stage 7 becomes a **blocking decision** at Level 2+ when acceptance thresholds are defined. Integrity/provenance evidence at **9** is mandatory at all levels, using signatures where the organization controls the artifact and configuration evidence where it consumes a managed AI service.
 
-**Full production baseline (Level 2+):** all three decision points (4, 7, 8) are blocking on every release and CT cycle unless a formal, audited exception exists.
+**Full production baseline (Level 2+):** decision points **4, 7, and 8** are blocking on every release and CT cycle unless a formal, audited exception exists; the integrity/provenance checkpoint at **9** still **blocks store/deploy** when signature, attestation, verification, or managed-service configuration evidence is missing.
 
 ### References / Source mapping
 
@@ -324,7 +324,7 @@ Basic CT cycle controls include validation of new data origin and quality, resca
 | Classic model | `ART` test and numerical `ASR` criterion at security validation |
 | `LLM/RAG` | Automated `Prompt Injection` test and guardrail evaluation |
 | Runtime | Deployment behind `Inference Gateway` |
-| Monitoring | Send prompt, tool call, and model version to `SIEM/SOC` |
+| Monitoring | Send tool call, model version, and (where lawful) prompt/response telemetry to `SIEM/SOC` — with minimization, retention limits, access control, and legal review ([Ch.4](04-data-security-privacy.md#prompt-and-telemetry-logging-vs-privacy-gdpr--ccpa); [Ch.10](10-monitoring-soc-ir.md#data-required-for-telemetry)) |
 | Incident | Automated rollback and stable version snapshot |
 
 ### References / Source mapping
@@ -338,7 +338,7 @@ Basic CT cycle controls include validation of new data origin and quality, resca
 
 **Implementation guidance (this guide)**
 - [Lifecycle control prioritization](#lifecycle-control-prioritization)
-- [Maturity Level 1](14-maturity-roadmap.md#level-1-minimum) (Chapter 14)
+- [Maturity Level 1](14-maturity-roadmap.md#level-1-foundational) (Chapter 14)
 - [Tool mapping](12-threat-control-tools-map.md) (Chapter 12)
 
 **Author practical guidance**

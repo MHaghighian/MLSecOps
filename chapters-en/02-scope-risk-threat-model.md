@@ -36,7 +36,7 @@ For `Edge`, `IoT`, and `CPS` systems, in addition to the controls in this guide,
 
 > **Risk scope:** This guide manages **security risk**. **Safety** (harm to people, property, or the environment) is a first-class AI risk source under ISO/IEC 23894 that this guide **defers** rather than covers - it is not absent because it is unimportant. Assess safety, fairness, and societal/fundamental-rights risk through ISO/IEC 23894 and ISO/IEC 42001 alongside the security controls here.
 
-**Out of scope for v1.2.1:** localized non-English editions; full legal interpretation of sector regulations; hardware TEE/confidential-GPU deployment patterns (see vendor docs); exhaustive Shadow-AI or MCP product catalog. **Shadow AI governance** (Ch.11), **MCP security** (Ch.7), and **Kubernetes deployment reference** (Ch.16) are in scope as operational patterns - not as vendor surveys. Case studies: [Chapter 13](13-case-studies.md).
+**Out of scope for v1.3.0:** localized non-English editions; full legal interpretation of sector regulations; hardware TEE/confidential-GPU deployment patterns (see vendor docs); exhaustive Shadow-AI or MCP product catalog. **Shadow AI governance** (Ch.11), **MCP security** (Ch.7), and **Kubernetes deployment reference** (Ch.16) are in scope as operational patterns - not as vendor surveys. Case studies: [Chapter 13](13-case-studies.md).
 
 Not every topic in this guide is equally mandatory for every team. For example, numerical `Adversarial Robustness` tests are highly important for `Tabular` or `Vision` models, but for a `Pure LLM API` without proprietary data, some of that work has more limited applicability.
 
@@ -193,7 +193,7 @@ Use this operational workflow after the [AI system inventory](#ai-system-invento
 | 2. Identify threats | Map assets to threats (Exchange decision tree, OWASP Top 10, ATLAS) | Threat list per component |
 | 3. Select controls | Choose mandatory controls; map to control points 2–10 | Control matrix in threat model |
 | 4. Estimate risk | Likelihood × impact per threat; note supplier vs customer responsibility | Residual risk register |
-| 5. Define blockers | Set release blockers at points **4, 7, 8, 9** and test thresholds | Versioned threat model |
+| 5. Define blockers | Set **release** blockers at **4, 7, 8** (7 blocking at Level 2+) and mandatory **integrity checkpoint at 9**; define test thresholds | Versioned threat model |
 | 6. Record evidence | Specify `Evidence Pack` fields per control | Template in Appendix E.4 |
 | 7. Monitor | Re-assess on architecture change, CT, index update, or incident | Updated threat model version |
 

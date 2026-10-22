@@ -106,7 +106,7 @@ flowchart TB
 | Model | Artifact scan, adversarial test | `ModelScan`, `ART` |
 | Supply chain | `SBOM` and signing | `Syft`, `CycloneDX`, `Cosign` |
 | Release decisions | Policy-as-code | `OPA`, `Conftest`, internal policy engine |
-| Runtime | Guardrail and gateway | `NeMo Guardrails`, `Llama Guard`, internal gateway |
+| Runtime | Guardrail and gateway | `NeMo Guardrails` (rails engine), `Llama Guard` (moderation model), internal gateway |
 | SOC | Telemetry and detection | `ELK`, `Grafana`, `SIEM` |
 
 ### References / Source mapping
@@ -128,7 +128,7 @@ flowchart TB
 | `L3 — AI Supply Chain` | `SBOM/AI-BOM`, signing, and provenance | 2, 9 | `Syft`, `CycloneDX`, `Cosign`, `Sigstore`, `SLSA` |
 | `L4 — Policy-as-Code` | Release decision and dataset compliance | 4, 8 | `OPA`, `Conftest`, `Kyverno` |
 | `L5 — Registry and Deployment` | Signed model storage, secret, and key | 9, 10 | `Model Registry`, `S3/Nexus`, `Vault/KMS` |
-| `L6 — Runtime and Guardrails` | Prompt filtering, moderation, and AI gateway | Production | Internal gateway, `NeMo Guardrails`, `Llama Guard`, `Lakera Guard`, `Patronus` |
+| `L6 — Runtime and Guardrails` | Prompt filtering, moderation, and AI gateway | Production | Internal gateway, `NeMo Guardrails`, Meta `Llama Guard` (often via NeMo), `Lakera Guard`, `Patronus` |
 | `L7 — Observability and SOC` | Drift, alert, and SIEM | 10 | `ELK`, `Grafana`, `Evidently`, `WhyLabs`, `HiddenLayer`, `Protect AI AIRS` |
 
 ### Additional runtime controls (L6):
@@ -435,7 +435,17 @@ Decision behavior: Any `deny` should block or escalate the release decision. Evi
 
 ### L6 — Runtime Guardrail: NeMo Guardrails
 
-Purpose: Control LLM input/output at runtime (jailbreak detection, topic control, output moderation).
+Purpose: Programmable **runtime** control of LLM apps (input / retrieval / dialog / execution / output rails)—not a CI scanner. Upstream: [NVIDIA-NeMo/Guardrails](https://github.com/NVIDIA-NeMo/Guardrails); docs: [NeMo Guardrails developer guide](https://docs.nvidia.com/nemo/guardrails/latest/about-nemo-guardrails-library/overview).
+
+**Do not confuse these three names:**
+
+| Name | What it is | Role in this guide |
+| --- | --- | --- |
+| `NeMo Guardrails` | Open-source **rails engine** (Colang + `config.yml`, Python SDK / FastAPI server) | Primary L6 pattern for programmable gateway-style rails |
+| Meta `Llama Guard` | **Moderation model** (e.g. LlamaGuard-7B / later Llama Guard versions) | Content policy classifier; typically wired as a NeMo input/output rail |
+| Guardrails Hub `LlamaGuard7B` | Hub **validator** wrapper ([guardrails-ai/llamaguard-7b](https://github.com/guardrails-ai/llamaguard-7b); repo archived—use Hub monorepo / `guardrails-ai-llamaguard-7b`) | Optional L0 string validate in app code; remote-inference Hub dependency—not a substitute for NeMo rails or Intent Gate |
+
+NeMo already ships a built-in **`llama guard check input` / `llama guard check output`** surface that calls a `type: llama_guard` model ([Llama-Guard integration](https://docs.nvidia.com/nemo/guardrails/configure-guardrails/guardrail-catalog/third-party/llama-guard)). Prefer that path over a separate Hub-only install when you already run NeMo.
 
 ```bash
 pip install nemoguardrails
@@ -443,20 +453,31 @@ pip install nemoguardrails
 ```
 
 ```yaml
-# config/rails.yaml
+# config.yml (illustrative — pin models/endpoints in your environment)
+models:
+  - type: main
+    engine: openai
+    model: gpt-4o-mini
+  - type: llama_guard
+    engine: openai
+    model: meta-llama/LlamaGuard-7b
+    parameters:
+      base_url: "http://llamaguard:8000/v1"
+      api_key: EMPTY
+
 rails:
   input:
     flows:
-      - check jailbreak
-      - check sensitive data
+      - llama guard check input
+      - jailbreak detection heuristics
   output:
     flows:
+      - llama guard check output
       - self check output
-      - mask pii
 
 ```
 
-Runtime behavior: This control runs in production, not in build; but its block/allow telemetry must go to `SIEM` (Chapter 10). Alternative tools: `Lakera Guard`, `Llama Guard`, internal gateway.
+Runtime behavior: Rails run in **production / staging**, not as a build-time CP7 substitute. Block/allow and policy-violation telemetry must go to `SIEM` (Chapter 10). Red-team CP7 tools (`Garak`, `Promptfoo`, `DeepTeam`) should target the **guardrailed** staging endpoint—not the raw model behind the rails. Alternatives / complements: internal gateway, `Lakera Guard`, Patronus; Hub validators only as supporting L0 checks ([Guardrail limitations](07-llm-rag-security.md#guardrail-limitations)).
 
 ### L2 — MLOps Infrastructure and Agent Testing
 
@@ -505,7 +526,7 @@ Decision behavior: If membership inference success rate exceeds the threat model
 | `mcps-audit` *(Emerging)* | 3 Scan (MCP repos) | `mcps-audit ./mcp-server --json` | Critical MCP findings (capability: static scan report) |
 | `mcp-scan` (Snyk Agent Scan) *(Mature)* | Workstation / SOC hygiene | `uvx snyk-agent-scan@latest --json` | Shadow MCP / tool poisoning (not CI gate) |
 | `MCP-Shield` *(Emerging)* | Workstation / SOC hygiene | per tool docs | Tool poisoning / exfil channel |
-| `NeMo Guardrails` | Runtime | config rails | N/A (runtime; block metrics to SIEM) |
+| `NeMo Guardrails` (+ `Llama Guard` rail) | Runtime (CP10) | `config.yml` rails / `nemoguardrails` server | N/A as CI gate; block/allow + policy metrics → SIEM |
 
 ### References / Source mapping
 

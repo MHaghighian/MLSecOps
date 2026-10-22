@@ -1,6 +1,6 @@
 # Chapter 1: Abstract and Introduction
 
-> **Guide type:** *MLSecOps Practical Reference Guide* **v1.2.1** — a community reference with operational patterns and an **Implementation Reference** ([Appendix E](17-appendix-e-implementation-reference.md)). This is **not** a product user manual, a certified standard, or an academic paper.
+> **Guide type:** *MLSecOps Practical Reference Guide* **v1.3.0** — a community reference with operational patterns and an **Implementation Reference** ([Appendix E](17-appendix-e-implementation-reference.md)). This is **not** a product user manual, a certified standard, or an academic paper.
 
 ## Abstract
 
@@ -101,7 +101,7 @@ This guide **synthesizes** published frameworks; it does not replace them. Its o
 | # | Contribution | Where to read |
 |---|---|---|
 | 1 | **Ten lifecycle control points** spanning data, model, RAG, agent, and runtime—not only a threat taxonomy | [Chapter 6](06-pipeline.md) |
-| 2 | **Separation of evidence-producing steps from blocking release decisions** (control points 4, 7, 8 vs integrity at 9) | [Chapter 6 — Release decision model](06-pipeline.md#release-decision-model) |
+| 2 | **Separation of evidence-producing steps from blocking release decisions** (gates **4, 7, 8**; stage 7 blocking at Level 2+) **and** mandatory integrity/provenance checkpoint at **9** | [Chapter 6 — Release decision model](06-pipeline.md#release-decision-model) |
 | 3 | **`Evidence Pack` as the auditable output per release**—one bundle tying data, tests, policy, and runtime evidence | [Chapter 11](11-governance-evidence.md#what-is-an-evidence-pack) |
 | 4 | **Unified thread** from threat modeling through runtime, SOC, and governance in one lifecycle—not siloed LLM, agent, or MLOps docs | Ch.2 → 6 → 7/8 → 10 → 11; [Appendix E](17-appendix-e-implementation-reference.md) |
 
@@ -381,7 +381,7 @@ The [OWASP AI Exchange](https://owaspai.org) is the OWASP Flagship resource for 
 | How do I test prompt injection or adversarial robustness in depth? | AI security testing procedures and tool reviews | Control point 7 acceptance criteria + tool examples in Ch.12 |
 | How do I run an AI program or full privacy/GDPR program? | GUARD steps, AI privacy chapter | Shadow AI ops (Ch.11); operational data controls (Ch.4) |
 | How do I implement MLSecOps in CI/CD and production? | General control descriptions | Ten lifecycle control points, release gates, `Evidence Pack`, Appendix E |
-| Where is my evidence and who blocks release? | Control rationale | Control points 4, 7, 8, 9 and auditable bundle (Ch.11) |
+| Where is my evidence and who blocks release? | Control rationale | Release gates **4, 7, 8** + integrity checkpoint **9**; auditable Evidence Pack (Ch.6, Ch.11) |
 
 **Practical division of labor:** start threat and control selection in the Exchange (or its [risk analysis](https://owaspai.org/go/riskanalysis/) section), then implement and evidence the chosen controls using this guide's lifecycle model. Per-section **References / Source mapping** blocks cite Exchange topics alongside guide sections as traceability rolls out across chapters.
 

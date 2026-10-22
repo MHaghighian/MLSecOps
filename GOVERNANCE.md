@@ -36,7 +36,7 @@ Actors and system actions: [DESIGN.md](DESIGN.md).
 
 - **Major (x.0):** First stable release or structural revision (e.g. v1.0.0 lifecycle model frozen).
 - **Minor (0.x):** Content updates, mapping fixes, Appendix E improvements.
-- **Current release:** v1.2.1 — Markdown source and documentation site; optional DOCX via `scripts/build-docx.py`.
+- **Current release:** v1.3.0 — Markdown source and documentation site; optional DOCX via `scripts/build-docx.py`.
 
 Document versions in [README.md](README.md), [CHANGELOG.md](CHANGELOG.md), and [RELEASE_NOTES.md](RELEASE_NOTES.md). Release process: [RELEASING.md](RELEASING.md). Integrity: [RELEASE-INTEGRITY.md](RELEASE-INTEGRITY.md).
 

@@ -4,15 +4,27 @@ Source archives and documentation for the MLSecOps Practical Reference Guide.
 
 From **v1.1.1** onward, pre-built PDF/DOCX are **not** attached to GitHub Releases. Generate Word locally with `python scripts/build-docx.py --render-mermaid` (see [README](../README.md#build-docx-yourself)).
 
-## v1.2.1 (current)
+## v1.3.0 (current)
+
+| Item | Location |
+|------|----------|
+| Source (ZIP) | [v1.3.0 archive](https://github.com/MHaghighian/MLSecOps/archive/refs/tags/v1.3.0.zip) |
+| Markdown | `chapters-en/` in the repository root |
+| Site | https://mhaghighian.github.io/MLSecOps/ |
+| Maintainer | https://mhsec.me |
+| Zenodo DOI | [10.5281/zenodo.21206780](https://doi.org/10.5281/zenodo.21206780) (concept; version DOI after deposit) |
+
+**Release:** https://github.com/MHaghighian/MLSecOps/releases/tag/v1.3.0
+
+---
+
+## v1.2.1
 
 | Item | Location |
 |------|----------|
 | Source (ZIP) | [v1.2.1 archive](https://github.com/MHaghighian/MLSecOps/archive/refs/tags/v1.2.1.zip) |
-| Markdown | `chapters-en/` in the repository root |
 | Site | https://mhaghighian.github.io/MLSecOps/ |
-| Maintainer | https://mhsec.me |
-| Zenodo DOI | [10.5281/zenodo.21950241](https://doi.org/10.5281/zenodo.21950241)  |
+| Zenodo DOI | [10.5281/zenodo.21950241](https://doi.org/10.5281/zenodo.21950241) |
 
 **Release:** https://github.com/MHaghighian/MLSecOps/releases/tag/v1.2.1
 

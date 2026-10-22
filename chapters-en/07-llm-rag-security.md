@@ -52,7 +52,7 @@ LLM security is not solved by installing a single tool. A set of capabilities mu
 
 | Control | Description |
 |---|---|
-| Runtime guidance and prompt filtering | Tools such as `NeMo Guardrails`, `Lakera Guard`, or an internal gateway inspect incoming prompts before they are sent to the model (**L0** — not sufficient alone for tool-using agents). |
+| Runtime guidance and prompt filtering | Tools such as `NeMo Guardrails` (optionally with Meta `Llama Guard` as an input/output rail), `Lakera Guard`, or an internal gateway inspect prompts/outputs (**L0** — not sufficient alone for tool-using agents). See [Chapter 12 L6](12-threat-control-tools-map.md#l6--runtime-guardrail-nemo-guardrails). |
 | Design-level injection defenses | Instruction hierarchy, spotlighting for untrusted documents, Dual-LLM / plan-then-execute / map-reduce, and (for high-stakes) capability or IFC policies — [from filters to architecture](#prompt-injection-defenses-from-filters-to-architecture) |
 | `Pre-Inference Scanning` | Inputs are scanned for malicious patterns, bypass attempts, or sensitive data. |
 | Output management and risk scoring | Model output is checked for information leakage and, when needed, blocked, redacted, or reviewed. |
