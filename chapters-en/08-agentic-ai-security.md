@@ -552,7 +552,7 @@ Align agent changes with the [MLSecOps lifecycle control model](06-pipeline.md).
 
 **Implementation guidance (this guide)**
 - [Lifecycle control points](06-pipeline.md#lifecycle-control-points) (Chapter 6)
-- [Stage 7 test acceptance](06-pipeline.md#stage-7-test-acceptance-conditions) (Chapter 6)
+- [Control point 7 test acceptance](06-pipeline.md#control-point-7-test-acceptance-conditions) (Chapter 6)
 
 ## Runtime controls for Agent
 

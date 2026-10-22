@@ -14,6 +14,8 @@
 
 It covers **LLM security**, **RAG security**, **agentic AI**, **MCP**, **AI supply chain security**, and **DevSecOps** patterns for production AI systems. Use it as a practitioner reference — not a product manual or an official OWASP, NIST, or ISO standard.
 
+**New here?** Start with [Getting started](GETTING-STARTED.md) (terms + role paths). Do not jump straight into the middle of Chapters 7 or 12.
+
 | | |
 |---|---|
 | **Read online (recommended)** | [mhaghighian.github.io/MLSecOps](https://mhaghighian.github.io/MLSecOps/) |
@@ -36,7 +38,7 @@ Security engineers, ML/MLOps teams, architects, and risk owners who need a **pra
 This guide **synthesizes** OWASP, MITRE ATLAS, NIST AI RMF, ISO/IEC 42001, OpenSSF Secure MLOps, and CSA MAESTRO. Its operational additions are:
 
 1. **Ten lifecycle control points** — one thread from change initiation through monitoring  
-2. **Explicit release decisions** — blocking gates at control points **4, 7, 8** (stage 7 blocking at Level 2+) and a mandatory **integrity/provenance checkpoint at 9** before store/deploy  
+2. **Blocking release decisions** at control points **4, 7, 8** (CP 7 blocking at Level 2+) — separately, a mandatory **integrity/provenance checkpoint at CP 9** that blocks store/deploy (not a fourth policy release gate)  
 3. **`Evidence Pack`** — auditable output bundle per release  
 4. **[Implementation Reference](chapters-en/17-appendix-e-implementation-reference.md)** — architecture cards, decision matrix, templates, playbooks (patterns and checklists — **not** a bundled CI/CD product)
 
@@ -51,7 +53,7 @@ Learn more: [Chapter 1 — What this guide adds](chapters-en/01-intro.md#what-th
 | **MLSecOps & threat modeling** | Scope, risk, autonomous AI threats |
 | **Data security & privacy** | Training data, PII, augmentation confidentiality |
 | **AI / ML supply chain** | Model artifacts, provenance, signing |
-| **Secure ML pipeline** | Ten control points, CI/CD gates, Evidence Pack |
+| **Secure ML lifecycle** | Ten control points, release decisions you may implement in CI/CD, Evidence Pack |
 | **LLM security & RAG** | Gateway, guardrails, prompt injection, retrieval ACL |
 | **Agentic AI & MCP** | Tool policy, Intent Gate, scoped execution |
 | **Runtime & SOC** | Monitoring, detection, incident response |

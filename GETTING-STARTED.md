@@ -3,6 +3,36 @@
 Quick entry points for the **MLSecOps Practical Reference Guide**.  
 Full section list: [TABLE-OF-CONTENTS.md](chapters-en/TABLE-OF-CONTENTS.md).
 
+> **Start here before diving into chapters.** This repository is a **handbook of control intent**, not a shipped CI/CD product and not a certified standard. Tables and tool names are examples you adapt to your platform.
+
+---
+
+## Terms in 60 seconds
+
+| Term | Means | Does **not** mean |
+|------|--------|-------------------|
+| **Control point (CP) 1–10** | Where evidence or a decision happens in the lifecycle ([Ch.6](chapters-en/06-pipeline.md)) | A mandatory Jenkins/GitHub Actions job |
+| **Release decisions** | **CP 4, 7, 8** — policy go/no-go | Signing / config snapshot |
+| **Integrity checkpoint** | **CP 9** — blocks **store/deploy** if signature/attest/verify (or managed config evidence) is missing | A fourth “policy release gate” of the same type as 4/7/8 |
+| **Maturity Level 1 / 2 / 3** | How strong the program is ([Ch.14](chapters-en/14-maturity-roadmap.md)) | ISO/EU certification |
+| **Evidence Pack** | Auditable bundle per release ([Ch.11](chapters-en/11-governance-evidence.md#what-is-an-evidence-pack)) | A product you download from this repo |
+| **`Baseline` (metrics)** | Signed reference model/metric for regression | The “minimum security baseline” MUST set (different idea) |
+
+Canonical decision card: [Release decision model](chapters-en/06-pipeline.md#release-decision-model).
+
+---
+
+## Which framework first?
+
+| You need… | Read first |
+|-----------|------------|
+| Threat/control taxonomy | [OWASP AI Exchange](https://owaspai.org) |
+| When to block release + what evidence to keep | **This guide** ([Ch.6](chapters-en/06-pipeline.md), [Appendix E](chapters-en/17-appendix-e-implementation-reference.md)) |
+| Org AI risk program / CSF language | NIST AI RMF; optional gap lens: NIST IR 8596 (**iprd draft — not certification**) |
+| Tool examples (do **not** install everything) | [Ch.12](chapters-en/12-threat-control-tools-map.md) — pick by maturity label |
+
+Relationship detail: [Chapter 1 — Relationship to OWASP AI Exchange](chapters-en/01-intro.md#relationship-to-owasp-ai-exchange).
+
 ---
 
 ## Quick Start (5 Minutes)
@@ -10,7 +40,7 @@ Full section list: [TABLE-OF-CONTENTS.md](chapters-en/TABLE-OF-CONTENTS.md).
 1. Read [Why this guide matters](chapters-en/01-intro.md#why-this-guide-matters) (Chapter 1)
 2. Skim [What this guide adds](chapters-en/01-intro.md#what-this-guide-adds-beyond-owasp-openssf-and-nist) (Chapter 1)  
 3. Skim [Attack surface matrix](chapters-en/02-scope-risk-threat-model.md#attack-surface-matrix) (Chapter 2)  
-4. Review [Lifecycle control points](chapters-en/06-pipeline.md#lifecycle-control-points) (Chapter 6)  
+4. Review [Lifecycle control points](chapters-en/06-pipeline.md#lifecycle-control-points) + [Release decision model](chapters-en/06-pipeline.md#release-decision-model) (Chapter 6)  
 5. Open [Primary Mapping](chapters-en/12-threat-control-tools-map.md#primary-mapping) (Chapter 12)  
 
 ---
@@ -22,23 +52,23 @@ Recommended reading order for a first pass:
 1. [Chapter 1 — Introduction](chapters-en/01-intro.md)
 2. [Chapter 2 — Scope and threat model](chapters-en/02-scope-risk-threat-model.md)
 3. [Chapter 3 — Threat landscape](chapters-en/03-threat-landscape.md)
-4. [Chapter 6 — Lifecycle pipeline](chapters-en/06-pipeline.md)
+4. [Chapter 6 — Lifecycle control model](chapters-en/06-pipeline.md)
 5. [Chapter 7 — LLM and RAG security](chapters-en/07-llm-rag-security.md)
 6. [Chapter 12 — Threat, control, and tool mapping](chapters-en/12-threat-control-tools-map.md)
 
-Then branch by role or goal using the tables below.
+Then branch by role using the paths below (avoid jumping straight into the middle of Ch.7/12).
 
 ---
 
-## When to use this guide vs. OWASP AI Exchange
+## Reader paths by role (5 links each)
 
-| You need… | Start here |
-|-----------|------------|
-| Threat/control taxonomy for any AI type, risk-analysis decision tree, deep testing methodology | [OWASP AI Exchange](https://owaspai.org) |
-| Lifecycle control points, release gates, `Evidence Pack`, K8s/MCP ops patterns | **This guide** ([Chapter 6](chapters-en/06-pipeline.md), [Appendix E](chapters-en/17-appendix-e-implementation-reference.md)) |
-| Both | Exchange for *what* threats/controls apply → this guide for *when* to implement and *what evidence* to keep |
-
-Relationship detail: [Chapter 1 — Relationship to OWASP AI Exchange](chapters-en/01-intro.md#relationship-to-owasp-ai-exchange).
+| Role | Path |
+|------|------|
+| **Architect** | [Ch.2 attack surface](chapters-en/02-scope-risk-threat-model.md#attack-surface-matrix) → [Ch.6 release decisions](chapters-en/06-pipeline.md#release-decision-model) → [Appendix E.1 cards](chapters-en/17-appendix-e-implementation-reference.md#e1-architecture-cards) → [E.2 matrix](chapters-en/17-appendix-e-implementation-reference.md#e2-decision-matrix) → [Ch.12 primary map](chapters-en/12-threat-control-tools-map.md#primary-mapping) |
+| **AppSec / AI Security** | [Ch.3 threats](chapters-en/03-threat-landscape.md) → [Ch.6 CP7 acceptance](chapters-en/06-pipeline.md#control-point-7-test-acceptance-conditions) → [Ch.7 LLM/RAG](chapters-en/07-llm-rag-security.md) → [Ch.10 SOC](chapters-en/10-monitoring-soc-ir.md) → [Ch.12 tools](chapters-en/12-threat-control-tools-map.md) |
+| **ML / MLOps** | [Ch.6 control points](chapters-en/06-pipeline.md#lifecycle-control-points) → [Ch.5 supply chain](chapters-en/05-model-artifact-supply-chain.md) → [Ch.4 data/privacy](chapters-en/04-data-security-privacy.md) → [Ch.9 anti-patterns](chapters-en/09-anti-patterns.md) → [E.4 Evidence Pack](chapters-en/17-appendix-e-implementation-reference.md#e4-evidence-pack-template) |
+| **Platform / SRE** | [Ch.16 K8s](chapters-en/16-kubernetes-deployment-reference.md) → [Ch.6](chapters-en/06-pipeline.md) → [Ch.10](chapters-en/10-monitoring-soc-ir.md) → [E.7.3 self-hosted](chapters-en/17-appendix-e-implementation-reference.md#e73-example-c-self-hosted-model-platform-vllmkserve-on-kubernetes) → [Ch.5 signing](chapters-en/05-model-artifact-supply-chain.md#provenance-and-signing) |
+| **GRC / Compliance** | [Ch.11 Evidence Pack](chapters-en/11-governance-evidence.md#what-is-an-evidence-pack) → [Ch.14 maturity](chapters-en/14-maturity-roadmap.md) → [Ch.15 glossary](chapters-en/15-conclusion-appendix.md#short-glossary) → [Cyber AI Profile map](chapters-en/15-conclusion-appendix.md#appendix-cyber-ai-profile-mapping-nist-ir-8596) → [Appendix D managed AI](chapters-en/15-conclusion-appendix.md#appendix-d-managed-ai-services-security-reference) |
 
 ---
 
@@ -59,30 +89,19 @@ Relationship detail: [Chapter 1 — Relationship to OWASP AI Exchange](chapters-
 
 ---
 
-## By role
+## Minimum security baselines (do not mix Levels)
 
-| Role | Recommended path |
-|------|------------------|
-| Application / Security Architect | Ch. 2 → 6 → Appendix E → 12 |
-| AppSec / AI Security Engineer | Ch. 3 → 6 → 7 → 10 → 12 |
-| ML / MLOps Engineer | Ch. 6 → 5 → 4 → 9 |
-| Platform / SRE | Ch. 16 → 6 → 10 |
-| GRC / Compliance | Ch. 11 → 15 → Appendix D |
+From [Release decision model](chapters-en/06-pipeline.md#release-decision-model):
 
----
-
-## Minimum Production Security Baseline
-
-From Chapter 6 and Appendix E ([Release decision model](chapters-en/06-pipeline.md#release-decision-model)):
-
-1. Threat model with **blocking release decisions** at control points **4, 7, and 8** (stage **7** is recorded at Level 1 and **blocking** at Level 2+) plus a mandatory **integrity/provenance checkpoint at 9** before store/deploy  
-2. **Evidence Pack** per release (template in [Appendix E.4](chapters-en/17-appendix-e-implementation-reference.md#e4-evidence-pack-template))  
-3. Runtime telemetry to SOC with privacy-aware prompt/response handling (Chapters 10 and 4)  
-4. Architecture card matching your stack ([Appendix E.1](chapters-en/17-appendix-e-implementation-reference.md#e1-architecture-cards))  
+1. **Level 1 (foundational):** Documented decisions at **CP 4 and 8**; **CP 7** runs every release and is **recorded** (not yet required to block); **CP 9** integrity evidence is **mandatory** (signature **or** managed-API config snapshot).  
+2. **Level 2+ / production:** **CP 4, 7, and 8** are **blocking** on every release/CT cycle (unless a formal audited exception); **CP 9** still **blocks store/deploy** when integrity evidence is missing.  
+3. **Evidence Pack** per release (template + filled sample: [Appendix E.4](chapters-en/17-appendix-e-implementation-reference.md#e4-evidence-pack-template)).  
+4. Runtime telemetry to SOC with privacy-aware prompt/response handling (Chapters 10 and 4).  
+5. Architecture card matching your stack ([Appendix E.1](chapters-en/17-appendix-e-implementation-reference.md#e1-architecture-cards)).  
 
 Maturity detail: [Chapter 14](chapters-en/14-maturity-roadmap.md).
 
-> **Pipelines:** This repository is a **handbook**, not a CI product. Sample Jenkins/control-plane labs (if any) live outside the published guide tree—use Chapters 6 and 12 for control intent, not as drop-in workflows.
+> **Pipelines:** Sample Jenkins/control-plane labs (if any) live outside the published guide tree—use Chapters 6 and 12 for control intent, not as drop-in workflows.
 
 ---
 

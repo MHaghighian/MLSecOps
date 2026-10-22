@@ -106,7 +106,7 @@
 - [Common implementation challenges](06-pipeline.md#common-implementation-challenges)
 - [Minimum security baseline](06-pipeline.md#minimum-security-baseline)
 - [Lifecycle control prioritization](06-pipeline.md#lifecycle-control-prioritization)
-- [Stage 7 test acceptance conditions](06-pipeline.md#stage-7-test-acceptance-conditions)
+- [Control point 7 test acceptance conditions](06-pipeline.md#control-point-7-test-acceptance-conditions)
 - [Three categories of security testing](06-pipeline.md#three-categories-of-security-testing)
 - [Red Team program and security test cadence](06-pipeline.md#red-team-program-and-security-test-cadence)
 - [Implementation note](06-pipeline.md#implementation-note)

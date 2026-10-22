@@ -101,7 +101,7 @@ This guide **synthesizes** published frameworks; it does not replace them. Its o
 | # | Contribution | Where to read |
 |---|---|---|
 | 1 | **Ten lifecycle control points** spanning data, model, RAG, agent, and runtime—not only a threat taxonomy | [Chapter 6](06-pipeline.md) |
-| 2 | **Separation of evidence-producing steps from blocking release decisions** (gates **4, 7, 8**; stage 7 blocking at Level 2+) **and** mandatory integrity/provenance checkpoint at **9** | [Chapter 6 — Release decision model](06-pipeline.md#release-decision-model) |
+| 2 | **Blocking release decisions** at **CP 4, 7, 8** (CP 7 blocking at Level 2+), **separate from** the mandatory **integrity/provenance checkpoint at CP 9** (blocks store/deploy) | [Chapter 6 — Release decision model](06-pipeline.md#release-decision-model) |
 | 3 | **`Evidence Pack` as the auditable output per release**—one bundle tying data, tests, policy, and runtime evidence | [Chapter 11](11-governance-evidence.md#what-is-an-evidence-pack) |
 | 4 | **Unified thread** from threat modeling through runtime, SOC, and governance in one lifecycle—not siloed LLM, agent, or MLOps docs | Ch.2 → 6 → 7/8 → 10 → 11; [Appendix E](17-appendix-e-implementation-reference.md) |
 
@@ -217,7 +217,7 @@ These principles define how security decisions are made across the AI lifecycle:
 | # | Principle | Summary |
 |---|---|---|
 | 1 | **Evidence before deployment** | No AI artifact enters production without traceable security evidence. |
-| 2 | **Explicit release decisions** | Train, evaluate, sign, and deploy only after defined risk-based decision criteria pass. |
+| 2 | **Explicit release decisions** | Train and evaluate only after risk-based **release decisions** (CP 4 / 7 / 8) pass; **then** complete the **integrity checkpoint** (CP 9: sign/verify or managed config evidence) before store/deploy. |
 | 3 | **Continuous runtime validation** | Production behavior is monitored; drift, injection, and tool abuse are detected and responded to. |
 | 4 | **Traceable AI supply chain** | `SBOM`, `AI-BOM`, signing, and provenance record model origin, data lineage, and test history. |
 | 5 | **Threat-modeled controls** | Controls match architecture and risk—not generic AI security checklists. |
@@ -331,8 +331,8 @@ Each stage in this lifecycle maps to security control points, evidence collectio
 | Train / Fine-tune | 5 `Train or Configure` |
 | Evaluate | 6 `Evaluate Model` |
 | Security Test | 7 `Security Validation` |
-| Sign & Register | 8 `Release Decision`, 9 `Integrity and Provenance` |
-| Deploy | 9 `Integrity and Provenance` (verify before serve) + 10 `Store & Monitor` (registry and serving path) |
+| Sign & Register | **8** `Release Decision` (approve), **then 9** `Integrity and Provenance` (sign/attest/verify or managed config evidence) |
+| Deploy | **9** verify-before-serve + **10** `Store & Monitor` (registry and serving path) |
 | Runtime Monitor | 10 `Store & Monitor` (telemetry, guardrails, canary/shadow) |
 | SOC / IR | 10 `Store & Monitor` + [Chapter 10](10-monitoring-soc-ir.md) SOC integration |
 
@@ -381,7 +381,7 @@ The [OWASP AI Exchange](https://owaspai.org) is the OWASP Flagship resource for 
 | How do I test prompt injection or adversarial robustness in depth? | AI security testing procedures and tool reviews | Control point 7 acceptance criteria + tool examples in Ch.12 |
 | How do I run an AI program or full privacy/GDPR program? | GUARD steps, AI privacy chapter | Shadow AI ops (Ch.11); operational data controls (Ch.4) |
 | How do I implement MLSecOps in CI/CD and production? | General control descriptions | Ten lifecycle control points, release gates, `Evidence Pack`, Appendix E |
-| Where is my evidence and who blocks release? | Control rationale | Release gates **4, 7, 8** + integrity checkpoint **9**; auditable Evidence Pack (Ch.6, Ch.11) |
+| Where is my evidence and who blocks release? | Control rationale | **Release decisions CP 4, 7, 8**; separately **integrity checkpoint CP 9** blocks store/deploy; Evidence Pack holds the audit trail (Ch.6, Ch.11) |
 
 **Practical division of labor:** start threat and control selection in the Exchange (or its [risk analysis](https://owaspai.org/go/riskanalysis/) section), then implement and evidence the chosen controls using this guide's lifecycle model. Per-section **References / Source mapping** blocks cite Exchange topics alongside guide sections as traceability rolls out across chapters.
 
