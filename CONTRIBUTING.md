@@ -5,7 +5,7 @@ Thank you for helping improve an open **practical reference** for AI security ac
 ## Before you start
 
 - Read [README.md](README.md) and [GETTING-STARTED.md](GETTING-STARTED.md)  
-- Check [CHANGELOG.md](CHANGELOG.md) — current release is **v1.2.1**  
+- Check [CHANGELOG.md](CHANGELOG.md) — current release is **v1.3.0**  
 - Prefer fixes, mappings, traceability, case studies, and Appendix E improvements over new chapters unless discussed in an issue  
 
 ## How to contribute

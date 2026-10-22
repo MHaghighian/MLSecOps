@@ -56,6 +56,8 @@ flowchart TB
 | `Access Context` | reconstruction of user access level, tenant, role, and request source |
 | `Authentication Event` | analysis of login, token, and authentication state |
 | `Authorization Event` | review of authorization and access decisions |
+| `Hyperparameter / Config Snapshot` | reconstruct training or runtime settings tied to the model version (Cyber AI Profile `PR.PS-01`, `RS.AN-07`) |
+| `Dataset Version` | bind incidents and releases to the exact training or index data revision |
 
 > **Privacy:** Full prompt/response logging may contain personal data (GDPR, CCPA). Apply data minimization, retention limits, access control, and legal review—see [Chapter 4](04-data-security-privacy.md).
 
@@ -63,9 +65,35 @@ flowchart TB
 
 **Frameworks and standards**
 - OWASP AI Exchange: [MONITOR USE](https://owaspai.org/go/monitoruse/)
+- NIST IR 8596 iprd: Cyber AI Profile — monitoring and incident metadata themes (`DE.CM`, `RS.AN-07`)
 
 **Implementation guidance (this guide)**
 - [Chapter 4 - Prompt and telemetry logging](04-data-security-privacy.md#prompt-and-telemetry-logging-vs-privacy-gdpr--ccpa)
+- [AI traffic categorization and registry monitoring](#ai-traffic-categorization-and-registry-monitoring)
+
+## AI traffic categorization and registry monitoring
+
+The Cyber AI Profile (NIST IR 8596, preliminary draft) urges organizations to separate AI-related traffic from ordinary user and cron traffic so SOC can attribute adverse events. A practical four-way split for SIEM labeling (`ID.AM-03` considerations):
+
+| Traffic class | Examples | Why it matters |
+|---|---|---|
+| Internal human | Analyst browser, approved IDE, operator console | Baseline user behavior and shadow-AI discovery |
+| Internal classical automation | Cron, batch ETL, CI runners without LLM calls | Distinguishes scheduled jobs from agent loops |
+| Internal AI-initiated | Agents, tool brokers, RAG retrievers, model calling tools or the web | Detects autonomous blast radius and tool abuse |
+| External | Partners, public clients, third-party APIs | Harder to label human vs bot; still required for boundary alerts |
+
+Also instrument **model registry and dataset source** paths (pull/push, unusual tags, unsigned artifacts). Supply-chain attacks often show up as anomalous registry or dataset traffic before model behavior looks wrong in production (`DE.CM-01`, `DE.CM-09`).
+
+### References / Source mapping
+
+**Frameworks and standards**
+- NIST IR 8596 iprd: Secure Focus Area — `ID.AM-03`, `DE.CM-01`, `DE.CM-09` sample considerations
+- MITRE ATLAS: runtime / supply-chain technique mapping in [Chapter 12](12-threat-control-tools-map.md)
+
+**Implementation guidance (this guide)**
+- [Data required for telemetry](#data-required-for-telemetry)
+- [Sample SIEM scenarios](#sample-siem-scenarios)
+- [Chapter 11 — Cyber AI Profile](11-governance-evidence.md#nist-cyber-ai-profile-csf-mapping)
 
 ## SOC integration
 
@@ -271,6 +299,8 @@ Incident severity must be determined based on actual impact on confidentiality, 
 | `Prompt Trace` | reconstruction of attacker interaction |
 | `Response Trace` | analysis of model response |
 | `Model Version Snapshot` | identification of exact model version |
+| `Dataset Version / Lineage` | which training or RAG index revision was live (Cyber AI Profile `RS.AN-07`) |
+| `Hyperparameter / Config Record` | training and runtime settings bound to that model revision |
 | `Conversation Evidence` | full session analysis |
 | `Tool Invocation Logs` | review of Agent actions and multi-agent chain |
 | `Session ID / Trace ID` | linking incidents |
@@ -280,6 +310,7 @@ Incident severity must be determined based on actual impact on confidentiality, 
 
 **Frameworks and standards**
 - NIST AI RMF: Manage (incident documentation)
+- NIST IR 8596 iprd: `RS.AN-07` incident data/metadata integrity and provenance (dataset, hyperparameters)
 - EU AI Act: Art. 12 record-keeping (high-risk adjacency)
 - ISO/IEC 42001: documented information for incidents
 
@@ -356,7 +387,7 @@ Many incidents arise from post-deploy neglect, not only model weakness.
 
 | Level | Control |
 |---|---|
-| `MUST` | runtime telemetry, prompt logging, tool logging, model version tracking and incident runbook |
+| `MUST` | runtime telemetry; tool logging; model version tracking; incident runbook; **and** privacy-aware prompt/response handling (minimization / redaction / retention / access control — [Ch.4](04-data-security-privacy.md#prompt-and-telemetry-logging-vs-privacy-gdpr--ccpa)). Full raw prompt logging to SIEM is **not** a blanket MUST where law or policy forbids it |
 | `SHOULD` | detection rule, correlation rule, SLA and threat hunting |
 | `ADVANCED` | full `MITRE ATLAS` mapping, automation with `SOAR`, behavioral analytics and automated response |
 
@@ -372,7 +403,7 @@ Many incidents arise from post-deploy neglect, not only model weakness.
 
 ## If only three SOC/Runtime controls can be implemented
 
-1. Send unified telemetry including prompt, tool call, model version, and trace id to SIEM.
+1. Send unified telemetry (tool call, model version, trace id, and privacy-safe prompt/response fields) to SIEM — see [Data required for telemetry](#data-required-for-telemetry) and [Ch.4 privacy](04-data-security-privacy.md#prompt-and-telemetry-logging-vs-privacy-gdpr--ccpa).
 2. At least one detection rule for prompt injection and tool abuse with false positive process.
 3. Incident runbook including snapshot, containment, and rollback.
 

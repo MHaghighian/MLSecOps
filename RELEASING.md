@@ -1,8 +1,8 @@
 # Releasing the Guide
 
-Checklist for maintainers publishing **v1.2.1** and later versions.
+Checklist for maintainers publishing **v1.3.0** and later versions.
 
-**Current release:** v1.2.1 (2026-08-15)
+**Current release:** v1.3.0 (2026-10-22)
 
 Pre-built PDF/DOCX are **not** uploaded to GitHub Releases. Readers who need Word/PDF run `scripts/build-docx.py` locally.
 
@@ -29,25 +29,25 @@ The **Create Release** workflow generates `SHA256SUMS` and a cosign keyless sign
 
 ---
 
-## v1.2.1 release checklist
+## v1.3.0 release checklist
 
 ### Pre-release (content)
 
-- [x] Restore inline Mermaid (29) + PNG fallback; MkDocs Mermaid JS
-- [x] Version strings bumped to v1.2.1
+- [x] NIST IR 8596 Secure mapping + release-gate / privacy / nav integrity pass
+- [x] Version strings bumped to v1.3.0
 
 ### Git
 
-- [ ] Commit: `docs: release v1.2.1 — restore Mermaid diagrams`
+- [ ] Commit: `docs: release v1.3.0 — NIST Cyber AI Profile + integrity fixes`
 - [ ] `git push origin main`
-- [ ] `git tag -a v1.2.1 -m "MLSecOps Practical Reference Guide v1.2.1"`
-- [ ] `git push origin v1.2.1`
+- [ ] `git tag -a v1.3.0 -m "MLSecOps Practical Reference Guide v1.3.0"`
+- [ ] `git push origin v1.3.0`
 
 ### GitHub Release
 
-1. Create release from tag **v1.2.1** (no PDF/DOCX assets)
-2. Title: **v1.2.1 — MLSecOps Practical Reference Guide**
-3. Body: [releases/v1.2.1-RELEASE-BODY.md](releases/v1.2.1-RELEASE-BODY.md)
+1. Create release from tag **v1.3.0** (no PDF/DOCX assets)
+2. Title: **v1.3.0 — MLSecOps Practical Reference Guide**
+3. Body: [releases/v1.3.0-RELEASE-BODY.md](releases/v1.3.0-RELEASE-BODY.md)
 
 ### Zenodo
 
@@ -166,7 +166,7 @@ After each release:
 
 - [ ] README version badge and download links updated
 - [ ] GitHub Release published (tags help indexing)
-- [x] Zenodo DOI updated (10.5281/zenodo.21950241)
+- [ ] Zenodo version DOI (mint after release; cite concept 10.5281/zenodo.21206780 until then)
 - [ ] Re-request indexing in Search Console for Pages home
 - [ ] One announcement post with link to Pages (not only repo)
 
@@ -182,7 +182,7 @@ After each release:
 | `v1.1.2` | Secure by design (Ch.1/4/7/8), PI L0–L3 defenses, tool maturity labels |
 | `v1.1.3` | KV Cache security (Ch.7), CAG/KV-Cloak notes, mhsec.me on docs site |
 | `v1.2.0` | Example C secure-by-design hardening (authZ, cache_salt, MIG/MPS/LeftoverLocals) |
-| `v1.2.1` | Restore inline Mermaid diagrams + MkDocs Mermaid render |
+| `v1.3.0` | Restore inline Mermaid diagrams + MkDocs Mermaid render |
 | `v2.0.0` | Lifecycle model or major structural change |
 
 Document every release in [CHANGELOG.md](CHANGELOG.md).
@@ -194,7 +194,7 @@ Document every release in [CHANGELOG.md](CHANGELOG.md).
 ```bash
 # From repository root
 python scripts/build-docx.py --render-mermaid
-# Output: dist/MLSecOps-Practical-Reference-Guide-v1.2.1.docx
+# Output: dist/MLSecOps-Practical-Reference-Guide-v1.3.0.docx
 ```
 
 The build uses Pandoc with the Word **reference template** (`scripts/templates/reference.docx`, or auto-download from the v1.0.0 Release DOCX). Diagram PNGs are taken from `assets/diagrams/`; missing PNGs can be rendered from `assets/diagrams/source/*.mmd` with `--render-mermaid`. Export PDF from Word or Pandoc if required. Do not commit large binaries to `main`.
