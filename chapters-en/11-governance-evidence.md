@@ -230,6 +230,7 @@ The methods below apply established threat-modeling techniques to ML/AI assets. 
 | Framework | Application |
 |---|---|
 | `NIST AI RMF` | Risk management for AI systems |
+| `NIST Cyber AI Profile` (IR 8596) | CSF 2.0 Community Profile for AI cybersecurity outcomes (preliminary draft) |
 | `ISO/IEC 42001` | AI management system |
 | `ISO/IEC 23894` | AI risk management |
 | `OWASP LLM Top 10` | Threats to language models (2025 edition, stabilized) |
@@ -245,7 +246,42 @@ The methods below apply established threat-modeling techniques to ML/AI assets. 
 - OWASP AI Exchange: [Governance controls](https://owaspai.org/go/governancecontrols/)
 
 **Implementation guidance (this guide)**
+- [NIST Cyber AI Profile (CSF mapping)](#nist-cyber-ai-profile-csf-mapping)
 - [Traceability convention](15-conclusion-appendix.md#traceability-and-source-mapping-convention) (Chapter 15)
+
+## NIST Cyber AI Profile (CSF mapping)
+
+[NIST IR 8596](https://csrc.nist.gov/pubs/ir/8596/iprd) (*Cybersecurity Framework Profile for Artificial Intelligence* — “Cyber AI Profile”) is an **Initial Preliminary Draft** Community Profile that prioritizes CSF 2.0 outcomes for AI. It complements — and does **not** replace — `NIST AI RMF` or this guide’s lifecycle control points. Cite it as draft guidance until a final IR is published.
+
+The Profile organizes work into three Focus Areas: **Secure** (securing AI system components), **Defend** (AI-enabled cyber defense), and **Thwart** (resilience to AI-enabled attacks). For MLSecOps programs, **Secure** is the primary mapping surface; Defend/Thwart mainly inform SOC capability planning ([Chapter 10](10-monitoring-soc-ir.md)).
+
+| Cyber AI Profile theme (Secure) | Example CSF outcomes | How this guide uses it |
+|---|---|---|
+| AI asset and data inventory | `ID.AM-02`, `ID.AM-07`, `ID.AM-08` | Maintain inventories of models, agents, APIs/keys, datasets/metadata, and embedded AI integrations |
+| Data as supply-chain peer to software | `GV.SC-01`, `GV.SC-03`, `GV.SC-05` | Treat training and inference data provenance with the same seriousness as code and containers ([Chapter 5](05-model-artifact-supply-chain.md)) |
+| AI SBOM / component transparency | `GV.SC-02` (AI Software Bill of Materials in Profile general considerations; Secure priority proposed as **3** in the iprd) | Record `SBOM` + `AI-BOM` / `ML-BOM` in the Evidence Pack — useful transparency, not the Profile’s highest Secure priority |
+| Guardrails, limitations, backup plans | `GV.OC-04`, `GV.OC-05` | Communicate intended use, known failure modes, and fallback procedures to users and operators ([Chapter 7](07-llm-rag-security.md#guardrail-limitations)) |
+| More frequent AI policy review | `GV.PO-02` | Review AI AUP and release policy on a shorter cadence than generic IT policy ([Shadow AI governance](#shadow-ai-governance)) |
+| Adversarial / AI-specific vulnerabilities | `ID.RA-01`, `ID.RA-03`, `ID.RA-04` | Include adversarial input, poisoning, and leakage in risk registers and CP7 validation |
+| Unique AI identities and least privilege | `PR.AA-01`, `PR.AA-05` | Traceable non-human identities for agents and inference services ([Chapter 8](08-agentic-ai-security.md#ai-system-identity-and-least-privilege-csf)) |
+| Hyperparameter / config change control | `PR.PS-01` | Version training and runtime configuration alongside model artifacts |
+| Separated AI traffic and runtime monitoring | `ID.AM-03`, `DE.CM-01`, `DE.CM-09` | Distinguish human, classical automation, and AI-initiated traffic; monitor registry and dataset sources ([Chapter 10](10-monitoring-soc-ir.md#ai-traffic-categorization-and-registry-monitoring)) |
+| Incident metadata for models/data | `RS.AN-07` | Preserve dataset version, train time, and hyperparameters in IR evidence |
+
+A compact **control-point ↔ CSF Function** card for audits is in [Appendix — Cyber AI Profile mapping](15-conclusion-appendix.md#appendix-cyber-ai-profile-mapping-nist-ir-8596).
+
+> **Draft status:** Public comment for the iprd ran through January 2026. Recheck [CSRC IR 8596](https://csrc.nist.gov/pubs/ir/8596/iprd) before claiming alignment in contracts or attestations.
+
+### References / Source mapping
+
+**Frameworks and standards**
+- NIST IR 8596 iprd (2025): *Cybersecurity Framework Profile for Artificial Intelligence (Cyber AI Profile)*. https://doi.org/10.6028/NIST.IR.8596.iprd
+- NIST CSF 2.0: Functions / Categories / Subcategories used by the Profile
+- NIST AI RMF 1.0: complementary risk-management framing (Govern / Map / Measure / Manage)
+
+**Implementation guidance (this guide)**
+- [Reference frameworks](#reference-frameworks)
+- [Chapter 15 — Cyber AI Profile mapping](15-conclusion-appendix.md#appendix-cyber-ai-profile-mapping-nist-ir-8596)
 
 ## What is an Evidence Pack?
 
@@ -269,8 +305,8 @@ The Evidence Pack is **raw material for** - not a substitute for - `ISO/IEC 4200
 
 | Section | Evidence |
 |---|---|
-| Data | Data origin, version, owner, sensitivity level, scan results |
-| Model | Version, parameters, metrics, hash, signature |
+| Data | Data origin, version, owner, sensitivity level, scan results; provenance suitable for supply-chain review (Cyber AI Profile `GV.SC` / `ID.AM-07`) |
+| Model | Version, parameters / hyperparameters, metrics, hash, signature, train timestamp |
 | Security | Results of adversarial, backdoor, and prompt injection tests |
 | Supply chain | `SBOM`, `AI-BOM`, vulnerabilities, provenance |
 | Policy | Gate decisions, policies, approvals |
@@ -592,6 +628,7 @@ Maturity level 2 means a stable gate and suite exist. Maturity level 3 means aut
 | `AI Vulnerability Database (AVID)` | Database of known model vulnerabilities |
 | `AI Incident Database` | Lessons learned from real AI incidents |
 | `MITRE ATLAS` | Updates to attacker tactics/techniques |
+| AI security research literature | Jailbreak / prompt-injection techniques often appear first in academic or arXiv papers (Cyber AI Profile `ID.RA-02` consideration)—ingest into CTI alongside traditional feeds |
 | Internal `Coordinated Vulnerability Disclosure` | Formal path for reporting vulnerabilities in the organization's models |
 
 Recommendation: Define a `security.txt` or CVD process for the organization's AI models and APIs, and feed these sources back periodically into the threat model (Chapter 2) and test suite (Chapter 6).
@@ -600,6 +637,7 @@ Recommendation: Define a `security.txt` or CVD process for the organization's AI
 
 **Frameworks and standards**
 - MITRE ATLAS: tactic/technique updates - https://atlas.mitre.org/
+- NIST IR 8596 iprd: Cyber AI Profile — academic / research CTI for AI attacks (`ID.RA-02`)
 - OpenSSF: coordinated vulnerability disclosure practices
 - OWASP AI Exchange: [AI program / inventory](https://owaspai.org/go/aiprogram/)
 

@@ -668,7 +668,7 @@ The controls above bound what an agent does *once it holds authority*; this sect
 | 3 | **The approval surface is driven by the orchestrator, not the model** | human-agent trust exploitation and decision-fatigue flooding (`ASI09`) | the `HITL` prompt shows deterministic facts—tool, target resource, arguments or diff—rendered by the orchestrator, never the model's free-text summary; approvals are rate-bounded so a reviewer cannot be flooded into rubber-stamping |
 | 4 | **Autonomy is structurally bounded** | runaway loops and blast-radius amplification (`ASI08`; resource overload) | the orchestrator enforces hard caps on single-agent reasoning/tool-loop iterations, in addition to the multi-agent delegation-depth cap in [Multi-Agent principles](#multi-agent-principles); these are limits the model cannot reason around, not thresholds it can argue past |
 
-**On row 1** — this is the "agent never chooses its own privilege" rule: least privilege is bound at runtime from the caller's identity plus the developer-templated tool scope, not from anything the model decides. Giving an agent its own broad standing account because per-user delegation was more work is the root of most confused-deputy incidents—catalogued as an anti-pattern in [Chapter 9](09-anti-patterns.md#agent-without-tool-control).
+**On row 1** — this is the "agent never chooses its own privilege" rule: least privilege is bound at runtime from the caller's identity plus the developer-templated tool scope, not from anything the model decides. Giving an agent its own broad standing account because per-user delegation was more work is the root of most confused-deputy incidents—catalogued as an anti-pattern in [Chapter 9](09-anti-patterns.md#agent-without-tool-control). See also [AI system identity and least privilege (CSF)](#ai-system-identity-and-least-privilege-csf).
 
 **On row 3** — *Example (illustrative):* an agent about to send a payment must surface "pay `Acme Corp` `$50,000` to account `…4521`" as fields the orchestrator computed from the request, so a poisoned instruction that persuaded the model cannot also write the reassuring text the human reads before approving.
 
@@ -692,9 +692,34 @@ The controls above bound what an agent does *once it holds authority*; this sect
 **Implementation guidance (this guide)**
 - [Chapter 1 — Secure by design](01-intro.md#secure-by-design); [Chapter 7 — Secure by design](07-llm-rag-security.md#secure-by-design)
 - [Tool trust boundary](#tool-trust-boundary); [Intent Gate](#intent-gate); [Multi-Agent principles](#multi-agent-principles)
+- [AI system identity and least privilege (CSF)](#ai-system-identity-and-least-privilege-csf)
 - [Appendix E.7.1 — AI coding assistant worked example](17-appendix-e-implementation-reference.md#e71-example-a-ai-coding-assistant-agent-mcp-ide-host) (agent + MCP end-to-end)
 - [Appendix E.7.4 — Customer-facing website](17-appendix-e-implementation-reference.md#e74-example-d-customer-facing-website-rag-chatbot-and-background-agents) (RAG chat + queued OBO workers)
 - [Chapter 9 — Agent without tool control](09-anti-patterns.md#agent-without-tool-control)
+
+## AI system identity and least privilege (CSF)
+
+The Cyber AI Profile (NIST IR 8596, preliminary draft) restates CSF outcomes that map cleanly onto agent platforms:
+
+| CSF outcome | Profile emphasis (Secure) | MLSecOps practice |
+|---|---|---|
+| `PR.AA-01` | Give AI systems **unique, traceable identities and credentials** so actions can be attributed | Separate non-human identities for agents, tool brokers, and inference services; never share a human’s long-lived token |
+| `PR.AA-05` | Treat AI entities separately in policy; apply **least privilege** so agents receive only permissions required for their role | Scope tools and data access per job; prefer delegated / on-behalf-of tokens over standing admin accounts |
+| `PR.PS-05` / `PR.IR-01` | Arbitrary code execution and broad network access by agents should be curtailed, sandboxed, approved, or disallowed | Sandbox code tools; egress allowlists; Intent Gate before high-impact actions |
+
+These CSF outcomes reinforce — they do not replace — the [Secure by design](#secure-by-design) defaults and [Intent Gate](#intent-gate) in this chapter. Full Profile context: [Chapter 11 — Cyber AI Profile](11-governance-evidence.md#nist-cyber-ai-profile-csf-mapping).
+
+### References / Source mapping
+
+**Frameworks and standards**
+- NIST IR 8596 iprd: Cyber AI Profile — `PR.AA-01`, `PR.AA-05`, agent code-execution / network considerations
+- OWASP Non-Human Identities Top 10 (2025): agent identity and token lifecycle
+- OWASP LLM Top 10 (2025): `LLM06` Excessive Agency
+
+**Implementation guidance (this guide)**
+- [Secure by design](#secure-by-design)
+- [Tool trust boundary](#tool-trust-boundary)
+- [Chapter 10 — AI traffic categorization](10-monitoring-soc-ir.md#ai-traffic-categorization-and-registry-monitoring)
 
 ## Practical principle
 

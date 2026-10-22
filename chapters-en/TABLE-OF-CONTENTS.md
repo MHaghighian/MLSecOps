@@ -1,6 +1,6 @@
 # Table of Contents
 
-**MLSecOps Practical Reference Guide v1.2.1** — Securing AI Systems Across the Lifecycle
+**MLSecOps Practical Reference Guide v1.3.0** — Securing AI Systems Across the Lifecycle
 
 ---
 
@@ -138,7 +138,7 @@
 - [Guardrail limitations](07-llm-rag-security.md#guardrail-limitations)
 - [Downstream conventional injection](07-llm-rag-security.md#downstream-conventional-injection)
 - [LoRA, PEFT, and adapter supply chain](07-llm-rag-security.md#lora-peft-and-adapter-supply-chain)
-- [Model Context Protocol (MCP) security](07-llm-rag-security.md#model-context-protocol-mcp-security)
+- [LLM verification approach](07-llm-rag-security.md#llm-verification-approach)
 - [Secure by design](07-llm-rag-security.md#secure-by-design)
 
 ## Chapter 8: [Agentic AI Security](08-agentic-ai-security.md)
@@ -168,6 +168,7 @@
 - [Agent defense layers](08-agentic-ai-security.md#agent-defense-layers)
 - [Secure agent lifecycle](08-agentic-ai-security.md#secure-agent-lifecycle)
 - [Runtime controls for Agent](08-agentic-ai-security.md#runtime-controls-for-agent)
+- [AI system identity and least privilege (CSF)](08-agentic-ai-security.md#ai-system-identity-and-least-privilege-csf)
 - [Three critical controls](08-agentic-ai-security.md#three-critical-controls)
 - [Agent control prioritization](08-agentic-ai-security.md#agent-control-prioritization)
 - [Agent security metrics](08-agentic-ai-security.md#agent-security-metrics)
@@ -190,6 +191,7 @@
 
 - [Monitoring in AI systems](10-monitoring-soc-ir.md#monitoring-in-ai-systems)
 - [Data required for telemetry](10-monitoring-soc-ir.md#data-required-for-telemetry)
+- [AI traffic categorization and registry monitoring](10-monitoring-soc-ir.md#ai-traffic-categorization-and-registry-monitoring)
 - [SOC integration](10-monitoring-soc-ir.md#soc-integration)
 - [Detection Engineering](10-monitoring-soc-ir.md#detection-engineering)
 - [Threat analysis with MITRE ATLAS](10-monitoring-soc-ir.md#threat-analysis-with-mitre-atlas)
@@ -211,6 +213,7 @@
 
 - [Governance in MLSecOps](11-governance-evidence.md#governance-in-mlsecops)
 - [Shadow AI governance](11-governance-evidence.md#shadow-ai-governance)
+- [NIST Cyber AI Profile (CSF mapping)](11-governance-evidence.md#nist-cyber-ai-profile-csf-mapping)
 - [OpenSSF MLSecOps Mapping (Whitepaper 2025)](11-governance-evidence.md#openssf-mlsecops-mapping-whitepaper-2025)
 - [Optional assurance tiering](11-governance-evidence.md#optional-assurance-tiering-illustrative-only)
 - [STRIDE and FMEA applied to ML assets](11-governance-evidence.md#stride-and-fmea-applied-to-ml-assets)
@@ -305,6 +308,7 @@
   - [Open-Source Tools and Projects](15-conclusion-appendix.md#open-source-tools-and-projects)
   - [Reference Papers and Reports](15-conclusion-appendix.md#reference-papers-and-reports)
 - [Appendix: Claims & Evidence](15-conclusion-appendix.md#appendix-claims-evidence)
+- [Appendix: Cyber AI Profile mapping (NIST IR 8596)](15-conclusion-appendix.md#appendix-cyber-ai-profile-mapping-nist-ir-8596)
 - [Traceability and source mapping convention](15-conclusion-appendix.md#traceability-and-source-mapping-convention)
 - [References](15-conclusion-appendix.md#references)
 - [Mermaid Diagram Guide](15-conclusion-appendix.md#mermaid-diagram-guide)

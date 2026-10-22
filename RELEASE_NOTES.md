@@ -4,6 +4,32 @@ Official releases: [GitHub Releases](https://github.com/MHaghighian/MLSecOps/rel
 
 ---
 
+## v1.3.0 — 2026-10-22
+
+**NIST Cyber AI Profile + integrity** — Secure-theme mapping from NIST IR 8596 (iprd) across governance, supply chain, NHI, SOC/IR; release-gate wording normalized (CP 4/7/8 + integrity CP9); OpenSSF Passing / baseline-2; Dependabot disabled.
+
+**DOI:** concept [10.5281/zenodo.21206780](https://doi.org/10.5281/zenodo.21206780) (version DOI updates after Zenodo deposit)
+
+| Format | Link |
+|--------|------|
+| Source (ZIP) | [Source code (zip)](https://github.com/MHaghighian/MLSecOps/archive/refs/tags/v1.3.0.zip) |
+| Markdown | `chapters-en/` in this repository |
+| Site | https://mhaghighian.github.io/MLSecOps/ |
+| Maintainer | https://mhsec.me |
+| Word (optional) | `python scripts/build-docx.py --render-mermaid` |
+
+### Highlights
+
+- NIST IR 8596 Cyber AI Profile (Secure) excerpts mapped in Ch.5 / 8 / 10 / 11 / 15
+- Release decisions at CP 4, 7, 8; mandatory integrity checkpoint at CP 9
+- Privacy co-located with MUST telemetry; Ch.7 TOC / anchor fixes
+- NeMo Guardrails vs Llama Guard vs Hub LlamaGuard7B clarified (Ch.12 L6)
+- OpenSSF Best Practices Passing + baseline-2; Dependabot removed
+
+Full change history: [CHANGELOG.md](CHANGELOG.md).
+
+---
+
 ## v1.2.1 — 2026-08-15
 
 **Diagram restore** — inline Mermaid fences restored from `assets/diagrams/source/*.mmd` alongside PNG fallbacks (29 diagrams); Mermaid rendering enabled on MkDocs GitHub Pages. Appendix E `_10`–`_21` remain SVG/PNG-first.
