@@ -169,6 +169,10 @@ Frequently used terms in this guide:
 | `Artifact` | Storable output such as model, dataset, image, or manifest |
 | `Provenance` | Origin and build path of an asset; includes data, code, dependencies, and build process |
 | `Evidence Pack` | Auditable collection of evidence about model build, test, release, and runtime |
+| `Control point (CP)` | Numbered lifecycle step (1–10) where evidence is produced or a decision is made ([Ch.6](06-pipeline.md)) |
+| `Release decision` | Blocking policy go/no-go at **CP 4, 7, or 8** (CP 7 blocking at Level 2+) |
+| `Integrity checkpoint` | **CP 9** — blocks **store/deploy** when signature/attest/verify or managed-API config evidence is missing; not a fourth policy release decision |
+| `Maturity Level` | Program maturity (0–3) in [Ch.14](14-maturity-roadmap.md); not a certification claim |
 | `Guardrail` | Control of model input, output, or behavior at runtime |
 | `Intent Gate` | Authorization control before agent action or tool invocation |
 | `Output Gate` | Review and validation of model or tool output before delivery to downstream |
@@ -176,7 +180,8 @@ Frequently used terms in this guide:
 | `ASR` | `Attack Success Rate` — adversarial attack success rate relative to baseline |
 | `Security Decision Point` | Decision point where a release is blocked, escalated, or accepted with documented risk |
 | `Fail-closed` | If a control or gate is undefined or faulty, the system blocks rather than passes |
-| `Baseline` | Signed reference version or metric for comparing models and regression tests |
+| `Baseline` (metrics) | Signed reference version or metric for comparing models and regression tests — **not** the same as “minimum security baseline” (the MUST control set in Ch.6 / Getting Started) |
+| `Minimum security baseline` | MUST control set by maturity Level (documented CP 4/8 + recorded CP 7 + CP 9 at Level 1; blocking 4/7/8 + CP 9 at Level 2+) |
 | `Attestation` | Digital document proving an artifact was built with a specified process and policy |
 | `SBOM` | Inventory of software components (package, version, dependency) |
 | `AI-BOM` / `ML-BOM` | Inventory of AI components including data, base model, metrics, and training evidence |
@@ -342,7 +347,9 @@ This guide is a **community reference**, not an OWASP publication. Before extern
 
 ## Appendix: Cyber AI Profile mapping (NIST IR 8596)
 
-Illustrative bridge from this guide’s lifecycle control points to CSF 2.0 Functions as prioritized in the Cyber AI Profile (**Secure** Focus Area). The Profile is an **Initial Preliminary Draft**; use for communication and gap analysis, not as a completed certification checklist. Narrative detail: [Chapter 11](11-governance-evidence.md#nist-cyber-ai-profile-csf-mapping).
+> **iprd guidance for gap analysis — not certification or mandatory controls.** Use to communicate Secure-theme priorities with CSF 2.0 language; do not treat rows as a pass/fail audit checklist.
+
+Illustrative bridge from this guide’s lifecycle control points to CSF 2.0 Functions as prioritized in the Cyber AI Profile (**Secure** Focus Area). Narrative detail: [Chapter 11](11-governance-evidence.md#nist-cyber-ai-profile-csf-mapping).
 
 | This guide (control points / themes) | CSF 2.0 Function | Example Cyber AI Profile outcomes (Secure) |
 |---|---|---|
@@ -354,8 +361,8 @@ Illustrative bridge from this guide’s lifecycle control points to CSF 2.0 Func
 | Config / hyperparameter change control | Protect | `PR.PS-01` |
 | CP2–3 / CP7 scans and validation evidence | Protect / Detect | `PR.PS-04` logging; scanner outputs into Evidence Pack |
 | Runtime telemetry, registry/dataset monitoring | Detect | `DE.CM-01/06/09` |
-| Release decisions CP4 / CP8, IR playbooks | Respond / Recover | `RS.AN-03/07`, backup integrity for models/data (`RC.RP`) |
-| Evidence Pack, AI-BOM, signing (CP9–10) | Govern / Protect | `GV.SC-02` AI SBOM theme (iprd Secure priority 3); provenance in Ch.5 / Ch.11 |
+| Release decisions **CP4 / CP7 / CP8**; IR playbooks | Respond / Recover | `RS.AN-03/07`, backup integrity for models/data (`RC.RP`) |
+| Integrity checkpoint **CP9** (sign/verify or managed config); Evidence Pack / AI-BOM (CP9–10) | Govern / Protect | `GV.SC-02` AI SBOM theme (iprd Secure priority 3); provenance in Ch.5 / Ch.11 |
 
 **Defend / Thwart:** Use for SOC capability planning (AI-assisted detection, AI-enabled phishing/deepfake resilience)—see [Chapter 10](10-monitoring-soc-ir.md)—not as substitutes for Secure controls on the model pipeline.
 
@@ -452,7 +459,8 @@ Each major section may end with:
 - `ModelScan` (Protect AI) — model artifact scan
 - `Garak` (NVIDIA) — LLM vulnerability scanner
 - `Vigil`, `Promptfoo`, `Giskard` — LLM/RAG test and red team
-- `NeMo Guardrails` (rails engine; often with Meta `Llama Guard`), `Lakera Guard`, `Patronus AI` — guardrail and gateway (L6; not a CI-only control)
+- `NeMo Guardrails` (rails engine), Meta `Llama Guard` (moderation model, often a NeMo rail), Guardrails Hub `LlamaGuard7B` (optional L0—not a NeMo substitute), `Lakera Guard`, `Patronus AI` — L6 runtime; not CI-only
+
 - `lintML` (NVIDIA), `NB Defense` (Protect AI) — linter and notebook/ML code scan
 - `Gitleaks`, `Trivy`, `Syft`, `Grype` — secret/SCA/SBOM
 - `Checkov`, `tfsec`, `OPA`/`Conftest`, `Kyverno` — IaC and policy-as-code

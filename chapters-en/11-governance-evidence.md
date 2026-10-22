@@ -404,13 +404,13 @@ The table below shows which section of the `Evidence Pack` (Chapter 11) and what
 
 Security policies should not remain only in documents. Where practical, they should be applied in executable form in release workflows and at runtime. Tools such as `OPA`, `Conftest`, or an internal policy engine can perform this work, but the control objective is policy enforcement and auditable decision-making—not any specific tool.
 
-Example policies:
+Example policies (map each to the correct control point):
 
-- A model without a signature is not allowed to be released.
-- Data with unmasked `PII` is not allowed for training.
-- A critical vulnerability in dependencies causes the build to stop.
-- An `LLM` model without prompt injection testing is not allowed to deploy.
-- An agent without an `Intent Gate` is not allowed to invoke sensitive tools.
+- Unsigned / unverified artifact (or missing managed-API config snapshot): **block at CP 9** (store/deploy). CP 8 records the policy approval; managed APIs use config-snapshot evidence instead of weight signatures.
+- Data with unmasked `PII` is not allowed for training (**CP 4**).
+- A critical vulnerability in dependencies causes the build to stop (**CP 3 → 4**).
+- An `LLM` without required prompt-injection / security validation evidence is not allowed to deploy (**CP 7**, blocking at Level 2+).
+- An agent without an `Intent Gate` is not allowed to invoke sensitive tools (**runtime / CP 8 policy**).
 
 ### References / Source mapping
 
@@ -420,7 +420,8 @@ Example policies:
 - OpenSSF MLSecOps whitepaper (2025): CI/CD policy enforcement themes
 
 **Implementation guidance (this guide)**
-- [Lifecycle control points 4, 8](06-pipeline.md#lifecycle-control-points) (Chapter 6)
+- [Lifecycle control points 4, 7, 8, 9](06-pipeline.md#lifecycle-control-points) (Chapter 6)
+- [Release decision model](06-pipeline.md#release-decision-model) (Chapter 6)
 - [Policy examples in Chapter 12](12-threat-control-tools-map.md#l4--policy-as-code-opa--conftest)
 
 ## Responsibilities
