@@ -63,13 +63,14 @@ Deeper product threat modeling for AI systems is the subject of the guide itself
 
 | Version | Supported |
 |---------|-----------|
-| v1.2.1 | Yes |
-| v1.2.0 | Yes — security fixes only; use v1.2.1 for current content |
-| v1.1.3 | Yes — security fixes only; use v1.2.1 for current content |
-| v1.1.2 | Yes — security fixes only; use v1.2.1 for current content |
-| v1.1.1 | Yes — security fixes only; use v1.2.1 for current content |
-| v1.1.0 | Yes — security fixes only; use v1.2.1 for current content |
-| v1.0.x | Yes — security fixes only; use v1.2.1 for current content |
+| v1.3.0 | Yes |
+| v1.2.1 | Yes — security fixes only; use v1.3.0 for current content |
+| v1.2.0 | Yes — security fixes only; use v1.3.0 for current content |
+| v1.1.3 | Yes — security fixes only; use v1.3.0 for current content |
+| v1.1.2 | Yes — security fixes only; use v1.3.0 for current content |
+| v1.1.1 | Yes — security fixes only; use v1.3.0 for current content |
+| v1.1.0 | Yes — security fixes only; use v1.3.0 for current content |
+| v1.0.x | Yes — security fixes only; use v1.3.0 for current content |
 
 Older draft tags may not receive updates; when a line is no longer supported, that is stated here and in release notes.
 

@@ -340,13 +340,42 @@ This guide is a **community reference**, not an OWASP publication. Before extern
 **Author practical guidance**
 - *Publication readiness checklist is for community guide maintainers - not an OWASP submission requirement*
 
+## Appendix: Cyber AI Profile mapping (NIST IR 8596)
+
+Illustrative bridge from this guide’s lifecycle control points to CSF 2.0 Functions as prioritized in the Cyber AI Profile (**Secure** Focus Area). The Profile is an **Initial Preliminary Draft**; use for communication and gap analysis, not as a completed certification checklist. Narrative detail: [Chapter 11](11-governance-evidence.md#nist-cyber-ai-profile-csf-mapping).
+
+| This guide (control points / themes) | CSF 2.0 Function | Example Cyber AI Profile outcomes (Secure) |
+|---|---|---|
+| Planning, ownership, AI AUP, policy cadence | Govern | `GV.OC-04/05`, `GV.PO-02`, `GV.SC-*` |
+| Inventory of models, agents, APIs, datasets | Identify | `ID.AM-02/07/08`, `ID.AM-03` (AI traffic classes) |
+| Threat model incl. adversarial / poisoning | Identify | `ID.RA-01/03/04`; CTI from academic jailbreak research (`ID.RA-02`) |
+| Access control, agent NHI, least privilege | Protect | `PR.AA-01`, `PR.AA-05` |
+| Data integrity / poisoning / leakage | Protect | `PR.DS-01`, `PR.DS-10` |
+| Config / hyperparameter change control | Protect | `PR.PS-01` |
+| CP2–3 / CP7 scans and validation evidence | Protect / Detect | `PR.PS-04` logging; scanner outputs into Evidence Pack |
+| Runtime telemetry, registry/dataset monitoring | Detect | `DE.CM-01/06/09` |
+| Release decisions CP4 / CP8, IR playbooks | Respond / Recover | `RS.AN-03/07`, backup integrity for models/data (`RC.RP`) |
+| Evidence Pack, AI-BOM, signing (CP9–10) | Govern / Protect | `GV.SC-02` AI SBOM theme (iprd Secure priority 3); provenance in Ch.5 / Ch.11 |
+
+**Defend / Thwart:** Use for SOC capability planning (AI-assisted detection, AI-enabled phishing/deepfake resilience)—see [Chapter 10](10-monitoring-soc-ir.md)—not as substitutes for Secure controls on the model pipeline.
+
+### References / Source mapping
+
+**Frameworks and standards**
+- NIST IR 8596 iprd (2025): Cyber AI Profile. https://doi.org/10.6028/NIST.IR.8596.iprd
+- NIST CSF 2.0; NIST AI RMF 1.0
+
+**Implementation guidance (this guide)**
+- [Chapter 11 — Cyber AI Profile](11-governance-evidence.md#nist-cyber-ai-profile-csf-mapping)
+- [Lifecycle control points](06-pipeline.md#lifecycle-control-points) (Chapter 6)
+
 ## Traceability and source mapping convention
 
 This guide distinguishes four types of security content. Per-section **`References / Source mapping`** blocks (from v1.1.0) make that distinction explicit for audit, governance, and peer review—addressing community feedback on traceability ([GitHub Issue #1](https://github.com/MHaghighian/MLSecOps/issues/1)).
 
 | Type | Meaning | How it appears |
 |---|---|---|
-| **Frameworks and standards** | Controls or threats defined by OWASP, MITRE ATLAS, NIST AI RMF, ISO/IEC 42001, OpenSSF, CSA MAESTRO, EU AI Act, or OWASP AI Exchange | Cited with ID or permalink |
+| **Frameworks and standards** | Controls or threats defined by OWASP, MITRE ATLAS, NIST AI RMF, NIST Cyber AI Profile (IR 8596), ISO/IEC 42001, OpenSSF, CSA MAESTRO, EU AI Act, or OWASP AI Exchange | Cited with ID or permalink |
 | **Framework interpretation** | Practical reading of a standard for MLSecOps lifecycle (e.g., mapping to control points) | Cited framework + pointer to this guide's lifecycle model |
 | **Implementation guidance (this guide)** | Operational patterns: control points, Evidence Pack fields, playbooks, tool examples | Labeled *this guide*; not normative standard text |
 | **Emerging / research** | Research-stage or plausible threats not yet standardized | Paper/preprint citation or *emerging — not standardized* note |
@@ -383,6 +412,8 @@ Each major section may end with:
 - OpenSSF (2025). *Visualizing Secure MLOps (MLSecOps) Whitepaper*. https://openssf.org/blog/2025/01/22/visualizing-secure-mlops/
 - NIST (2023). *AI Risk Management Framework (AI RMF 1.0)*. https://www.nist.gov/itl/ai-risk-management-framework
 - NIST (2024). *Generative AI Profile (NIST-AI-600-1)*.
+- NIST (2025). *Cybersecurity Framework Profile for Artificial Intelligence (Cyber AI Profile)*, NIST IR 8596 iprd (Initial Preliminary Draft). https://doi.org/10.6028/NIST.IR.8596.iprd — https://csrc.nist.gov/pubs/ir/8596/iprd
+- NIST. *Cybersecurity Framework (CSF) 2.0*. https://www.nist.gov/cyberframework
 - ISO/IEC 42001:2023. *Artificial Intelligence — Management System*.
 - ISO/IEC 23894:2023. *Artificial Intelligence — Guidance on Risk Management*.
 - European Union (2024). *EU AI Act*. https://artificialintelligenceact.eu/
@@ -421,7 +452,7 @@ Each major section may end with:
 - `ModelScan` (Protect AI) — model artifact scan
 - `Garak` (NVIDIA) — LLM vulnerability scanner
 - `Vigil`, `Promptfoo`, `Giskard` — LLM/RAG test and red team
-- `NeMo Guardrails`, `Lakera Guard`, `Patronus AI` — guardrail and gateway
+- `NeMo Guardrails` (rails engine; often with Meta `Llama Guard`), `Lakera Guard`, `Patronus AI` — guardrail and gateway (L6; not a CI-only control)
 - `lintML` (NVIDIA), `NB Defense` (Protect AI) — linter and notebook/ML code scan
 - `Gitleaks`, `Trivy`, `Syft`, `Grype` — secret/SCA/SBOM
 - `Checkov`, `tfsec`, `OPA`/`Conftest`, `Kyverno` — IaC and policy-as-code
@@ -524,7 +555,7 @@ GitHub's built-in Mermaid viewer can still fail on some complex `flowchart LR` c
 
 ## GitHub Version
 
-**Current release:** v1.2.1 (2026-08-15). See [CHANGELOG.md](../CHANGELOG.md) and [GitHub Releases](https://github.com/MHaghighian/MLSecOps/releases/tag/v1.2.1).
+**Current release:** v1.3.0 (2026-08-15). See [CHANGELOG.md](../CHANGELOG.md) and [GitHub Releases](https://github.com/MHaghighian/MLSecOps/releases/tag/v1.3.0).
 
 This guide is maintained as Markdown in the [MLSecOps repository](https://github.com/MHaghighian/MLSecOps). Technical terms use `inline code` formatting where helpful for scanability.
 
@@ -542,7 +573,7 @@ AI security is not solved by a single tool, a secure prompt, or a simple test. S
 Beyond compiling OWASP, OpenSSF, NIST, and related sources, this **Practical Reference Guide** adds four operational constructs:
 
 1. **Ten lifecycle control points** from change initiation through monitoring—not only a threat list.
-2. **Explicit separation** of evidence-producing steps from **blocking release decisions** (control points 4, 7, 8) and **integrity verification** (9).
+2. **Explicit separation** of evidence-producing steps from **blocking release decisions** (control points **4, 7, 8**; stage 7 blocking at Level 2+) and mandatory **integrity/provenance checkpoint** (9) before store/deploy.
 3. **`Evidence Pack`** as the auditable output bundle per release.
 4. A **single lifecycle thread** linking threat modeling, runtime, SOC, and governance.
 

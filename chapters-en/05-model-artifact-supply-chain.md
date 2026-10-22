@@ -282,16 +282,20 @@ ML environments usually run on `Kubernetes`, `Terraform`, and cloud managed serv
 
 The `CycloneDX 1.7` standard (published 2025 and approved as the second version of `ECMA-424`) officially supports `ML-BOM` and enables recording a model as a component, hash of each weight file, and dataset version. Practical recommendation is that `ML-BOM` generation be part of model promotion—exactly like `SBOM` generation in the container build pipeline. Commands and executable examples are in Chapter 12.
 
+NIST’s Cyber AI Profile (IR 8596, preliminary draft) mentions **AI Software Bill of Materials (AI SBOM)** under `GV.SC-02` and stresses that **data provenance should be weighted as heavily as software and hardware origin** (`GV.SC-01` Secure considerations). Treat dataset lineage and consent/use constraints as first-class supply-chain evidence in the Evidence Pack—not only package lists. Note: in the iprd tables, AI SBOM is proposed Secure priority **3** (transparency), while data-as-supply-chain themes appear at higher Secure priority elsewhere in `GV.SC`.
+
 ### References / Source mapping
 
 **Frameworks and standards**
 - CycloneDX 1.7 / ECMA-424: `ML-BOM` and AI component metadata
 - SPDX: SBOM baseline for software dependencies
 - OpenSSF / OWASP AIBOM Generator: AI-specific bill of materials practices
+- NIST IR 8596 iprd: Cyber AI Profile — AI SBOM / data-as-supply-chain themes (`GV.SC`)
 
 **Implementation guidance (this guide)**
 - [Tool mapping - SBOM/AI-BOM generation](12-threat-control-tools-map.md) (Chapter 12)
 - [Lifecycle control points 2 and 9](06-pipeline.md#lifecycle-control-points) (Chapter 6)
+- [Chapter 11 — Cyber AI Profile](11-governance-evidence.md#nist-cyber-ai-profile-csf-mapping)
 
 ## Security acceptance criteria
 

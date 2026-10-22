@@ -124,7 +124,7 @@ flowchart TB
 | Cluster      | Namespace isolation, NetworkPolicy, signed images                                                                                                                                                      | 3, 9, 10       | [Ch.16](16-kubernetes-deployment-reference.md)                                                                                                                      |
 | Runtime      | API key on inference, rate limits, egress allowlist                                                                                                                                                    | 10             | [Ch.16 vLLM pattern](16-kubernetes-deployment-reference.md#vllm-on-kubernetes-secure-deployment-pattern)                                                            |
 | KV Cache     | Tenant-partitioned cache; no cross-tenant prefix reuse for sensitive tiers; session cleanup; treat externalized/persisted KV (incl. `CAG`) as sensitive; optional Emerging obfuscation (e.g. KV-Cloak) | 7, 10          | [Ch.7 KV Cache security](07-llm-rag-security.md#kv-cache-security), [Ch.16 GPU isolation](16-kubernetes-deployment-reference.md#gpu-isolation-and-shared-inference) |
-| CT / retrain | Same lifecycle as initial release                                                                                                                                                                      | 4, 7, 8, 9     | [Ch.6 CT cycle](06-pipeline.md#continuous-training-cycle)                                                                                                           |
+| CT / retrain | Same lifecycle as initial release                                                                                                                                                                      | Release gates 4, 7, 8 + integrity 9 | [Ch.6 CT cycle](06-pipeline.md#continuous-training-cycle)                                                                                                           |
 
 
 **Worked example:** [E.7.3 Example C](#e73-example-c-self-hosted-model-platform-vllmkserve-on-kubernetes) (admit + serve + KV/GPU isolation).
@@ -1786,7 +1786,7 @@ These defaults remove anonymous account retrieve, chat-loop tool dispatch, and C
 ## Practical summary
 
 1. Pick an **architecture card** (E.1) and confirm rows in the **decision matrix** (E.2).
-2. Complete the **threat model template** (E.3) and define release blockers at control points 4, 7, 8, 9.
+2. Complete the **threat model template** (E.3) and define **release** blockers at control points **4, 7, 8** (7 blocking at Level 2+) plus mandatory integrity/provenance checkpoint at **9**.
 3. Instantiate the **Evidence Pack template** (E.4) in your GRC or registry workflow.
 4. Wire **playbooks** (E.5) into SOC runbooks and on-call.
 5. Use the **master control matrix** (E.6) for design review and gap analysis against [Chapter 12](12-threat-control-tools-map.md).

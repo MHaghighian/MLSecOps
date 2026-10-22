@@ -226,7 +226,7 @@ Do not expose `InferenceService` directly to the internet without gateway guardr
 
 **Implementation guidance (this guide)**
 - [Secure deployment methods for retrained models](06-pipeline.md#secure-deployment-methods-for-retrained-models) (Chapter 6)
-- [AI Compute Hijacking](03-threat-landscape.md#ai-compute-hijacking-demonstrated--active-patterns) (Chapter 3)
+- [AI Compute Hijacking](03-threat-landscape.md#ai-compute-hijacking-demonstrated-active-patterns) (Chapter 3)
 
 ## GPU isolation and shared inference
 

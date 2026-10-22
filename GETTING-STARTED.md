@@ -73,14 +73,16 @@ Relationship detail: [Chapter 1 — Relationship to OWASP AI Exchange](chapters-
 
 ## Minimum Production Security Baseline
 
-From Chapter 6 and Appendix E:
+From Chapter 6 and Appendix E ([Release decision model](chapters-en/06-pipeline.md#release-decision-model)):
 
-1. Threat model with release blockers at control points **4, 7, 8, 9**  
+1. Threat model with **blocking release decisions** at control points **4, 7, and 8** (stage **7** is recorded at Level 1 and **blocking** at Level 2+) plus a mandatory **integrity/provenance checkpoint at 9** before store/deploy  
 2. **Evidence Pack** per release (template in [Appendix E.4](chapters-en/17-appendix-e-implementation-reference.md#e4-evidence-pack-template))  
-3. Runtime logging to SOC (Chapter 10)  
+3. Runtime telemetry to SOC with privacy-aware prompt/response handling (Chapters 10 and 4)  
 4. Architecture card matching your stack ([Appendix E.1](chapters-en/17-appendix-e-implementation-reference.md#e1-architecture-cards))  
 
 Maturity detail: [Chapter 14](chapters-en/14-maturity-roadmap.md).
+
+> **Pipelines:** This repository is a **handbook**, not a CI product. Sample Jenkins/control-plane labs (if any) live outside the published guide tree—use Chapters 6 and 12 for control intent, not as drop-in workflows.
 
 ---
 

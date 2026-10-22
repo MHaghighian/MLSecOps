@@ -3,8 +3,8 @@
 > **Open-source MLSecOps handbook for AI security, LLM/RAG, and secure MLOps.**
 
 [![Status](https://img.shields.io/badge/status-stable-blue)](CHANGELOG.md)
-[![Version](https://img.shields.io/badge/version-v1.2.1-lightgrey)](CHANGELOG.md)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21950241.svg)](https://doi.org/10.5281/zenodo.21950241)
+[![Version](https://img.shields.io/badge/version-v1.3.0-lightgrey)](CHANGELOG.md)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21206780.svg)](https://doi.org/10.5281/zenodo.21206780)
 [![Documentation](https://img.shields.io/badge/docs-mhaghighian.github.io%2FMLSecOps-blue)](https://mhaghighian.github.io/MLSecOps/)
 [![License: CC BY-SA 4.0](https://img.shields.io/badge/License-CC%20BY--SA%204.0-green.svg)](LICENSE)
 [![OpenSSF Best Practices](https://www.bestpractices.dev/projects/15668/badge)](https://www.bestpractices.dev/projects/15668)
@@ -19,8 +19,8 @@ It covers **LLM security**, **RAG security**, **agentic AI**, **MCP**, **AI supp
 | **Read online (recommended)** | [mhaghighian.github.io/MLSecOps](https://mhaghighian.github.io/MLSecOps/) |
 | **Source repository** | [github.com/MHaghighian/MLSecOps](https://github.com/MHaghighian/MLSecOps) |
 | **Maintainer site** | [mhsec.me](https://mhsec.me) |
-| **Latest release** | [v1.2.1](https://github.com/MHaghighian/MLSecOps/releases/tag/v1.2.1) |
-| **Cite (DOI)** | [10.5281/zenodo.21950241](https://doi.org/10.5281/zenodo.21950241) |
+| **Latest release** | [v1.3.0](https://github.com/MHaghighian/MLSecOps/releases/tag/v1.3.0) |
+| **Cite (DOI)** | [10.5281/zenodo.21206780](https://doi.org/10.5281/zenodo.21206780) |
 | **OpenSSF** | [Best Practices Passing](https://www.bestpractices.dev/projects/15668) · [Baseline-2](https://www.bestpractices.dev/projects/15668) |
 
 ---
@@ -36,11 +36,11 @@ Security engineers, ML/MLOps teams, architects, and risk owners who need a **pra
 This guide **synthesizes** OWASP, MITRE ATLAS, NIST AI RMF, ISO/IEC 42001, OpenSSF Secure MLOps, and CSA MAESTRO. Its operational additions are:
 
 1. **Ten lifecycle control points** — one thread from change initiation through monitoring  
-2. **Explicit release decisions** — separate evidence-producing steps from blocking gates (control points 4, 7, 8) and integrity at 9  
+2. **Explicit release decisions** — blocking gates at control points **4, 7, 8** (stage 7 blocking at Level 2+) and a mandatory **integrity/provenance checkpoint at 9** before store/deploy  
 3. **`Evidence Pack`** — auditable output bundle per release  
-4. **[Implementation Reference](chapters-en/17-appendix-e-implementation-reference.md)** — architecture cards, decision matrix, templates, playbooks  
+4. **[Implementation Reference](chapters-en/17-appendix-e-implementation-reference.md)** — architecture cards, decision matrix, templates, playbooks (patterns and checklists — **not** a bundled CI/CD product)
 
-Learn more: [Chapter 1 — What this guide adds](chapters-en/01-intro.md#what-this-guide-adds-beyond-owasp-openssf-and-nist).
+Learn more: [Chapter 1 — What this guide adds](chapters-en/01-intro.md#what-this-guide-adds-beyond-owasp-openssf-and-nist). See also [Getting started](GETTING-STARTED.md).
 
 ---
 
@@ -113,13 +113,13 @@ Executive lifecycle (detail in [Chapter 6](chapters-en/06-pipeline.md)):
 
 ## Downloads
 
-**Latest release:** **v1.2.1** · [Zenodo DOI](https://doi.org/10.5281/zenodo.21950241)
+**Latest release:** **v1.3.0** · [Zenodo DOI](https://doi.org/10.5281/zenodo.21206780)
 
 | Format | Link |
 |--------|------|
 | **Documentation site** | [mhaghighian.github.io/MLSecOps](https://mhaghighian.github.io/MLSecOps/) |
 | **Markdown** | `chapters-en/` in this repository |
-| **Source (ZIP)** | [v1.2.1 archive](https://github.com/MHaghighian/MLSecOps/archive/refs/tags/v1.2.1.zip) |
+| **Source (ZIP)** | [v1.3.0 archive](https://github.com/MHaghighian/MLSecOps/archive/refs/tags/v1.3.0.zip) |
 
 All releases: [GitHub Releases](https://github.com/MHaghighian/MLSecOps/releases). Pre-built PDF/DOCX are **not** published with releases; build Word locally if you need a printable copy (below).
 
@@ -152,7 +152,7 @@ The build uses **Pandoc** with the project Word template (`scripts/templates/ref
 | **What is MLSecOps?** | Security practices for the ML/AI lifecycle — extending DevSecOps with model, data, LLM, RAG, agent, and runtime controls. |
 | **Is this an official OWASP or NIST document?** | No. It references those frameworks but is an independent open-source guide (CC BY-SA 4.0). |
 | **Where should I start reading?** | [Documentation site](https://mhaghighian.github.io/MLSecOps/) or [Chapter 1](chapters-en/01-intro.md). |
-| **How do I cite this work?** | Use the [Zenodo DOI](https://doi.org/10.5281/zenodo.21950241) or [CITATION.cff](CITATION.cff). |
+| **How do I cite this work?** | Use the [Zenodo DOI](https://doi.org/10.5281/zenodo.21206780) or [CITATION.cff](CITATION.cff). |
 
 ---
 
@@ -191,8 +191,8 @@ If you review the guide and agree to be listed, we can add your name under **Com
 See [CITATION.cff](CITATION.cff) for machine-readable metadata.
 
 ```text
-Haghighian, M. (2026). MLSecOps Practical Reference Guide (v1.2.1).
-Zenodo. https://doi.org/10.5281/zenodo.21950241
+Haghighian, M. (2026). MLSecOps Practical Reference Guide (v1.3.0).
+Zenodo. https://doi.org/10.5281/zenodo.21206780
 ```
 
 ---
@@ -205,6 +205,7 @@ Zenodo. https://doi.org/10.5281/zenodo.21950241
 - OWASP Agentic / MCP  
 - MITRE ATLAS  
 - NIST AI RMF  
+- NIST Cyber AI Profile (IR 8596 iprd) — CSF 2.0 Community Profile for AI  
 - ISO/IEC 42001 · ISO/IEC 23894  
 - EU AI Act  
 - OpenSSF MLSecOps Whitepaper  
