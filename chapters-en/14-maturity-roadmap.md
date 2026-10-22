@@ -24,8 +24,8 @@ These levels are **descriptive prioritization guidance, not a numeric scoring ru
 | Level | Status | Characteristics |
 |---|---|---|
 | Level 0 | No coherent controls | Models are built and released manually; evidence is scarce. |
-| Level 1 | Foundational | Threat model, data validation, artifact scan, and team awareness are in place. |
-| Level 2 | Operational | Explicit release decisions, integrity/provenance evidence, security validation, runtime telemetry, and SOC runbook exist. |
+| Level 1 | Foundational | Threat model, data validation, artifact scan, awareness; **documented CP 4 & 8**; **CP 7 recorded**; **CP 9 integrity evidence mandatory**. |
+| Level 2 | Operational | **Blocking CP 4, 7, 8**; CP 9 blocks store/deploy; runtime telemetry and SOC runbook exist. |
 | Level 3 | Mature | Automated evidence, advanced SOC, tamper-evident storage, multi-tenant hardening, and regression tracking are in place. |
 
 ### References / Source mapping

@@ -59,7 +59,7 @@ The goal of `Adversarial Robustness Testing` is to determine whether an attacker
 **Implementation guidance (this guide)**
 - [Defining threat model before testing](#defining-threat-model-before-testing)
 - [Minimum security tests](#minimum-security-tests)
-- [Stage 7 test acceptance conditions](06-pipeline.md#stage-7-test-acceptance-conditions) (Chapter 6)
+- [Control point 7 test acceptance conditions](06-pipeline.md#control-point-7-test-acceptance-conditions) (Chapter 6)
 
 ## Defining threat model before testing
 
@@ -322,7 +322,7 @@ If any criterion exceeds the defined threshold, the model must not enter `Produc
 
 **Implementation guidance (this guide)**
 - [Release decision model](06-pipeline.md#release-decision-model) (Chapter 6)
-- [Stage 7 test acceptance conditions](06-pipeline.md#stage-7-test-acceptance-conditions)
+- [Control point 7 test acceptance conditions](06-pipeline.md#control-point-7-test-acceptance-conditions)
 - [What is an Evidence Pack?](11-governance-evidence.md#what-is-an-evidence-pack) (Chapter 11)
 
 **Author practical guidance**

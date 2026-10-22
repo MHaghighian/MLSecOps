@@ -253,32 +253,33 @@ Organizations often implement the lifecycle through existing delivery tooling. A
 flowchart TB
     Change[Approved change] --> Load[Load artifacts]
     Load --> Scan[Security scan]
-    Scan --> Tests[Security validation]
-    Tests --> Policy[Policy decision]
-    Policy -->|Pass| Integrity[Integrity check]
-    Policy -->|Fail| Block[Block or exception]
-    Integrity --> Pack[Evidence Pack]
-    Pack --> Release[Release decision]
-    Release --> Deploy[Deploy]
+    Scan --> Tests[Security validation CP7]
+    Tests --> ReleaseDec[Release decisions CP4 / 7 / 8]
+    ReleaseDec -->|Pass| Integrity[Integrity checkpoint CP9]
+    ReleaseDec -->|Fail| Block[Block or exception]
+    Integrity -->|Pass| Pack[Evidence Pack]
+    Integrity -->|Fail| Block
+    Pack --> Deploy[Store / deploy]
     Deploy --> Monitor[Runtime monitor]
 ```
 
 ![](../assets/diagrams/17-appendix-e-implementation-reference_06.png)
 
-*Figure - Implementation-neutral reference flow, mapping lifecycle stages (change trigger, scan, security validation, policy decision, Evidence Pack, deploy) to control points through existing delivery tooling.*
+*Figure - Implementation-neutral reference flow. Canonical order matches Chapter 6: **release decisions at control points 4 / 7 / 8**, then **integrity/provenance checkpoint at 9**, then store/deploy with Evidence Pack — not the reverse.*
 
 
-| Stage               | Example capabilities (informative)                  | Control points |
+| Step (label)        | Example capabilities (informative)                  | Control points |
 | ------------------- | --------------------------------------------------- | -------------- |
 | Change trigger      | GitLab/GitHub merge, ticket, scheduled CT           | 1              |
 | Scan layer          | Gitleaks, Trivy, ModelScan                          | 2, 3           |
 | Security validation | Garak, Promptfoo, ART (by modality)                 | 7              |
-| Policy decision     | OPA/Conftest, GRC workflow                          | 4, 8           |
-| Evidence Pack       | JSON bundle, GRC record, registry metadata          | 8, 9, 10       |
-| Deploy              | Canary, signed image verify, gateway policy version | 9, 10          |
+| Release decisions   | OPA/Conftest, GRC workflow, go/no-go                | 4, 7, 8        |
+| Integrity checkpoint| Sign/verify or managed config snapshot              | 9              |
+| Evidence Pack       | JSON bundle, GRC record, registry metadata          | 10 (bundle)    |
+| Deploy              | Canary, signed image verify, gateway policy version | 9 verify + 10  |
 
 
-> This guide does not ship CI/CD templates. Implement and test flows in your environment. Tool examples: [Chapter 12 appendix](12-threat-control-tools-map.md#appendix-informative-tool-command-reference).
+> **Handbook of control intent** — not a shipped CI/CD product. Tables and configs are informative examples for your existing platform. Tool examples: [Chapter 12 appendix](12-threat-control-tools-map.md#appendix-informative-tool-command-reference).
 >
 > Worked examples for the LLM rows: Agent+MCP → [E.7.1](#e71-example-a-ai-coding-assistant-agent-mcp-ide-host); Enterprise RAG → [E.7.2](#e72-example-b-multi-tenant-rag-saas-upload-and-per-user-chatbot) / [E.7.4](#e74-example-d-customer-facing-website-rag-chatbot-and-background-agents); Self-hosted LLM → [E.7.3](#e73-example-c-self-hosted-model-platform-vllmkserve-on-kubernetes).
 
@@ -417,6 +418,76 @@ evidence_pack:
 ```
 
 **Minimum sections for Level 1 maturity:** `data`, `security_validation`, `policy`, `release approval`, and either `model.signature_verify` or `managed_api.config_snapshot_hash`.
+
+### Filled sample (managed RAG assistant — illustrative)
+
+```yaml
+# Evidence Pack — filled sample (informative; not a real release)
+evidence_pack:
+  id: "ep-2026-10-22-rag-support-042"
+  system_name: "internal-support-rag"
+  architecture_card: "enterprise-rag"
+  release_version: "2026.10.22-042"
+  control_point_8_approval:
+    approver: "ai-sec-board"
+    decision: "approve"
+    timestamp: "2026-10-22T12:40:00Z"
+    exception_id: ""
+
+  data:
+    dataset_version: "kb-support-2026-10-18"
+    lineage_uri: "s3://evidence/lineage/kb-support-2026-10-18.json"
+    pii_scan_result: "pass"
+    sensitivity_class: "internal"
+
+  model:
+    model_id: "n/a-managed-api"
+    artifact_hash: ""
+    signature_verify: "n/a-managed-api"
+    ai_bom_uri: "s3://evidence/ai-bom/rag-support-042.json"
+
+  managed_api:
+    provider: "azure-openai"
+    deployment_id: "gpt-4o-mini-support"
+    region: "westeurope"
+    api_version: "2024-10-21"
+    config_snapshot_hash: "sha256:9f3c…a21"
+
+  rag:
+    index_version_hash: "sha256:11ab…c04"
+    source_allowlist_version: "allowlist-v7"
+    reindex_playbook_run: "yes"
+    acl_test_report_uri: "s3://evidence/rag/acl-2026-10-22.pdf"
+    ingest_manifest_uri: "s3://evidence/rag/ingest-042.json"
+
+  security_validation:
+    report_uri: "s3://evidence/cp7/promptfoo-042.json"
+    test_suite_hash: "sha256:77de…91f"
+    control_point_7_result: "pass"
+
+  supply_chain:
+    sbom_uri: "s3://evidence/sbom/gateway-042.cdx.json"
+    vulnerability_summary: "0 critical / 1 medium accepted"
+
+  policy:
+    opa_bundle_version: "ai-release-v3.2"
+    gate_decisions:
+      - { control_point: 4, result: "pass" }
+      - { control_point: 7, result: "pass" }
+      - { control_point: 8, result: "pass" }
+      - { control_point: 9, result: "pass", note: "config_snapshot_hash verified" }
+
+  deployment:
+    environment: "prod"
+    canary_result: "1% 30m — metrics OK"
+    rollback_plan_uri: "https://wiki.example/runbooks/rag-rollback"
+
+  runtime:
+    gateway_policy_version: "gw-policy-2026-10"
+    siem_feed_active: "yes"
+```
+
+Read order inside the pack: **CP 4 / 7 / 8 decisions first**, then **CP 9 integrity evidence**, then runtime fields — same order as [Chapter 6](06-pipeline.md#release-decision-model).
 
 ---
 

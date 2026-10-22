@@ -21,9 +21,9 @@ Official releases: [GitHub Releases](https://github.com/MHaghighian/MLSecOps/rel
 ### Highlights
 
 - NIST IR 8596 Cyber AI Profile (Secure) excerpts mapped in Ch.5 / 8 / 10 / 11 / 15
-- Release decisions at CP 4, 7, 8; mandatory integrity checkpoint at CP 9
-- Privacy co-located with MUST telemetry; Ch.7 TOC / anchor fixes
-- NeMo Guardrails vs Llama Guard vs Hub LlamaGuard7B clarified (Ch.12 L6)
+- Release decisions at CP 4, 7, 8; mandatory integrity checkpoint at CP 9 (kept separate)
+- Getting Started terms + role paths; Level 1 vs Level 2+ baselines; E.2 order + filled Evidence Pack sample
+- NeMo Guardrails vs Llama Guard vs Hub LlamaGuard7B clarified (Ch.12)
 - OpenSSF Best Practices Passing + baseline-2; Dependabot removed
 
 Full change history: [CHANGELOG.md](CHANGELOG.md).

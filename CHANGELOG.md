@@ -21,11 +21,21 @@ All notable changes to the MLSecOps Guide are documented here.
 - **OpenSSF Best Practices** — earned [Passing](https://www.bestpractices.dev/projects/15668) (Metal) and [baseline-2](https://www.bestpractices.dev/projects/15668); README embeds both badges separately. Scorecard intentionally not used (documentation handbook).
 - **Baseline-2 readiness** — DCO (`DCO.md` + PR check), dependency/build docs in `CONTRIBUTING.md`, member/roles in `GOVERNANCE.md`, `DESIGN.md`, release integrity (`RELEASE-INTEGRITY.md` + manifest script + signed `SHA256SUMS` in Create Release workflow), expanded `SECURITY.md` (CVD public disclosure, secrets, repo security assessment).
 
+### Clarified (same version — reader confusion pass)
+
+- **Getting Started** — terms card (CP vs Level vs Evidence Pack), framework order, role paths (5 links each), Level 1 vs Level 2+ baselines split so production MUST is not mixed with foundational.
+- **CP8 vs CP9 order** — Appendix E.2 flow diagram/table corrected (release decisions → integrity checkpoint → deploy); Ch.6 decision card + Stage→control-point wording; Ch.1 / README / Ch.2 / Ch.11 policy examples aligned.
+- **Glossary** — `Control point`, `Release decision`, `Integrity checkpoint`, `Maturity Level`; `Baseline` (metrics) ≠ minimum security baseline.
+- **NeMo / Llama Guard / Hub** — three-way distinction in Ch.12 skim tables + Ch.15 tool list.
+- **NIST IR 8596 map** — stronger iprd / non-certification lead-in; release row includes CP7; CP9 separated from Evidence Pack/AI-BOM themes.
+- **Filled Evidence Pack sample** — Appendix E.4 managed RAG example.
+
 ### Citation
 
 - Cite via concept DOI [10.5281/zenodo.21206780](https://doi.org/10.5281/zenodo.21206780) until a version-specific Zenodo DOI is minted for v1.3.0.
 
 ## [1.2.1] — 2026-08-15
+
 
 ### Changed
 
