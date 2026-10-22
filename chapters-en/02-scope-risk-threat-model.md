@@ -85,7 +85,7 @@ Organizations that consume Azure OpenAI, Amazon Bedrock, Google Vertex AI, or si
 | Model weight hash + signature | Approved provider, model/deployment name, region, API version, configuration snapshot |
 | Training data lineage | RAG source manifest, ingest approvals, index version |
 | Backdoor scan on weights | Prompt-injection suite, RAG leakage tests, output policy tests ([Ch.7 verification](07-llm-rag-security.md#llm-verification-approach)) |
-| Registry promotion | Documented release decision at control points **4, 7, 8** plus configuration evidence at **9** |
+| Registry promotion | Documented **release decisions** at **CP 4, 7, 8** (7 blocking at Level 2+); separately **integrity checkpoint at CP 9** before store/deploy |
 
 ### Minimum baseline for managed AI
 
@@ -193,7 +193,7 @@ Use this operational workflow after the [AI system inventory](#ai-system-invento
 | 2. Identify threats | Map assets to threats (Exchange decision tree, OWASP Top 10, ATLAS) | Threat list per component |
 | 3. Select controls | Choose mandatory controls; map to control points 2–10 | Control matrix in threat model |
 | 4. Estimate risk | Likelihood × impact per threat; note supplier vs customer responsibility | Residual risk register |
-| 5. Define blockers | Set **release** blockers at **4, 7, 8** (7 blocking at Level 2+) and mandatory **integrity checkpoint at 9**; define test thresholds | Versioned threat model |
+| 5. Define blockers | Set **release** blockers at **CP 4, 7, 8** (7 blocking at Level 2+); separately set mandatory **integrity checkpoint at CP 9**; define test thresholds | Versioned threat model |
 | 6. Record evidence | Specify `Evidence Pack` fields per control | Template in Appendix E.4 |
 | 7. Monitor | Re-assess on architecture change, CT, index update, or incident | Updated threat model version |
 

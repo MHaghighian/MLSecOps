@@ -227,7 +227,7 @@ Sample scenario: an attacker introduces a poisoned document through a webhook, u
 
 **Implementation guidance (this guide)**
 - [LLM verification approach](#llm-verification-approach)
-- [Lifecycle control point 7](06-pipeline.md#stage-7-test-acceptance-conditions) (Chapter 6)
+- [Lifecycle control point 7](06-pipeline.md#control-point-7-test-acceptance-conditions) (Chapter 6)
 
 ## Cloud Native and Multi-Tenant deployment
 
@@ -894,7 +894,7 @@ This guide complements `OWASP LLMSVS` / verification literature—it does not re
 ### Acceptance criteria (define in threat model)
 
 1. **Version the suite** — fixed prompt/tool scenarios with hash stored in `Evidence Pack`.
-2. **Set thresholds** — e.g. max bypass rate, zero critical tool-misuse failures (see [Ch.6 stage 7](06-pipeline.md#stage-7-test-acceptance-conditions)).
+2. **Set thresholds** — e.g. max bypass rate, zero critical tool-misuse failures (see [Ch.6 control point 7](06-pipeline.md#control-point-7-test-acceptance-conditions)).
 3. **Separate smoke vs full** — smoke on frequent builds; full suite on release/CT to avoid production API abuse.
 4. **Map to OWASP** — tag cases with `LLM01`–`LLM10` (and `ASI02` for agents) for traceability.
 5. **Human review** — high-risk domains require manual scenarios beyond automation.
@@ -922,7 +922,7 @@ Informative tool examples: [Chapter 12](12-threat-control-tools-map.md) (`Prompt
 - `AML.T0080` AI Agent Context Poisoning (memory cases)
 
 **Implementation guidance (this guide)**
-- [Stage 7 acceptance](06-pipeline.md#stage-7-test-acceptance-conditions) (Chapter 6)
+- [Control point 7 acceptance](06-pipeline.md#control-point-7-test-acceptance-conditions) (Chapter 6)
 - [Three categories of security testing](06-pipeline.md#three-categories-of-security-testing) (Chapter 6)
 - [Garak / Promptfoo commands](12-threat-control-tools-map.md#appendix-informative-tool-command-reference) (Chapter 12)
 

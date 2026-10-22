@@ -124,9 +124,14 @@ flowchart LR
 
 ## Release decision model
 
+> **One rule (read this first):**  
+> - **Release decisions** = control points **4, 7, 8** (policy / go-no-go). At **Level 1**, 4 and 8 are documented; **7 runs and is recorded** but becomes **blocking only at Level 2+**.  
+> - **Integrity checkpoint** = control point **9** — separate from the release decisions. It **blocks store/deploy** when signature, attestation, verify, or managed-API config evidence is missing. It is **not** a fourth “policy release decision” of the same type.  
+> - Use **control point (CP)** for these numbers. Reserve **Level** for maturity (Ch.14). Do not treat “stage” as a second numbering scheme.
+
 The model distinguishes between **evidence-producing control points** and **blocking release decisions**. Blocking decisions should be explicit, documented, and risk-based. If sensitive data is unmasked, a critical vulnerability exists, security validation fails, or policy review fails, release should be stopped unless an explicit, time-bound, approved exception is recorded.
 
-| Type | Stage | Name | Role |
+| Type | Control point | Name | Role |
 |---|---|---|---|
 | **Release decision** | 4 | `Data / Artifact Decision Point` | Block or escalate on poisoned data, critical vulns, unauthorized sources, or unmasked PII |
 | **Security validation decision** | 7 | `Security Validation` | Block release when adversarial, red-team, RAG leakage, or agent/tool acceptance criteria fail |
@@ -134,7 +139,7 @@ The model distinguishes between **evidence-producing control points** and **bloc
 | **Integrity checkpoint** | 9 | `Integrity and Provenance` | Block storage/deploy when signature, attestation, verification, or managed-service configuration evidence is missing |
 | Evidence-producing control point | 1–3, 5–6, 10 | Scan/review, train/configure, evaluate, monitor | Produce evidence; findings may affect decisions at 4, 7, or 8 |
 
-**Minimum baseline (Level 1):** decision points at **4 and 8** must be explicit and documented; **stage 7 security validation runs on every release** and results are recorded. Stage 7 becomes a **blocking decision** at Level 2+ when acceptance thresholds are defined. Integrity/provenance evidence at **9** is mandatory at all levels, using signatures where the organization controls the artifact and configuration evidence where it consumes a managed AI service.
+**Minimum baseline (Level 1):** decision points at **4 and 8** must be explicit and documented; **control point 7 security validation runs on every release** and results are recorded. Control point 7 becomes a **blocking decision** at Level 2+ when acceptance thresholds are defined. Integrity/provenance evidence at **9** is mandatory at all levels, using signatures where the organization controls the artifact and configuration evidence where it consumes a managed AI service.
 
 **Full production baseline (Level 2+):** decision points **4, 7, and 8** are blocking on every release and CT cycle unless a formal, audited exception exists; the integrity/provenance checkpoint at **9** still **blocks store/deploy** when signature, attestation, verification, or managed-service configuration evidence is missing.
 
@@ -151,7 +156,7 @@ The model distinguishes between **evidence-producing control points** and **bloc
 
 After deployment, the model may need retraining due to `Data Drift`, new data, or performance decline. The `Continuous Training` cycle must not have security shortcuts. Retrained models must go through the same controls as the initial model.
 
-Every `CT` cycle repeats the blocking decisions at 4, 7, 8 with integrity/provenance evidence at 9 (see [Release decision model](#release-decision-model)); stages 1-3, 5-6, and 10 still run in full and feed those decisions.
+Every `CT` cycle repeats the blocking decisions at 4, 7, 8 with integrity/provenance evidence at 9 (see [Release decision model](#release-decision-model)); control points 1–3, 5–6, and 10 still run in full and feed those decisions.
 
 ### References / Source mapping
 
@@ -276,7 +281,7 @@ Basic CT cycle controls include validation of new data origin and quality, resca
 | `Experimentation` | Train or configure and experiment recording |
 | `ML Pipeline Dev & Test` | Security and quality review and security validation |
 | `CI` | Change recording and initial decision evidence |
-| `CD` | Final approval, integrity/provenance evidence, and release preparation |
+| `CD` | **CP8** final approval, **then CP9** integrity/provenance evidence, then release preparation |
 | `Continuous Training` | Retraining after monitoring |
 | `Model Serving` | Runtime and inference infrastructure |
 | `Continuous Monitoring` | Live monitoring and SOC integration |
@@ -318,9 +323,9 @@ Basic CT cycle controls include validation of new data origin and quality, resca
 | Domain | Minimum control |
 |---|---|
 | Supply chain | Model scan with `ModelScan` and basic `SBOM/AI-BOM` generation |
-| Integrity | Digital model signing and verify before deployment |
+| Integrity | CP **9**: sign/verify controlled artifacts **or** managed-API config snapshot before store/deploy |
 | Data | `Schema Validation` and `PII Detection & Masking` |
-| Lifecycle decisions | Minimum: explicit documented decisions at **4 and 8**; stage **7** tests run every release (blocking decision at Level 2+); integrity/provenance evidence at **9** |
+| Lifecycle decisions | Level 1: documented **CP 4 and 8**; **CP 7** tests every release (recorded; blocking at Level 2+); **CP 9** integrity evidence mandatory |
 | Classic model | `ART` test and numerical `ASR` criterion at security validation |
 | `LLM/RAG` | Automated `Prompt Injection` test and guardrail evaluation |
 | Runtime | Deployment behind `Inference Gateway` |
@@ -348,8 +353,8 @@ Basic CT cycle controls include validation of new data origin and quality, resca
 
 | Level | Controls |
 |---|---|
-| `MUST` (Level 1 minimum) | Artifact review, integrity/provenance evidence at stage 9, documented decisions at **4 and 8**, stage **7** security tests (recorded; blocking at Level 2+) |
-| `MUST` (Level 2 production) | Blocking decisions at **4, 7, 8** + integrity/provenance evidence at **9** on every release and CT cycle |
+| `MUST` (Level 1 minimum) | Artifact review; documented decisions at **CP 4 and 8**; **CP 7** security tests recorded; **CP 9** integrity evidence mandatory |
+| `MUST` (Level 2 production) | Blocking decisions at **CP 4, 7, 8** + **CP 9** integrity checkpoint on every release and CT cycle |
 | `SHOULD` | Automated `SBOM/AI-BOM` generation, canary in CT, automated `Evidence Pack` recording |
 | `ADVANCED` | Full CT automation, advanced regression security test, and event mapping to `MITRE ATLAS` |
 
@@ -364,7 +369,7 @@ Basic CT cycle controls include validation of new data origin and quality, resca
 - [Release decision model](#release-decision-model)
 - [Minimum security baseline](#minimum-security-baseline)
 
-## Stage 7 test acceptance conditions
+## Control point 7 test acceptance conditions
 
 Acceptance thresholds must be defined and versioned in the organization's threat model; values below are examples, not fixed numbers for all systems:
 
@@ -443,7 +448,7 @@ Results of each run must be recorded in `Evidence Pack` with test suite hash for
 
 **Implementation guidance (this guide)**
 - [Three categories of security testing](#three-categories-of-security-testing)
-- [Stage 7 test acceptance conditions](#stage-7-test-acceptance-conditions)
+- [Control point 7 test acceptance conditions](#control-point-7-test-acceptance-conditions)
 - [Continuous monitoring and test cadence](10-monitoring-soc-ir.md) (Chapter 10)
 
 **Author practical guidance**

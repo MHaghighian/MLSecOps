@@ -106,7 +106,7 @@ flowchart TB
 | Model | Artifact scan, adversarial test | `ModelScan`, `ART` |
 | Supply chain | `SBOM` and signing | `Syft`, `CycloneDX`, `Cosign` |
 | Release decisions | Policy-as-code | `OPA`, `Conftest`, internal policy engine |
-| Runtime | Guardrail and gateway | `NeMo Guardrails` (rails engine), `Llama Guard` (moderation model), internal gateway |
+| Runtime | Guardrail and gateway | `NeMo Guardrails` = rails engine; Meta `Llama Guard` = moderation model (often a NeMo rail); Guardrails Hub `LlamaGuard7B` = optional L0 validator—not a NeMo substitute; internal gateway |
 | SOC | Telemetry and detection | `ELK`, `Grafana`, `SIEM` |
 
 ### References / Source mapping
@@ -128,7 +128,7 @@ flowchart TB
 | `L3 — AI Supply Chain` | `SBOM/AI-BOM`, signing, and provenance | 2, 9 | `Syft`, `CycloneDX`, `Cosign`, `Sigstore`, `SLSA` |
 | `L4 — Policy-as-Code` | Release decision and dataset compliance | 4, 8 | `OPA`, `Conftest`, `Kyverno` |
 | `L5 — Registry and Deployment` | Signed model storage, secret, and key | 9, 10 | `Model Registry`, `S3/Nexus`, `Vault/KMS` |
-| `L6 — Runtime and Guardrails` | Prompt filtering, moderation, and AI gateway | Production | Internal gateway, `NeMo Guardrails`, Meta `Llama Guard` (often via NeMo), `Lakera Guard`, `Patronus` |
+| `L6 — Runtime and Guardrails` | Prompt filtering, moderation, and AI gateway | Production | Internal gateway; `NeMo Guardrails` (rails); Meta `Llama Guard` (moderation model, often via NeMo); Hub `LlamaGuard7B` (optional L0—not a NeMo substitute); `Lakera Guard`; `Patronus` |
 | `L7 — Observability and SOC` | Drift, alert, and SIEM | 10 | `ELK`, `Grafana`, `Evidently`, `WhyLabs`, `HiddenLayer`, `Protect AI AIRS` |
 
 ### Additional runtime controls (L6):
