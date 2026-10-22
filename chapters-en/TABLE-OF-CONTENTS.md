@@ -15,7 +15,7 @@
 - [Why DevSecOps Is Insufficient](01-intro.md#why-devsecops-is-insufficient)
 - [AI Threat Surface (Executive Overview)](01-intro.md#ai-threat-surface-executive-overview)
 - [MLSecOps Principles](01-intro.md#mlsecops-principles)
-- [Secure by design](01-intro.md#secure-by-design)
+- [Secure by design (intro)](01-intro.md#secure-by-design)
 - [Relationship between MLSecOps and DevSecOps](01-intro.md#relationship-between-mlsecops-and-devsecops)
   - [AI supply chain evidence (`AI-BOM`)](01-intro.md#ai-supply-chain-evidence-ai-bom)
 - [Lifecycle Overview](01-intro.md#lifecycle-overview)
@@ -65,8 +65,8 @@
 - [Experimentation environment security](04-data-security-privacy.md#experimentation-environment-security)
 - [Supplementary controls for experimental environments](04-data-security-privacy.md#supplementary-controls-for-experimental-environments)
 - [Data security in RAG](04-data-security-privacy.md#data-security-in-rag)
-- [Secure by design](04-data-security-privacy.md#secure-by-design)
-- [Practical principle](04-data-security-privacy.md#practical-principle)
+- [Secure by design (data)](04-data-security-privacy.md#secure-by-design)
+- [Practical principle (data)](04-data-security-privacy.md#practical-principle)
 
 ## Chapter 5: [Model, Artifact, and Supply Chain Security](05-model-artifact-supply-chain.md)
 
@@ -87,7 +87,7 @@
 - [Security evaluation output](05-model-artifact-supply-chain.md#security-evaluation-output)
 - [Federated Learning](05-model-artifact-supply-chain.md#federated-learning)
 - [Key and secret management](05-model-artifact-supply-chain.md#key-and-secret-management)
-- [Practical principle](05-model-artifact-supply-chain.md#practical-principle)
+- [Practical principle (supply chain)](05-model-artifact-supply-chain.md#practical-principle)
 
 ## Chapter 6: [MLSecOps Lifecycle Control Model](06-pipeline.md)
 
@@ -139,7 +139,7 @@
 - [Downstream conventional injection](07-llm-rag-security.md#downstream-conventional-injection)
 - [LoRA, PEFT, and adapter supply chain](07-llm-rag-security.md#lora-peft-and-adapter-supply-chain)
 - [LLM verification approach](07-llm-rag-security.md#llm-verification-approach)
-- [Secure by design](07-llm-rag-security.md#secure-by-design)
+- [Secure by design (LLM/RAG)](07-llm-rag-security.md#secure-by-design)
 
 ## Chapter 8: [Agentic AI Security](08-agentic-ai-security.md)
 
@@ -173,8 +173,8 @@
 - [Agent control prioritization](08-agentic-ai-security.md#agent-control-prioritization)
 - [Agent security metrics](08-agentic-ai-security.md#agent-security-metrics)
 - [Agent security DO's and DON'Ts](08-agentic-ai-security.md#agent-security-dos-and-donts)
-- [Secure by design](08-agentic-ai-security.md#secure-by-design)
-- [Practical principle](08-agentic-ai-security.md#practical-principle)
+- [Secure by design (agents)](08-agentic-ai-security.md#secure-by-design)
+- [Practical principle (agents)](08-agentic-ai-security.md#practical-principle)
 - [MCP tool connections](08-agentic-ai-security.md#mcp-tool-connections)
 
 ## Chapter 9: [Anti-patterns in MLSecOps](09-anti-patterns.md)
@@ -185,7 +185,7 @@
 - [RAG without security boundary](09-anti-patterns.md#rag-without-security-boundary)
 - [Agent without tool control](09-anti-patterns.md#agent-without-tool-control)
 - [One-time security testing](09-anti-patterns.md#one-time-security-testing)
-- [Practical principle](09-anti-patterns.md#practical-principle)
+- [Practical principle (anti-patterns)](09-anti-patterns.md#practical-principle)
 
 ## Chapter 10: [Monitoring, SOC, and Incident Response](10-monitoring-soc-ir.md)
 
@@ -206,7 +206,7 @@
 - [Security metrics](10-monitoring-soc-ir.md#security-metrics)
 - [SOC control prioritization](10-monitoring-soc-ir.md#soc-control-prioritization)
 - [If only three SOC/Runtime controls can be implemented](10-monitoring-soc-ir.md#if-only-three-socruntime-controls-can-be-implemented)
-- [Practical principle](10-monitoring-soc-ir.md#practical-principle)
+- [Practical principle (SOC/IR)](10-monitoring-soc-ir.md#practical-principle)
 - [Practical summary](10-monitoring-soc-ir.md#practical-summary)
 
 ## Chapter 11: [Governance, Compliance, and Evidence Pack](11-governance-evidence.md)
@@ -234,7 +234,7 @@
 - [Governance Benchmark Suite](11-governance-evidence.md#governance-benchmark-suite)
 - [Verification vs. validation](11-governance-evidence.md#verification-vs-validation)
 - [Vulnerability disclosure and external intelligence sources](11-governance-evidence.md#vulnerability-disclosure-and-external-intelligence-sources)
-- [Practical principle](11-governance-evidence.md#practical-principle)
+- [Practical principle (governance)](11-governance-evidence.md#practical-principle)
 
 ## Chapter 12: [Threat, Control, and Tool Mapping](12-threat-control-tools-map.md)
 
@@ -271,7 +271,7 @@
 - [RAG in organizational knowledge base](13-case-studies.md#rag-in-organizational-knowledge-base-illustrative-pattern)
 - [MCP red team lab — Illustrative pattern](13-case-studies.md#mcp-red-team-lab-illustrative-pattern)
 - [Summary of lessons](13-case-studies.md#summary-of-lessons)
-- [Practical principle](13-case-studies.md#practical-principle)
+- [Practical principle (case studies)](13-case-studies.md#practical-principle)
 
 ## Chapter 14: [MLSecOps Maturity Roadmap](14-maturity-roadmap.md)
 
