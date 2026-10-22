@@ -50,6 +50,7 @@ The goal of Level 1 is to prevent fundamental errors before entering `Production
 | `Threat Model` and planning | `ATLAS/OWASP` document before the first release workflow |
 | `Data Validation` | Schema and PII check before train |
 | Artifact scan | `ModelScan` at load stage |
+| Release / integrity (Ch.6) | Documented **CP 4 & 8**; **CP 7** recorded; **CP 9** integrity evidence (sign/verify **or** managed-API config snapshot) |
 | Awareness | Team is aware of `Prompt Injection`, supply chain, Shadow AI, and MCP hygiene |
 
 ### References / Source mapping
@@ -69,9 +70,9 @@ The goal of Level 2 is repeatable release decision control and runtime defense.
 
 | Capability | Readiness Criterion |
 |---|---|
-| Release decision control | No undocumented manual exceptions for deploy |
-| Signing | All production models are signed and verified |
-| `Adversarial / LLM Test` | `ART` or prompt suite with acceptance criteria runs before release |
+| Release decision control | **CP 4, 7, 8** blocking; no undocumented manual exceptions for deploy |
+| Integrity (CP 9) | Controlled artifacts signed and verified **or** managed-API config snapshot verified before store/deploy |
+| `Adversarial / LLM Test` | `ART` or prompt suite with acceptance criteria runs before release (**CP 7** blocking) |
 | Runtime | `Inference Gateway`, telemetry, and tracking for FN/bypass |
 | SOC | Runbook, SIEM rule, and incident SLA |
 
@@ -117,15 +118,15 @@ The goal of Level 3 is automated audit, organizational compliance, and continuou
 
 ## Minimum Starting Controls
 
-For a practical start, these controls deliver the most value:
+For a practical start, these controls deliver the most value (aligns with **Level 1** in [Ch.6](06-pipeline.md#release-decision-model)):
 
 - Record data and model versions
 - Scan secrets and dependencies
 - Scan model artifacts
-- Define release decision criteria that actually block or escalate risk
-- Sign models before release
+- Define **release decision** criteria at **CP 4 and 8** that actually block or escalate risk; run **CP 7** tests and record results
+- Complete the **CP 9 integrity checkpoint** before store/deploy: sign/verify controlled artifacts **or** record managed-API config snapshot evidence
 - Record a basic evidence pack
-- Monitor prompt, response, and tool call
+- Monitor prompt, response, and tool call (privacy-aware)
 
 ### References / Source mapping
 
