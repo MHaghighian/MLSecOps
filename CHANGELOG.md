@@ -29,6 +29,7 @@ All notable changes to the MLSecOps Guide are documented here.
 - **NeMo / Llama Guard / Hub** — three-way distinction in Ch.12 skim tables + Ch.15 tool list.
 - **NIST IR 8596 map** — stronger iprd / non-certification lead-in; release row includes CP7; CP9 separated from Evidence Pack/AI-BOM themes.
 - **Filled Evidence Pack sample** — Appendix E.4 managed RAG example.
+- **Ch.14 starting controls / Level tables** — CP 9 managed-API alternative; TOC disambiguates repeated “Secure by design” / “Practical principle” labels.
 
 ### Citation
 
