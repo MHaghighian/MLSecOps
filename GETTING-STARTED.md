@@ -94,14 +94,14 @@ Then branch by role using the paths below (avoid jumping straight into the middl
 From [Release decision model](chapters-en/06-pipeline.md#release-decision-model):
 
 1. **Level 1 (foundational):** Documented decisions at **CP 4 and 8**; **CP 7** runs every release and is **recorded** (not yet required to block); **CP 9** integrity evidence is **mandatory** (signature **or** managed-API config snapshot).  
-2. **Level 2+ / production:** **CP 4, 7, and 8** are **blocking** on every release/CT cycle (unless a formal audited exception); **CP 9** still **blocks store/deploy** when integrity evidence is missing.  
-3. **Evidence Pack** per release (template + filled sample: [Appendix E.4](chapters-en/17-appendix-e-implementation-reference.md#e4-evidence-pack-template)).  
+2. **Level 2+ / production:** **CP 4, 7, and 8** are **blocking** on every release/CT cycle (unless a formal audited exception); **CP 9** still **blocks store/deploy** when integrity evidence is missing — bind the CP 8-approved digest at **admission** ([Ch.6](chapters-en/06-pipeline.md#binding-cp-8-to-cp-9-close-the-toctou-gap)).  
+3. **Evidence Pack** per release (template + filled sample: [Appendix E.4](chapters-en/17-appendix-e-implementation-reference.md#e4-evidence-pack-template); machine-readable schema: [`schemas/`](schemas/README.md)).  
 4. Runtime telemetry to SOC with privacy-aware prompt/response handling (Chapters 10 and 4).  
 5. Architecture card matching your stack ([Appendix E.1](chapters-en/17-appendix-e-implementation-reference.md#e1-architecture-cards)).  
 
 Maturity detail: [Chapter 14](chapters-en/14-maturity-roadmap.md).
 
-> **Pipelines:** Sample Jenkins/control-plane labs (if any) live outside the published guide tree—use Chapters 6 and 12 for control intent, not as drop-in workflows.
+> **Pipelines:** Reference Conftest/OPA samples live in [`policies/`](policies/README.md); Evidence Pack schema in [`schemas/`](schemas/README.md). They illustrate control intent for Chapters 6/12/16 — adapt before production use.
 
 ---
 

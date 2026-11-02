@@ -4,6 +4,17 @@ All notable changes to the MLSecOps Guide are documented here.
 
 ## [Unreleased]
 
+### Added
+
+- **`schemas/`** — machine-readable Evidence Pack JSON Schema (CycloneDX 1.6-aligned themes) + example instance.
+- **`policies/`** — OPA/Conftest sample binding CP8 release digest to CP9 deploy integrity (MCP hash pin, unreadable artifact deny, agent kill-switch, KV reuse guard).
+- **CI** — Dependabot restored; `dependency-audit.yml` (`pip-audit`); `handbook-artifacts.yml` attaches DOCX/PDF (+ checksums) on `v*.*.*` tags.
+- **Content** — CP8↔CP9 TOCTOU / hard admission guidance; binary-header supply-chain note (Ch.5); cross-model KV reuse (Ch.7); agent-as-insider-threat (Ch.8); SOC active-defense note (Ch.10); machine-readable Evidence Pack (Ch.11); GenAI red-team phases (Ch.12); OpenSSF personas + PQC roadmap note (Ch.14); admission digest bind (Ch.16).
+
+### Changed
+
+- **RELEASING / DESIGN / SECURITY** — handbook DOCX/PDF via CI; dependency monitoring documented as Dependabot + pip-audit (reverses Unreleased-of-1.3.0 “disable Dependabot” ops choice for the tree going forward).
+
 ## [1.3.0] — 2026-10-22
 
 ### Added

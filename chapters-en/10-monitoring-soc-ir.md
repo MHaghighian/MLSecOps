@@ -234,6 +234,11 @@ Incident response in AI must cover model and data in addition to service and inf
 | Agent tool abuse | disable tool, review trace, require human approval |
 | poisoned or backdoored model | rollback to previous signed model |
 | adversarial drift | stop automatic retraining and manual data review |
+| Offensive / misaligned agent | trip kill-switch; freeze tool allowlist; preserve traces; model rollback |
+
+### Active defense note (Emerging)
+
+Passive gateway logs catch many MCP rug-pulls and tool-abuse spikes, but **offensive AI agents** (automated attackers against your estate) may need deliberate deception and containment tactics. Research-style **context bombs** / honeyprompt patterns aim to waste attacker compute and reveal intent — treat them as **Emerging**, legal/ethics-reviewed techniques, never as a substitute for Intent Gate, egress control, or kill-switch. Always pair with a documented **model/index rollback** playbook and SIEM-consumable agent telemetry (tool graph, schema-hash diffs, destination anomalies).
 
 ### References / Source mapping
 
@@ -243,6 +248,7 @@ Incident response in AI must cover model and data in addition to service and inf
 
 **Implementation guidance (this guide)**
 - [Appendix E.5 - Operational playbooks](17-appendix-e-implementation-reference.md#e5-operational-playbooks)
+- [Agent as insider threat](08-agentic-ai-security.md#agent-as-insider-threat-not-only-as-victim) (Chapter 8)
 
 ## False positive management
 

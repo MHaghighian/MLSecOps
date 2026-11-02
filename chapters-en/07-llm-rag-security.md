@@ -293,8 +293,11 @@ Two distinct adversary models must not be conflated:
 |---|---|---|---|
 | **Direct KV access / reconstruction** | Host operator, CSP, or anyone who can read externalized KV (disk, remote KV pool, dumped pages)—common when large caches sit **outside** a TEE for throughput | Reconstruct prompt from tensors: algebraic **Inversion**, forward-matching **Collision**, semantic **Injection** (append an instruction Query so the model echoes cached context) | Luo et al., *Shadow in the Cache* (NDSS 2026) — proposes **KV-Cloak** |
 | **Cross-tenant prefix / timing side channel** | Co-tenant user on shared serving (vLLM, SGLang, similar) | Shared prefix KV hits change latency / scheduling (e.g. TTFT), enabling token-by-token prompt guessing (**PromptPeek** and follow-ons) | Wu et al., NDSS 2025; OptiLeak / selective-isolation defenses |
+| **Cross-model KV reuse / safety incompatibility** | Operator enables reuse of prefix KV from a **sender** model on a **receiver** model for latency | Safety alignment of the receiver can drift (jailbreak / harmfulness rates change) even without a malicious prompt | arXiv:2610.15721 — **VReparo** (Emerging research mitigation) |
 
 LeftoverLocals-style **GPU memory residue** ([Advanced Multi-Tenant hardening](#advanced-multi-tenant-hardening), [Ch.16](16-kubernetes-deployment-reference.md#gpu-isolation-and-shared-inference)) is adjacent: another path by which another process may observe leftover activation/cache state.
+
+**Cross-model reuse policy:** Prefer **off** in production security tiers. If latency programs require reuse, treat it as an explicit risk acceptance: record `crossModelKvCacheReuse` in the Evidence Pack, require an alignment or isolation control (`kvAlignmentControlActive` / tenant partition), and re-run safety evals on the receiver under reuse. Research mitigations such as **VReparo** (offline value-tensor alignment) are **Emerging** — useful to track, not a drop-in organizational control.
 
 ### Relation to Cache-Augmented Generation (`CAG`)
 
@@ -311,7 +314,12 @@ LeftoverLocals-style **GPU memory residue** ([Advanced Multi-Tenant hardening](#
 | **Required** | Prefer engine features that avoid sticky shared blocks across security domains; document whether prefix caching is on | Shared-cache side channels | Mature (config) |
 | **Strongly recommended** | Confidential-compute / MaaS designs: treat **externalized** plaintext KV as in-scope for risk assessment (TLS to the client does not cover this) | Direct host/CSP read | Mature (threat modeling) |
 | **Emerging** | Reversible matrix **obfuscation** of stored KV (e.g. **KV-Cloak**: invertible transforms + per-block permutation, with operator fusion to keep latency low)—**not** a substitute for AES at rest of the whole host, and **not** integrity protection | Direct reconstruction (Inversion / Collision / Injection) when tensors are stolen without keys | Research/Lab → Emerging (NDSS 2026 + public prototype) |
+| **Emerging** | Disable or tightly govern **cross-model** KV reuse; if enabled, apply research alignment (e.g. VReparo-class) **and** re-validate safety suites | Safety incompatibility under sender→receiver reuse | Research/Lab → Emerging |
 | **Out of scope for KV-Cloak alone** | Cache **integrity** / poisoning, freshness (stale wrong-session reuse), provenance/attestation of KV blocks, key-compromise of fused secrets | Tamper and misuse within authorized path | Open research / standard controls elsewhere |
+
+### Multimodal and realtime channels (brief)
+
+Text-centric guardrails do not automatically cover **live audio/video** paths. Treat speech-to-tool and avatar channels as separate trust boundaries: authenticate the media path, detect synthetic/adversarial audio (**audio-jacking** class), constrain tool calls with the same Intent Gate as chat, and watch for **token-smuggling** encodings that bypass text-only filters. Pair with quantitative guardrail evals (e.g. CircleGuardBench-class suites) at CP 7 when moderation models are in the critical path.
 
 **Honest residual:** Tenant isolation and cleanup are the production baseline. KV-Cloak-class schemes aim at **confidentiality of stolen tensors** with near-lossless accuracy when keys stay secret; they do not stop a privileged process that holds the de-obfuscation keys, and they do not replace isolation against co-tenant timing attacks. Full AES/HE on every attention step remains generally impractical for high-throughput serving—hence the interest in fused obfuscation—but operational key custody becomes critical.
 
@@ -332,6 +340,7 @@ LeftoverLocals-style **GPU memory residue** ([Advanced Multi-Tenant hardening](#
 - Luo, Z. et al. (2026). *Shadow in the Cache: Unveiling and Mitigating Privacy Risks of KV-cache in LLM Inference* (KV-Cloak). NDSS 2026. https://arxiv.org/abs/2508.09442 — *documented research*; code: https://github.com/SiO-2/kvcloak
 - Wu, G. et al. (2025). *I Know What You Asked: Prompt Leakage via KV-Cache Sharing in Multi-Tenant LLM Serving* (PromptPeek). NDSS 2025. https://doi.org/10.14722/ndss.2025.241772
 - Chan, B.J. et al. (2024). *Don't Do RAG: When Cache-Augmented Generation is All You Need for Knowledge Tasks* (`CAG`). https://arxiv.org/abs/2412.15605
+- *To Cache or Not to Cache: Understanding and Mitigating Safety Incompatibility in Cross-Model KV Cache Reuse* (VReparo). https://arxiv.org/abs/2610.15721 — Emerging research
 
 **Implementation guidance (this guide)**
 - [Cloud Native and Multi-Tenant deployment](#cloud-native-and-multi-tenant-deployment); [Advanced Multi-Tenant hardening](#advanced-multi-tenant-hardening)

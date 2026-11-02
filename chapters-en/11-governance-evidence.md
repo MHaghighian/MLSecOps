@@ -301,6 +301,20 @@ The Evidence Pack is **raw material for** - not a substitute for - `ISO/IEC 4200
 **Author practical guidance**
 - *Evidence Pack field names and structure are community implementation guidance, not a published OWASP or ISO file format*
 
+## Machine-readable Evidence Pack
+
+Human-readable PDF/JSON dumps are useful for auditors, but Level 2+ pipelines that promote models daily need a **validateable** pack that SIEM/SOAR and admission policy can consume.
+
+| Artifact | Location |
+|---|---|
+| JSON Schema (CycloneDX 1.6-aligned themes) | [`schemas/evidence-pack.schema`](../schemas/evidence-pack.schema.md) |
+| Example instance | [`schemas/evidence-pack.example`](../schemas/evidence-pack.example.md) |
+| Admission / release policy samples | [`policies/cp8_cp9_admission`](../policies/cp8_cp9_admission.md) |
+
+**Minimum machine fields for production:** `lifecycleControlGates` (CP 4/7/8 statuses + `boundToCp9Digest`) and `cryptographicProvenance.cp9_checkpointVerified`. Prefer emitting or attaching a full **CycloneDX 1.6** / **SPDX 3.x AI-Data** BOM when your toolchain supports it; this schema is the guide’s lightweight bridge, not a replacement for those standards.
+
+**Long-lived integrity:** plan signature migration toward **post-quantum** algorithms as NIST IR 8547 transition guidance lands in your crypto roadmap (record `signatureMethod` explicitly) — see [Ch.14](14-maturity-roadmap.md#post-quantum-and-long-lived-model-signatures).
+
 ## Recommended Evidence Pack contents
 
 | Section | Evidence |

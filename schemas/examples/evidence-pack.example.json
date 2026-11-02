@@ -1,0 +1,78 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.6",
+  "serialNumber": "urn:uuid:11111111-2222-3333-4444-555555555555",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2026-11-03T00:00:00Z",
+    "systemScope": "Agentic-MCP",
+    "releaseId": "neo-bank-chatbot-2026.11.0",
+    "sharedResponsibilityRecord": {
+      "modelOwner": "ml-platform",
+      "platformOwner": "platform-eng",
+      "ospoOwner": "ospo",
+      "socOwner": "soc"
+    }
+  },
+  "modelArtifact": {
+    "sha256Digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  },
+  "components": [
+    {
+      "name": "assistant-weights",
+      "type": "machine-learning-model",
+      "version": "1.2.0",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        }
+      ],
+      "properties": [
+        { "name": "aisbom:unreadable", "value": "false" }
+      ]
+    }
+  ],
+  "lifecycleControlGates": {
+    "cp4_dataAndRagAclGate": {
+      "status": "PASS",
+      "piiControlsRecorded": true,
+      "kvCacheIsolationVerified": true
+    },
+    "cp7_adversarialAndRedTeamGate": {
+      "status": "PASS",
+      "serializationScanner": "modelscan+aisbom-cli",
+      "unreadableArtifactsDetected": false,
+      "redTeamPhasesCompleted": 8,
+      "agentMisalignmentScore": 0.02
+    },
+    "cp8_releaseDecisionGate": {
+      "decision": "APPROVED",
+      "approverRole": "release-owner",
+      "boundToCp9Digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    }
+  },
+  "cryptographicProvenance": {
+    "cp9_checkpointVerified": true,
+    "signatureMethod": "sigstore-cosign",
+    "teeAttestationProvider": "software-only",
+    "mcpSchemaHashes": {
+      "payments-mcp": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+    }
+  },
+  "inferenceConfig": {
+    "crossModelKvCacheReuse": false,
+    "kvAlignmentControlActive": false,
+    "tenantKvPartitioned": true
+  },
+  "runtimeAgentConfig": {
+    "killSwitchEnabled": true,
+    "scopedCredentialsRequired": true,
+    "mcpTools": [
+      {
+        "serverName": "payments-mcp",
+        "currentSchemaHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+      }
+    ]
+  }
+}

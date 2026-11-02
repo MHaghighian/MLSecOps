@@ -145,6 +145,10 @@ For Kyverno 1.18+, consider migrating to [`ImageValidatingPolicy`](https://kyver
 
 **Admission behavior:** Pod create → verify fail → **Deny**. Record denial events in Evidence Pack `policy` section.
 
+**Bind CP 8 → CP 9:** signature verify alone is not enough if a different digest than the one approved at release can still schedule. Pass the Evidence Pack (or registry attestation) into admission/Conftest so `modelArtifact.sha256Digest` equals `lifecycleControlGates.cp8_releaseDecisionGate.boundToCp9Digest` — see [Ch.6 binding](06-pipeline.md#binding-cp-8-to-cp-9-close-the-toctou-gap) and [`policies/cp8_cp9_admission`](../policies/cp8_cp9_admission.md).
+
+**KV and model storage:** keep tenant KV partitioned ([Ch.7](07-llm-rag-security.md#kv-cache-security)); do not enable cross-model KV reuse on shared GPU nodes without recorded risk acceptance. For high-assurance weight storage on disk, evaluate confidential-VM / encrypted volume patterns (Emerging CVM-style stores) in addition to registry signing — still enforce Seccomp/AppArmor and patch node LPE classes that enable container escape to GPU hosts.
+
 ### References / Source mapping
 
 **Frameworks and standards**
@@ -155,6 +159,7 @@ For Kyverno 1.18+, consider migrating to [`ImageValidatingPolicy`](https://kyver
 **Implementation guidance (this guide)**
 - [Provenance and signing](05-model-artifact-supply-chain.md#provenance-and-signing) (Chapter 5)
 - [Lifecycle control point 9](06-pipeline.md#lifecycle-control-points) (Chapter 6)
+- [`policies/`](../policies/README.md)
 
 ## vLLM on Kubernetes — secure deployment pattern
 
