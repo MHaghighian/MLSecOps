@@ -13,7 +13,7 @@ All notable changes to the MLSecOps Guide are documented here.
 
 ### Changed
 
-- **RELEASING / DESIGN / SECURITY** — handbook DOCX/PDF via CI; dependency monitoring documented as Dependabot + pip-audit (reverses Unreleased-of-1.3.0 “disable Dependabot” ops choice for the tree going forward).
+- **RELEASING / DESIGN / SECURITY** — handbook DOCX/PDF via CI; dependency monitoring via **`pip-audit`** (Dependabot auto-PRs disabled again after #27 noise — same ops stance as #21).
 
 ## [1.3.0] — 2026-10-22
 
