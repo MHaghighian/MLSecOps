@@ -4,7 +4,7 @@ Checklist for maintainers publishing **v1.3.0** and later versions.
 
 **Current release:** v1.3.0 (2026-10-22)
 
-Pre-built PDF/DOCX are **not** uploaded to GitHub Releases. Readers who need Word/PDF run `scripts/build-docx.py` locally.
+Pre-built **DOCX** (and **PDF** when conversion succeeds) are attached automatically by the **Handbook Artifacts** workflow (`.github/workflows/handbook-artifacts.yml`) when a `v*.*.*` tag is pushed, or via that workflow’s `workflow_dispatch`. Readers can still build locally with `scripts/build-docx.py --render-mermaid` if needed.
 
 ### Release integrity (required for new official releases)
 
@@ -45,7 +45,7 @@ The **Create Release** workflow generates `SHA256SUMS` and a cosign keyless sign
 
 ### GitHub Release
 
-1. Create release from tag **v1.3.0** (no PDF/DOCX assets)
+1. Create release from tag **v1.3.0** (integrity assets via Create Release; handbook DOCX/PDF via Handbook Artifacts on the tag)
 2. Title: **v1.3.0 — MLSecOps Practical Reference Guide**
 3. Body: [releases/v1.3.0-RELEASE-BODY.md](releases/v1.3.0-RELEASE-BODY.md)
 
@@ -189,7 +189,7 @@ Document every release in [CHANGELOG.md](CHANGELOG.md).
 
 ---
 
-## Build Word/PDF locally (optional)
+## Build Word/PDF (CI default; local optional)
 
 ```bash
 # From repository root

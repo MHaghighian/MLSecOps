@@ -249,6 +249,21 @@ assert asr <= BASELINE_ASR + 0.02, "ASR exceeded threat model threshold"
 
 Decision behavior: Compare `ASR` with baseline; exceeding the threat-model threshold should block or escalate release. Evidence: `ASR @ epsilon` report and test set hash.
 
+### GenAI red-team methodology (eight phases)
+
+Before picking tools, structure validation at **CP 7** as an explicit red-team loop (adapt names to your program):
+
+1. **Plan** — scope, rules of engagement, acceptance thresholds  
+2. **Recon** — model/API/RAG/agent inventory and trust boundaries  
+3. **Map attack surface** — prompts, tools, MCP, memory, retrieval, multimodal channels  
+4. **Exploit** — injection, jailbreak, tool abuse, poisoning, inversion  
+5. **Persist** — memory/RAG/index persistence checks  
+6. **Impact** — confidentiality, integrity, safety, fraud loss  
+7. **Report** — Evidence Pack security section + digests  
+8. **Remediate** — fix, re-test, update gates  
+
+Map each phase to at least one L2 tool below (Garak, Promptfoo, PyRIT, ART, PrivacyRaven, org suites). Record `redTeamPhasesCompleted` in the machine-readable Evidence Pack. Policy-as-Code samples for release/admission: [`policies/`](../policies/README.md).
+
 ### L2 — LLM Security Test: Garak
 
 Purpose: Scan `LLM` vulnerabilities with configurable probe plugins (prompt injection, jailbreak, encoding, leakage, toxicity). Probe count varies by version and configuration—see [Garak documentation](https://github.com/NVIDIA/garak) for the current probe list.

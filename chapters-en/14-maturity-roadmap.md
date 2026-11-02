@@ -124,18 +124,37 @@ For a practical start, these controls deliver the most value (aligns with **Leve
 - Scan secrets and dependencies
 - Scan model artifacts
 - Define **release decision** criteria at **CP 4 and 8** that actually block or escalate risk; run **CP 7** tests and record results
-- Complete the **CP 9 integrity checkpoint** before store/deploy: sign/verify controlled artifacts **or** record managed-API config snapshot evidence
-- Record a basic evidence pack
+- Complete the **CP 9 integrity checkpoint** before store/deploy: sign/verify controlled artifacts **or** record managed-API config snapshot evidence; bind the CP 8-approved digest at admission
+- Record a basic evidence pack (prefer machine-readable JSON validated against [`schemas/`](../schemas/README.md))
 - Monitor prompt, response, and tool call (privacy-aware)
+
+### OpenSSF-oriented personas (informative)
+
+The OpenSSF Secure MLOps whitepaper groups work across planning/design, experiment/dev, and staging/operations. Use this matrix to assign Evidence Pack owners (extend GETTING-STARTED role paths as needed):
+
+| Persona | Primary CP focus | Typical Evidence Pack fields |
+|---|---|---|
+| Product / risk owner | CP 8 | release decision, residual risk |
+| ML / applied scientist | CP 2–3, 5–6 | training data/model metrics |
+| MLOps / platform engineer | CP 4, 9, 10 | gates, signatures, deploy config |
+| Security engineer / red team | CP 7 | adversarial / GenAI red-team reports |
+| OSPO / supply-chain | CP 2, 5, 9 | SBOM/AI-BOM, provenance |
+| SOC analyst | CP 10 | telemetry, IR evidence |
+
+### Post-quantum and long-lived model signatures
+
+Model weights and training corpora may outlive classical signature algorithms. At **Level 3**, add an explicit **PQC transition** item to the maturity roadmap: inventory signing paths used at CP 9, track NIST IR 8547 (and successor) algorithm readiness, and record `signatureMethod` in the Evidence Pack so migrations are auditable. Do not block Level 1/2 on PQC; do not ignore crypto agility for archives that must remain verifiable for a decade.
 
 ### References / Source mapping
 
 **Frameworks and standards**
-- OpenSSF MLSecOps whitepaper (2025): 22 control themes (informative baseline)
+- OpenSSF MLSecOps whitepaper (2025): 22 control themes (informative baseline); persona / lifecycle domains
+- NIST IR 8547 — transition to post-quantum cryptography standards (planning input)
 
 **Implementation guidance (this guide)**
 - [Lifecycle control points](06-pipeline.md#lifecycle-control-points) (Chapter 6)
 - [Model security controls](05-model-artifact-supply-chain.md#model-security-controls) (Chapter 5)
+- [Machine-readable Evidence Pack](11-governance-evidence.md#machine-readable-evidence-pack) (Chapter 11)
 
 ## Recommended 90-Day Path
 

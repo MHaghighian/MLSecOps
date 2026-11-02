@@ -127,9 +127,9 @@ def main() -> None:
 
 ## What this guide adds
 
-1. Ten lifecycle **control points**
+1. Ten lifecycle **control points** (CP 8 release bound to CP 9 admission)
 2. **Release decisions** separate from evidence-producing steps
-3. **`Evidence Pack`** per release
+3. **`Evidence Pack`** per release (human + machine-readable schema in-repo)
 4. Unified thread: threat → runtime → SOC → governance
 
 Details in [Chapter 1](chapters-en/01-intro.md#what-this-guide-adds-beyond-owasp-openssf-and-nist).
@@ -158,6 +158,12 @@ Details in [Chapter 1](chapters-en/01-intro.md#what-this-guide-adds-beyond-owasp
         extra_readme = DOCS / "assets" / "diagrams" / "README.md"
         if extra_readme.exists():
             extra_readme.unlink()
+
+    # Policy-as-Code and Evidence Pack schema samples are linked from chapters.
+    for sample_dir in ("schemas", "policies"):
+        src_dir = ROOT / sample_dir
+        if src_dir.exists():
+            shutil.copytree(src_dir, DOCS / sample_dir, dirs_exist_ok=True)
 
     license_src = ROOT / "LICENSE"
     if license_src.exists():

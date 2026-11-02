@@ -122,6 +122,17 @@ Recommended principles:
 
 > Warning: The "convert to safe format" path itself can be an attack surface. The "SILENT SABOTAGE" study showed a `pickle` to `safetensors` conversion bot on a public platform was abused to produce poisoned artifacts. Therefore choosing a safe format is not enough; the conversion service, bot account, and its credentials must also be hardened and audited.
 
+### Beyond Pickle: binary headers and “safe” formats
+
+Migrating to `safetensors` or quantized formats such as `GGUF` removes many pickle-style code-execution gadgets, but it does **not** end supply-chain risk. Parsers still interpret binary headers, tensor metadata, and graph-like structures. Defects in header parsing, oversized metadata, or loader edge cases remain realistic attack paths; “format looks safe” is not an acceptance criterion by itself.
+
+**Operational controls (CP 2 / CP 7 / CP 9):**
+
+- Scan artifacts with a **serialization + header-aware** scanner before load (e.g. `ModelScan` plus an ML-BOM oriented scanner such as `aisbom-cli` where available).
+- Fail closed on **unreadable / obfuscated** blobs; record scanner tags (for example `aisbom:unreadable`) in the Evidence Pack and deny promote/deploy — see [`policies/cp8_cp9_admission`](../policies/cp8_cp9_admission.md).
+- Prefer producing a machine-readable **ML-BOM / AI-BOM** (CycloneDX 1.6 themes) alongside traditional SBOM ([SBOM and AI-BOM](#sbom-and-ai-bom)).
+- Treat **hardware-backed provenance** (TEE attestation, confidential GPU / CVM patterns, CPU↔GPU trusted paths) as Emerging depth for high-assurance deployments — software signing remains the baseline; TEEs do not replace CP 9 verify at admission.
+
 ### References / Source mapping
 
 **Frameworks and standards**
@@ -129,14 +140,16 @@ Recommended principles:
 - OWASP AI Exchange: [Development-time threats](https://owaspai.org/go/developmenttime/)
 - [Supply-chain model poisoning](https://owaspai.org/go/supplymodelpoison/)
 - OpenSSF: secure artifact handling and model scanning guidance
+- CycloneDX 1.6 — ML/AI BOM components (informative)
 
 **Implementation guidance (this guide)**
 - [Model security controls](#model-security-controls)
 - [SBOM and AI-BOM](#sbom-and-ai-bom)
 - [Lifecycle control point 2 - Load Artifacts](06-pipeline.md#lifecycle-control-points) (Chapter 6)
+- [`schemas/`](../schemas/README.md) — Evidence Pack fields for scanner results
 
 **Author practical guidance**
-- *Prefer `safetensors` and scan-before-load; treat format-conversion bots and public registries as untrusted supply-chain nodes*
+- *Prefer `safetensors` and scan-before-load; treat format-conversion bots and public registries as untrusted supply-chain nodes; do not equate “not pickle” with “safe to load”*
 
 ## AI supply chain
 

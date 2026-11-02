@@ -28,10 +28,20 @@ Contributor  --PR-->  Maintainer review + CI (docs-check)
    status on PR/main              public documentation site
 ```
 
-**Release path:** maintainer tags a version → GitHub Release (+ integrity manifest; see [RELEASE-INTEGRITY.md](RELEASE-INTEGRITY.md)) → CHANGELOG / CITATION updated per [RELEASING.md](RELEASING.md).
+**Release path:** maintainer tags a version → GitHub Release (+ integrity manifest; see [RELEASE-INTEGRITY.md](RELEASE-INTEGRITY.md)) → Handbook Artifacts attaches DOCX/PDF → CHANGELOG / CITATION updated per [RELEASING.md](RELEASING.md).
+
+## Dependency monitoring
+
+Handbook build dependencies (`requirements-pages.txt`, `scripts/requirements-docx.txt`) and GitHub Actions are monitored by:
+
+1. **Dependabot** (`.github/dependabot.yml`) — weekly PRs; DCO skips Dependabot authors.  
+2. **`pip-audit`** (`.github/workflows/dependency-audit.yml`) — PR path filter + weekly schedule.
+
+This keeps the docs supply chain aligned with the chain-of-custody themes in Chapter 5 without treating Dependabot noise as a reason to disable scanning.
 
 ## Trust boundaries
 
 - Public content and workflows live in this git repository.  
 - Secrets (e.g. Search Console verification) use **GitHub Actions secrets**, never committed files ([SECURITY.md](SECURITY.md)).  
-- Readers do not execute project “software”; optional local builds use documented FLOSS tooling (Python, MkDocs, Pandoc).
+- Readers do not execute project “software”; optional local builds use documented FLOSS tooling (Python, MkDocs, Pandoc).  
+- Reference **Policy-as-Code** samples live under [`policies/`](policies/README.md) and machine-readable Evidence Pack schema under [`schemas/`](schemas/README.md) — illustrative controls, not a hosted enforcement service.

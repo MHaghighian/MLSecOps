@@ -143,6 +143,18 @@ The model distinguishes between **evidence-producing control points** and **bloc
 
 **Full production baseline (Level 2+):** decision points **4, 7, and 8** are blocking on every release and CT cycle unless a formal, audited exception exists; the integrity/provenance checkpoint at **9** still **blocks store/deploy** when signature, attestation, verification, or managed-service configuration evidence is missing.
 
+### Binding CP 8 to CP 9 (close the TOCTOU gap)
+
+CP 8 answers “may this change ship?” CP 9 answers “is **this exact artifact** what was approved?” If those answers use different digests, or if CP 9 is only a checklist after the cluster already pulled weights, an attacker can swap the model (or MCP tool schema) between approval and runtime — a classic **time-of-check / time-of-use** gap.
+
+**Required pattern (Level 2+):**
+
+1. At **CP 8**, record the approved artifact digest (and pinned MCP schema hashes when agents are in scope) in the Evidence Pack (`boundToCp9Digest`).
+2. At **CP 9**, verify signature/attestation **and** that the digest presented to the registry or cluster **equals** the CP 8 binding.
+3. Enforce CP 9 in the **admission path** (Kyverno/Gatekeeper/OPA, image verify, or deploy pipeline Conftest) so unsigned or digest-mismatched workloads never schedule — see [Ch.16 admission](16-kubernetes-deployment-reference.md#admission-control--verify-signed-images) and sample policy [`policies/cp8_cp9_admission`](../policies/cp8_cp9_admission.md).
+
+CP 9 remains an **integrity checkpoint** (not a fourth policy release decision), but it must be a **hard store/deploy gate**, not a post-deploy report.
+
 ### References / Source mapping
 
 **Frameworks and standards**
@@ -151,6 +163,8 @@ The model distinguishes between **evidence-producing control points** and **bloc
 
 **Implementation guidance (this guide)**
 - [Maturity Level 2 criteria](14-maturity-roadmap.md#level-2-operational) (Chapter 14)
+- [Machine-readable Evidence Pack](11-governance-evidence.md#machine-readable-evidence-pack) (Chapter 11)
+- [`policies/`](../policies/README.md) — Conftest/OPA samples
 
 ## Continuous Training cycle
 
