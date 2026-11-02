@@ -349,6 +349,8 @@ Copy this table per system or architecture card. Replace placeholders. Output sh
 
 An `Evidence Pack` is an **audit evidence pattern** ([Chapter 11](11-governance-evidence.md#what-is-an-evidence-pack)). Use the structure below as a fill-in template (JSON, YAML, or GRC form). Field names are illustrative.
 
+**Machine-readable companion:** validate production packs with [`schemas/evidence-pack.schema`](../schemas/evidence-pack.schema.md) and enforce CP8↔CP9 with [`policies/cp8_cp9_admission`](../policies/cp8_cp9_admission.md). See [Machine-readable Evidence Pack](11-governance-evidence.md#machine-readable-evidence-pack).
+
 ```yaml
 # Evidence Pack — template (informative; validate in your GRC/tooling)
 evidence_pack:

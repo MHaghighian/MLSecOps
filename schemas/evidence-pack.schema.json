@@ -1,0 +1,195 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/MHaghighian/MLSecOps/schemas/evidence-pack.schema.json",
+  "title": "MLSecOps Release Evidence Pack",
+  "description": "Machine-readable Evidence Pack for MLSecOps lifecycle control points. Aligns with CycloneDX 1.6 BOM themes; not a substitute for a full CycloneDX document.",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "bomFormat",
+    "specVersion",
+    "version",
+    "metadata",
+    "lifecycleControlGates",
+    "cryptographicProvenance"
+  ],
+  "properties": {
+    "bomFormat": {
+      "type": "string",
+      "const": "CycloneDX"
+    },
+    "specVersion": {
+      "type": "string",
+      "const": "1.6"
+    },
+    "serialNumber": {
+      "type": "string",
+      "description": "Optional urn:uuid serial for the pack instance"
+    },
+    "version": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "metadata": {
+      "type": "object",
+      "required": ["timestamp", "systemScope", "sharedResponsibilityRecord"],
+      "properties": {
+        "timestamp": { "type": "string", "format": "date-time" },
+        "systemScope": {
+          "type": "string",
+          "enum": ["Classical-ML", "LLM-RAG", "Agentic-MCP", "Multimodal-Edge"]
+        },
+        "releaseId": { "type": "string" },
+        "sharedResponsibilityRecord": {
+          "type": "object",
+          "required": ["modelOwner", "platformOwner", "socOwner"],
+          "properties": {
+            "modelOwner": { "type": "string" },
+            "platformOwner": { "type": "string" },
+            "ospoOwner": { "type": "string" },
+            "socOwner": { "type": "string" }
+          }
+        }
+      }
+    },
+    "components": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "type"],
+        "properties": {
+          "name": { "type": "string" },
+          "type": { "type": "string" },
+          "version": { "type": "string" },
+          "hashes": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["alg", "content"],
+              "properties": {
+                "alg": { "type": "string" },
+                "content": { "type": "string" }
+              }
+            }
+          },
+          "properties": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["name", "value"],
+              "properties": {
+                "name": { "type": "string" },
+                "value": { "type": "string" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "modelArtifact": {
+      "type": "object",
+      "properties": {
+        "sha256Digest": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        }
+      }
+    },
+    "lifecycleControlGates": {
+      "type": "object",
+      "required": [
+        "cp4_dataAndRagAclGate",
+        "cp7_adversarialAndRedTeamGate",
+        "cp8_releaseDecisionGate"
+      ],
+      "properties": {
+        "cp4_dataAndRagAclGate": {
+          "type": "object",
+          "required": ["status"],
+          "properties": {
+            "status": { "type": "string", "enum": ["PASS", "BLOCK"] },
+            "piiControlsRecorded": { "type": "boolean" },
+            "kvCacheIsolationVerified": { "type": "boolean" }
+          }
+        },
+        "cp7_adversarialAndRedTeamGate": {
+          "type": "object",
+          "required": ["status"],
+          "properties": {
+            "status": { "type": "string", "enum": ["PASS", "BLOCK"] },
+            "serializationScanner": { "type": "string" },
+            "unreadableArtifactsDetected": { "type": "boolean" },
+            "redTeamPhasesCompleted": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 8
+            },
+            "agentMisalignmentScore": { "type": "number", "minimum": 0, "maximum": 1 }
+          }
+        },
+        "cp8_releaseDecisionGate": {
+          "type": "object",
+          "required": ["decision", "approverRole", "boundToCp9Digest"],
+          "properties": {
+            "decision": { "type": "string", "enum": ["APPROVED", "REJECTED"] },
+            "approverRole": { "type": "string" },
+            "boundToCp9Digest": {
+              "type": "string",
+              "pattern": "^sha256:[a-f0-9]{64}$",
+              "description": "Digest approved at CP8; CP9/admission must verify the same digest at deploy"
+            }
+          }
+        }
+      }
+    },
+    "cryptographicProvenance": {
+      "type": "object",
+      "required": ["cp9_checkpointVerified", "signatureMethod"],
+      "properties": {
+        "cp9_checkpointVerified": { "type": "boolean" },
+        "signatureMethod": {
+          "type": "string",
+          "description": "e.g. sigstore-cosign, model-transparency, managed-config-snapshot, or planned PQC algorithm id"
+        },
+        "teeAttestationProvider": { "type": "string" },
+        "mcpSchemaHashes": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "description": "Map of MCP server name → pinned tools/list schema SHA-256"
+        }
+      }
+    },
+    "inferenceConfig": {
+      "type": "object",
+      "properties": {
+        "crossModelKvCacheReuse": { "type": "boolean" },
+        "kvAlignmentControlActive": { "type": "boolean" },
+        "tenantKvPartitioned": { "type": "boolean" }
+      }
+    },
+    "runtimeAgentConfig": {
+      "type": "object",
+      "properties": {
+        "killSwitchEnabled": { "type": "boolean" },
+        "scopedCredentialsRequired": { "type": "boolean" },
+        "mcpTools": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["serverName", "currentSchemaHash"],
+            "properties": {
+              "serverName": { "type": "string" },
+              "currentSchemaHash": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

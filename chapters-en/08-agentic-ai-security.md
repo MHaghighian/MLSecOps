@@ -521,15 +521,32 @@ The controls in this chapter organize into five layers. This is an **operating f
 | 4 — Guardrails | bound risky behavior | HITL, kill switch, policy engine, session limits (**L0 filters alone are not enough** for tool agents) |
 | 5 — Monitoring and response | detect and respond | tool telemetry, anomalies, SOC — [Chapter 10](10-monitoring-soc-ir.md) |
 
+### Agent as insider threat (not only as victim)
+
+First-generation agent security treats the model primarily as a **victim** of malicious prompts or poisoned tools. Production agentic systems also need the complementary view: the **agent itself** can become a privileged insider — goal hijack (`ASI01`), deceptive tool use, budget/token abuse, or sabotage under conflicting objectives.
+
+**Controls (pair with Intent Gate):**
+
+| Control | Why |
+|---|---|
+| Deterministic policy engine + HITL for high-risk tools | Model “agreement” must not authorize money, identity, or destructive APIs |
+| Scoped credentials + token/tool budgets | Limits blast radius when the agent drifts |
+| Kill switch at gateway / cluster | Immediate revoke without waiting for a prompt-level refusal |
+| Misalignment / sabotage evals at CP 7 | Suites such as SHADE-Arena-class or org-specific insider scenarios; record scores in Evidence Pack |
+| Continuous reasoning/tool telemetry to SOC | Detect unusual tool graphs and payee/destination anomalies — [Ch.10](10-monitoring-soc-ir.md) |
+
+Cluster-level **agent control planes** (scoped creds, budgets, admission, kill-switch — e.g. emerging K8s agent OS patterns) are useful when many agents share a cluster; start with gateway + OPA samples in [`policies/`](../policies/README.md) before adopting a full control plane.
+
 ### References / Source mapping
 
 **Frameworks and standards**
-- OWASP Agentic Security Initiative: layered defense themes
+- OWASP Agentic Security Initiative: layered defense themes; ASI goal-hijack themes
 - NIST AI RMF: Govern / Measure / Manage
 
 **Implementation guidance (this guide)**
 - [Three critical controls](#three-critical-controls)
 - [Agent control prioritization](#agent-control-prioritization)
+- [Binding CP 8 to CP 9](06-pipeline.md#binding-cp-8-to-cp-9-close-the-toctou-gap) (Chapter 6)
 
 ## Secure agent lifecycle
 

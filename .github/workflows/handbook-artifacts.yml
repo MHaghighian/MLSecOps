@@ -1,0 +1,82 @@
+# Compile DOCX (and PDF when LibreOffice succeeds) and attach to GitHub Releases on version tags.
+name: Handbook Artifacts
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Existing release tag to update with handbook files (optional)"
+        required: false
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  build-handbook:
+    name: Build DOCX/PDF
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.tag || github.ref }}
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y pandoc libreoffice-writer chromium-browser
+          npm install -g @mermaid-js/mermaid-cli
+
+      - name: Install Python docx requirements
+        run: pip install -r scripts/requirements-docx.txt
+
+      - name: Compile handbook DOCX
+        run: python scripts/build-docx.py --render-mermaid
+
+      - name: Convert DOCX to PDF (best effort)
+        run: |
+          set -euo pipefail
+          shopt -s nullglob
+          files=(dist/*.docx)
+          if [ ${#files[@]} -eq 0 ]; then
+            echo "No DOCX produced under dist/" >&2
+            exit 1
+          fi
+          libreoffice --headless --convert-to pdf --outdir dist/ "${files[@]}" || {
+            echo "::warning::PDF conversion failed; DOCX will still be attached"
+          }
+          sha256sum dist/* > dist/HANDBOOK-SHA256SUMS.txt
+
+      - name: Upload artifacts to workflow
+        uses: actions/upload-artifact@v4
+        with:
+          name: handbook-dist
+          path: |
+            dist/*.docx
+            dist/*.pdf
+            dist/HANDBOOK-SHA256SUMS.txt
+          if-no-files-found: error
+
+      - name: Attach to GitHub Release
+        if: startsWith(github.ref, 'refs/tags/v') || inputs.tag != ''
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ inputs.tag || github.ref_name }}
+          files: |
+            dist/*.docx
+            dist/*.pdf
+            dist/HANDBOOK-SHA256SUMS.txt
+          fail_on_unmatched_files: false

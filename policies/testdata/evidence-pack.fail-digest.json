@@ -1,0 +1,39 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.6",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2026-11-03T00:00:00Z",
+    "systemScope": "LLM-RAG",
+    "sharedResponsibilityRecord": {
+      "modelOwner": "ml",
+      "platformOwner": "platform",
+      "socOwner": "soc"
+    }
+  },
+  "modelArtifact": {
+    "sha256Digest": "sha256:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+  },
+  "lifecycleControlGates": {
+    "cp4_dataAndRagAclGate": { "status": "PASS" },
+    "cp7_adversarialAndRedTeamGate": { "status": "PASS", "unreadableArtifactsDetected": false },
+    "cp8_releaseDecisionGate": {
+      "decision": "APPROVED",
+      "approverRole": "release-owner",
+      "boundToCp9Digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    }
+  },
+  "cryptographicProvenance": {
+    "cp9_checkpointVerified": true,
+    "signatureMethod": "sigstore-cosign",
+    "mcpSchemaHashes": {}
+  },
+  "inferenceConfig": {
+    "crossModelKvCacheReuse": false,
+    "tenantKvPartitioned": true
+  },
+  "runtimeAgentConfig": {
+    "killSwitchEnabled": true,
+    "mcpTools": []
+  }
+}

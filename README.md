@@ -71,8 +71,8 @@ Traditional DevSecOps does not fully address model artifacts, training data, LLM
 
 ## Key features
 
-- Ten-point **lifecycle control model** and release decision points  
-- **`Evidence Pack`** methodology per release  
+- Ten-point **lifecycle control model** and release decision points (CP 8 bound to CP 9 at admission)  
+- **`Evidence Pack`** methodology per release — plus machine-readable [`schemas/`](schemas/) and OPA samples in [`policies/`](policies/)  
 - **[Implementation Reference](chapters-en/17-appendix-e-implementation-reference.md)** — architecture cards, templates, playbooks  
 - **Threat / control / tool mapping** ([Ch.12](chapters-en/12-threat-control-tools-map.md))  
 - **LLM, RAG, Agent, and MCP** security ([Ch.7](chapters-en/07-llm-rag-security.md) · [Ch.8](chapters-en/08-agentic-ai-security.md))  

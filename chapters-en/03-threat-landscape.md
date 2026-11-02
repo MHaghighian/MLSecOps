@@ -12,7 +12,7 @@
 | **2 — Design-time** | AI worms (Morris II), emerging malware/exploit themes | Influence architecture; do not outrank demonstrated risks |
 | **3 — Monitor** | Emerging summary table | Track research; adjust models quarterly |
 
-Controls for agent and MCP patterns: [Chapter 8](08-agentic-ai-security.md). Runtime and SOC: [Chapter 10](10-monitoring-soc-ir.md).
+Controls for agent and MCP patterns: [Chapter 8](08-agentic-ai-security.md). Treat agents as both **attack victims** and potential **insider threats** ([agent-as-insider](08-agentic-ai-security.md#agent-as-insider-threat-not-only-as-victim)). Runtime and SOC: [Chapter 10](10-monitoring-soc-ir.md).
 
 ### References / Source mapping
 
