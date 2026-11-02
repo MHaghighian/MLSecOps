@@ -1,2 +1,0 @@
-# Dependabot entrypoint — pins live in requirements-pages.txt
--r requirements-pages.txt
