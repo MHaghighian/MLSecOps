@@ -1,2 +1,2 @@
-mkdocs-material>=9.5,<10
+mkdocs-material>=9.8.0,<10
 pymdown-extensions>=10.0
