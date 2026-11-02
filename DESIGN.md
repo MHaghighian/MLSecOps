@@ -32,12 +32,7 @@ Contributor  --PR-->  Maintainer review + CI (docs-check)
 
 ## Dependency monitoring
 
-Handbook build dependencies (`requirements-pages.txt`, `scripts/requirements-docx.txt`) and GitHub Actions are monitored by:
-
-1. **Dependabot** (`.github/dependabot.yml`) — weekly PRs; DCO skips Dependabot authors.  
-2. **`pip-audit`** (`.github/workflows/dependency-audit.yml`) — PR path filter + weekly schedule.
-
-This keeps the docs supply chain aligned with the chain-of-custody themes in Chapter 5 without treating Dependabot noise as a reason to disable scanning.
+Handbook build dependencies (`requirements-pages.txt`, `scripts/requirements-docx.txt`) are scanned by **`pip-audit`** (`.github/workflows/dependency-audit.yml`) on relevant PRs and on a weekly schedule. **Dependabot auto-PRs stay disabled** (same ops choice as #21): they flood the repo with tooling bumps that are not product CVEs. Action/pin bumps are done in maintainer PRs when needed.
 
 ## Trust boundaries
 
