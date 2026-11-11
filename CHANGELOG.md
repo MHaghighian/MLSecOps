@@ -6,6 +6,7 @@ All notable changes to the MLSecOps Guide are documented here.
 
 ### Added
 
+- **Docker Model Runner / OCI model artifacts** — Ch.5 distribution-layer controls; Appendix E.1.7 developer-local architecture card; Ch.12 CP 7 local OpenAI-compatible runners; Ch.16 explicit DMR ≠ K8s serving; Ch.2/Ch.11 cross-links for threat model and Shadow AI hygiene.
 - **`schemas/`** — machine-readable Evidence Pack JSON Schema (CycloneDX 1.6-aligned themes) + example instance.
 - **`policies/`** — OPA/Conftest sample binding CP8 release digest to CP9 deploy integrity (MCP hash pin, unreadable artifact deny, agent kill-switch, KV reuse guard).
 - **CI** — Dependabot restored; `dependency-audit.yml` (`pip-audit`); `handbook-artifacts.yml` attaches DOCX/PDF (+ checksums) on `v*.*.*` tags.

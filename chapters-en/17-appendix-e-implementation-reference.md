@@ -98,6 +98,8 @@ flowchart TB
 
 ---
 
+---
+
 ### E.1.3 Self-hosted LLM (vLLM/KServe on Kubernetes)
 
 **When to use:** Organization controls model weights, inference stack, and cluster.
@@ -224,11 +226,41 @@ flowchart LR
 
 **Implementation guidance (this guide)**
 
-- Architecture cards E.1.1-E.1.6 cross-link Chapters 2, 4-8, 10-11, 16, and [Appendix D](15-conclusion-appendix.md#appendix-d-managed-ai-services-security-reference)
+- Architecture cards E.1.1-E.1.7 cross-link Chapters 2, 4-8, 10-11, 16, and [Appendix D](15-conclusion-appendix.md#appendix-d-managed-ai-services-security-reference)
 
 **Author practical guidance**
 
 - *Cards are fill-in operational patterns - not normative standard text*
+
+---
+
+### E.1.7 Developer-local inference (Docker Model Runner)
+
+**When to use:** Developers or CI need a **local OpenAI-compatible** (also Ollama-/Anthropic-shaped) endpoint for app iteration, agent dry-runs, or CP 7 suites **without** sending prompts to a public API — and your org already standardizes on Docker. **Not** a replacement for [E.1.3](#e13-self-hosted-llm-vllmkserve-on-kubernetes) multi-tenant production serving.
+
+**Product shape (informative):** [Docker Model Runner](https://docs.docker.com/ai/model-runner/) pulls/pushes models as **OCI artifacts**, serves via localhost / Compose / Testcontainers, and can back engines such as llama.cpp (GGUF) or vLLM (Safetensors) depending on platform. Default Desktop exposure is developer-oriented; the inference API is **unauthenticated** by design.
+
+```mermaid
+flowchart LR
+  Dev[IDE / tests / Compose app] --> API[Local OpenAI-compatible API]
+  API --> Eng[Engine: llama.cpp or vLLM]
+  Eng --> Store[Local model store]
+  Reg[OCI registry / Hub / HF] --> Store
+```
+
+*Figure - Developer-local inference card: OCI-packaged weights on a workstation or CI runner, not a cluster admission path.*
+
+| Area | Minimum controls | Control points | Guide |
+| --- | --- | --- | --- |
+| Supply chain | Digest-pin OCI model; registry allowlist; scan weights before shared use | 2, 7, 9 | [Ch.5 OCI artifacts](05-model-artifact-supply-chain.md#models-as-oci-artifacts-distribution-layer) |
+| Endpoint | Do not expose host TCP broadly; treat LAN/container reachability as untrusted; prefer ECI / network isolation on Desktop | 7, 10 | This card; [Ch.11 Shadow AI](11-governance-evidence.md#shadow-ai-governance) |
+| CI | Pin DMR/engine versions; record model digest + engine in Evidence Pack; same CP 7 suite as managed/self-hosted targets | 7, 8 | [Ch.12 local runners](12-threat-control-tools-map.md#l2--local-openai-compatible-runners-for-cp-7) |
+| Promote to prod | Package/push to org registry → **E.1.3** path (sign/verify, admission); do not “promote” by pointing production at a laptop runner | 8, 9 | [Ch.16 DMR vs cluster](16-kubernetes-deployment-reference.md#docker-model-runner-vs-cluster-serving) |
+| Agents | Keep tool execution sandboxed; local model output must still pass Intent Gate | 7, 10 | [Ch.8](08-agentic-ai-security.md) |
+
+**Evidence Pack fields (add when DMR/CI-local is in scope):** `model_oci_digest`, `model_registry`, `dmr_or_engine_version`, `tcp_host_exposure`, `eci_or_network_isolation`.
+
+**Security note:** Track runner CVEs (e.g. unauthenticated configure / registry SSRF classes historically disclosed against `docker/model-runner`). Patch Desktop/Engine promptly; “local” does not mean “out of scope for IR.”
 
 ## E.2 Decision Matrix
 
@@ -238,6 +270,7 @@ Use this matrix to select **mandatory control themes** by architecture. Map each
 | If your primary architecture is… | You must prioritize…                                     | Blocking release decisions at…                       | Integrity evidence at…                                      | Start chapters      |
 | -------------------------------- | -------------------------------------------------------- | ---------------------------------------------------- | ----------------------------------------------------------- | ------------------- |
 | **Managed AI API only**          | Gateway, DLP, config snapshot, Shadow AI policy          | 4 (data in prompts/RAG), 7 (injection/leak tests), 8 | 9 (deployment ID, region, config hash—not weight signature) | Ch.2, 7, Appendix D |
+| **Developer-local / CI runner (e.g. DMR)** | OCI digest pin, registry allowlist, unauthenticated API exposure, local CP 7 | 7 (suites on local base URL), 8 | 9 (model OCI digest + engine version—not cluster admission) | Ch.5, 12, [E.1.7](#e17-developer-local-inference-docker-model-runner) |
 | **Enterprise RAG**               | Ingest ACL, retrieval ACL, reindex playbook, output gate | 4 (poisoned corpus), 7 (RAG leakage tests), 8        | 9 (index version hash + model/config evidence)              | Ch.4, 7             |
 | **Self-hosted LLM**              | Model scan, signing, K8s isolation, admission verify     | 4, 7, 8                                              | 9 (signature + attestation)                                 | Ch.5, 6, 16         |
 | **Agent + MCP**                  | Intent Gate, tool allowlist, MCP scan, HITL              | 7 (tool misuse tests), 8                             | 9 (agent config + tool manifest hash)                       | Ch.7, 8             |
@@ -632,7 +665,7 @@ These examples apply the axiom in [Chapter 1 — Secure by design](01-intro.md#s
 | D — Customer-facing website    | RAG chatbot + background agents | [E.1.1](#e11-enterprise-rag-internal-knowledge-base) + [E.1.4](#e14-agent-with-tools-mcp-apis) | Composition: B's chat path + A's queued agency on a managed API or C |
 
 
-These four cover the LLM products this series is for. They are **not** a 1:1 map of the [E.1 architecture cards](#e1-architecture-cards): managed AI API ([E.1.2](#e12-managed-ai-api-azure-openai-amazon-bedrock-google-vertex-ai)) is a substrate under A/B/D, not a fifth product; classic ML ([E.1.6](#e16-classic-ml-tabular--vision--no-llm)) and foundation-model pretraining stay on their cards and [Chapters 4–6](04-data-security-privacy.md) (no prompt/RAG/agent surface to work through here). Multi-agent meshes are treated in A (sub-agents); a fifth swarm example would repeat Intent Gate and scope rules.
+These four cover the LLM products this series is for. They are **not** a 1:1 map of the [E.1 architecture cards](#e1-architecture-cards): managed AI API ([E.1.2](#e12-managed-ai-api-azure-openai-amazon-bedrock-google-vertex-ai)) is a substrate under A/B/D; developer-local DMR ([E.1.7](#e17-developer-local-inference-docker-model-runner)) is a substrate for laptop/CI—not a worked product example; classic ML ([E.1.6](#e16-classic-ml-tabular--vision--no-llm)) and foundation-model pretraining stay on their cards and [Chapters 4–6](04-data-security-privacy.md) (no prompt/RAG/agent surface to work through here). Multi-agent meshes are treated in A (sub-agents); a fifth swarm example would repeat Intent Gate and scope rules.
 
 ### E.7.1 Example A: AI coding assistant (agent, MCP, IDE host)
 

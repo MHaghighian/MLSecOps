@@ -99,6 +99,7 @@ Publish AI-AUP **before** wide blocking — bans without alternatives typically 
 | SSO + corporate tenant only | Block personal ChatGPT on corp network where policy allows | Governance + IT identity |
 | Secret scanning | Find `OPENAI_API_KEY`, Anthropic keys in repos | Ch.6 control point 3, Ch.12 Gitleaks |
 | Centralized API proxy | Developers use org proxy, not raw provider keys | Ch.5 key management |
+| Local runner hygiene | Sanctioned local OpenAI-compatible runners (e.g. org-approved Docker Model Runner) with registry allowlist; block ad-hoc public SaaS where policy requires | [E.1.7](17-appendix-e-implementation-reference.md#e17-developer-local-inference-docker-model-runner), [Ch.5 OCI artifacts](05-model-artifact-supply-chain.md#models-as-oci-artifacts-distribution-layer) |
 | SIEM correlation | Alert on bulk uploads to AI domains | Ch.10 |
 
 ### Open-source gateway references (sanctioned path)
