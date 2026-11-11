@@ -161,6 +161,19 @@ For Kyverno 1.18+, consider migrating to [`ImageValidatingPolicy`](https://kyver
 - [Lifecycle control point 9](06-pipeline.md#lifecycle-control-points) (Chapter 6)
 - [`policies/`](../policies/README.md)
 
+## Docker Model Runner vs cluster serving
+
+**Docker Model Runner (DMR)** is a developer/CI-oriented way to pull OCI-packaged models and serve OpenAI-compatible APIs on a workstation or Compose stack ([docs](https://docs.docker.com/ai/model-runner/)). It may even use **vLLM as an engine** on supported NVIDIA hosts. That does **not** make DMR a substitute for this chapter’s cluster pattern:
+
+| Concern | DMR / laptop-CI | This chapter (K8s) |
+|---|---|---|
+| Authn on inference API | Typically none by default | API keys / gateway / mTLS as designed |
+| Admission / digest bind | Manual / CI policy | Kyverno/OPA + CP 9 |
+| Multi-tenant KV / NetworkPolicy | Out of scope | Required for shared GPU tiers |
+| Promote path | Package to org registry, then enter K8s controls | Verify at admit; fail closed |
+
+Use DMR where [Appendix E.1.7](17-appendix-e-implementation-reference.md#e17-developer-local-inference-docker-model-runner) applies; keep production inference on the controls below (and [Ch.5 OCI artifacts](05-model-artifact-supply-chain.md#models-as-oci-artifacts-distribution-layer) for packaging).
+
 ## vLLM on Kubernetes — secure deployment pattern
 
 The [vLLM production-stack](https://github.com/vllm-project/production-stack) project documents Helm-based deployment with API key protection:

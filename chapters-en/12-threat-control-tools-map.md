@@ -127,7 +127,7 @@ flowchart TB
 | `L2 — Security Scanning and Testing` | `SAST/SCA`, artifact scan, IaC, adversarial and LLM testing | 3, 7 | `Gitleaks`, `Trivy`, `Checkov`, `tfsec`, `SonarQube`, `lintML`, `ModelScan`, `ART`, `Garak`, `PyRIT`, `Promptfoo`, `Agentic Security`, `PurpleLlama`, `Mindgard`, `AI-exploits`, `AI-Infra-Guard` |
 | `L3 — AI Supply Chain` | `SBOM/AI-BOM`, signing, and provenance | 2, 9 | `Syft`, `CycloneDX`, `Cosign`, `Sigstore`, `SLSA` |
 | `L4 — Policy-as-Code` | Release decision and dataset compliance | 4, 8 | `OPA`, `Conftest`, `Kyverno` |
-| `L5 — Registry and Deployment` | Signed model storage, secret, and key | 9, 10 | `Model Registry`, `S3/Nexus`, `Vault/KMS` |
+| `L5 — Registry and Deployment` | Signed model storage, OCI model artifacts, secret, and key | 9, 10 | `Model Registry`, OCI model packages (e.g. Docker Model Runner artifacts), `S3/Nexus`, `Vault/KMS` |
 | `L6 — Runtime and Guardrails` | Prompt filtering, moderation, and AI gateway | Production | Internal gateway; `NeMo Guardrails` (rails); Meta `Llama Guard` (moderation model, often via NeMo); Hub `LlamaGuard7B` (optional L0—not a NeMo substitute); `Lakera Guard`; `Patronus` |
 | `L7 — Observability and SOC` | Drift, alert, and SIEM | 10 | `ELK`, `Grafana`, `Evidently`, `WhyLabs`, `HiddenLayer`, `Protect AI AIRS` |
 
@@ -263,6 +263,19 @@ Before picking tools, structure validation at **CP 7** as an explicit red-team l
 8. **Remediate** — fix, re-test, update gates  
 
 Map each phase to at least one L2 tool below (Garak, Promptfoo, PyRIT, ART, PrivacyRaven, org suites). Record `redTeamPhasesCompleted` in the machine-readable Evidence Pack. Policy-as-Code samples for release/admission: [`policies/`](../policies/README.md).
+
+### L2 — Local OpenAI-compatible runners for CP 7
+
+Purpose: Run the same LLM security suites against a **local** OpenAI-compatible base URL so prompts and fixtures stay off public APIs during development and CI. **Docker Model Runner (DMR)** is one such runner: it serves models packaged as **OCI artifacts** and integrates with Compose / Testcontainers. Ollama-class tools fill a similar niche outside the Docker packaging model.
+
+| Practice | Requirement |
+|---|---|
+| Target | Point Garak / Promptfoo / org harnesses at the local base URL (DMR default host path is typically `http://localhost:12434/engines/v1` when TCP is enabled) |
+| Identity of model under test | Record **OCI manifest digest** (and engine name/version), not only a friendly tag |
+| Network | Assume the runner API is **unauthenticated**; do not expose host TCP on shared networks; isolate CI runners |
+| Scope limit | Local runners are for **CP 7 / developer loops**. Production serving remains [Ch.16](16-kubernetes-deployment-reference.md) / [E.1.3](17-appendix-e-implementation-reference.md#e13-self-hosted-llm-vllmkserve-on-kubernetes). Architecture card: [E.1.7](17-appendix-e-implementation-reference.md#e17-developer-local-inference-docker-model-runner). Supply-chain notes: [Ch.5 OCI artifacts](05-model-artifact-supply-chain.md#models-as-oci-artifacts-distribution-layer). |
+
+Decision behavior: A green local suite does **not** waive production gateway, admission, or managed-API evidence. Evidence: suite report + `model_oci_digest` + runner/engine version.
 
 ### L2 — LLM Security Test: Garak
 

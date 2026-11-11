@@ -97,6 +97,8 @@ Organizations that consume Azure OpenAI, Amazon Bedrock, Google Vertex AI, or si
 
 Extended checklist: [Appendix D — Managed AI Services](15-conclusion-appendix.md#appendix-d-managed-ai-services-security-reference).
 
+When the model runs on a **developer laptop or CI runner** via a local OpenAI-compatible stack (for example Docker Model Runner with OCI-packaged weights), use architecture card [E.1.7](17-appendix-e-implementation-reference.md#e17-developer-local-inference-docker-model-runner) — not the managed-API or Kubernetes cards. Inventory that path in the threat model (endpoint exposure, registry trust, unauthenticated local API).
+
 ### References / Source mapping
 
 **Frameworks and standards**

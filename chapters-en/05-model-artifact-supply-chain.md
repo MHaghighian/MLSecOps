@@ -163,6 +163,25 @@ The AI supply chain is not limited to software packages. This chain also include
 | `Notebook` | Secret leakage or unsafe code execution |
 | `Model Registry` | Replacement of healthy model with poisoned model |
 | Container | Operating system or installed tool vulnerabilities |
+| OCI model artifact (GGUF / Safetensors package) | Tampered weights published like an image; wrong digest promoted; malicious registry during pull |
+
+### Models as OCI artifacts (distribution layer)
+
+Some runtimes — notably **Docker Model Runner (DMR)** — distribute weights as **OCI artifacts**, not as ordinary container images. The packaging intent is familiar registry workflows (Hub, Harbor, Artifactory, ACR) with a model-specific media type, while keeping the **inference engine separate from the weight files**.
+
+| Concept | Security-relevant detail |
+|---|---|
+| Artifact type | Config media type such as `application/vnd.docker.ai.model.config.v0.1+json`; weight layers (e.g. GGUF) as single uncompressed files for mmap — not tar image layers |
+| Model identity | **Manifest digest** is the model ID — treat like an image digest at CP 9 |
+| Discovery | Curated catalogs (e.g. Docker Hub AI Models) and on-the-fly packaging from Hugging Face GGUF sources expand the trust boundary to those publishers |
+| Enterprise control | Registry allowlists (e.g. Docker Desktop Registry Access Management) constrain *which registries* developers may pull from — useful workstation hygiene, not a substitute for signing |
+
+**Controls (align with CP 2 / 7 / 9):**
+
+- Pin by **digest**, not floating tags, before promote or shared CI use.
+- Apply the same scan-before-load expectations as other weight formats ([Beyond Pickle](#beyond-pickle-binary-headers-and-safe-formats)); OCI packaging does not imply behavioral safety.
+- Separate **engine version** (llama.cpp / vLLM / …) from **weight digest** in the Evidence Pack / AI-BOM.
+- Do not equate DMR (or similar local runners) with production cluster serving — see [Appendix E.1.7](17-appendix-e-implementation-reference.md#e17-developer-local-inference-docker-model-runner) and [Ch.16](16-kubernetes-deployment-reference.md#docker-model-runner-vs-cluster-serving).
 
 ### References / Source mapping
 
@@ -170,11 +189,13 @@ The AI supply chain is not limited to software packages. This chain also include
 - MITRE ATLAS: `AML.T0058` Publish Poisoned Models
 - `AML.T0020` Poison Training Data; SLSA / NIST SSDF: artifact provenance and dependency integrity themes
 - OpenSSF MLSecOps whitepaper: AI supply-chain stages
+- OCI distribution / artifact guidance; Docker model OCI media types (informative)
 
 **Implementation guidance (this guide)**
 - [Poisoning taxonomy across the lifecycle](#poisoning-taxonomy-across-the-lifecycle)
 - [SBOM and AI-BOM](#sbom-and-ai-bom)
 - [Data security controls](04-data-security-privacy.md) (Chapter 4)
+- [Appendix E.1.7 — Developer-local inference](17-appendix-e-implementation-reference.md#e17-developer-local-inference-docker-model-runner)
 
 ## Poisoning taxonomy across the lifecycle
 
