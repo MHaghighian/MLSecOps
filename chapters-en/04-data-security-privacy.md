@@ -116,13 +116,25 @@ A common misconception is that `Embedding` vectors stored in a `Vector DB` are n
 - Storing embeddings instead of text alone is not considered a privacy control.
 - Long-term agent memory (`Agent Memory`) is also exposed to the same leakage and [memory poisoning](08-agentic-ai-security.md#memory-poisoning) paths (Chapter 8).
 
+**Data revocation includes offline copies.** Deleting or ACL-revoking a document in the live index is incomplete if embeddings (or chunk payloads) remain in **replicas, cold backups, volume snapshots, object-store dumps, or retrieval caches**. Those copies are still reconstructible/invertible assets. Treat them in the same deletion/retention playbook as the online index:
+
+| Surface | Minimum expectation |
+|---|---|
+| Live index / partition | Remove or re-embed after revoke; bump `index_version_hash` |
+| Replicas / HA followers | Confirm purge or rebuild from the cleaned primary |
+| Backups / snapshots | Retention aligned to deletion obligations; restore paths must not reintroduce revoked vectors without review |
+| Query / embedding caches | Invalidate entries keyed by `doc_id` / content hash |
+
+**Classification vs DLP.** Use [sensitive-data classification](#sensitive-data-classification-for-scanning) at ingest to decide isolation, encryption, and retention tiers for embeddings. Runtime **DLP** can catch residual plaintext or policy violations on ingress/egress; it does **not** replace classification or backup/snapshot purge for vector stores. See [Reindex Playbook](07-llm-rag-security.md#reindex-playbook).
+
 ### References / Source mapping
 
 **Frameworks and standards**
 - OWASP LLM Top 10 (2025): `LLM08` Vector and Embedding Weaknesses; Morris et al., "Text Embeddings Reveal (Almost) As Much As Text" - embedding inversion risk
 
 **Implementation guidance (this guide)**
-- [Chapter 7 - Embedding Poisoning](07-llm-rag-security.md#embedding-poisoning)
+- [Chapter 7 - Embedding Poisoning](07-llm-rag-security.md#embedding-poisoning); [Reindex Playbook](07-llm-rag-security.md#reindex-playbook)
+- [Appendix E.7.2](17-appendix-e-implementation-reference.md#e72-example-b-multi-tenant-rag-saas-upload-and-per-user-chatbot) (multi-tenant RAG purge / reindex evidence)
 
 ## Privacy audit tools
 

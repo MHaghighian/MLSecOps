@@ -214,20 +214,24 @@ Sample scenario: an attacker introduces a poisoned document through a webhook, u
 
 ## Reindex Playbook
 
-1. Identify the poisoned batch using `Lineage`.
-2. Remove that batch from the index.
-3. Regenerate embeddings with an approved embedding model.
-4. Run security regression tests for prompt and RAG before publishing the new index.
+Use this playbook for **poison remediation** and for **data revocation** (document delete or ACL revoke). Live-index cleanup alone is not enough when embeddings remain in backups or caches — see [Chapter 4 — Information leakage from Embedding](04-data-security-privacy.md#information-leakage-from-embedding).
+
+1. Identify the affected batch using `Lineage` (poisoned ingest, revoked `doc_id`, or expired share).
+2. Remove that batch from the **live** index (and tenant partition).
+3. Regenerate embeddings with an approved embedding model when replacing content; otherwise confirm hard delete of vectors and metadata.
+4. **Extend purge beyond the live index:** replicas/followers, cold backups and volume snapshots (per retention policy), object-store dumps used for restore drills, and query/embedding caches keyed by `doc_id` or content hash. A restore must not silently reintroduce revoked vectors.
+5. Run security regression tests for prompt and RAG (including cross-tenant / revoked-doc deny cases) before publishing the new index; record the new `index_version_hash` and purge evidence.
 
 ### References / Source mapping
 
 **Frameworks and standards**
-- OWASP LLM Top 10 (2025): `LLM04` (RAG corpus remediation)
+- OWASP LLM Top 10 (2025): `LLM04` (RAG corpus remediation); `LLM08` (vector/embedding residual copies)
 - NIST AI RMF: Manage - incident response and recovery
 
 **Implementation guidance (this guide)**
 - [LLM verification approach](#llm-verification-approach)
 - [Lifecycle control point 7](06-pipeline.md#control-point-7-test-acceptance-conditions) (Chapter 6)
+- [Chapter 4 — Information leakage from Embedding](04-data-security-privacy.md#information-leakage-from-embedding)
 
 ## Cloud Native and Multi-Tenant deployment
 

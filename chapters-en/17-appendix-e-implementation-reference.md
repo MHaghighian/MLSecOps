@@ -1233,7 +1233,7 @@ If the product later adds tools (export, email, "create ticket"), apply [Example
 | 7   | **Hardened render surface**                  | CSP with no unexpected `connect-src`/`img-src`; encode markdown; disable auto-fetching remote content                             | EchoLeak-class zero-click exfil (`LLM02`, `LLM05`, `AML.T0086`) |
 | 8   | **Sharing is an explicit grant**             | private by default; share creates rows in the ACL store; retrieval filter unions owner + grants—not "same tenant ⇒ readable"      | confused sharing, oversharing                                   |
 | 9   | **Quotas and abuse caps**                    | per-tenant/user upload bytes, query rate, embedding cost caps                                                                     | unbounded consumption (`LLM10`)                                 |
-| 10  | **Re-index / purge on suspicion**            | poison incident → quarantine doc, reindex partition, evidence trail ([Reindex Playbook](07-llm-rag-security.md#reindex-playbook)) | persistent corpus poison (`LLM04`)                              |
+| 10  | **Re-index / purge on suspicion or revoke**  | quarantine/delete doc; reindex partition; purge replicas, backups/snapshots, and caches so revoked embeddings cannot restore ([Reindex Playbook](07-llm-rag-security.md#reindex-playbook); [Ch.4 embedding leakage](04-data-security-privacy.md#information-leakage-from-embedding)) | persistent corpus poison / incomplete revocation (`LLM04`, `LLM08`) |
 
 
 > Soft classifiers on upload or prompt are supporting. If removing them lets Alice's query return Bob's document, a primary control (1–3) was missing.
