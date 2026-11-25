@@ -63,9 +63,10 @@ nav:
   - Reference Artifacts:
       - Evidence Pack Schema: schemas/README.md
       - Schema Definition: schemas/evidence-pack.schema.md
-      - Example Instance: schemas/evidence-pack.example.md
+      - Example Instances: schemas/evidence-pack.example.md
       - OPA / Conftest Policies: policies/README.md
       - CP8-CP9 Admission Policy: policies/cp8_cp9_admission.md
+      - Kubernetes Workload Policy: policies/k8s/README.md
       - AARM Alignment: references/aarm-alignment.md
   - Guide:
       - Table of Contents: chapters-en/TABLE-OF-CONTENTS.md
@@ -97,7 +98,7 @@ nav:
       - Releasing: releasing.md
 
 extra:
-  version: 1.3.0
+  version: 1.4.0
   social:
     - icon: fontawesome/brands/github
       link: https://github.com/MHaghighian/MLSecOps

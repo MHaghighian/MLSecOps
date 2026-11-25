@@ -3,7 +3,7 @@
 > **Open-source MLSecOps reference model and practical guide for AI security, LLM/RAG, agentic AI, and secure MLOps.**
 
 [![Status](https://img.shields.io/badge/status-stable-blue)](CHANGELOG.md)
-[![Version](https://img.shields.io/badge/version-v1.3.0-lightgrey)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-v1.4.0-lightgrey)](CHANGELOG.md)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21206780.svg)](https://doi.org/10.5281/zenodo.21206780)
 [![Documentation](https://img.shields.io/badge/docs-mhaghighian.github.io%2FMLSecOps-blue)](https://mhaghighian.github.io/MLSecOps/)
 [![License: CC BY-SA 4.0](https://img.shields.io/badge/License-CC%20BY--SA%204.0-green.svg)](LICENSE)
@@ -21,7 +21,7 @@ It defines an actionable **lifecycle control model (`CP 1–10`)**, machine-read
 | **Read online (recommended)** | [mhaghighian.github.io/MLSecOps](https://mhaghighian.github.io/MLSecOps/) |
 | **Source repository** | [github.com/MHaghighian/MLSecOps](https://github.com/MHaghighian/MLSecOps) |
 | **Maintainer site** | [mhsec.me](https://mhsec.me) |
-| **Latest release** | [v1.3.0](https://github.com/MHaghighian/MLSecOps/releases/tag/v1.3.0) |
+| **Latest release** | [v1.4.0](https://github.com/MHaghighian/MLSecOps/releases/tag/v1.4.0) |
 | **Cite (DOI)** | [10.5281/zenodo.21206780](https://doi.org/10.5281/zenodo.21206780) |
 | **OpenSSF** | [Best Practices Passing](https://www.bestpractices.dev/projects/15668) · [Baseline-2](https://www.bestpractices.dev/projects/15668) |
 
@@ -115,13 +115,13 @@ Executive lifecycle (detail in [Chapter 6](chapters-en/06-pipeline.md)):
 
 ## Downloads
 
-**Latest release:** **v1.3.0** · [Zenodo DOI](https://doi.org/10.5281/zenodo.21206780)
+**Latest release:** **v1.4.0** · [Zenodo DOI](https://doi.org/10.5281/zenodo.21206780)
 
 | Format | Link |
 |--------|------|
 | **Documentation site** | [mhaghighian.github.io/MLSecOps](https://mhaghighian.github.io/MLSecOps/) |
 | **Markdown** | `chapters-en/` in this repository |
-| **Source (ZIP)** | [v1.3.0 archive](https://github.com/MHaghighian/MLSecOps/archive/refs/tags/v1.3.0.zip) |
+| **Source (ZIP)** | [v1.4.0 archive](https://github.com/MHaghighian/MLSecOps/archive/refs/tags/v1.4.0.zip) |
 
 All releases: [GitHub Releases](https://github.com/MHaghighian/MLSecOps/releases). Pre-built **DOCX** (and **PDF** when conversion succeeds) plus `HANDBOOK-SHA256SUMS.txt` are attached automatically on new `v*.*.*` release tags via [`.github/workflows/handbook-artifacts.yml`](.github/workflows/handbook-artifacts.yml); for historical releases (`v1.1.1`–`v1.3.0`) or custom builds, generate Word locally (below).
 
@@ -134,7 +134,7 @@ pip install -r scripts/requirements-docx.txt
 python scripts/build-docx.py --render-mermaid
 ```
 
-**Output:** `dist/MLSecOps-Practical-Reference-Guide-v{version}.docx` (version read from [CITATION.cff](CITATION.cff)). Export PDF from Word (or Pandoc) if needed.
+**Output:** `dist/MLSecOps-Reference-Model-v{version}.docx` (version read from [CITATION.cff](CITATION.cff)). Export PDF from Word (or Pandoc) if needed.
 
 | Option | Purpose |
 |--------|---------|
@@ -196,7 +196,7 @@ If you review the guide and agree to be listed, we can add your name under **Com
 See [CITATION.cff](CITATION.cff) for machine-readable metadata.
 
 ```text
-Haghighian, M. (2026). MLSecOps Practical Reference Guide (v1.3.0).
+Haghighian, M. (2026). MLSecOps Reference Model & Practical Guide (v1.4.0).
 Zenodo. https://doi.org/10.5281/zenodo.21206780
 ```
 

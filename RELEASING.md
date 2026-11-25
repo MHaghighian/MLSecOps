@@ -1,8 +1,8 @@
 # Releasing the MLSecOps Reference Model & Practical Guide
 
-Checklist for maintainers publishing **v1.3.0** and later versions.
+Checklist for maintainers publishing **v1.4.0** and later versions.
 
-**Current release:** v1.3.0 (2026-10-22)
+**Current release:** v1.4.0 (2026-11-25)
 
 Pre-built **DOCX** (and **PDF** when conversion succeeds) are attached automatically by the **Handbook Artifacts** workflow (`.github/workflows/handbook-artifacts.yml`) when a `v*.*.*` tag is pushed, or via that workflow’s `workflow_dispatch`. Readers can still build locally with `scripts/build-docx.py --render-mermaid` if needed.
 
@@ -29,25 +29,25 @@ The **Create Release** workflow generates `SHA256SUMS` and a cosign keyless sign
 
 ---
 
-## v1.3.0 release checklist
+## v1.4.0 release checklist
 
-### Pre-release (content)
+### Pre-release (content & verification)
 
-- [x] NIST IR 8596 Secure mapping + release-gate / privacy / nav integrity pass
-- [x] Version strings bumped to v1.3.0
+- [x] Reference Model identity, `schemas/`, `policies/` (`CP4`/`CP7`/`CP8`/`CP9` + `policies/k8s/`), CI verification, and Appendix `E.1.7` / `E.4` updates
+- [x] Version strings bumped to v1.4.0 (`CITATION.cff`, `mkdocs.yml`, docs, chapters)
 
 ### Git
 
-- [ ] Commit: `docs: release v1.3.0 — NIST Cyber AI Profile + integrity fixes`
-- [ ] `git push origin main`
-- [ ] `git tag -a v1.3.0 -m "MLSecOps Practical Reference Guide v1.3.0"`
-- [ ] `git push origin v1.3.0`
+- [ ] Push `main` with DCO-signed commits (`git push origin main`)
+- [ ] `git tag -s v1.4.0 -m "MLSecOps Reference Model & Practical Guide v1.4.0"`
+- [ ] `git push origin v1.4.0`
 
 ### GitHub Release
 
-1. Create release from tag **v1.3.0** (integrity assets via Create Release; handbook DOCX/PDF via Handbook Artifacts on the tag)
-2. Title: **v1.3.0 — MLSecOps Practical Reference Guide**
-3. Body: [releases/v1.3.0-RELEASE-BODY.md](releases/v1.3.0-RELEASE-BODY.md)
+1. Create release from tag **v1.4.0** (integrity assets via Create Release workflow; handbook DOCX/PDF attached to draft via Handbook Artifacts workflow)
+2. Title: **MLSecOps v1.4.0 — MLSecOps Reference Model & Practical Guide**
+3. Body: [releases/v1.4.0-RELEASE-BODY.md](releases/v1.4.0-RELEASE-BODY.md)
+4. Verify `SHA256SUMS` + `SHA256SUMS.sigstore.json` and handbook assets on the draft release, then click **Publish release**.
 
 ### Zenodo
 
@@ -184,6 +184,7 @@ After each release:
 | `v1.2.0` | Example C secure-by-design hardening (authZ, cache_salt, MIG/MPS/LeftoverLocals) |
 | `v1.2.1` | Restore inline Mermaid diagrams + MkDocs Mermaid render |
 | `v1.3.0` | NIST Cyber AI Profile (IR 8596 iprd) mapping, release-gate/privacy/nav integrity, OpenSSF baseline-2 |
+| `v1.4.0` | Reference Model & Practical Guide identity, CycloneDX 1.6/1.7 Evidence Pack schemas, OPA/Conftest policies (`CP4`/`CP7`/`CP8`/`CP9` + K8s), DMR/Vector DB revocation, hardened CI/release workflows |
 | `v2.0.0` | Lifecycle model or major structural change |
 
 Document every release in [CHANGELOG.md](CHANGELOG.md).
@@ -195,7 +196,7 @@ Document every release in [CHANGELOG.md](CHANGELOG.md).
 ```bash
 # From repository root
 python scripts/build-docx.py --render-mermaid
-# Output: dist/MLSecOps-Practical-Reference-Guide-v1.3.0.docx
+# Output: dist/MLSecOps-Reference-Model-v1.4.0.docx
 ```
 
 The build uses Pandoc with the Word **reference template** (`scripts/templates/reference.docx`, or auto-download from the v1.0.0 Release DOCX). Diagram PNGs are taken from `assets/diagrams/`; missing PNGs can be rendered from `assets/diagrams/source/*.mmd` with `--render-mermaid`. Export PDF from Word or Pandoc if required. Do not commit large binaries to `main`.

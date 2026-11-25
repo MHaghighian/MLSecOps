@@ -4,7 +4,21 @@ Source archives, compiled artifacts, and documentation for the **MLSecOps Refere
 
 Pre-built **DOCX** (and **PDF** when conversion succeeds) plus `HANDBOOK-SHA256SUMS.txt` are attached automatically to new `v*.*.*` releases by `.github/workflows/handbook-artifacts.yml`; historical `v1.1.1`–`v1.3.0` tags without attached binaries can be built locally with `python scripts/build-docx.py --render-mermaid` (see [README](../README.md#build-docx-yourself)).
 
-## v1.3.0 (current)
+## v1.4.0 (current)
+
+| Item | Location |
+|------|----------|
+| Source (ZIP) | [v1.4.0 archive](https://github.com/MHaghighian/MLSecOps/archive/refs/tags/v1.4.0.zip) |
+| Markdown / Schemas / Policies | `chapters-en/`, `schemas/`, `policies/` in the repository root |
+| Site | https://mhaghighian.github.io/MLSecOps/ |
+| Maintainer | https://mhsec.me |
+| Zenodo DOI | [10.5281/zenodo.21206780](https://doi.org/10.5281/zenodo.21206780) (concept; version DOI after deposit) |
+
+**Release:** https://github.com/MHaghighian/MLSecOps/releases/tag/v1.4.0
+
+---
+
+## v1.3.0
 
 | Item | Location |
 |------|----------|

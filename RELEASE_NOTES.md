@@ -4,6 +4,32 @@ Official releases: [GitHub Releases](https://github.com/MHaghighian/MLSecOps/rel
 
 ---
 
+## v1.4.0 — 2026-11-25
+
+**Reference Model identity + Policy-as-Code + Evidence Pack schema** — positions the project as an independent **MLSecOps Reference Model & Practical Guide**, adds CycloneDX 1.6/1.7 Evidence Pack schemas (`schemas/`) and OPA/Conftest policies (`policies/` + `policies/k8s/`), documents Vector DB backup/snapshot revocation and Docker Model Runner (`E.1.7`), automates CI schema/Conftest verification and DOCX/PDF release artifacts, and aligns links/diagrams/history across the repository.
+
+**DOI:** concept [10.5281/zenodo.21206780](https://doi.org/10.5281/zenodo.21206780) (version DOI updates after Zenodo deposit)
+
+| Format | Link |
+|--------|------|
+| Source (ZIP) | [Source code (zip)](https://github.com/MHaghighian/MLSecOps/archive/refs/tags/v1.4.0.zip) |
+| Markdown | `chapters-en/`, `schemas/`, `policies/` in this repository |
+| Site | https://mhaghighian.github.io/MLSecOps/ |
+| Maintainer | https://mhsec.me |
+| Word / PDF | Attached via Handbook Artifacts workflow on release tags (or `python scripts/build-docx.py --render-mermaid`) |
+
+### Highlights
+
+- **Reference Model identity:** unified framing and `Operational & scope notes` across `README.md`, `GETTING-STARTED.md`, `GOVERNANCE.md`, `CITATION.cff`, `mkdocs.yml`, Ch.1–Ch.17, and `promotion/`
+- **Machine-readable Evidence Pack (`schemas/`):** Draft 2020-12 JSON Schema (`CycloneDX 1.6`/`1.7`, conditional `Managed-API` vs self-hosted/`Agentic-MCP` constraints, `dataProvenance`, `localRunnerConfig`, `runtimeTelemetry`) + `Agentic-MCP` and `Managed-API` example packs
+- **Executable OPA/Conftest Policy-as-Code (`policies/`):** fail-closed admission rules covering `CP4`/`CP7`/`CP8`/`CP9`, SHA-256 digest binding, `MCP09`/drift/kill-switch/KV checks, unit tests (`conftest verify`), and Kubernetes inference Pod/Deployment hardening (`policies/k8s/`)
+- **Technical coverage updates:** Vector DB backup/snapshot revocation (Ch.4/Ch.7), Docker Model Runner OCI cards (`Ch.5` / `E.1.7` / `Ch.12` / `Ch.16`), `E.4` YAML↔JSON mapping, and diagram/link/dark-mode Mermaid strict fixes
+- **CI & release integrity:** SHA-256-pinned Conftest & schema checks in `docs-check.yml`, `pip-audit` dependency auditing, draft-safe `handbook-artifacts.yml`, and expanded `generate_release_manifest.py`
+
+Full change history: [CHANGELOG.md](CHANGELOG.md).
+
+---
+
 ## v1.3.0 — 2026-10-22
 
 **NIST Cyber AI Profile + integrity** — Secure-theme mapping from NIST IR 8596 (iprd) across governance, supply chain, NHI, SOC/IR; release-gate wording normalized (CP 4/7/8 + integrity CP9); OpenSSF Passing / baseline-2; Dependabot disabled.
