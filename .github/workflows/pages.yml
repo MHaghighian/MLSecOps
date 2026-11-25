@@ -63,7 +63,7 @@ jobs:
             > site/robots.txt
 
       - name: Add Google Search Console HTML verification file
-        run: cp seo/google0109e565faa8dd7c.html site/
+        run: cp .github/seo/google0109e565faa8dd7c.html site/
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3

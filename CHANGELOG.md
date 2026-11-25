@@ -4,6 +4,10 @@ All notable changes to the MLSecOps Reference Model & Practical Guide are docume
 
 ## [Unreleased]
 
+### Changed
+
+- **Repo root cleanup** — removed `promotion/` (Medium draft out of scope for the reference model tree); moved Search Console assets from `seo/` to `.github/seo/` (updated Pages/`prepare_pages`/`inject_google_verification`/manifest/`RELEASING.md`); ignore local `_log_*/` build leftovers.
+
 ## [1.4.0] — 2026-11-25
 
 ### Added

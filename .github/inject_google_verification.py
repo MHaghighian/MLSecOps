@@ -9,7 +9,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 MKDOCS = ROOT / "mkdocs.yml"
-CODE_FILE = ROOT / "seo" / "google-site-verification.code"
+CODE_FILE = ROOT / ".github" / "seo" / "google-site-verification.code"
 PLACEHOLDER = "PASTE_GOOGLE_VERIFICATION_CODE_HERE"
 META_BLOCK = (
     "  meta:\n"

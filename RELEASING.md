@@ -137,7 +137,7 @@ kubernetes
    ```
 5. Paste **only** `YOUR_CODE_HERE` (the `content` value) in **one** of:
    - **Option A (recommended):** GitHub → Settings → Secrets → Actions → `GOOGLE_SITE_VERIFICATION`
-   - **Option B:** edit `seo/google-site-verification.code` (first line only) and push
+   - **Option B:** edit `.github/seo/google-site-verification.code` (first line only) and push
 6. Re-run **Deploy GitHub Pages** workflow (or push to `main`)
 7. In Search Console click **Verify**
 8. Submit sitemap: `https://mhaghighian.github.io/MLSecOps/sitemap.xml`
