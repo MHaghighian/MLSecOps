@@ -434,7 +434,8 @@ Purpose: Convert security policies into executable code for lifecycle decision p
 Example policy (**OPA Rego v1**, aligned with [`schemas/evidence-pack.schema.json`](../schemas/evidence-pack.schema.md); full admission sample in [`policies/cp8_cp9_admission.rego`](../policies/cp8_cp9_admission.md)):
 
 ```rego
-package mlsecops.gate
+# Conftest defaults to `package main`; use `--namespace` / `--all-namespaces` if you rename it
+package main
 
 import rego.v1
 

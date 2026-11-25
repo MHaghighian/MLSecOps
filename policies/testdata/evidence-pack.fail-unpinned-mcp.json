@@ -36,6 +36,7 @@
   },
   "runtimeAgentConfig": {
     "killSwitchEnabled": true,
+    "scopedCredentialsRequired": true,
     "mcpTools": [
       {
         "serverName": "unregistered-shadow-mcp",

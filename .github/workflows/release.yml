@@ -5,7 +5,7 @@ on:
   workflow_dispatch:
     inputs:
       tag:
-        description: "Tag to publish (e.g. v1.2.1)"
+        description: "Tag to publish (e.g. v1.4.0)"
         required: true
         type: string
 
@@ -30,22 +30,42 @@ jobs:
           python-version: "3.12"
 
       - name: Build release notes
+        env:
+          TAG: ${{ inputs.tag }}
         run: |
-          TAG="${{ inputs.tag }}"
-          {
-            echo "# MLSecOps Practical Reference Guide ${TAG}"
-            echo ""
-            echo "Public release of the practical reference guide."
-            echo ""
-            echo "## Downloads"
-            echo "- **Documentation:** https://mhaghighian.github.io/MLSecOps/"
-            echo "- **Source:** this repository (\`chapters-en/\`)"
-            echo "- **Integrity:** \`SHA256SUMS\` + \`SHA256SUMS.sig\` (see RELEASE-INTEGRITY.md)"
-            echo "- **Word (optional):** \`python scripts/build-docx.py --render-mermaid\`"
-            echo ""
-            echo "## Changelog"
-            sed -n '/^## \[/,$p' CHANGELOG.md | head -n 40
-          } > release-notes.md
+          python - <<'PY'
+          import os, re
+          from pathlib import Path
+
+          tag = os.environ["TAG"].strip()
+          ver = tag.lstrip("v")
+          body_file = Path("releases") / f"{tag}-RELEASE-BODY.md"
+
+          lines = [
+              f"# MLSecOps Reference Model & Practical Guide {tag}",
+              "",
+              "Public release of the MLSecOps Reference Model & Practical Guide.",
+              "",
+              "## Downloads",
+              "- **Documentation:** https://mhaghighian.github.io/MLSecOps/",
+              "- **Source:** this repository (`chapters-en/`, `schemas/`, `policies/`)",
+              "- **Integrity:** `SHA256SUMS` + `SHA256SUMS.sigstore.json` (see `RELEASE-INTEGRITY.md`)",
+              "- **Word / PDF:** attached automatically by the Handbook Artifacts workflow on release tags (or locally via `python scripts/build-docx.py --render-mermaid`)",
+              "",
+          ]
+
+          if body_file.is_file():
+              lines.extend(["## Release Notes", body_file.read_text(encoding="utf-8").strip(), ""])
+          else:
+              changelog = Path("CHANGELOG.md").read_text(encoding="utf-8")
+              m = re.search(rf"(?ms)^## \[{re.escape(ver)}\][^\n]*\n(.*?)(?=^## \[|\Z)", changelog)
+              if m:
+                  lines.extend([f"## Changelog ({tag})", "", m.group(1).strip(), ""])
+              else:
+                  lines.extend(["## Changelog", "See CHANGELOG.md for release history.", ""])
+
+          Path("release-notes.md").write_text("\n".join(lines), encoding="utf-8")
+          PY
 
       - name: Generate SHA256SUMS
         run: python scripts/generate_release_manifest.py -o SHA256SUMS
@@ -56,11 +76,11 @@ jobs:
       - name: Sign SHA256SUMS (keyless)
         run: cosign sign-blob --yes --bundle SHA256SUMS.sigstore.json SHA256SUMS
 
-      - name: Create GitHub Release
+      - name: Create GitHub Release (draft)
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ inputs.tag }}
-          name: MLSecOps Guide ${{ inputs.tag }}
+          name: MLSecOps ${{ inputs.tag }}
           body_path: release-notes.md
           draft: true
           prerelease: ${{ contains(inputs.tag, '-') }}

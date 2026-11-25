@@ -38,7 +38,7 @@ jobs:
       - name: Install Python docx requirements
         run: |
           pip install -r scripts/requirements-docx.txt
-          playwright install chromium
+          playwright install --with-deps chromium
 
       - name: Compile handbook DOCX
         run: python scripts/build-docx.py --render-mermaid
@@ -67,13 +67,24 @@ jobs:
             dist/HANDBOOK-SHA256SUMS.txt
           if-no-files-found: error
 
-      - name: Attach to GitHub Release
+      - name: Attach to GitHub Release (preserve draft status)
         if: startsWith(github.ref, 'refs/tags/v') || inputs.tag != ''
-        uses: softprops/action-gh-release@v2
-        with:
-          tag_name: ${{ inputs.tag || github.ref_name }}
-          files: |
-            dist/*.docx
-            dist/*.pdf
-            dist/HANDBOOK-SHA256SUMS.txt
-          fail_on_unmatched_files: false
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RELEASE_TAG: ${{ inputs.tag || github.ref_name }}
+        run: |
+          set -euo pipefail
+          shopt -s nullglob
+          assets=(dist/*.docx dist/*.pdf dist/HANDBOOK-SHA256SUMS.txt)
+          if [ ${#assets[@]} -eq 0 ]; then
+            echo "No handbook assets found in dist/" >&2
+            exit 1
+          fi
+          if gh release view "$RELEASE_TAG" >/dev/null 2>&1; then
+            gh release upload "$RELEASE_TAG" "${assets[@]}" --clobber
+          else
+            gh release create "$RELEASE_TAG" "${assets[@]}" \
+              --draft \
+              --title "MLSecOps $RELEASE_TAG" \
+              --notes "Handbook DOCX/PDF artifacts for $RELEASE_TAG. Publish via Create Release workflow or Release UI after adding SHA256SUMS."
+          fi

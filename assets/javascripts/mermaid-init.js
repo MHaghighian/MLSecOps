@@ -1,4 +1,4 @@
-﻿(function () {
+(function () {
   function currentTheme() {
     var scheme = document.body && document.body.getAttribute("data-md-color-scheme");
     return scheme === "slate" ? "dark" : "default";

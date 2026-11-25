@@ -205,5 +205,27 @@
         }
       }
     }
+  },
+  "if": {
+    "properties": {
+      "metadata": {
+        "type": "object",
+        "properties": { "systemScope": { "const": "Managed-API" } },
+        "required": ["systemScope"]
+      }
+    },
+    "required": ["metadata"]
+  },
+  "then": {
+    "required": ["managedApiConfig"],
+    "properties": {
+      "managedApiConfig": { "required": ["configSnapshotHash"] }
+    }
+  },
+  "else": {
+    "required": ["modelArtifact"],
+    "properties": {
+      "modelArtifact": { "required": ["sha256Digest"] }
+    }
   }
 }
