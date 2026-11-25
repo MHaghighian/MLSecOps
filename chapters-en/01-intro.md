@@ -1,6 +1,6 @@
 # Chapter 1: Abstract and Introduction
 
-> **Guide type:** *MLSecOps Practical Reference Guide* **v1.3.0** — an independent open-source reference model, control architecture, and **Implementation Reference** ([Appendix E](17-appendix-e-implementation-reference.md)) with machine-readable [`schemas/`](../schemas/README.md) and [`policies/`](../policies/README.md). Not an official OWASP, NIST, or ISO standard, and not legal advice.
+> **Reference model:** *MLSecOps Reference Model & Practical Guide* **v1.3.0** — an independent open-source reference model, control architecture, and **Implementation Reference** ([Appendix E](17-appendix-e-implementation-reference.md)) with machine-readable [`schemas/`](../schemas/README.md) and [`policies/`](../policies/README.md). Not an official OWASP, NIST, or ISO standard, and not legal advice.
 
 ## Abstract
 

@@ -90,7 +90,7 @@ def main() -> None:
     DOCS.mkdir(parents=True)
 
     (DOCS / "index.md").write_text(
-        """# MLSecOps Practical Reference Guide
+        """# MLSecOps Reference Model & Practical Guide
 
 **Open-source MLSecOps reference model and practical guide for AI security, LLM/RAG, agentic AI, and secure MLOps.**
 

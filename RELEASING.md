@@ -1,4 +1,4 @@
-# Releasing the Guide
+# Releasing the MLSecOps Reference Model & Practical Guide
 
 Checklist for maintainers publishing **v1.3.0** and later versions.
 
@@ -71,14 +71,14 @@ Based on GitHub + Google indexing best practices. Apply once per repo; refresh a
 |---------|--------|
 | `MLSecOps` | Good — short, readable, primary keyword matches project brand |
 
-Do not rename unless branding changes. The full title **MLSecOps Practical Reference Guide** lives in README, Pages, and releases.
+Do not rename unless branding changes. The full title **MLSecOps Reference Model & Practical Guide** lives in README, Pages, and releases.
 
 ### 2. About (Settings → General)
 
 Copy-paste into **Description** (starts with main keyword; ~12 words):
 
 ```text
-MLSecOps Practical Reference Guide — open-source AI and ML security handbook.
+MLSecOps Reference Model & Practical Guide — open-source AI and ML security architecture.
 ```
 
 **Website:**

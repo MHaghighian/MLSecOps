@@ -1,6 +1,6 @@
 # Release integrity
 
-Official releases are **git tags** on [MHaghighian/MLSecOps](https://github.com/MHaghighian/MLSecOps) published as [GitHub Releases](https://github.com/MHaghighian/MLSecOps/releases). Pre-built PDF/DOCX are not attached; the release artifact is the tagged source tree (and GitHub’s automatic source archive).
+Official releases are **git tags** on [MHaghighian/MLSecOps](https://github.com/MHaghighian/MLSecOps) published as [GitHub Releases](https://github.com/MHaghighian/MLSecOps/releases). Release artifacts comprise the tagged source tree (+ `SHA256SUMS` and cryptographic signature) and, for new `v*.*.*` releases via `.github/workflows/handbook-artifacts.yml`, CI-built DOCX/PDF files with `HANDBOOK-SHA256SUMS.txt`.
 
 ## What we publish
 

@@ -1,4 +1,4 @@
-# Contributing to MLSecOps Practical Reference Guide
+# Contributing to MLSecOps Reference Model & Practical Guide
 
 Thank you for helping improve an open **practical reference** for AI security across the lifecycle.
 

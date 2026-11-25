@@ -1,6 +1,6 @@
 ﻿# Getting Started
 
-Quick entry points for the **MLSecOps Practical Reference Guide**.  
+Quick entry points for the **MLSecOps Reference Model & Practical Guide**.  
 Full section list: [TABLE-OF-CONTENTS.md](chapters-en/TABLE-OF-CONTENTS.md).
 
 > **Start here before diving into chapters.** This repository defines an **open-source MLSecOps reference model and control architecture** (with machine-readable [`schemas/`](schemas/README.md) and [`policies/`](policies/README.md) samples) — not a shipped commercial CI/CD product and not a certified ISO/EU standard. Adapt tables, schemas, and tool examples to your platform.

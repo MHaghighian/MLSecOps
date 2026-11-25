@@ -195,9 +195,9 @@ def md_for_docx(path: Path, assets_dir: Path) -> str:
 
 def build_full_markdown(version: str, assets_dir: Path) -> str:
     parts = [
-        f"# MLSecOps Practical Reference Guide v{version}",
+        f"# MLSecOps Reference Model & Practical Guide v{version}",
         "",
-        "Practical reference guide — securing AI systems across the lifecycle. "
+        "Independent open-source reference model and practical guide — securing AI systems across the lifecycle. "
         f"Built from chapters-en/ (v{version}).",
         "",
         "\\newpage",

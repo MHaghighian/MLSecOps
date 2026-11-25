@@ -2,7 +2,7 @@
 
 ## Project status
 
-The **MLSecOps Practical Reference Guide** is an independent, open-source **reference model and practical guide** maintained on GitHub. It is **not**:
+The **MLSecOps Reference Model & Practical Guide** is an independent, open-source **reference model and practical guide** maintained on GitHub. It is **not**:
 
 - An official standard from OpenSSF, OWASP, NIST, ISO, or the EU
 - A certified compliance product or legal advice

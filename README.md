@@ -1,4 +1,4 @@
-# MLSecOps Practical Reference Guide
+# MLSecOps Reference Model & Practical Guide
 
 > **Open-source MLSecOps reference model and practical guide for AI security, LLM/RAG, agentic AI, and secure MLOps.**
 
@@ -10,7 +10,7 @@
 [![OpenSSF Best Practices](https://www.bestpractices.dev/projects/15668/badge)](https://www.bestpractices.dev/projects/15668)
 [![OpenSSF Baseline](https://www.bestpractices.dev/projects/15668/baseline)](https://www.bestpractices.dev/projects/15668)
 
-**MLSecOps Practical Reference Guide** is an open-source handbook for **AI security**, **machine learning security**, and **secure MLOps** across the full ML lifecycle — from data and training through deployment, runtime monitoring, SOC, and governance.
+**MLSecOps Reference Model & Practical Guide** is an open-source reference model and engineering handbook for **AI security**, **machine learning security**, and **secure MLOps** across the full ML lifecycle — from data and training through deployment, runtime monitoring, SOC, and governance.
 
 It defines an actionable **lifecycle control model (`CP 1–10`)**, machine-readable **Evidence Pack JSON Schema**, **OPA/Conftest Policy-as-Code** admission samples, and **Secure-by-Design** blueprints covering **LLM security**, **RAG security**, **agentic AI**, **MCP**, **AI supply chain security**, and **DevSecOps** patterns for production AI systems. Independent open-source reference model and guide — not a product manual or an official OWASP, NIST, or ISO standard.
 
@@ -123,7 +123,7 @@ Executive lifecycle (detail in [Chapter 6](chapters-en/06-pipeline.md)):
 | **Markdown** | `chapters-en/` in this repository |
 | **Source (ZIP)** | [v1.3.0 archive](https://github.com/MHaghighian/MLSecOps/archive/refs/tags/v1.3.0.zip) |
 
-All releases: [GitHub Releases](https://github.com/MHaghighian/MLSecOps/releases). Pre-built PDF/DOCX are **not** published with releases; build Word locally if you need a printable copy (below).
+All releases: [GitHub Releases](https://github.com/MHaghighian/MLSecOps/releases). Pre-built **DOCX** (and **PDF** when conversion succeeds) plus `HANDBOOK-SHA256SUMS.txt` are attached automatically on new `v*.*.*` release tags via [`.github/workflows/handbook-artifacts.yml`](.github/workflows/handbook-artifacts.yml); for historical releases (`v1.1.1`–`v1.3.0`) or custom builds, generate Word locally (below).
 
 ### Build DOCX yourself
 
@@ -187,7 +187,7 @@ We welcome review from practitioners.
 
 If you review the guide and agree to be listed, we can add your name under **Community reviewers** (with your permission only).
 
-**Share this project:** linking from LinkedIn, blog posts, OWASP community threads, Dev.to, or internal security wikis helps others discover the guide and improves search visibility for `MLSecOps` and `MLSecOps Practical Reference Guide`.
+**Share this project:** linking from LinkedIn, blog posts, OWASP community threads, Dev.to, or internal security wikis helps others discover the project and improves search visibility for `MLSecOps`, `MLSecOps Reference Model`, and `MLSecOps Practical Reference Guide`.
 
 ---
 

@@ -1,4 +1,4 @@
-site_name: MLSecOps Practical Reference Guide
+site_name: MLSecOps Reference Model & Practical Guide
 site_url: https://mhaghighian.github.io/MLSecOps/
 site_description: >-
   Open-source MLSecOps reference model and practical guide for AI security,
@@ -6,7 +6,7 @@ site_description: >-
   security, and secure MLOps.
 repo_url: https://github.com/MHaghighian/MLSecOps
 repo_name: MHaghighian/MLSecOps
-edit_uri: edit/main/chapters-en/
+edit_uri: ""
 
 copyright: Copyright &copy; 2025–2026 Moslem Haghighian — CC BY-SA 4.0
 
@@ -60,7 +60,12 @@ nav:
   - Home: index.md
   - Getting Started: getting-started.md
   - Changelog: changelog.md
-  - References:
+  - Reference Artifacts:
+      - Evidence Pack Schema: schemas/README.md
+      - Schema Definition: schemas/evidence-pack.schema.md
+      - Example Instance: schemas/evidence-pack.example.md
+      - OPA / Conftest Policies: policies/README.md
+      - CP8-CP9 Admission Policy: policies/cp8_cp9_admission.md
       - AARM Alignment: references/aarm-alignment.md
   - Guide:
       - Table of Contents: chapters-en/TABLE-OF-CONTENTS.md
@@ -81,6 +86,15 @@ nav:
       - "15 Conclusion and Appendices": chapters-en/15-conclusion-appendix.md
       - "16 Kubernetes Reference": chapters-en/16-kubernetes-deployment-reference.md
       - "Appendix E Implementation Reference": chapters-en/17-appendix-e-implementation-reference.md
+  - Project:
+      - Governance: governance.md
+      - Security Policy: security.md
+      - Contributing: contributing.md
+      - DCO: dco.md
+      - Repository Design: design.md
+      - Release Notes: release-notes.md
+      - Release Integrity: release-integrity.md
+      - Releasing: releasing.md
 
 extra:
   version: 1.3.0

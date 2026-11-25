@@ -2,7 +2,7 @@
 
 **AARM** ([Autonomous Action Runtime Management](https://aarm.dev/)) is an open system specification from the [Cloud Security Alliance](https://cloudsecurityalliance.org/research/working-groups/autonomous-action-runtime-management-aarm) for securing AI-driven actions at runtime — intercept, authorize, and audit before execution.
 
-This page maps AARM concepts to sections of the **MLSecOps Practical Reference Guide**. It is **complementary alignment**, not an official AARM document or conformance claim. For normative requirements, use the [AARM specification](https://aarm.dev/spec).
+This page maps AARM concepts to sections of the **MLSecOps Reference Model & Practical Guide**. It is **complementary alignment**, not an official AARM document or conformance claim. For normative requirements, use the [AARM specification](https://aarm.dev/spec).
 
 ---
 
@@ -43,4 +43,4 @@ This page maps AARM concepts to sections of the **MLSecOps Practical Reference G
 
 ---
 
-*Alignment page · MLSecOps Practical Reference Guide · not an AARM conformance statement*
+*Alignment page · MLSecOps Reference Model & Practical Guide · not an AARM conformance statement*

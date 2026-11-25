@@ -153,6 +153,8 @@ Full change history: [CHANGELOG.md](CHANGELOG.md).
 
 ---
 
+## v1.1.0 — 2026-07-11
+
 **DOI:** [10.5281/zenodo.21302157](https://doi.org/10.5281/zenodo.21302157) · [record](https://zenodo.org/records/21302157)
 
 | Format | Link |
