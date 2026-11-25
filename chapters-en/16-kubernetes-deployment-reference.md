@@ -6,7 +6,7 @@ This chapter provides **operational reference patterns** for deploying and harde
 
 > **Scope:** Cloud-native enterprise inference (vLLM, KServe, Triton, Ray Serve, custom gateways). Edge/IoT and confidential-GPU (TEE) patterns remain out of scope — see vendor docs and specialized frameworks.
 
-> **No bundled cluster manifests:** Kubernetes deployment patterns below are architectural guidance (no bundled cluster YAML or Helm charts). Implement and **test** IaC in your environment using maintained upstream references (vLLM production-stack, Kyverno policy samples, KServe docs). Companion machine-readable Evidence Pack JSON Schemas live in [`schemas/`](../schemas/README.md) and OPA/Conftest admission samples in [`policies/`](../policies/README.md).
+> **No bundled cluster manifests:** Kubernetes deployment patterns below are architectural guidance (no bundled cluster YAML or Helm charts). Implement and **test** IaC in your environment using maintained upstream references (vLLM production-stack, Kyverno policy samples, KServe docs). Companion machine-readable Evidence Pack JSON Schemas live in [`schemas/`](../schemas/README.md), and executable OPA/Conftest admission samples live in [`policies/`](../policies/README.md) (including Kubernetes workload hardening in [`policies/k8s/`](../policies/k8s/README.md)).
 
 ### References / Source mapping
 

@@ -1,8 +1,9 @@
-# Evidence Pack example instance
+# Evidence Pack example instances
 
-Minimal filled Evidence Pack used for schema and Conftest smoke tests.
+Filled Evidence Pack instances used for schema and Conftest verification:
 
-- JSON: [`examples/evidence-pack.example.json`](examples/evidence-pack.example.json)
+- **Agentic-MCP (CycloneDX 1.6):** [`examples/evidence-pack.example.json`](examples/evidence-pack.example.json)
+- **Managed-API (CycloneDX 1.7):** [`examples/evidence-pack.managed-api.example.json`](examples/evidence-pack.managed-api.example.json)
 - Schema: [evidence-pack.schema.md](evidence-pack.schema.md)
 
 See [schemas README](README.md).

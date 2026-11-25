@@ -1,0 +1,57 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.7",
+  "serialNumber": "urn:uuid:22222222-3333-4444-5555-666666666666",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2026-11-25T10:00:00Z",
+    "systemScope": "Managed-API",
+    "releaseId": "support-rag-managed-2026.11.1",
+    "sharedResponsibilityRecord": {
+      "modelOwner": "ai-product-team",
+      "platformOwner": "gateway-platform",
+      "ospoOwner": "ospo",
+      "socOwner": "soc-secops"
+    }
+  },
+  "managedApiConfig": {
+    "provider": "azure-openai",
+    "deploymentId": "gpt-4o-mini-support-prod",
+    "region": "westeurope",
+    "apiVersion": "2024-10-21",
+    "configSnapshotHash": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+  },
+  "dataProvenance": {
+    "datasetVersion": "kb-support-2026-11-20",
+    "lineageUri": "s3://evidence/lineage/kb-support-2026-11-20.json",
+    "piiScanResult": "PASS",
+    "vectorIndexVersionHash": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    "backupRevocationVerified": true
+  },
+  "lifecycleControlGates": {
+    "cp4_dataAndRagAclGate": {
+      "status": "PASS",
+      "piiControlsRecorded": true,
+      "kvCacheIsolationVerified": true
+    },
+    "cp7_adversarialAndRedTeamGate": {
+      "status": "PASS",
+      "serializationScanner": "n/a-managed-api",
+      "unreadableArtifactsDetected": false,
+      "redTeamPhasesCompleted": 6
+    },
+    "cp8_releaseDecisionGate": {
+      "decision": "APPROVED",
+      "approverRole": "ai-sec-board",
+      "boundToCp9Digest": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+    }
+  },
+  "cryptographicProvenance": {
+    "cp9_checkpointVerified": true,
+    "signatureMethod": "managed-config-snapshot"
+  },
+  "runtimeTelemetry": {
+    "siemFeedActive": true,
+    "rawPromptLoggingDisabled": true
+  }
+}

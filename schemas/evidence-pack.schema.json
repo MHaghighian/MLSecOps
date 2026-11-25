@@ -39,7 +39,7 @@
           "type": "string",
           "enum": ["Classical-ML", "LLM-RAG", "Agentic-MCP", "Multimodal-Edge", "Managed-API"]
         },
-        "releaseId": { "type": "string" },
+        "releaseId": { "type": "string", "minLength": 1 },
         "sharedResponsibilityRecord": {
           "type": "object",
           "required": ["modelOwner", "platformOwner", "socOwner"],
@@ -109,6 +109,34 @@
         }
       }
     },
+    "dataProvenance": {
+      "type": "object",
+      "description": "Optional Ch.4/Ch.7/IR 8596 data and RAG index lineage evidence",
+      "properties": {
+        "datasetVersion": { "type": "string" },
+        "lineageUri": { "type": "string" },
+        "piiScanResult": { "type": "string", "enum": ["PASS", "FAIL"] },
+        "vectorIndexVersionHash": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "backupRevocationVerified": { "type": "boolean" }
+      }
+    },
+    "localRunnerConfig": {
+      "type": "object",
+      "description": "Optional Appendix E.1.7 / Ch.5 OCI runner evidence (e.g. Docker Model Runner)",
+      "properties": {
+        "modelOciDigest": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "modelRegistry": { "type": "string" },
+        "engineVersion": { "type": "string" },
+        "tcpHostExposed": { "type": "boolean" },
+        "networkIsolated": { "type": "boolean" }
+      }
+    },
     "lifecycleControlGates": {
       "type": "object",
       "required": [
@@ -163,6 +191,7 @@
         "cp9_checkpointVerified": { "type": "boolean" },
         "signatureMethod": {
           "type": "string",
+          "minLength": 1,
           "description": "e.g. sigstore-cosign, model-transparency, managed-config-snapshot, or planned PQC algorithm id"
         },
         "teeAttestationProvider": { "type": "string" },
@@ -204,28 +233,60 @@
           }
         }
       }
+    },
+    "runtimeTelemetry": {
+      "type": "object",
+      "description": "Optional Ch.10 SOC / runtime observability attestation",
+      "properties": {
+        "siemFeedActive": { "type": "boolean" },
+        "rawPromptLoggingDisabled": { "type": "boolean" }
+      }
     }
   },
-  "if": {
-    "properties": {
-      "metadata": {
-        "type": "object",
-        "properties": { "systemScope": { "const": "Managed-API" } },
-        "required": ["systemScope"]
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "metadata": {
+            "type": "object",
+            "properties": { "systemScope": { "const": "Managed-API" } },
+            "required": ["systemScope"]
+          }
+        },
+        "required": ["metadata"]
+      },
+      "then": {
+        "required": ["managedApiConfig"],
+        "properties": {
+          "managedApiConfig": { "required": ["configSnapshotHash"] }
+        }
+      },
+      "else": {
+        "required": ["modelArtifact"],
+        "properties": {
+          "modelArtifact": { "required": ["sha256Digest"] }
+        }
       }
     },
-    "required": ["metadata"]
-  },
-  "then": {
-    "required": ["managedApiConfig"],
-    "properties": {
-      "managedApiConfig": { "required": ["configSnapshotHash"] }
+    {
+      "if": {
+        "properties": {
+          "metadata": {
+            "type": "object",
+            "properties": { "systemScope": { "const": "Agentic-MCP" } },
+            "required": ["systemScope"]
+          }
+        },
+        "required": ["metadata"]
+      },
+      "then": {
+        "required": ["runtimeAgentConfig"],
+        "properties": {
+          "runtimeAgentConfig": {
+            "required": ["killSwitchEnabled", "scopedCredentialsRequired"]
+          }
+        }
+      }
     }
-  },
-  "else": {
-    "required": ["modelArtifact"],
-    "properties": {
-      "modelArtifact": { "required": ["sha256Digest"] }
-    }
-  }
+  ]
 }

@@ -38,7 +38,7 @@ jobs:
         run: mkdocs build --strict
 
   policy-and-schema:
-    name: Evidence Pack Schema & OPA Policy
+    name: Policy, Schema & Repo Verification
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -48,43 +48,21 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+          cache: pip
+          cache-dependency-path: requirements-pages.txt
 
-      - name: Validate Evidence Pack JSON Schema & fixtures
+      - name: Install verification dependencies
         run: |
-          python -m pip install --upgrade check-jsonschema jsonschema
+          pip install -r requirements-pages.txt
+          python -m pip install --upgrade check-jsonschema jsonschema pyyaml beautifulsoup4
+
+      - name: Run check-jsonschema on Evidence Pack examples & fixtures
+        run: |
           check-jsonschema --schemafile schemas/evidence-pack.schema.json \
             schemas/examples/evidence-pack.example.json \
+            schemas/examples/evidence-pack.managed-api.example.json \
             policies/testdata/evidence-pack.fail-digest.json \
             policies/testdata/evidence-pack.fail-unpinned-mcp.json
-          python - <<'PY'
-          import json
-          from pathlib import Path
-          from jsonschema import Draft202012Validator, ValidationError
-
-          schema = json.loads(Path("schemas/evidence-pack.schema.json").read_text(encoding="utf-8"))
-          v = Draft202012Validator(schema)
-          base = json.loads(Path("schemas/examples/evidence-pack.example.json").read_text(encoding="utf-8"))
-
-          managed_ok = json.loads(json.dumps(base))
-          managed_ok["specVersion"] = "1.7"
-          managed_ok["metadata"]["systemScope"] = "Managed-API"
-          managed_ok.pop("modelArtifact", None)
-          managed_ok["managedApiConfig"] = {"configSnapshotHash": "sha256:" + "a" * 64}
-          v.validate(managed_ok)
-
-          for mutator, label in [
-              (lambda d: d.pop("managedApiConfig", None), "Managed-API without managedApiConfig"),
-              (lambda d: d.pop("modelArtifact", None), "Non-managed without modelArtifact"),
-          ]:
-              sample = json.loads(json.dumps(managed_ok if "managed" in label.lower() and label.startswith("Managed") else base))
-              mutator(sample)
-              try:
-                  v.validate(sample)
-              except ValidationError:
-                  continue
-              raise SystemExit(f"Expected ValidationError for {label}")
-          print("Conditional schema checks passed.")
-          PY
 
       - name: Install and verify Conftest (SHA-256 pinned)
         env:
@@ -100,21 +78,5 @@ jobs:
           rm -f conftest "${archive}"
           echo "$RUNNER_TEMP" >> "$GITHUB_PATH"
 
-      - name: Run Rego unit tests and Evidence Pack fixture assertions
-        run: |
-          set -euo pipefail
-          conftest --version
-          conftest verify --policy policies
-          conftest test --policy policies schemas/examples/evidence-pack.example.json
-
-          if out=$(conftest test --policy policies policies/testdata/evidence-pack.fail-digest.json 2>&1); then
-            echo "Expected evidence-pack.fail-digest.json to fail Conftest" >&2
-            exit 1
-          fi
-          echo "$out" | grep -q "CRITICAL \[CP8->CP9\]"
-
-          if out=$(conftest test --policy policies policies/testdata/evidence-pack.fail-unpinned-mcp.json 2>&1); then
-            echo "Expected evidence-pack.fail-unpinned-mcp.json to fail Conftest" >&2
-            exit 1
-          fi
-          echo "$out" | grep -q "CRITICAL \[Ch.8 MCP09\]"
+      - name: Run full repository & policy verification suite
+        run: python scripts/verify_repo.py --require-conftest --with-mkdocs

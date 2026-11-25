@@ -66,6 +66,7 @@ test_valid_agentic_mcp_allows if {
 test_valid_managed_api_allows if {
 	pack := object.union(base_pack, {
 		"metadata": {"systemScope": "Managed-API"},
+		"cryptographicProvenance": {"signatureMethod": "managed-config-snapshot"},
 		"managedApiConfig": {"configSnapshotHash": digest_a},
 	})
 	main.allow with input as pack
@@ -83,10 +84,32 @@ test_deny_empty_system_scope if {
 	"CRITICAL [Metadata]: missing or empty metadata.systemScope" in main.deny with input as pack
 }
 
+test_deny_cp4_blocked if {
+	pack := object.union(base_pack, {"lifecycleControlGates": {"cp4_dataAndRagAclGate": {"status": "BLOCK"}}})
+	not main.allow with input as pack
+	"CRITICAL [CP4]: data/RAG ACL gate status is not PASS" in main.deny with input as pack
+}
+
+test_deny_cp7_blocked if {
+	pack := object.union(base_pack, {"lifecycleControlGates": {"cp7_adversarialAndRedTeamGate": {"status": "BLOCK"}}})
+	not main.allow with input as pack
+	"CRITICAL [CP7]: security validation gate status is not PASS" in main.deny with input as pack
+}
+
 test_deny_missing_bound_to_cp9_digest if {
 	pack := json.remove(base_pack, ["lifecycleControlGates/cp8_releaseDecisionGate/boundToCp9Digest"])
 	not main.allow with input as pack
 	"CRITICAL [CP8->CP9]: missing cp8_releaseDecisionGate.boundToCp9Digest" in main.deny with input as pack
+}
+
+test_deny_invalid_digest_format_placeholder if {
+	pack := object.union(base_pack, {
+		"modelArtifact": {"sha256Digest": "latest"},
+		"lifecycleControlGates": {"cp8_releaseDecisionGate": {"boundToCp9Digest": "latest"}},
+	})
+	not main.allow with input as pack
+	some msg in main.deny with input as pack
+	contains(msg, "is not a valid sha256:<64-hex> digest")
 }
 
 test_deny_non_managed_missing_model_digest if {
@@ -130,6 +153,13 @@ test_deny_cp9_not_verified if {
 	"CRITICAL [CP9]: integrity/provenance checkpoint not verified" in main.deny with input as pack
 }
 
+test_deny_placeholder_signature_method if {
+	pack := object.union(base_pack, {"cryptographicProvenance": {"signatureMethod": "none"}})
+	not main.allow with input as pack
+	some msg in main.deny with input as pack
+	contains(msg, "placeholder cryptographicProvenance.signatureMethod")
+}
+
 test_deny_unreadable_component if {
 	pack := object.union(base_pack, {"components": [{
 		"name": "bad.safetensors",
@@ -161,6 +191,16 @@ test_deny_missing_mcp_current_schema_hash if {
 	not main.allow with input as pack
 	some msg in main.deny with input as pack
 	contains(msg, "CRITICAL [Ch.8 MCP]: missing currentSchemaHash")
+}
+
+test_deny_invalid_mcp_hash_format if {
+	pack := object.union(base_pack, {"runtimeAgentConfig": {"mcpTools": [{
+		"serverName": "payments-mcp",
+		"currentSchemaHash": "not-hex",
+	}]}})
+	not main.allow with input as pack
+	some msg in main.deny with input as pack
+	contains(msg, "is not a valid 64-hex SHA-256 hash")
 }
 
 test_deny_mcp_schema_drift if {

@@ -15,6 +15,7 @@ Diagram rendering uses Playwright with the system Chrome or Edge browser
 from __future__ import annotations
 
 import argparse
+import hashlib
 import os
 import re
 import shutil
@@ -44,6 +45,7 @@ TEMPLATE_URL = (
     "https://github.com/MHaghighian/MLSecOps/releases/download/v1.0.0/"
     "MLSecOps-Practical-Reference-Guide-v1.0.0.docx"
 )
+TEMPLATE_SHA256 = "5e187f4b7b941b2947eed1232c52df17ef9b0279670fabb6a76ef8697c2dc407"
 IMAGE_WIDTH = "6.3in"
 
 CHAPTER_FILES = [
@@ -80,7 +82,7 @@ def read_version() -> str:
 
 
 def output_name(version: str) -> str:
-    return f"MLSecOps-Practical-Reference-Guide-v{version}.docx"
+    return f"MLSecOps-Reference-Model-v{version}.docx"
 
 
 def legacy_template_candidates() -> list[Path]:
@@ -97,6 +99,10 @@ def download_template(dest: Path) -> Path:
     urllib.request.urlretrieve(TEMPLATE_URL, dest)
     if not dest.exists() or dest.stat().st_size < 100_000:
         raise RuntimeError(f"Template download failed or file too small: {dest}")
+    actual = hashlib.sha256(dest.read_bytes()).hexdigest().lower()
+    if actual != TEMPLATE_SHA256:
+        dest.unlink(missing_ok=True)
+        raise RuntimeError(f"Template SHA-256 mismatch: expected {TEMPLATE_SHA256}, got {actual}")
     return dest
 
 
@@ -279,7 +285,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--output",
         type=Path,
-        help="Output DOCX path (default: dist/MLSecOps-Practical-Reference-Guide-v{version}.docx)",
+        help="Output DOCX path (default: dist/MLSecOps-Reference-Model-v{version}.docx)",
     )
     parser.add_argument(
         "--reference",
