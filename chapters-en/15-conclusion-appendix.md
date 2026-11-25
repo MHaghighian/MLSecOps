@@ -27,7 +27,7 @@ In this guide, security began at the data layer, extended to the model and suppl
 | Runtime is critical | Many LLM and Agent attacks occur at runtime. |
 | Evidence must be automated | Manual audit after an incident is not reliable. |
 
-> **Last reviewed:** June 2026. This guide was developed based on frameworks and published knowledge through the end of 2025. Given the pace of change in LLM and Agentic AI, readers should periodically review new versions of `OWASP LLM Top 10`, `MITRE ATLAS`, and CycloneDX standards.
+> **Last reviewed:** November 2026. This guide reflects frameworks and research published through late 2026. Given the pace of change in LLM and Agentic AI, readers should periodically review new versions of `OWASP LLM Top 10`, `MITRE ATLAS`, `NIST IR 8596`, and CycloneDX standards.
 
 ### References / Source mapping
 
@@ -38,9 +38,6 @@ In this guide, security began at the data layer, extended to the model and suppl
 
 **Implementation guidance (this guide)**
 - [MLSecOps Principles](01-intro.md#mlsecops-principles) (Chapter 1)
-
-**Author practical guidance**
-- *Principle table is author synthesis of lifecycle themes across this guide - not verbatim standard text*
 
 ## Compact Checklist
 
@@ -154,7 +151,7 @@ This checklist completes the minimum baseline and `Day-2` operations. If time is
 - [Incident response](10-monitoring-soc-ir.md#incident-response) (Chapter 10)
 - [Kubernetes deployment reference](16-kubernetes-deployment-reference.md) (Chapter 16)
 
-**Author practical guidance**
+**Operational & scope notes**
 - *RACI, frequencies, and evidence columns are illustrative operational patterns - adapt to your org model*
 
 ## Short Glossary
@@ -203,8 +200,8 @@ Frequently used terms in this guide:
 **Implementation guidance (this guide)**
 - Terminology aligned with [Chapter 1](01-intro.md), [Chapter 6](06-pipeline.md), [Chapter 9](09-anti-patterns.md), and [Chapter 11](11-governance-evidence.md)
 
-**Author practical guidance**
-- *Glossary definitions are guide-local usage for consistency - not normative standard definitions*
+**Operational & scope notes**
+- *Glossary definitions establish consistent terminology across this reference model rather than external normative standards.*
 
 ## Appendix A: Threat, Control, and Tool Reference Card
 
@@ -342,7 +339,7 @@ This guide is a **community reference**, not an OWASP publication. Before extern
 - [LLM verification approach](07-llm-rag-security.md#llm-verification-approach) (Chapter 7)
 - [Evidence Pack fields](#evidence-pack-fields-managed-api) (this appendix)
 
-**Author practical guidance**
+**Operational & scope notes**
 - *Publication readiness checklist is for community guide maintainers - not an OWASP submission requirement*
 
 ## Appendix: Cyber AI Profile mapping (NIST IR 8596)
@@ -378,14 +375,14 @@ Illustrative bridge from this guide’s lifecycle control points to CSF 2.0 Func
 
 ## Traceability and source mapping convention
 
-This guide distinguishes four types of security content. Per-section **`References / Source mapping`** blocks (from v1.1.0) make that distinction explicit for audit, governance, and peer review—addressing community feedback on traceability ([GitHub Issue #1](https://github.com/MHaghighian/MLSecOps/issues/1)).
+This project clearly separates **external standards and research** from its **own original reference model, control architecture, and executable artifacts**. Per-section **`References / Source mapping`** blocks make that boundary explicit for engineering reviews, audits, and external citations.
 
 | Type | Meaning | How it appears |
 |---|---|---|
-| **Frameworks and standards** | Controls or threats defined by OWASP, MITRE ATLAS, NIST AI RMF, NIST Cyber AI Profile (IR 8596), ISO/IEC 42001, OpenSSF, CSA MAESTRO, EU AI Act, or OWASP AI Exchange | Cited with ID or permalink |
-| **Framework interpretation** | Practical reading of a standard for MLSecOps lifecycle (e.g., mapping to control points) | Cited framework + pointer to this guide's lifecycle model |
-| **Implementation guidance (this guide)** | Operational patterns: control points, Evidence Pack fields, playbooks, tool examples | Labeled *this guide*; not normative standard text |
-| **Emerging / research** | Research-stage or plausible threats not yet standardized | Paper/preprint citation or *emerging — not standardized* note |
+| **Frameworks and standards** | External taxonomies, laws, or standards (`OWASP`, `MITRE ATLAS`, `NIST AI RMF`, `NIST IR 8596`, `ISO/IEC 42001`, `OpenSSF`, `CSA MAESTRO/AARM`, `EU AI Act`) cross-mapped to this model | Cited with ID or permalink |
+| **Implementation guidance (this guide)** | Original **MLSecOps Reference Model** constructs: lifecycle control points (`CP 1–10`), `CP8↔CP9` admission binding, `Evidence Pack` schema, `OPA/Rego` policies, `Secure-by-Design` blueprints (`E.7`), and playbooks | Defined as this model's control architecture (not external standard text) |
+| **Emerging / research** | Research-stage threats or mitigations (e.g., `CaMeL`, `FIDES`, `KV-Cloak`, `VReparo`, `SHADE-Arena`) | Paper/preprint citation + maturity note |
+| **Operational & scope notes** | Example thresholds, SLO calibration hints, or non-certification / non-endorsement boundaries | Concise operational note where relevant |
 
 ### Reference block template
 
@@ -406,25 +403,27 @@ Each major section may end with:
 **Emerging / research** *(if applicable)*
 - Author et al. (year). *Title*. venue/URL — *emerging / not standardized*
 
-**Author practical guidance** *(if applicable)*
-- *Evidence Pack field names and release thresholds are illustrative implementation patterns.*
+**Operational & scope notes** *(if applicable)*
+- *Thresholds and tool examples should be calibrated to your threat model and environment.*
 ```
 
-**Rollout status (v1.1.0):** All guide chapters (1–17) include per-section `References / Source mapping` blocks on every major `##` section, using the template above. The chapter-level [References](#references) section below is the master bibliography and does not repeat a self-referential mapping block.
+**Rollout status:** All chapters (1–17) include per-section `References / Source mapping` blocks on major `##` sections, clearly distinguishing external standard mappings from this project's own reference model and artifacts. The chapter-level [References](#references) section below serves as the master bibliography.
 
 ## References
 
 ### Frameworks and Standards
 
-- OpenSSF (2025). *Visualizing Secure MLOps (MLSecOps) Whitepaper*. https://openssf.org/blog/2025/01/22/visualizing-secure-mlops/
+- OpenSSF (2025). *Visualizing Secure MLOps (MLSecOps) Whitepaper*. https://openssf.org/blog/2025/08/05/visualizing-secure-mlops-mlsecops-a-practical-guide-for-building-robust-ai-ml-pipeline-security/ · PDF: https://openssf.org/wp-content/uploads/2025/08/OpenSSF_MLSecOps_Whitepaper.pdf
 - NIST (2023). *AI Risk Management Framework (AI RMF 1.0)*. https://www.nist.gov/itl/ai-risk-management-framework
 - NIST (2024). *Generative AI Profile (NIST-AI-600-1)*.
 - NIST (2025). *Cybersecurity Framework Profile for Artificial Intelligence (Cyber AI Profile)*, NIST IR 8596 iprd (Initial Preliminary Draft). https://doi.org/10.6028/NIST.IR.8596.iprd — https://csrc.nist.gov/pubs/ir/8596/iprd
+- NIST (2024). *Transition to Post-Quantum Cryptography Standards*, NIST IR 8547 ipd. https://csrc.nist.gov/pubs/ir/8547/ipd
 - NIST. *Cybersecurity Framework (CSF) 2.0*. https://www.nist.gov/cyberframework
 - ISO/IEC 42001:2023. *Artificial Intelligence — Management System*.
 - ISO/IEC 23894:2023. *Artificial Intelligence — Guidance on Risk Management*.
 - European Union (2024). *EU AI Act*. https://artificialintelligenceact.eu/
 - Cloud Security Alliance (2025). *MAESTRO — Multi-Agent Environment Security Framework*.
+- Cloud Security Alliance. *AARM — Autonomous Action Runtime Management*. https://aarm.dev/
 
 ### Threat Taxonomy and Security Guides
 
@@ -432,7 +431,8 @@ Each major section may end with:
 - OWASP (2025). *Top 10 for LLM Applications (2025)*. https://owasp.org/www-project-top-10-for-large-language-model-applications/
 - OWASP. *Top 10 for Agentic Applications* / *Agentic Security Initiative*.
 - OWASP. *Machine Learning Security Top 10* (`draft` status).
-- OWASP. *LLM Verification Standard (LLMSVS)*.
+- OWASP. *LLM Verification Standard (LLMSVS)* and *AI Security Verification Standard (AISVS)*. https://github.com/OWASP/AISVS
+- OWASP. *Non-Human Identities Top 10 (2025)*. https://owasp.org/projects/non-human-identities-top-10
 - OWASP. *MCP Top 10* (2025). https://owasp.org/www-project-mcp-top-10/
 - OWASP Cheat Sheet Series. *MCP Security*. https://cheatsheetseries.owasp.org/cheatsheets/MCP_Security_Cheat_Sheet.html
 - Hou et al. (2025). *Model Context Protocol (MCP): Landscape, Security Threats, and Future Research Directions*. arXiv:2503.23278
@@ -465,7 +465,10 @@ Each major section may end with:
 - `Gitleaks`, `Trivy`, `Syft`, `Grype` — secret/SCA/SBOM
 - `Checkov`, `tfsec`, `OPA`/`Conftest`, `Kyverno` — IaC and policy-as-code
 - `Sigstore / Cosign / Rekor`, `sigstore/model-transparency` (`model-signing`), `SLSA` — model signing and provenance
-- `CycloneDX 1.7 (ECMA-424)`, `cdxgen` (`aibom`), `OWASP AIBOM Generator` — SBOM and ML-BOM/AI-BOM
+- `CycloneDX 1.7 (ECMA-424)`, `cdxgen` (`aibom`), `OWASP AIBOM Generator`, `aisbom-cli` (https://github.com/Lab700xOrg/aisbom) — SBOM and ML-BOM/AI-BOM
+- `Docker Model Runner` (https://docs.docker.com/ai/model-runner/) — OCI-packaged local model runner (dev/CI)
+- `agentgateway` (https://github.com/agentgateway/agentgateway), `mcp-firewall` (https://github.com/ressl/mcp-firewall), `ToTra` (https://github.com/SugaC-275/ToTra), `ThinkWatch` (https://github.com/ThinkWatchProject/ThinkWatch) — AI/MCP gateways and proxies
+- `B-AVIBench` / `AVIBench` (https://github.com/zhanghao5201/B-AVIBench), `CircleGuardBench` (https://github.com/whitecircle/circle-guard-bench) — multimodal and guardrail evaluation benchmarks
 - `AI-exploits` (Protect AI), `AI-Infra-Guard` (Tencent), `Agentic Security`, `PurpleLlama` (Meta), `Mindgard CLI` — MLOps infrastructure and agent testing
 - `PrivacyRaven` (Trail of Bits), `ML Privacy Meter`, `TensorFlow Privacy`, `OpenDP` — privacy audit and differential privacy
 - `huntr.com` — dedicated AI/ML bug bounty platform
@@ -482,17 +485,21 @@ Each major section may end with:
 - Debenedetti, E. et al. (2024). *AgentDojo: A Dynamic Environment to Evaluate Prompt Injection Attacks and Defenses for LLM Agents*. arXiv:2406.13352. https://arxiv.org/abs/2406.13352
 - Luo, Z. et al. (2026). *Shadow in the Cache: Unveiling and Mitigating Privacy Risks of KV-cache in LLM Inference* (KV-Cloak). NDSS 2026. https://arxiv.org/abs/2508.09442
 - Wu, G. et al. (2025). *I Know What You Asked: Prompt Leakage via KV-Cache Sharing in Multi-Tenant LLM Serving* (PromptPeek). NDSS 2025. https://doi.org/10.14722/ndss.2025.241772
+- *To Cache or Not to Cache: Understanding and Mitigating Safety Incompatibility in Cross-Model KV Cache Reuse* (VReparo, 2026). https://arxiv.org/abs/2610.15721
 - Chan, B.J. et al. (2024). *Don't Do RAG: When Cache-Augmented Generation is All You Need for Knowledge Tasks* (`CAG`). https://arxiv.org/abs/2412.15605
+- Meeus, M. et al. (2025). *The Canary's Echo: Auditing Privacy Risks of LLM-Generated Synthetic Text* (ICML 2025). https://arxiv.org/abs/2502.14921
+- *SHADE-Arena: Evaluating Subtle Sabotage and Monitoring Evasion in LLM Agents* (2025). https://arxiv.org/abs/2506.15740
+- Zhang, H. et al. (2024). *B-AVIBench: Evaluating Robustness of LVLMs on Black-box Adversarial Visual-Instructions*. https://arxiv.org/abs/2403.09346
 - Sharif, R. *MCPS: Cryptographic Security Layer for the Model Context Protocol* (IETF individual Internet-Draft). https://datatracker.ietf.org/doc/draft-sharif-mcps-secure-mcp/
 - Shumailov, I. et al. (2023). *The Curse of Recursion: Training on Generated Data Makes Models Forget* (Model Collapse).
 - Greshake, K. et al. (2023). *Not What You've Signed Up For: Compromising Real-World LLM-Integrated Applications with Indirect Prompt Injection*.
 - Zou, W. et al. (2024). *PoisonedRAG: Knowledge Poisoning Attacks to RAG*.
 - Goodfellow, I. et al. (2015). *Explaining and Harnessing Adversarial Examples* (FGSM).
 - Carlini, N. & Wagner, D. (2017). *Towards Evaluating the Robustness of Neural Networks*.
-- Trail of Bits (2024). *LeftoverLocals (CVE-2023-4969)*. https://blog.trailofbits.com/2024/01/16/leftoverlocals-local-llm-data-leakage/
+- Trail of Bits (2024). *LeftoverLocals (CVE-2023-4969)*. https://blog.trailofbits.com/2024/01/16/leftoverlocals-listening-to-llm-responses-through-leaked-gpu-local-memory/
 - HiddenLayer. *SILENT SABOTAGE* — abuse of Pickle-to-SafeTensors conversion bot. https://hiddenlayer.com/research/silent-sabotage/
-- HiddenLayer. *NOT SO CLEAR: How MLOps Solutions Can Muddy the Waters of Your Supply Chain* (ClearML). https://hiddenlayer.com/research/not-so-clear/
-- Mithril Security (2023). *PoisonGPT*. https://blog.mithrilsecurity.io/poisongpt-how-we-hid-a-malicious-model-on-hugging-face/
+- HiddenLayer (2024). *NOT SO CLEAR: How MLOps Solutions Can Muddy the Waters of Your Supply Chain* (ClearML). https://www.hiddenlayer.com/innovation-hub (advisories: https://nvd.nist.gov/vuln/detail/CVE-2024-24590)
+- Mithril Security (2023). *PoisonGPT*. https://blog.mithrilsecurity.io/ · https://github.com/mithril-security
 - Röttger, P. et al. (2024). *Safety-Tuned LLMs Are Not Safer* (Overrefusal and safety trade-offs).
 - Sigstore Blog (2025). *Practical Model Signing with Sigstore — model-transparency v1.0*.
 - Cohen, S. et al. (2024). *Here Comes the AI Worm (Morris II): Zero-click Worms Targeting GenAI-Powered Applications*.
@@ -519,21 +526,23 @@ This appendix maps key claims in the guide to verifiable references:
 | `Agentic Threats` / `Tool Misuse` | `OWASP Top 10 for Agentic Applications`; CSA `MAESTRO` |
 | `System Prompt Leakage` / `LLM07` | `OWASP Top 10 for LLM Applications (2025)` |
 | `Vector & Embedding Weaknesses` / `LLM08` | `OWASP Top 10 for LLM Applications (2025)` |
-| `LeftoverLocals` (GPU memory leakage) | Trail of Bits, `CVE-2023-4969` (2024); https://blog.trailofbits.com/2024/01/16/leftoverlocals-local-llm-data-leakage/ |
+| `LeftoverLocals` (GPU memory leakage) | Trail of Bits, `CVE-2023-4969` (2024); https://blog.trailofbits.com/2024/01/16/leftoverlocals-listening-to-llm-responses-through-leaked-gpu-local-memory/ |
 | Unsafe HuggingFace models (Pickle RCE) | ReversingLabs / Protect AI `ModelScan` (2025); https://www.reversinglabs.com/blog/unsafe-machine-learning-models-on-hugging-face |
 | `AI Worm / Zero-click` | Cohen et al., *Here Comes the AI Worm (Morris II)* (2024) |
 | `Models-as-Malware` | ZJU-SEC, *TensorAbuse* |
 | `Package Hallucination` | Spracklen et al., *We Have a Package for You* (2024) |
 | `Embedding Inversion` | Morris et al., *Text Embeddings Reveal (Almost) As Much As Text* (2023) |
+| Synthetic text leakage (`The Canary's Echo`) | Meeus et al. (ICML 2025); https://arxiv.org/abs/2502.14921 |
+| Cross-model KV reuse (`VReparo`) | https://arxiv.org/abs/2610.15721 (Emerging research) |
 | `Advanced Backdoors (RLHF/CoT/Edit)` | Rando & Tramèr (2024), Xiang et al. (2024), Li et al. (2024) |
-| `SILENT SABOTAGE / ClearML` | HiddenLayer Research; https://hiddenlayer.com/research/silent-sabotage/ ; https://hiddenlayer.com/research/not-so-clear/ |
-| `PoisonGPT` supply-chain demo | Mithril Security, *PoisonGPT* (2023); https://blog.mithrilsecurity.io/poisongpt-how-we-hid-a-malicious-model-on-hugging-face/ |
+| `SILENT SABOTAGE / ClearML` | HiddenLayer Research; https://hiddenlayer.com/research/silent-sabotage/ ; https://www.hiddenlayer.com/innovation-hub (CVE-2024-24590) |
+| `PoisonGPT` supply-chain demo | Mithril Security, *PoisonGPT* (2023); https://blog.mithrilsecurity.io/ · https://github.com/mithril-security |
 | Agent API key exposure pattern | Design anti-pattern (illustrative); see Chapter 13 |
 | 22 MLOps security controls | OpenSSF *MLSecOps Whitepaper* (2025) |
 | Shadow AI (Samsung pattern) | Ch.13 case study; CTAIO / Proofpoint shadow-AI references in Ch.11 |
-| MCP security lab | Ch.13 MCP red team lab; OWASP MCP Top 10 v0.1; `mcps-audit`, Agent Scan |
+| MCP security lab | Ch.13 MCP red team lab; OWASP MCP Top 10 (2025); `mcps-audit`, Agent Scan |
 | BentoML / LangChain deserialization RCE | CVE-2025-27520 (BentoML, GHSA-33xw-247w-6hmc); CVE-2025-68664 (LangChain core, GHSA-c67j-w6g6-q2cm) |
-| Kubernetes MLSecOps baseline | Ch.16 (patterns + upstream refs; no bundled manifests) |
+| Kubernetes MLSecOps baseline | Ch.16 (patterns + upstream refs; cluster manifests remain out of repo) |
 
 ### References / Source mapping
 
@@ -558,12 +567,12 @@ GitHub's built-in Mermaid viewer can still fail on some complex `flowchart LR` c
 **Implementation guidance (this guide)**
 - Diagram assets: `assets/diagrams/`; Mermaid source: `assets/diagrams/source/*.mmd`
 
-**Author practical guidance**
+**Operational & scope notes**
 - *PNG-first publishing choice is a maintainer workflow decision - not a security standard*
 
 ## GitHub Version
 
-**Current release:** v1.3.0 (2026-08-15). See [CHANGELOG.md](../CHANGELOG.md) and [GitHub Releases](https://github.com/MHaghighian/MLSecOps/releases/tag/v1.3.0).
+**Current release:** v1.3.0 (2026-10-22). See [CHANGELOG.md](../CHANGELOG.md) and [GitHub Releases](https://github.com/MHaghighian/MLSecOps/releases/tag/v1.3.0).
 
 This guide is maintained as Markdown in the [MLSecOps repository](https://github.com/MHaghighian/MLSecOps). Technical terms use `inline code` formatting where helpful for scanability.
 
@@ -578,18 +587,18 @@ AI security is not solved by a single tool, a secure prompt, or a simple test. S
 
 ### What this guide contributes
 
-Beyond compiling OWASP, OpenSSF, NIST, and related sources, this **Practical Reference Guide** adds four operational constructs:
+Alongside cross-mapping OWASP, OpenSSF, NIST, ISO, and CSA frameworks, this project defines an independent **MLSecOps reference model and control architecture** engineered across the guide, `schemas/`, `policies/`, and Appendix E:
 
-1. **Ten lifecycle control points** from change initiation through monitoring—not only a threat list.
-2. **Explicit separation** of evidence-producing steps from **blocking release decisions** (control points **4, 7, 8**; stage 7 blocking at Level 2+) and mandatory **integrity/provenance checkpoint** (9) before store/deploy.
-3. **`Evidence Pack`** as the auditable output bundle per release.
-4. A **single lifecycle thread** linking threat modeling, runtime, SOC, and governance.
+1. **Ten lifecycle control points (`CP 1–10`)** from change initiation through monitoring and SOC.
+2. **Explicit separation** of evidence-producing steps from **blocking release decisions** (`CP 4, 7, 8`; `CP 7` blocking at Level 2+) and a hard **CP 9 integrity/admission checkpoint** bound to the approved CP 8 digest.
+3. **Machine-readable `Evidence Pack`** ([`schemas/`](../schemas/README.md)) plus executable **OPA/Conftest admission samples** ([`policies/`](../policies/README.md)).
+4. **`Secure-by-Design` blueprints** ([Appendix E.7](17-appendix-e-implementation-reference.md#e7-secure-by-design-worked-examples)) connecting threat modeling, runtime containment, SOC, and governance end-to-end.
 
-Teams implementing in production should use [Appendix E: Implementation Reference](17-appendix-e-implementation-reference.md) (architecture cards, decision matrix, templates, playbooks, master control matrix).
+Teams implementing in production should use [Appendix E: Implementation Reference](17-appendix-e-implementation-reference.md) (architecture cards, decision matrix, templates, playbooks, master control matrix, and worked architectures).
 
 By separating `Risk Management` from `Threat Modeling`, lifecycle control points, measurable assurance, runtime controls, and the `Evidence Pack`, organizations can deploy models in production with security and auditable defensibility.
 
-Organizations that adopt the practices in this guide—risk management, threat modeling, lifecycle release decisions, runtime controls, and the `Evidence Pack`—can improve the **auditability and defensibility** of production AI deployments. This guide is one input among many (OpenSSF, OWASP, NIST, ISO, legal counsel); it is **not** a certified standard or a sole prerequisite for trustworthy AI.
+Organizations that adopt the practices in this reference model can improve the **auditability and defensibility** of production AI deployments. It complements external standards (OpenSSF, OWASP, NIST, ISO, and legal counsel) and is not a regulatory certification or legal substitute.
 
 ### References / Source mapping
 
@@ -602,6 +611,4 @@ Organizations that adopt the practices in this guide—risk management, threat m
 **Implementation guidance (this guide)**
 - [What this guide contributes](#what-this-guide-contributes) (this section)
 - [Appendix E: Implementation Reference](17-appendix-e-implementation-reference.md) (Chapter 17)
-
-**Author practical guidance**
-- *Four operational constructs (control points, release decisions, Evidence Pack, lifecycle thread) are author additions beyond cited frameworks*
+- [`schemas/`](../schemas/README.md) · [`policies/`](../policies/README.md)

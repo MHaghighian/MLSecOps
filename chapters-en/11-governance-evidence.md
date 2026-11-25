@@ -27,7 +27,7 @@ Governance means that decisions related to the model, data, risk, and release ar
 | Personal API keys in code | Developer key in notebook touching prod data | Ch.6 control point 3 secrets review + shadow key discovery |
 | Embedded AI in sanctioned SaaS | Copilot on personal M365 vs corporate tenant | CASB/SSPM gap — traffic looks "approved" |
 
-**Documented pattern:** Samsung restricted generative AI tools after internal data was pasted into ChatGPT (2023). See [Chapter 13 — Shadow LLM usage](13-case-studies.md#shadow-llm-usage-and-data-boundary-documented-incident).
+**Documented pattern:** Samsung restricted generative AI tools after internal data was pasted into ChatGPT (2023). See [Chapter 13 — Shadow LLM usage](13-case-studies.md#shadow-llm-usage-and-data-boundary--documented-incident).
 
 ### Shadow AI vs sanctioned MLSecOps path
 
@@ -148,7 +148,7 @@ Providing a **sanctioned, productive alternative** reduces shadow demand more th
 - [AI system inventory](02-scope-risk-threat-model.md#ai-system-inventory) (Chapter 2)
 - [MCP security](07-llm-rag-security.md#model-context-protocol-mcp-security) (Chapter 7)
 
-**Author practical guidance**
+**Operational & scope notes**
 - *30-day rollout and gateway vendor lists are operational patterns, not standards*
 
 ## OpenSSF MLSecOps Mapping (Whitepaper 2025)
@@ -159,7 +159,7 @@ Providing a **sanctioned, productive alternative** reduces shadow demand more th
 |---|---|---|---|
 | 1 | Planning and design | Threat modeling, secure design, SBOM visibility | Ch. 2, 6 (prerequisite); Ch. 5 (`AI-BOM`) |
 | 2 | Data engineering | Validation, versioning, lineage, anomaly detection, encryption | Ch. 4; control point 4 |
-| 3 | Experimentation | Supply chain security, poisoned data detection, experiment tracking | Ch. 4, 6 (stages 2–5) |
+| 3 | Experimentation | Supply chain security, poisoned data detection, experiment tracking | Ch. 4, 6 (control points 2–5) |
 | 4 | ML pipeline dev & test | Reproducibility, secure artifact validation, pipeline testing | Ch. 6 (control points 3, 7) |
 | 5 | Continuous integration | SAST/SCA, policy enforcement, dependency scan | Ch. 6 (control point 3); Ch. 12 |
 | 6 | Continuous deployment | Secure deploy automation, artifact checks, trusted packages | Ch. 6 (control points 8–10); signing |
@@ -200,7 +200,7 @@ The organization's `Evidence Pack` should record which OpenSSF-aligned measures�
 - EU AI Act - formal compliance frameworks cited in section note
 - NIST AI RMF: risk-based assurance tiers (conceptual alignment)
 
-**Author practical guidance**
+**Operational & scope notes**
 - *Tier 1-3 table is an optional organizational planning aid, not an OWASP, ISO, EU, or industry standard*
 
 ## STRIDE and FMEA applied to ML assets
@@ -223,7 +223,7 @@ The methods below apply established threat-modeling techniques to ML/AI assets. 
 - [Threat model template](17-appendix-e-implementation-reference.md#e3-threat-model-template) (Appendix E.3)
 - [Chapter 2 threat modeling](02-scope-risk-threat-model.md) (Chapter 2)
 
-**Author practical guidance**
+**Operational & scope notes**
 - *STRIDE-AI and FMEA-AI labels apply established techniques to ML assets; not separate published standards*
 
 ## Reference frameworks
@@ -299,8 +299,8 @@ The Evidence Pack is **raw material for** - not a substitute for - `ISO/IEC 4200
 **Implementation guidance (this guide)**
 - [Appendix E.4 - Evidence Pack template](17-appendix-e-implementation-reference.md#e4-evidence-pack-template)
 
-**Author practical guidance**
-- *Evidence Pack field names and structure are community implementation guidance, not a published OWASP or ISO file format*
+**Operational & scope notes**
+- *Evidence Pack field names follow this project's reference schema ([`schemas/`](../schemas/README.md)); adapt or extend fields to fit your GRC workflow.*
 
 ## Machine-readable Evidence Pack
 
@@ -308,11 +308,11 @@ Human-readable PDF/JSON dumps are useful for auditors, but Level 2+ pipelines th
 
 | Artifact | Location |
 |---|---|
-| JSON Schema (CycloneDX 1.6-aligned themes) | [`schemas/evidence-pack.schema`](../schemas/evidence-pack.schema.md) |
+| JSON Schema (CycloneDX 1.6/1.7-aligned themes) | [`schemas/evidence-pack.schema`](../schemas/evidence-pack.schema.md) |
 | Example instance | [`schemas/evidence-pack.example`](../schemas/evidence-pack.example.md) |
 | Admission / release policy samples | [`policies/cp8_cp9_admission`](../policies/cp8_cp9_admission.md) |
 
-**Minimum machine fields for production:** `lifecycleControlGates` (CP 4/7/8 statuses + `boundToCp9Digest`) and `cryptographicProvenance.cp9_checkpointVerified`. Prefer emitting or attaching a full **CycloneDX 1.6** / **SPDX 3.x AI-Data** BOM when your toolchain supports it; this schema is the guide’s lightweight bridge, not a replacement for those standards.
+**Minimum machine fields for production:** `lifecycleControlGates` (CP 4/7/8 statuses + `boundToCp9Digest`) and `cryptographicProvenance.cp9_checkpointVerified`. Prefer emitting or attaching a full **CycloneDX 1.6/1.7** / **SPDX 3.x AI-Data** BOM when your toolchain supports it; this schema is the guide’s lightweight bridge, not a replacement for those standards.
 
 **Long-lived integrity:** plan signature migration toward **post-quantum** algorithms as NIST IR 8547 transition guidance lands in your crypto roadmap (record `signatureMethod` explicitly) — see [Ch.14](14-maturity-roadmap.md#post-quantum-and-long-lived-model-signatures).
 
@@ -378,10 +378,11 @@ Human-readable PDF/JSON dumps are useful for auditors, but Level 2+ pipelines th
 | `Technical Documentation` (Art. 11) | `Evidence Pack` and `AI-BOM` (Chapters 5, 11) as raw material - not structured to the Annex IV schema. |
 | `Record-Keeping / Logging` (Art. 12) | Telemetry, prompt/tool logging (Chapter 10) |
 | `Transparency` (Art. 13) | Model documentation, provenance, user-facing instructions (Chapter 5) |
-| `Synthetic-content marking` (Art. 50) | **Mandatory baseline obligation:** machine-readable marking of AI-generated audio/image/video/text and disclosure of AI interaction. Implement watermarking/marking as a required provider control, not an optional anti-theft measure. |
 | `Human Oversight` (Art. 14) | `HITL` and `Intent Gate` (Chapter 8). Does **not** cover automation-bias or the two-person-verification rule. |
-| `Accuracy, Robustness, Cybersecurity` (Art. 15) | Cybersecurity third: adversarial testing, signing, runtime guardrail (Chapters 5, 6, 7). Accuracy and robustness declarations are only lightly covered. |
+| `Accuracy, Robustness, Cybersecurity` (Art. 15) | Cybersecurity pillar: adversarial testing, signing, runtime guardrail (Chapters 5, 6, 7). Accuracy and robustness declarations are only lightly covered. |
 | `Post-Market Monitoring` (Art. 72) | Runtime monitoring and SOC (Chapter 10) as input - not a documented PMM plan. |
+
+> **General transparency obligation (Art. 50 — applies across risk tiers, not limited to High-Risk systems):** Machine-readable marking of AI-generated audio, image, video, or text and disclosure of AI interaction must be implemented as a baseline provider/deployer control, not as an optional anti-theft measure.
 
 This mapping shows how MLSecOps technical controls **may provide evidence inputs to** documentation and audit activities relevant to the `EU AI Act` - provided that evidence is maintained automatically, reviewed by legal/compliance teams, and adapted to each deployment context. It is **not** a conformance mapping.
 
@@ -564,7 +565,7 @@ flowchart LR
 - [Security validation and assurance](#security-validation-and-assurance)
 - [Governance Benchmark Suite](#governance-benchmark-suite)
 
-**Author practical guidance**
+**Operational & scope notes**
 - *Example acceptance thresholds are illustrative; each organization must set criteria in its threat model and policy*
 
 ## Optional regression scoring pattern — illustrative only
@@ -591,7 +592,7 @@ The value of `delta` should be set in the organization's threat model. This exam
 - NIST AI RMF: Measure (quantitative risk assessment - conceptual alignment)
 - ISO/IEC 23894: risk treatment and acceptance criteria
 
-**Author practical guidance**
+**Operational & scope notes**
 - *Regression scoring formula and weights are an optional internal planning aid, not a published metric or OWASP standard*
 
 ## Governance Benchmark Suite

@@ -4,25 +4,25 @@
 
 Case studies show that `MLSecOps` risks are not theoretical. Many incidents arise from the combination of data, model, supply chain, access, and runtime.
 
-> **Sources:** Primary references for each case appear inline below and in the [Claims & Evidence](15-conclusion-appendix.md#appendix-claims-evidence) appendix (Chapter 15).
+> **Sources:** Primary references for each case appear inline below and in the [Claims & Evidence](15-conclusion-appendix.md#appendix-claims--evidence) appendix (Chapter 15).
 
 **Legend:** **Documented incident** = published CVE, vendor research, or widely cited report with primary source. **Illustrative pattern** = design anti-pattern for threat modeling, not a single vendor CVE.
 
 ### References / Source mapping
 
 **Frameworks and standards**
-- MITRE ATLAS case studies: https://atlas.mitre.org/studies
-- OWASP AI Incident Database (community): https://owaspai.org/go/incidentdatabase/
+- MITRE ATLAS case studies: https://atlas.mitre.org/
+- AI Incident Database: https://incidentdatabase.ai/ (OWASP AI Exchange: https://owaspai.org/)
 
 **Implementation guidance (this guide)**
-- [Claims & Evidence appendix](15-conclusion-appendix.md#appendix-claims-evidence) (Chapter 15)
+- [Claims & Evidence appendix](15-conclusion-appendix.md#appendix-claims--evidence) (Chapter 15)
 - [Threat-control map](12-threat-control-tools-map.md) (Chapter 12)
 
 ## LeftoverLocals (CVE-2023-4969) — **Documented incident**
 
 `Trail of Bits` reported the `LeftoverLocals` vulnerability in January 2024: leftover LLM response data in GPU memory was readable across processes, leading to cross-application data leakage (Apple, Qualcomm, AMD, and Imagination GPUs).
 
-**Reference:** [Trail of Bits — LeftoverLocals (2024)](https://blog.trailofbits.com/2024/01/16/leftoverlocals-local-llm-data-leakage/); [CVE-2023-4969](https://nvd.nist.gov/vuln/detail/CVE-2023-4969)
+**Reference:** [Trail of Bits — LeftoverLocals (2024)](https://blog.trailofbits.com/2024/01/16/leftoverlocals-listening-to-llm-responses-through-leaked-gpu-local-memory/); [CVE-2023-4969](https://nvd.nist.gov/vuln/detail/CVE-2023-4969)
 
 Lessons learned:
 
@@ -33,11 +33,11 @@ Lessons learned:
 ### References / Source mapping
 
 **Frameworks and standards**
-- [CVE-2023-4969](https://nvd.nist.gov/vuln/detail/CVE-2023-4969); Trail of Bits - [LeftoverLocals (2024)](https://blog.trailofbits.com/2024/01/16/leftoverlocals-local-llm-data-leakage/)
+- [CVE-2023-4969](https://nvd.nist.gov/vuln/detail/CVE-2023-4969); Trail of Bits - [LeftoverLocals (2024)](https://blog.trailofbits.com/2024/01/16/leftoverlocals-listening-to-llm-responses-through-leaked-gpu-local-memory/)
 
 **Implementation guidance (this guide)**
 - [GPU isolation](16-kubernetes-deployment-reference.md#gpu-isolation-and-shared-inference) (Chapter 16)
-- [Claims & Evidence - LeftoverLocals](15-conclusion-appendix.md#appendix-claims-evidence) (Chapter 15)
+- [Claims & Evidence - LeftoverLocals](15-conclusion-appendix.md#appendix-claims--evidence) (Chapter 15)
 
 ## MLflow and MLOps platform vulnerabilities — **Documented incident**
 
@@ -64,7 +64,7 @@ Lessons learned:
 
 `HiddenLayer` research on the `ClearML` platform showed that an attacker who compromises an agent or manipulates metadata can poison the entire training pipeline (an attack known as `Confused Learning`).
 
-**Reference:** [HiddenLayer — NOT SO CLEAR: How MLOps Solutions Can Muddy the Waters of Your Supply Chain](https://hiddenlayer.com/research/not-so-clear/)
+**Reference:** HiddenLayer (*NOT SO CLEAR: How MLOps Solutions Can Muddy the Waters of Your Supply Chain*) via [HiddenLayer Innovation Hub](https://www.hiddenlayer.com/innovation-hub); advisories: [CVE-2024-24590](https://nvd.nist.gov/vuln/detail/CVE-2024-24590), [CVE-2024-24591](https://nvd.nist.gov/vuln/detail/CVE-2024-24591)
 
 Lessons learned:
 
@@ -75,11 +75,11 @@ Lessons learned:
 ### References / Source mapping
 
 **Frameworks and standards**
-- HiddenLayer - [NOT SO CLEAR: How MLOps Solutions Can Muddy the Waters of Your Supply Chain](https://hiddenlayer.com/research/not-so-clear/)
+- HiddenLayer (*NOT SO CLEAR*, 2024) — [Innovation Hub](https://www.hiddenlayer.com/innovation-hub); [CVE-2024-24590](https://nvd.nist.gov/vuln/detail/CVE-2024-24590), [CVE-2024-24591](https://nvd.nist.gov/vuln/detail/CVE-2024-24591)
 
 **Implementation guidance (this guide)**
 - [Poisoning taxonomy across the lifecycle](05-model-artifact-supply-chain.md#poisoning-taxonomy-across-the-lifecycle) (Chapter 5)
-- [Claims & Evidence - SILENT SABOTAGE / ClearML](15-conclusion-appendix.md#appendix-claims-evidence) (Chapter 15)
+- [Claims & Evidence - SILENT SABOTAGE / ClearML](15-conclusion-appendix.md#appendix-claims--evidence) (Chapter 15)
 
 ## SILENT SABOTAGE (HuggingFace Conversion Bot) — **Documented incident**
 
@@ -100,7 +100,7 @@ Lessons learned:
 
 **Implementation guidance (this guide)**
 - [AI supply chain](05-model-artifact-supply-chain.md#ai-supply-chain) (Chapter 5)
-- [Claims & Evidence - SILENT SABOTAGE / ClearML](15-conclusion-appendix.md#appendix-claims-evidence) (Chapter 15)
+- [Claims & Evidence - SILENT SABOTAGE / ClearML](15-conclusion-appendix.md#appendix-claims--evidence) (Chapter 15)
 
 ## BentoML and LangChain deserialization RCE — **Documented incident**
 
@@ -123,7 +123,7 @@ Lessons learned:
 
 **Implementation guidance (this guide)**
 - [Risk of unsafe formats](05-model-artifact-supply-chain.md#risk-of-unsafe-formats) (Chapter 5)
-- [Claims & Evidence - BentoML / LangChain deserialization RCE](15-conclusion-appendix.md#appendix-claims-evidence) (Chapter 15)
+- [Claims & Evidence - BentoML / LangChain deserialization RCE](15-conclusion-appendix.md#appendix-claims--evidence) (Chapter 15)
 
 ## HuggingFace: unsafe models at scale — **Documented incident**
 
@@ -144,7 +144,7 @@ Lessons learned:
 
 **Implementation guidance (this guide)**
 - [Model security controls](05-model-artifact-supply-chain.md#model-security-controls) (Chapter 5)
-- [Claims & Evidence - unsafe HuggingFace models](15-conclusion-appendix.md#appendix-claims-evidence) (Chapter 15)
+- [Claims & Evidence - unsafe HuggingFace models](15-conclusion-appendix.md#appendix-claims--evidence) (Chapter 15)
 
 ## Agent API key exposure pattern — **Illustrative pattern**
 
@@ -166,7 +166,7 @@ Lessons learned:
 - [Intent Gate](08-agentic-ai-security.md#intent-gate) (Chapter 8)
 - [Key and secret management](05-model-artifact-supply-chain.md#key-and-secret-management) (Chapter 5)
 
-**Author practical guidance**
+**Operational & scope notes**
 - *Agent API key exposure is an illustrative design anti-pattern, not a single vendor CVE*
 
 ## Pickle-based RCE in model repositories — **Documented incident (pattern class)**
@@ -193,7 +193,7 @@ Lessons learned:
 
 In the `PoisonGPT` demonstration (Mithril Security, 2023), researchers intentionally uploaded a poisoned GPT-2 model to Hugging Face to show that a public registry can deliver a backdoored model that generates attacker-controlled output while appearing legitimate. The risk is supply-chain trust in public model hubs—not name typosquatting alone.
 
-**Reference:** [Mithril Security — PoisonGPT (2023)](https://blog.mithrilsecurity.io/poisongpt-how-we-hid-a-malicious-model-on-hugging-face/)
+**Reference:** Mithril Security — *PoisonGPT* (2023) ([Mithril Security Blog](https://blog.mithrilsecurity.io/), [GitHub](https://github.com/mithril-security))
 
 Lessons learned:
 
@@ -205,11 +205,11 @@ Lessons learned:
 ### References / Source mapping
 
 **Frameworks and standards**
-- Mithril Security - [PoisonGPT (2023)](https://blog.mithrilsecurity.io/poisongpt-how-we-hid-a-malicious-model-on-hugging-face/)
+- Mithril Security - *PoisonGPT* (2023) ([Blog](https://blog.mithrilsecurity.io/), [GitHub](https://github.com/mithril-security))
 
 **Implementation guidance (this guide)**
 - [Provenance and signing](05-model-artifact-supply-chain.md#provenance-and-signing) (Chapter 5)
-- [Claims & Evidence - PoisonGPT](15-conclusion-appendix.md#appendix-claims-evidence) (Chapter 15)
+- [Claims & Evidence - PoisonGPT](15-conclusion-appendix.md#appendix-claims--evidence) (Chapter 15)
 
 ## Prompt injection in public systems — **Documented incident (class)**
 
@@ -252,7 +252,7 @@ Lessons learned:
 
 **Implementation guidance (this guide)**
 - [Shadow AI governance](11-governance-evidence.md#shadow-ai-governance) (Chapter 11)
-- [Claims & Evidence - Shadow AI](15-conclusion-appendix.md#appendix-claims-evidence) (Chapter 15)
+- [Claims & Evidence - Shadow AI](15-conclusion-appendix.md#appendix-claims--evidence) (Chapter 15)
 
 ## Indirect prompt injection in Copilot and RAG — **Documented incident (research)**
 
@@ -274,7 +274,7 @@ Lessons learned:
 
 **Implementation guidance (this guide)**
 - [Retrieval Poisoning](07-llm-rag-security.md#retrieval-poisoning) (Chapter 7)
-- [Claims & Evidence - indirect injection](15-conclusion-appendix.md#appendix-claims-evidence) (Chapter 15)
+- [Claims & Evidence - indirect injection](15-conclusion-appendix.md#appendix-claims--evidence) (Chapter 15)
 
 ## AI tools inside DevOps — **Illustrative pattern**
 
@@ -296,7 +296,7 @@ Lessons learned:
 - [Common anti-patterns](09-anti-patterns.md#common-anti-patterns) (Chapter 9)
 - [Agent reference architecture](08-agentic-ai-security.md#agent-reference-architecture) (Chapter 8)
 
-**Author practical guidance**
+**Operational & scope notes**
 - *AI-in-DevOps integration risks are an illustrative pattern for threat modeling, not a single published CVE*
 
 ## RAG in organizational knowledge base — **Illustrative pattern**
@@ -319,7 +319,7 @@ Lessons learned:
 - [Three-layer controls in RAG](07-llm-rag-security.md#three-layer-controls-in-rag) (Chapter 7)
 - [RAG without security boundary](09-anti-patterns.md#rag-without-security-boundary) (Chapter 9)
 
-**Author practical guidance**
+**Operational & scope notes**
 - *Organizational RAG ACL failure is an illustrative pattern; map to your tenant model and data classification*
 
 ## MCP red team lab — **Illustrative pattern**
@@ -338,9 +338,9 @@ Validate fixes using the [SlowMist MCP Security Checklist](https://github.com/sl
 
 **Implementation guidance (this guide)**
 - [Model Context Protocol (MCP) security](07-llm-rag-security.md#model-context-protocol-mcp-security) (Chapter 7)
-- [Claims & Evidence - MCP security lab](15-conclusion-appendix.md#appendix-claims-evidence) (Chapter 15)
+- [Claims & Evidence - MCP security lab](15-conclusion-appendix.md#appendix-claims--evidence) (Chapter 15)
 
-**Author practical guidance**
+**Operational & scope notes**
 - *MCP red team lab is a training pattern using deliberately vulnerable configs - not a production control*
 
 ## Summary of lessons
@@ -370,11 +370,8 @@ In most incidents, failure is not from the model alone. Failure arises from exce
 ### References / Source mapping
 
 **Frameworks and standards**
-- MITRE ATLAS case studies: https://atlas.mitre.org/studies
+- MITRE ATLAS case studies: https://atlas.mitre.org/
 
 **Implementation guidance (this guide)**
 - [Summary of lessons](#summary-of-lessons) (this chapter)
 - [Anti-patterns](09-anti-patterns.md) (Chapter 9)
-
-**Author practical guidance**
-- *Composite failure thesis is author synthesis across case studies above - not a single framework control*

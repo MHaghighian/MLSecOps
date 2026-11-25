@@ -392,7 +392,7 @@ syft myorg/llm-serving:1.4.0 -o spdx-json=image-sbom.spdx.json
 
 ```
 
-Evidence: `sbom.cdx.json`. This is produced at stages 2 and 9.
+Evidence: `sbom.cdx.json`. This is produced at control points 2 and 9.
 
 ### L3 — AI-BOM (ML-BOM) Generation: CycloneDX / cdxgen
 
@@ -431,32 +431,32 @@ Decision behavior: If `verify` fails, deployment must stop or be formally escala
 
 Purpose: Convert security policies into executable code for lifecycle decision points such as control points 4 and 8.
 
-Example policy (`Rego`) requiring signature and absence of critical vulnerabilities:
+Example policy (**OPA Rego v1**, aligned with [`schemas/evidence-pack.schema.json`](../schemas/evidence-pack.schema.md); full admission sample in [`policies/cp8_cp9_admission.rego`](../policies/cp8_cp9_admission.md)):
 
 ```rego
 package mlsecops.gate
 
-deny[msg] {
-  input.modelscan.issues_count > 0
-  msg := "Model contains unsafe artifact"
+import rego.v1
+
+deny contains msg if {
+  input.lifecycleControlGates.cp4_dataAndRagAclGate.status != "PASS"
+  msg := "CP4 data/RAG ACL gate failed"
 }
 
-deny[msg] {
-  not input.model.signed
-  msg := "Model is not signed"
+deny contains msg if {
+  not input.cryptographicProvenance.cp9_checkpointVerified == true
+  msg := "CP9 model integrity/provenance checkpoint not verified"
 }
 
-deny[msg] {
-  input.trivy.critical_count > 0
-  msg := "Dependency with critical vulnerability"
+deny contains msg if {
+  input.lifecycleControlGates.cp7_adversarialAndRedTeamGate.unreadableArtifactsDetected == true
+  msg := "Unreadable or obfuscated model artifact detected"
 }
-
 ```
 
 ```bash
-# Evaluate aggregated scan output against policy
-conftest test evidence-bundle.json --policy ./policies/
-
+# Evaluate an Evidence Pack JSON against the repo policies
+conftest test --policy ./policies schemas/examples/evidence-pack.example.json
 ```
 
 Decision behavior: Any `deny` should block or escalate the release decision. Evidence: `OPA/Conftest` decision log.
@@ -568,7 +568,7 @@ Decision behavior: If membership inference success rate exceeds the threat model
 - [Evidence Pack](11-governance-evidence.md#what-is-an-evidence-pack) (Chapter 11)
 - [Release decision model](06-pipeline.md#release-decision-model) (Chapter 6)
 
-**Author practical guidance**
+**Operational & scope notes**
 - *CLI examples and exit-code decision tables are implementation patterns; validate tool versions and outputs in your environment*
 
 ## OWASP ML Top 10 Mapping to MLOps Stages
@@ -634,7 +634,7 @@ The consolidated and complete version of this card (with a `Phase` column and ad
 ### References / Source mapping
 
 **Frameworks and standards**
-- MITRE ATLAS: techniques in table above - https://atlas.mitre.org/techniques
+- MITRE ATLAS: techniques in table above - https://atlas.mitre.org/ (machine-readable data: https://github.com/mitre-atlas/atlas-data)
 - OWASP LLM Top 10 (2025): cross-walk in [Appendix B](15-conclusion-appendix.md#appendix-b-mitre-atlas-mapping) (Chapter 15)
 
 ## Commercial Tool Market Map
@@ -662,7 +662,7 @@ Note: Mentioning a product does not constitute a recommendation. Vendor ownershi
 - [Tool Selection Criteria](#tool-selection-criteria)
 - [Primary Mapping](#primary-mapping)
 
-**Author practical guidance**
+**Operational & scope notes**
 - *Commercial vendor names are category examples only - not endorsements*
 
 ## Tool Selection Criteria
@@ -719,5 +719,5 @@ Tools should make security controls actionable, not replace security thinking. F
 - [Tool selection criteria](#tool-selection-criteria)
 - [Anti-patterns](09-anti-patterns.md) (Chapter 9)
 
-**Author practical guidance**
+**Operational & scope notes**
 - *Commercial tool names in this chapter are category examples only - not endorsements*

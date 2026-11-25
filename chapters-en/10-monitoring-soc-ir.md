@@ -295,7 +295,7 @@ Incident severity must be determined based on actual impact on confidentiality, 
 - [Incident response](#incident-response)
 - [Appendix E.5 - Operational playbooks](17-appendix-e-implementation-reference.md#e5-operational-playbooks)
 
-**Author practical guidance**
+**Operational & scope notes**
 - *Sample SLA targets are operational examples; adjust for team size, timezone, and on-call model*
 
 ## Evidence required for incident analysis
@@ -423,8 +423,8 @@ Many incidents arise from post-deploy neglect, not only model weakness.
 - [First 30 minutes of an incident](#first-30-minutes-of-an-incident)
 - [Evidence required for incident analysis](#evidence-required-for-incident-analysis)
 
-**Author practical guidance**
-- *Minimum viable SOC triad is this guide's prioritization when resources are constrained*
+**Operational & scope notes**
+- *Minimum viable SOC triad for resource-constrained teams; expand with full SIEM correlation and MITRE ATLAS coverage as maturity grows.*
 
 ## Practical principle
 

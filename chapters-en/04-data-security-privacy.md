@@ -196,7 +196,7 @@ Several practical controls are needed at this stage:
 **Implementation guidance (this guide)**
 - [Chapter 12 - Notebook Scan](12-threat-control-tools-map.md#l2--notebook-scan-nb-defense-and-lintml)
 
-**Author practical guidance**
+**Operational & scope notes**
 - *Tool names in this section are informative examples, not endorsements*
 
 ## Data security in RAG
@@ -276,7 +276,7 @@ When a `Feature Store` is used, features are long-lived training and serving ass
 **Implementation guidance (this guide)**
 - [Basic data controls](#basic-data-controls) in this chapter
 
-**Author practical guidance**
+**Operational & scope notes**
 - *Feature Store patterns are implementation guidance for teams using Feast/Tecton-style architectures*
 
 ## Training data licensing and copyright

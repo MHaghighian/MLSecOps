@@ -1,6 +1,6 @@
 # MLSecOps Practical Reference Guide
 
-> **Open-source MLSecOps handbook for AI security, LLM/RAG, and secure MLOps.**
+> **Open-source MLSecOps reference model and practical guide for AI security, LLM/RAG, agentic AI, and secure MLOps.**
 
 [![Status](https://img.shields.io/badge/status-stable-blue)](CHANGELOG.md)
 [![Version](https://img.shields.io/badge/version-v1.3.0-lightgrey)](CHANGELOG.md)
@@ -12,7 +12,7 @@
 
 **MLSecOps Practical Reference Guide** is an open-source handbook for **AI security**, **machine learning security**, and **secure MLOps** across the full ML lifecycle — from data and training through deployment, runtime monitoring, SOC, and governance.
 
-It covers **LLM security**, **RAG security**, **agentic AI**, **MCP**, **AI supply chain security**, and **DevSecOps** patterns for production AI systems. Use it as a practitioner reference — not a product manual or an official OWASP, NIST, or ISO standard.
+It defines an actionable **lifecycle control model (`CP 1–10`)**, machine-readable **Evidence Pack JSON Schema**, **OPA/Conftest Policy-as-Code** admission samples, and **Secure-by-Design** blueprints covering **LLM security**, **RAG security**, **agentic AI**, **MCP**, **AI supply chain security**, and **DevSecOps** patterns for production AI systems. Independent open-source reference model and guide — not a product manual or an official OWASP, NIST, or ISO standard.
 
 **New here?** Start with [Getting started](GETTING-STARTED.md) (terms + role paths). Do not jump straight into the middle of Chapters 7 or 12.
 
@@ -35,12 +35,12 @@ Security engineers, ML/MLOps teams, architects, and risk owners who need a **pra
 
 ## What this guide adds
 
-This guide **synthesizes** OWASP, MITRE ATLAS, NIST AI RMF, ISO/IEC 42001, OpenSSF Secure MLOps, and CSA MAESTRO. Its operational additions are:
+This project defines an independent **MLSecOps reference architecture and control model**, cross-mapped to OWASP, MITRE ATLAS, NIST AI RMF, ISO/IEC 42001, OpenSSF Secure MLOps, and CSA MAESTRO. Its core operational contributions are:
 
-1. **Ten lifecycle control points** — one thread from change initiation through monitoring  
-2. **Blocking release decisions** at control points **4, 7, 8** (CP 7 blocking at Level 2+) — separately, a mandatory **integrity/provenance checkpoint at CP 9** that blocks store/deploy (not a fourth policy release gate)  
-3. **`Evidence Pack`** — auditable output bundle per release  
-4. **[Implementation Reference](chapters-en/17-appendix-e-implementation-reference.md)** — architecture cards, decision matrix, templates, playbooks (patterns and checklists — **not** a bundled CI/CD product)
+1. **Ten lifecycle control points (`CP 1–10`)** — one continuous control thread from change initiation through runtime and SOC  
+2. **Blocking release decisions** at control points **4, 7, 8** (CP 7 blocking at Level 2+) — separately, a mandatory **integrity/provenance checkpoint at CP 9** bound to the CP 8 digest at admission to close the TOCTOU gap  
+3. **Auditable `Evidence Pack`** per release — with a machine-readable JSON Schema ([`schemas/`](schemas/README.md)) and OPA/Conftest admission samples ([`policies/`](policies/README.md))  
+4. **[Implementation Reference](chapters-en/17-appendix-e-implementation-reference.md)** — architecture cards, decision matrix, templates, playbooks, and end-to-end **Secure-by-Design** system blueprints (`E.7`)
 
 Learn more: [Chapter 1 — What this guide adds](chapters-en/01-intro.md#what-this-guide-adds-beyond-owasp-openssf-and-nist). See also [Getting started](GETTING-STARTED.md).
 
@@ -164,12 +164,15 @@ The build uses **Pandoc** with the project Word template (`scripts/templates/ref
 MLSecOps/
 ├── chapters-en/          # Guide chapters (English)
 ├── assets/diagrams/      # Diagram PNGs and Mermaid source (.mmd)
+├── policies/             # OPA / Conftest Policy-as-Code samples
+├── schemas/              # Machine-readable Evidence Pack JSON Schema
+├── references/           # Complementary alignment docs (e.g. AARM)
 ├── scripts/              # DOCX build (build-docx.py, mermaid_to_png.py)
 ├── dist/                 # Local DOCX output (gitignored)
 ├── GETTING-STARTED.md    # Role-based reading paths
 ├── CITATION.cff          # Citation metadata (DOI)
 ├── CHANGELOG.md
-└── .github/workflows/    # Pages deploy, docs CI, releases
+└── .github/workflows/    # Pages deploy, docs CI, releases, artifacts
 ```
 
 ---

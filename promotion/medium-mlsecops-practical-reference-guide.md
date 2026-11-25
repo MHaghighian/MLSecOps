@@ -1,6 +1,6 @@
-# MLSecOps Practical Reference Guide: An Open-Source Handbook for Securing AI in Production
+# MLSecOps Reference Model & Practical Guide: An Open-Source Architecture for Securing AI in Production
 
-**Suggested Medium title:** MLSecOps Practical Reference Guide — Securing AI Systems Across the Full Lifecycle  
+**Suggested Medium title:** MLSecOps Reference Model & Practical Guide — Securing AI Systems Across the Full Lifecycle  
 **Suggested subtitle:** A free, practitioner-oriented reference for LLM, RAG, agent, and ML supply chain security — built on OWASP, NIST, MITRE ATLAS, and ISO/IEC 42001.  
 **Author:** Moslem Haghighian  
 **Tags (Medium):** MLSecOps, AI Security, LLM Security, DevSecOps, Cybersecurity, Machine Learning, Open Source
@@ -13,11 +13,11 @@ Modern AI systems introduce risks that live in training data, model artifacts, p
 
 Teams are not short on frameworks. OWASP LLM Top 10, MITRE ATLAS, NIST AI RMF, ISO/IEC 42001, OpenSSF Secure MLOps, and CSA MAESTRO each cover important ground. What practitioners still lack is a **single, implementation-oriented thread** that connects threats, controls, release decisions, SOC integration, and governance across the full ML lifecycle.
 
-That gap is why I published the **MLSecOps Practical Reference Guide** — an open-source handbook for securing AI systems in real production environments.
+That gap is why I published the **MLSecOps Reference Model & Practical Guide** — an independent open-source reference architecture and engineering handbook for securing AI systems in real production environments.
 
 **Read the guide:** [mhaghighian.github.io/MLSecOps](https://mhaghighian.github.io/MLSecOps/)  
-**Source & downloads:** [github.com/MHaghighian/MLSecOps](https://github.com/MHaghighian/MLSecOps)  
-**Cite (DOI):** [10.5281/zenodo.21950241](https://doi.org/10.5281/zenodo.21950241)  
+**Source & schemas/policies:** [github.com/MHaghighian/MLSecOps](https://github.com/MHaghighian/MLSecOps)  
+**Cite (Concept DOI):** [10.5281/zenodo.21206780](https://doi.org/10.5281/zenodo.21206780)  
 **License:** CC BY-SA 4.0
 
 ---
@@ -48,29 +48,29 @@ The guide does not argue that existing frameworks are wrong. It argues that team
 
 ---
 
-## What this guide adds beyond individual frameworks
+## What this reference model adds beyond individual frameworks
 
-The MLSecOps Practical Reference Guide **synthesizes** published frameworks. It is not an official OWASP, NIST, or ISO document, and it does not introduce a competing standard. Its operational additions are:
+The **MLSecOps Reference Model & Practical Guide** is an independent engineering reference architecture — not an official OWASP, NIST, ISO, or OpenSSF document — that connects external taxonomies to an original lifecycle control model, admission contracts, and machine-readable artifacts. Its core contributions are:
 
-### 1. Ten lifecycle control points
+### 1. Ten lifecycle control points (`CP 1–10`)
 
-Instead of listing controls in isolation, the guide defines **ten control points** along one thread: from change initiation and data handling through training, validation, release decisions, deployment integrity, runtime monitoring, and governance. Each point has a clear security purpose and connects to evidence expectations.
+Instead of listing controls in isolation, the model defines **ten control points** along one engineering thread: from change initiation and data handling through training, validation, release decisions, deployment integrity, runtime monitoring, and governance. Each point has a clear security purpose and connects to evidence expectations.
 
-### 2. Explicit release decisions
+### 2. Explicit release decisions & `CP8 ↔ CP9` integrity lock
 
-Not every security step should block a release. The guide separates **evidence-producing steps** from **blocking gates** at control points 4, 7, and 8, with integrity checks at point 9. That distinction helps teams move fast without pretending that a green build equals a secure AI deployment.
+Not every security step should block a release. The reference model separates **evidence-producing steps** from **blocking gates** at control points 4, 7, and 8, and enforces deployment integrity at point 9 through a hard **`CP8 ↔ CP9` admission lock** (backed by sample OPA/Conftest policy checks in `policies/`). That distinction helps teams move fast without pretending that a green build equals a secure AI deployment.
 
-### 3. Evidence Pack methodology
+### 3. Machine-readable Evidence Pack (`schemas/`)
 
-Governance and security reviews need auditable outputs, not slide decks. The guide defines an **Evidence Pack** — a structured bundle per release that teams can attach to change records, risk committees, or compliance workflows.
+Governance and security reviews need auditable outputs, not slide decks. Alongside the conceptual methodology, the repository provides an **Evidence Pack JSON Schema** (CycloneDX 1.6/1.7-aligned themes) and reference fixtures that teams can attach to change records, risk committees, or CI/CD gates.
 
-### 4. Implementation Reference (Appendix E)
+### 4. Secure-by-Design blueprints & Implementation Reference (Appendix E)
 
-Frameworks describe *what* to protect. Appendix E helps teams decide *how* to implement: architecture cards, decision matrices, templates, and playbooks for patterns such as LLM gateways, RAG with ACL, agent tool policy, and Kubernetes deployment references.
+Frameworks describe *what* to protect. Appendix E provides original architecture cards — including **E.7 Secure-by-Design blueprints**, LLM gateways, RAG with ACL, agent tool policy, developer-local runners, and Kubernetes deployment references — alongside decision matrices, templates, and incident playbooks.
 
-### 5. Per-section traceability (v1.1.0)
+### 5. Per-section traceability & operational scope notes
 
-Version 1.1.0 adds **`References / Source mapping`** across all chapters — distinguishing framework text, implementation guidance, author opinion, and emerging research. OWASP AI Exchange is integrated as a complementary taxonomy where topics align, without duplicating the Exchange itself.
+Every chapter maintains explicit **`References / Source mapping`** and **`Operational & scope notes`** — separating upstream framework standards from MLSecOps control architecture, enforceable schema/policy profiles, and production implementation trade-offs.
 
 ---
 
@@ -124,20 +124,20 @@ You do not need to read all seventeen chapters before doing anything useful.
 The documentation site includes search, table of contents, and chapter navigation:  
 [https://mhaghighian.github.io/MLSecOps/](https://mhaghighian.github.io/MLSecOps/)
 
-Downloads (PDF, DOCX, source ZIP) are available on [GitHub Releases v1.1.0](https://github.com/MHaghighian/MLSecOps/releases/tag/v1.1.0).
+Versioned releases and artifacts are published on [GitHub Releases](https://github.com/MHaghighian/MLSecOps/releases).
 
 ---
 
-## What this guide is not
+## What this reference model is not
 
 Clarity matters for an open reference:
 
 - It is **not** a product user manual for any vendor tool.  
-- It is **not** an official OWASP, NIST, ISO, or OpenSSF publication.  
+- It is **not** an official OWASP, NIST, ISO, or OpenSSF standard or certification program.  
 - It is **not** a replacement for legal, safety, or sector-specific compliance advice.  
-- It does **not** present original empirical research — it synthesizes frameworks and operational patterns.  
+- It is an **independent reference architecture and engineering model** grounded in production security patterns — meant to be adapted to your threat model rather than adopted blindly.
 
-It is a **community reference** you can fork, cite, adapt, and improve under CC BY-SA 4.0.
+It is an **open-source reference model** you can fork, cite, adapt, and extend under CC BY-SA 4.0.
 
 ---
 
@@ -146,7 +146,7 @@ It is a **community reference** you can fork, cite, adapt, and improve under CC 
 AI security guidance ages quickly. Models, attack techniques, and vendor capabilities change faster than printed books. Publishing the guide as open source on GitHub and Zenodo means:
 
 - practitioners can use it without paywalls;  
-- teams can trace guidance to framework sources (especially after v1.1.0 traceability);  
+- teams can inspect explicit source mapping and operational scope notes alongside every chapter;  
 - the community can file issues, suggest fixes, and discuss trade-offs;  
 - citations have a stable DOI for academic and professional use.  
 
@@ -162,9 +162,9 @@ Frameworks give us vocabulary. MLSecOps, in this guide, is an attempt to give te
 
 If you are building or securing AI systems in production, I hope this reference saves you time and sparks better conversations with your team.
 
-**Start reading:** [MLSecOps Practical Reference Guide](https://mhaghighian.github.io/MLSecOps/)  
+**Start reading:** [MLSecOps Reference Model & Practical Guide](https://mhaghighian.github.io/MLSecOps/)  
 **Repository:** [github.com/MHaghighian/MLSecOps](https://github.com/MHaghighian/MLSecOps)  
-**DOI:** [10.5281/zenodo.21950241](https://doi.org/10.5281/zenodo.21950241)
+**Concept DOI:** [10.5281/zenodo.21206780](https://doi.org/10.5281/zenodo.21206780)
 
 ---
 
@@ -176,10 +176,10 @@ If you are building or securing AI systems in production, I hope this reference 
 
 **First 100 words** are optimized for Medium preview and search snippets — keep them when pasting.
 
-**Bio line suggestion:** Moslem Haghighian — author of the MLSecOps Practical Reference Guide; focuses on AI security, secure MLOps, and operational controls for LLM/RAG/agent systems.
+**Bio line suggestion:** Moslem Haghighian — creator of the MLSecOps Reference Model & Practical Guide; focuses on AI security, secure MLOps, and operational controls for LLM/RAG/agent systems.
 
 **Cross-post:** Dev.to (shorter excerpt + link), LinkedIn (summary + link to Medium or directly to Pages).
 
 ---
 
-*Draft for Medium · v1.0 · 2026-07-12 · MLSecOps Practical Reference Guide promotion*
+*Draft for Medium · MLSecOps Reference Model & Practical Guide promotion*

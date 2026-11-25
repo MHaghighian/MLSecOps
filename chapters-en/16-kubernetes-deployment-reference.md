@@ -6,7 +6,7 @@ This chapter provides **operational reference patterns** for deploying and harde
 
 > **Scope:** Cloud-native enterprise inference (vLLM, KServe, Triton, Ray Serve, custom gateways). Edge/IoT and confidential-GPU (TEE) patterns remain out of scope — see vendor docs and specialized frameworks.
 
-> **No bundled artifacts:** This guide ships **markdown content only** (no `examples/` folder, no Kubernetes YAML, no CI/CD pipeline templates, no JSON schemas). Patterns below are architectural guidance. Implement and **test** IaC in your environment using maintained upstream references (vLLM production-stack, Kyverno policy samples, KServe docs).
+> **No bundled cluster manifests:** Kubernetes deployment patterns below are architectural guidance (no bundled cluster YAML or Helm charts). Implement and **test** IaC in your environment using maintained upstream references (vLLM production-stack, Kyverno policy samples, KServe docs). Companion machine-readable Evidence Pack JSON Schemas live in [`schemas/`](../schemas/README.md) and OPA/Conftest admission samples in [`policies/`](../policies/README.md).
 
 ### References / Source mapping
 
@@ -15,10 +15,10 @@ This chapter provides **operational reference patterns** for deploying and harde
 - OWASP LLM Top 10: deployment and supply-chain themes (`LLM03`, `LLM05`)
 
 **Implementation guidance (this guide)**
-- [Multi-tenant RAG](07-llm-rag-security.md#multi-tenant-rag) (Chapter 7)
+- [Cloud Native and Multi-Tenant deployment](07-llm-rag-security.md#cloud-native-and-multi-tenant-deployment) (Chapter 7)
 - [Release decision model](06-pipeline.md#release-decision-model) (Chapter 6)
 
-**Author practical guidance**
+**Operational & scope notes**
 - *Namespace layout and Kyverno policy names are illustrative patterns - validate against your cluster baseline*
 
 ## Reference architecture
@@ -55,7 +55,7 @@ flowchart TB
 
 **Implementation guidance (this guide)**
 - [Purpose](#purpose) (this chapter)
-- [Multi-tenant RAG](07-llm-rag-security.md#multi-tenant-rag) (Chapter 7)
+- [Cloud Native and Multi-Tenant deployment](07-llm-rag-security.md#cloud-native-and-multi-tenant-deployment) (Chapter 7)
 
 ## Prerequisites
 
@@ -75,7 +75,7 @@ flowchart TB
 **Implementation guidance (this guide)**
 - [Reference architecture](#reference-architecture) (this chapter)
 
-**Author practical guidance**
+**Operational & scope notes**
 - *Version and CNI requirements are minimum bars - validate against your platform team's cluster standard*
 
 ## Namespace isolation and RBAC
@@ -221,7 +221,7 @@ servingEngineSpec:
 - [LeftoverLocals case study](13-case-studies.md#leftoverlocals-cve-2023-4969--documented-incident) (Chapter 13)
 - [GPU isolation](#gpu-isolation-and-shared-inference) (this chapter)
 
-**Author practical guidance**
+**Operational & scope notes**
 - *Helm snippet is illustrative - pin image digests and test in non-production before promotion*
 
 ## KServe and generic model serving
@@ -244,7 +244,7 @@ Do not expose `InferenceService` directly to the internet without gateway guardr
 
 **Implementation guidance (this guide)**
 - [Secure deployment methods for retrained models](06-pipeline.md#secure-deployment-methods-for-retrained-models) (Chapter 6)
-- [AI Compute Hijacking](03-threat-landscape.md#ai-compute-hijacking-demonstrated-active-patterns) (Chapter 3)
+- [AI Compute Hijacking](03-threat-landscape.md#ai-compute-hijacking-demonstrated--active-patterns) (Chapter 3)
 
 ## GPU isolation and shared inference
 
@@ -368,7 +368,7 @@ Pair cluster manifests with an MCP server source review such as `mcps-audit` bef
 **Implementation guidance (this guide)**
 - [Commercial Tool Market Map](12-threat-control-tools-map.md#commercial-tool-market-map) (Chapter 12) for broader tooling context
 
-**Author practical guidance**
+**Operational & scope notes**
 - *Tool index is informative - no endorsement; evaluate fit against your threat model*
 
 ## Minimum baseline checklist (Level 2 production)
@@ -403,9 +403,6 @@ Kubernetes secures **where** the model runs; MLSecOps secures **what** runs and 
 **Implementation guidance (this guide)**
 - [Release decision model](06-pipeline.md#release-decision-model) (Chapter 6)
 - [Reference architecture](#reference-architecture) (this chapter)
-
-**Author practical guidance**
-- *Where/what/whether framing is author synthesis for platform + AppSec alignment*
 
 ## Practical summary
 

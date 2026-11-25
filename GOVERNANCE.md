@@ -2,7 +2,7 @@
 
 ## Project status
 
-The **MLSecOps Practical Reference Guide** is an independent, open-source **practical reference** maintained on GitHub. It is **not**:
+The **MLSecOps Practical Reference Guide** is an independent, open-source **reference model and practical guide** maintained on GitHub. It is **not**:
 
 - An official standard from OpenSSF, OWASP, NIST, ISO, or the EU
 - A certified compliance product or legal advice
@@ -54,7 +54,7 @@ Contributions should include:
 - Primary source or framework reference for factual claims
 - Per-section **`References / Source mapping`** where applicable (see [Ch.15 traceability convention](chapters-en/15-conclusion-appendix.md#traceability-and-source-mapping-convention))
 - Consistent OWASP/MITRE IDs with Chapter 2 version notes
-- Disclaimer when introducing non-standard concepts or optional organizational scoring/tiering aids
+- Clear scope boundaries when introducing optional organizational scoring or tiering aids alongside external standards
 - DCO sign-off on every commit ([DCO.md](DCO.md))
 
 Peer review is open via GitHub pull requests; formal third-party certification is not claimed.

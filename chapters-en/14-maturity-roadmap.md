@@ -14,7 +14,7 @@ Implementing full `MLSecOps` in a single phase is usually impractical. Teams mus
 - [Maturity Levels](#maturity-levels)
 - [Recommended 90-Day Path](#recommended-90-day-path)
 
-**Author practical guidance**
+**Operational & scope notes**
 - *Phased maturity framing is community guidance for prioritization - not a certified assessment framework*
 
 ## Maturity Levels
@@ -38,7 +38,7 @@ These levels are **descriptive prioritization guidance, not a numeric scoring ru
 - [Minimum starting controls](#minimum-starting-controls)
 - [OpenSSF mapping](11-governance-evidence.md#openssf-mlsecops-mapping-whitepaper-2025) (Chapter 11)
 
-**Author practical guidance**
+**Operational & scope notes**
 - *Level 0-3 definitions and 90-day path are community maturity guidance, not a certified assessment framework*
 
 ## Level 1: Foundational
@@ -176,7 +176,7 @@ Model weights and training corpora may outlive classical signature algorithms. A
 - [Shadow AI governance](11-governance-evidence.md#shadow-ai-governance) (Chapter 11)
 - [Appendix E.4 - Evidence Pack template](17-appendix-e-implementation-reference.md#e4-evidence-pack-template) (Chapter 17)
 
-**Author practical guidance**
+**Operational & scope notes**
 - *90-day path assumes a dedicated core team; adjust duration for regulated or resource-constrained environments*
 
 ## Maturity Metrics
@@ -214,9 +214,6 @@ Model weights and training corpora may outlive classical signature algorithms. A
 **Implementation guidance (this guide)**
 - [Common anti-patterns](09-anti-patterns.md#common-anti-patterns) (Chapter 9)
 - [One-time security testing](09-anti-patterns.md#one-time-security-testing) (Chapter 9)
-
-**Author practical guidance**
-- *Mistake list is practitioner synthesis from maturity engagements - not a formal standard checklist*
 
 ## Practical Principle
 

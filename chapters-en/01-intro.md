@@ -1,20 +1,20 @@
 # Chapter 1: Abstract and Introduction
 
-> **Guide type:** *MLSecOps Practical Reference Guide* **v1.3.0** — a community reference with operational patterns and an **Implementation Reference** ([Appendix E](17-appendix-e-implementation-reference.md)). This is **not** a product user manual, a certified standard, or an academic paper.
+> **Guide type:** *MLSecOps Practical Reference Guide* **v1.3.0** — an independent open-source reference model, control architecture, and **Implementation Reference** ([Appendix E](17-appendix-e-implementation-reference.md)) with machine-readable [`schemas/`](../schemas/README.md) and [`policies/`](../policies/README.md). Not an official OWASP, NIST, or ISO standard, and not legal advice.
 
 ## Abstract
 
 `MLSecOps` is a practical security framework for securing AI-based systems throughout their entire lifecycle—from data collection and model training to deployment, execution, monitoring, and incident response. This approach transforms security from a one-time pre-release check into an engineered, measurable, repeatable, and auditable process.
 
-This guide focuses on AI supply chain threats, `Adversarial ML` attacks, large language model security, `RAG` systems, intelligent agents, and security controls at `Runtime`. The goal is to provide a practical architecture for teams that develop or maintain `ML` and `AI` systems in real-world operational environments.
+This guide focuses on AI supply chain threats, `Adversarial ML` attacks, large language model security, `RAG` systems, intelligent agents, and security controls at `Runtime`. The goal is to provide an actionable reference architecture for teams that develop or maintain `ML` and `AI` systems in real-world operational environments.
 
 **Problem:** Traditional `DevSecOps` controls are insufficient for AI systems because security risks extend beyond source code into data, models, prompts, embeddings, retrieval pipelines, and autonomous agents. Security failures in production AI systems often occur outside the application code layer—in training data, model artifacts, `RAG` indexes, and runtime behavior.
 
-**Method:** This guide was developed by combining reference frameworks (`OWASP LLM/ML Top 10`, `MITRE ATLAS`, `NIST AI RMF`, `ISO/IEC 42001`, `OpenSSF MLSecOps`, `CSA MAESTRO`), real-world case studies, and operational implementation patterns. This guide is based on frameworks and knowledge published through the end of 2025.
+**Method & Architecture:** This work defines an independent lifecycle control model (`CP 1–10`), blocking release and admission gates (`CP 4, 7, 8` + `CP 9`), machine-readable [`Evidence Pack` schema](../schemas/README.md), executable [`OPA/Conftest` admission policies](../policies/README.md), and `Secure-by-Design` system blueprints ([Appendix E.7](17-appendix-e-implementation-reference.md#e7-secure-by-design-worked-examples)), cross-mapped to published frameworks (`OWASP LLM/ML/Agentic/MCP Top 10`, `MITRE ATLAS`, `NIST AI RMF` & `IR 8596`, `ISO/IEC 42001`, `OpenSSF MLSecOps`, `CSA MAESTRO`) and research through late 2026.
 
-**Author's position (not a research finding):** AI system security is more defensible when viewed as a continuous, auditable flow from data through runtime and SOC—not as periodic controls. This guide synthesizes published frameworks and operational patterns; it does not present original empirical results.
+**Design thesis:** AI system security is defensible only as a continuous, auditable flow enforced outside the model—from data and artifacts through admission, runtime, and SOC—rather than periodic checklists or prompt-layer filters. This reference model presents original operational architecture and control designs; it is an engineering reference rather than an empirical survey.
 
-**Limitations:** This guide focuses on enterprise ML/LLM/Agent systems; `Edge/IoT/CPS` domains, safety, and industry-specific legal requirements are covered only briefly and require specialized resources.
+**Limitations:** This guide focuses on enterprise ML/LLM/Agent systems; `Edge/IoT/CPS` domains, safety engineering, and industry-specific legal requirements are covered only briefly and require specialized resources.
 
 **Keywords:** `MLSecOps`, `LLM Security`, `RAG Security`, `Agentic AI`, `Adversarial ML`, `AI Supply Chain`, `Model Signing`, `Lifecycle Security Controls`, `Evidence Pack`, `AI Governance`.
 
@@ -23,9 +23,9 @@ This guide focuses on AI supply chain threats, `Adversarial ML` attacks, large l
 | | |
 |---|---|
 | **Audience** | AI Security, `AppSec`, `DevSecOps`, ML / `MLOps` engineers, architects, governance stakeholders |
-| **Goal** | Translate AI security frameworks into practical lifecycle controls |
-| **Key outputs** | Lifecycle control points, release gates, `Evidence Pack`, threat–control mappings, architecture references ([Appendix E](17-appendix-e-implementation-reference.md)) |
-| **Scope** | Enterprise ML, LLM, and agent systems in production |
+| **Goal** | Provide an actionable lifecycle control architecture and map it to AI security standards |
+| **Key outputs** | Lifecycle control points, release/admission gates, `Evidence Pack` schema, `OPA/Rego` samples, threat–control mappings, `Secure-by-Design` blueprints ([Appendix E](17-appendix-e-implementation-reference.md)) |
+| **Scope** | Enterprise ML, LLM, RAG, and agent systems in production |
 | **Not covered in depth** | Safety engineering, sector-specific regulations, `Edge`/`IoT`/`CPS` (see [Limitations](#abstract) above) |
 
 ### References / Source mapping
@@ -36,10 +36,7 @@ This guide focuses on AI supply chain threats, `Adversarial ML` attacks, large l
 - NIST AI RMF
 - ISO/IEC 42001
 - OpenSSF MLSecOps whitepaper (2025)
-- CSA MAESTRO - cited in Abstract method paragraph; full bibliography in [Chapter 15 References](15-conclusion-appendix.md#references)
-
-**Author practical guidance**
-- *Keywords, limitations, and author's position are this guide's framing, not framework text*
+- CSA MAESTRO - full bibliography in [Chapter 15 References](15-conclusion-appendix.md#references)
 
 ## Introduction
 
@@ -78,7 +75,7 @@ Security guidance for these topics is spread across multiple frameworks and publ
 
 **Practical takeaways:** lifecycle control points and release decisions ([Chapter 6](06-pipeline.md)), threat–control–tool mappings ([Chapter 12](12-threat-control-tools-map.md)), architecture cards and playbooks ([Appendix E](17-appendix-e-implementation-reference.md)), and role-based reading paths ([How to use this guide](#how-to-use-this-guide), [GETTING-STARTED.md](../GETTING-STARTED.md)).
 
-Rather than introducing another framework, this guide focuses on helping practitioners operationalize and connect existing guidance into a coherent MLSecOps lifecycle.
+This work goes beyond high-level framework checklists by defining a complete, end-to-end operational control architecture—from data and artifacts through admission, runtime, and SOC—that teams can enforce in real production environments.
 
 ### References / Source mapping
 
@@ -91,30 +88,25 @@ Rather than introducing another framework, this guide focuses on helping practit
 - OpenSSF MLSecOps whitepaper (2025)
 - CSA MAESTRO - full citations in [Chapter 15 References](15-conclusion-appendix.md#references)
 
-**Author practical guidance**
-- *The learning outcomes and reader value proposition are this guide's own framing, not framework text*
-
 ## What this guide adds beyond OWASP, OpenSSF, and NIST
 
-This guide **synthesizes** published frameworks; it does not replace them. Its operational contribution is a single, auditable lifecycle view. Compared with existing references, this guide contributes the following operational additions:
+This project defines an **independent operational reference architecture** cross-mapped to published frameworks (`OWASP`, `MITRE ATLAS`, `NIST`, `ISO/IEC 42001`, `OpenSSF`, `CSA MAESTRO`) rather than merely summarizing them. Its core architectural and engineering contributions are:
 
 | # | Contribution | Where to read |
 |---|---|---|
-| 1 | **Ten lifecycle control points** spanning data, model, RAG, agent, and runtime—not only a threat taxonomy | [Chapter 6](06-pipeline.md) |
-| 2 | **Blocking release decisions** at **CP 4, 7, 8** (CP 7 blocking at Level 2+), **separate from** the mandatory **integrity/provenance checkpoint at CP 9** (blocks store/deploy) | [Chapter 6 — Release decision model](06-pipeline.md#release-decision-model) |
-| 3 | **`Evidence Pack` as the auditable output per release**—one bundle tying data, tests, policy, and runtime evidence | [Chapter 11](11-governance-evidence.md#what-is-an-evidence-pack) |
-| 4 | **Unified thread** from threat modeling through runtime, SOC, and governance in one lifecycle—not siloed LLM, agent, or MLOps docs | Ch.2 → 6 → 7/8 → 10 → 11; [Appendix E](17-appendix-e-implementation-reference.md) |
+| 1 | **Ten lifecycle control points (`CP 1–10`)** spanning data, model, RAG, agent, and runtime in one continuous thread | [Chapter 6](06-pipeline.md) |
+| 2 | **Blocking release decisions** at **CP 4, 7, 8** (CP 7 blocking at Level 2+), bound to a hard **CP 9 integrity/admission checkpoint** to close the TOCTOU gap | [Chapter 6 — Release decision model](06-pipeline.md#release-decision-model) |
+| 3 | **Auditable `Evidence Pack`** per release—with a **machine-readable JSON Schema** and **executable OPA/Conftest admission policies** | [Chapter 11](11-governance-evidence.md#machine-readable-evidence-pack) · [`schemas/`](../schemas/README.md) · [`policies/`](../policies/README.md) |
+| 4 | **`Secure-by-Design` blueprints** and operational patterns uniting threat modeling, runtime, SOC, and governance end-to-end | [Appendix E](17-appendix-e-implementation-reference.md#e7-secure-by-design-worked-examples) · Ch.2 → 6 → 7/8 → 10 → 11 |
 
-For architecture-specific controls, decision matrices, templates, and playbooks, use [Appendix E: Implementation Reference](17-appendix-e-implementation-reference.md).
+For architecture cards, decision matrices, fill-in templates, playbooks, and worked architectures, use [Appendix E: Implementation Reference](17-appendix-e-implementation-reference.md).
 
 ### References / Source mapping
 
 **Implementation guidance (this guide)**
 - [Lifecycle control points](06-pipeline.md#lifecycle-control-points) (Chapter 6)
 - [Evidence Pack](11-governance-evidence.md#what-is-an-evidence-pack) (Chapter 11)
-
-**Author practical guidance**
-- *The four contributions in the table are this guide's own positioning relative to OWASP, OpenSSF, and NIST - an author claim, not an external assessment*
+- [Appendix E.7 — Secure-by-design worked examples](17-appendix-e-implementation-reference.md#e7-secure-by-design-worked-examples)
 
 ## Assumed foundations and what this guide does not cover
 
@@ -134,8 +126,8 @@ Framework alignment in this guide is **thematic, not a clause-by-clause conforma
 - ISO/IEC 23894 (AI risk management)
 - EU AI Act (Regulation (EU) 2024/1689)
 
-**Author practical guidance**
-- *This scope boundary is the author's positioning; the named standards are the authoritative sources for the excluded obligations*
+**Scope boundary note**
+- *The named standards (`ISO/IEC 27001`, `ISO/IEC 42001`, `ISO/IEC 23894`, `EU AI Act`) remain the authoritative sources for the excluded legal and management-system obligations.*
 
 ## How to use this guide
 
@@ -159,9 +151,6 @@ Full reading paths: [TABLE-OF-CONTENTS.md](TABLE-OF-CONTENTS.md#reading-paths). 
 - [Reading paths](TABLE-OF-CONTENTS.md#reading-paths)
 - [Appendix E](17-appendix-e-implementation-reference.md)
 - [GETTING-STARTED.md](../GETTING-STARTED.md)
-
-**Author practical guidance**
-- *Role-based reading paths are this guide's navigation aid, not a framework requirement*
 
 ## Why DevSecOps Is Insufficient
 
@@ -230,9 +219,6 @@ These principles define how security decisions are made across the AI lifecycle:
 **Frameworks and standards**
 - NIST AI RMF: Govern / Map / Measure / Manage (principles 1-3, 6)
 - OpenSSF MLSecOps whitepaper (2025): supply-chain traceability (principle 4)
-
-**Author practical guidance**
-- *The six-principle formulation is this guide's synthesis; the underlying requirements derive from the frameworks above*
 
 ## Secure by design
 
@@ -336,7 +322,7 @@ Each stage in this lifecycle maps to security control points, evidence collectio
 | Runtime Monitor | 10 `Store & Monitor` (telemetry, guardrails, canary/shadow) |
 | SOC / IR | 10 `Store & Monitor` + [Chapter 10](10-monitoring-soc-ir.md) SOC integration |
 
-> **Relationship to OpenSSF:** The term `MLSecOps` is also used by the [OpenSSF Secure MLOps whitepaper (2025)](https://openssf.org/wp-content/uploads/2025/08/OpenSSF_MLSecOps_Whitepaper.pdf). This guide is an **independent, non-normative community reference**—not published, endorsed, or maintained by OpenSSF. Where concepts overlap, we cite OpenSSF explicitly and map controls in [Chapter 11](11-governance-evidence.md); this guide adds explicit lifecycle decision points and evidence collection patterns on top of lifecycle stages described in industry literature.
+> **Relationship to OpenSSF:** The term `MLSecOps` is also used by the [OpenSSF Secure MLOps whitepaper (2025)](https://openssf.org/wp-content/uploads/2025/08/OpenSSF_MLSecOps_Whitepaper.pdf). This project is an **independent open-source reference model**—not published, endorsed, or maintained by OpenSSF. Where concepts overlap, we cross-map controls explicitly in [Chapter 11](11-governance-evidence.md); this reference architecture defines its own 10-point lifecycle control model, release/admission gates, machine-readable `Evidence Pack`, and `Secure-by-Design` blueprints.
 
 ### References / Source mapping
 
@@ -397,7 +383,7 @@ The [OWASP AI Exchange](https://owaspai.org) is the OWASP Flagship resource for 
 - [What this guide adds](#what-this-guide-adds-beyond-owasp-openssf-and-nist)
 - [Traceability convention](15-conclusion-appendix.md#traceability-and-source-mapping-convention) (Chapter 15)
 - [Lifecycle control points](06-pipeline.md#lifecycle-control-points) (Chapter 6)
-- [When to use which resource](../GETTING-STARTED.md#when-to-use-this-guide-vs-owasp-ai-exchange) (`GETTING-STARTED.md`)
+- [Which framework first?](../GETTING-STARTED.md#which-framework-first) (`GETTING-STARTED.md`)
 
 ## Focus of this guide and distinction from AISecOps
 

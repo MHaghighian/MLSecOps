@@ -36,7 +36,7 @@ For `Edge`, `IoT`, and `CPS` systems, in addition to the controls in this guide,
 
 > **Risk scope:** This guide manages **security risk**. **Safety** (harm to people, property, or the environment) is a first-class AI risk source under ISO/IEC 23894 that this guide **defers** rather than covers - it is not absent because it is unimportant. Assess safety, fairness, and societal/fundamental-rights risk through ISO/IEC 23894 and ISO/IEC 42001 alongside the security controls here.
 
-**Out of scope for v1.3.0:** localized non-English editions; full legal interpretation of sector regulations; hardware TEE/confidential-GPU deployment patterns (see vendor docs); exhaustive Shadow-AI or MCP product catalog. **Shadow AI governance** (Ch.11), **MCP security** (Ch.7), and **Kubernetes deployment reference** (Ch.16) are in scope as operational patterns - not as vendor surveys. Case studies: [Chapter 13](13-case-studies.md).
+**Out of scope for v1.3.0:** localized non-English editions; full legal interpretation of sector regulations; full hardware TEE/confidential-GPU deployment architectures (only high-level attestation hooks in Ch.5/`schemas/` and CVM storage notes in Ch.16 are included; see vendor docs); exhaustive Shadow-AI or MCP product catalog. **Shadow AI governance** (Ch.11), **MCP security** (Ch.7), and **Kubernetes deployment reference** (Ch.16) are in scope as operational patterns - not as vendor surveys. Case studies: [Chapter 13](13-case-studies.md).
 
 Not every topic in this guide is equally mandatory for every team. For example, numerical `Adversarial Robustness` tests are highly important for `Tabular` or `Vision` models, but for a `Pure LLM API` without proprietary data, some of that work has more limited applicability.
 
@@ -109,8 +109,8 @@ When the model runs on a **developer laptop or CI runner** via a local OpenAI-co
 - [Appendix D - Managed AI Services](15-conclusion-appendix.md#appendix-d-managed-ai-services-security-reference) (Chapter 15)
 - [Lifecycle control points 5-9 in configure mode](06-pipeline.md#lifecycle-control-points) (Chapter 6)
 
-**Author practical guidance**
-- *The customer control stack and evidence substitution table are implementation patterns, not provider requirements*
+**Operational & scope notes**
+- *The customer control stack and evidence substitution table define operational patterns for managed-API consumers rather than provider-mandated requirements.*
 
 ## Primary audiences
 
@@ -148,8 +148,8 @@ The goal of `MLSecOps` is not to add more tools; the goal is to select controls 
 - OWASP AI Exchange: [risk analysis](https://owaspai.org/go/riskanalysis/) - control selection follows threat applicability
 - NIST AI RMF: Map (context-driven risk prioritization)
 
-**Author practical guidance**
-- *The "few simple controls over heavy incomplete architectures" position is this guide's operational opinion*
+**Operational & scope notes**
+- *Enforcing a small set of core controls consistently outperforms complex, partially implemented toolchains.*
 
 ## AI system inventory
 

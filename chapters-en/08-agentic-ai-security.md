@@ -17,7 +17,7 @@ For identifying threats and controls in this domain, the `OWASP Agentic Security
 - CSA AARM (Autonomous Action Runtime Management): complementary alignment - [AARM Alignment](../references/AARM-ALIGNMENT.md)
 
 **Implementation guidance (this guide)**
-- [Chapter 3 - Agent tool abuse](03-threat-landscape.md#agent-tool-abuse-demonstrated-active-patterns)
+- [Chapter 3 - Agent tool abuse](03-threat-landscape.md#agent-tool-abuse-demonstrated--active-patterns)
 
 ## Chatbot vs AI agent
 
@@ -82,7 +82,7 @@ flowchart TB
 - OWASP AI Exchange: [Agentic AI threats](https://owaspai.org/go/agenticaithreats/)
 
 **Implementation guidance (this guide)**
-- [Appendix E.1 - Agent architecture cards](17-appendix-e-implementation-reference.md#e14-agent-with-tools-mcp-apis)
+- [Appendix E.1 - Agent architecture cards](17-appendix-e-implementation-reference.md#e14-agent-with-tools-mcp--apis)
 
 ## Agent think–act cycle and control points
 
@@ -249,7 +249,7 @@ flowchart LR
 **Implementation guidance (this guide)**
 - [Appendix E.6 - Intent Gate in control matrix](17-appendix-e-implementation-reference.md#e6-master-control-matrix)
 
-**Author practical guidance**
+**Operational & scope notes**
 - *OPA vs Cedar comparison reflects common deployment patterns, not a mandatory architecture*
 
 ## Intent Gate implementation components
@@ -294,7 +294,7 @@ Sample conceptual rule: if the tool name is `run_shell` and the execution enviro
 - [Intent Gate implementation components](#intent-gate-implementation-components)
 - [Chapter 12 - OPA / Conftest in tool layers](12-threat-control-tools-map.md#tool-layers)
 
-**Author practical guidance**
+**Operational & scope notes**
 - *OPA vs Cedar comparison reflects common deployment patterns, not a mandatory architecture*
 
 ## Tool Output Injection
@@ -420,7 +420,7 @@ Controls: per-session turn limits, session risk scoring, anomaly detection on co
 - OWASP LLM Top 10 (2025): `LLM08` (memory/RAG context adjacency)
 
 **Implementation guidance (this guide)**
-- [Chapter 3 - Memory poisoning](03-threat-landscape.md#memory-poisoning-demonstrated-active-patterns)
+- [Chapter 3 - Memory poisoning](03-threat-landscape.md#memory-poisoning-demonstrated--active-patterns)
 
 ## Data exfiltration model
 
@@ -455,7 +455,7 @@ Common vectors: oversharing in responses, traces and debug logs, uncontrolled ex
 - OWASP AI Exchange: [Data limitation](https://owaspai.org/go/datalimit/)
 
 **Implementation guidance (this guide)**
-- [Chapter 3 - Autonomous Data Exfiltration](03-threat-landscape.md#autonomous-data-exfiltration-demonstrated-active-patterns)
+- [Chapter 3 - Autonomous Data Exfiltration](03-threat-landscape.md#autonomous-data-exfiltration-demonstrated--active-patterns)
 - [Chapter 10 - SOC integration](10-monitoring-soc-ir.md#soc-integration)
 
 ## Multi-Agent
@@ -532,7 +532,7 @@ First-generation agent security treats the model primarily as a **victim** of ma
 | Deterministic policy engine + HITL for high-risk tools | Model “agreement” must not authorize money, identity, or destructive APIs |
 | Scoped credentials + token/tool budgets | Limits blast radius when the agent drifts |
 | Kill switch at gateway / cluster | Immediate revoke without waiting for a prompt-level refusal |
-| Misalignment / sabotage evals at CP 7 | Suites such as SHADE-Arena-class or org-specific insider scenarios; record scores in Evidence Pack |
+| Misalignment / sabotage evals at CP 7 | Suites such as [SHADE-Arena](https://arxiv.org/abs/2506.15740)-class or org-specific insider scenarios; record scores in Evidence Pack |
 | Continuous reasoning/tool telemetry to SOC | Detect unusual tool graphs and payee/destination anomalies — [Ch.10](10-monitoring-soc-ir.md) |
 
 Cluster-level **agent control planes** (scoped creds, budgets, admission, kill-switch — e.g. emerging K8s agent OS patterns) are useful when many agents share a cluster; start with gateway + OPA samples in [`policies/`](../policies/README.md) before adopting a full control plane.

@@ -80,7 +80,7 @@ The result of a security test without a defined threat model has limited operati
 - OWASP AI Exchange: [AI security testing overview](https://owaspai.org/go/testing/)
 
 **Implementation guidance (this guide)**
-- [Threat modeling scope](02-scope-risk-threat-model.md#threat-modeling-process) (Chapter 2)
+- [MLSecOps risk analysis workflow](02-scope-risk-threat-model.md#mlsecops-risk-analysis-workflow) (Chapter 2)
 - [Threat landscape](03-threat-landscape.md) (Chapter 3)
 - [Model theft and extraction paths](#model-theft-and-extraction-paths)
 
@@ -106,7 +106,7 @@ The result of a security test without a defined threat model has limited operati
 - [Security evaluation output](#security-evaluation-output)
 - [Tool mapping and ART examples](12-threat-control-tools-map.md) (Chapter 12)
 
-**Author practical guidance**
+**Operational & scope notes**
 - *Tool examples (`ART`, `AVIBench`, `FGSM`/`PGD`/`HopSkipJump`) are illustrative; validate attack suites against your modality and threat model*
 
 ## Risk of unsafe formats
@@ -128,9 +128,9 @@ Migrating to `safetensors` or quantized formats such as `GGUF` removes many pick
 
 **Operational controls (CP 2 / CP 7 / CP 9):**
 
-- Scan artifacts with a **serialization + header-aware** scanner before load (e.g. `ModelScan` plus an ML-BOM oriented scanner such as `aisbom-cli` where available).
+- Scan artifacts with a **serialization + header-aware** scanner before load (e.g. `ModelScan` plus an ML-BOM oriented scanner such as [`aisbom-cli`](https://github.com/Lab700xOrg/aisbom) where available).
 - Fail closed on **unreadable / obfuscated** blobs; record scanner tags (for example `aisbom:unreadable`) in the Evidence Pack and deny promote/deploy — see [`policies/cp8_cp9_admission`](../policies/cp8_cp9_admission.md).
-- Prefer producing a machine-readable **ML-BOM / AI-BOM** (CycloneDX 1.6 themes) alongside traditional SBOM ([SBOM and AI-BOM](#sbom-and-ai-bom)).
+- Prefer producing a machine-readable **ML-BOM / AI-BOM** (CycloneDX 1.6/1.7 themes) alongside traditional SBOM ([SBOM and AI-BOM](#sbom-and-ai-bom)).
 - Treat **hardware-backed provenance** (TEE attestation, confidential GPU / CVM patterns, CPU↔GPU trusted paths) as Emerging depth for high-assurance deployments — software signing remains the baseline; TEEs do not replace CP 9 verify at admission.
 
 ### References / Source mapping
@@ -148,7 +148,7 @@ Migrating to `safetensors` or quantized formats such as `GGUF` removes many pick
 - [Lifecycle control point 2 - Load Artifacts](06-pipeline.md#lifecycle-control-points) (Chapter 6)
 - [`schemas/`](../schemas/README.md) — Evidence Pack fields for scanner results
 
-**Author practical guidance**
+**Operational & scope notes**
 - *Prefer `safetensors` and scan-before-load; treat format-conversion bots and public registries as untrusted supply-chain nodes; do not equate “not pickle” with “safe to load”*
 
 ## AI supply chain
@@ -274,7 +274,7 @@ The "Confused Learning" attack shows an attacker can divert the entire training 
 - [Experimentation environment security](04-data-security-privacy.md#experimentation-environment-security) (Chapter 4)
 - [Kubernetes deployment reference](16-kubernetes-deployment-reference.md) (Chapter 16)
 
-**Author practical guidance**
+**Operational & scope notes**
 - *Platform examples (`MLflow`, `ClearML`, `Kubeflow`, notebook servers) reflect published research and advisories; map controls to your registry and orchestration stack*
 
 ## Infrastructure-as-Code security for ML
@@ -300,7 +300,7 @@ ML environments usually run on `Kubernetes`, `Terraform`, and cloud managed serv
 - [MLOps infrastructure vulnerabilities](#mlops-infrastructure-vulnerabilities)
 - [Kubernetes deployment reference](16-kubernetes-deployment-reference.md) (Chapter 16)
 
-**Author practical guidance**
+**Operational & scope notes**
 - *Tool examples (`Checkov`, `Kyverno`, `OPA Gatekeeper`) are representative; select scanners and policy engines approved by your platform team*
 
 ## SBOM and AI-BOM
@@ -359,7 +359,7 @@ If any criterion exceeds the defined threshold, the model must not enter `Produc
 - [Control point 7 test acceptance conditions](06-pipeline.md#control-point-7-test-acceptance-conditions)
 - [What is an Evidence Pack?](11-governance-evidence.md#what-is-an-evidence-pack) (Chapter 11)
 
-**Author practical guidance**
+**Operational & scope notes**
 - *Thresholds in the table are examples only; tune `ASR`, accuracy drop, and backdoor criteria per threat model and baseline*
 
 ## Provenance and signing
@@ -389,7 +389,7 @@ In some scenarios, `Watermarking` can also be used to embed an identifiable mark
 - [Lifecycle control point 9 - Integrity and Provenance](06-pipeline.md#lifecycle-control-points) (Chapter 6)
 - [Signing commands and tool mapping](12-threat-control-tools-map.md) (Chapter 12)
 
-**Author practical guidance**
+**Operational & scope notes**
 - *Use private attestation stores when public transparency logs (`Rekor`) would expose proprietary model metadata*
 
 ## Security evaluation output
@@ -459,7 +459,7 @@ Recommended controls:
 - [Experimentation environment security](04-data-security-privacy.md#experimentation-environment-security) (Chapter 4)
 - [Security controls for LLM - API key proxy](07-llm-rag-security.md#security-controls-for-llm) (Chapter 7)
 
-**Author practical guidance**
+**Operational & scope notes**
 - *API key proxy and gateway patterns are recommended deployment shapes; implement kill-switch and rotation with your organization's secret manager*
 
 ## Practical principle

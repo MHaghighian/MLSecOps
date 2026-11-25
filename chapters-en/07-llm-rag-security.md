@@ -287,7 +287,7 @@ In `vLLM` or shared GPU scenarios, model weights may be shared, but context and 
 
 **What is stored.** The cache holds attention Key/Value tensors (and related page metadata in engines like vLLM)—not a plaintext copy of the prompt. Those tensors are still **semantically correlated** with the input token sequence, which is why reconstruction and side-channel research treat leaked or shared KV as a privacy risk (analogous in spirit to embedding inversion in [Chapter 4](04-data-security-privacy.md#information-leakage-from-embedding), but at the inference-state layer).
 
-**Performance rationale (why it exists).** Without caching, generating token *n* requires recomputing attention over the entire prefix. With caching, the prefix is prefills once; each new token only appends its own `K`/`V`. That is why long contexts and multi-turn sessions depend on KV memory management.
+**Performance rationale (why it exists).** Without caching, generating token *n* requires recomputing attention over the entire prefix. With caching, the prefix is prefilled once; each new token only appends its own `K`/`V`. That is why long contexts and multi-turn sessions depend on KV memory management.
 
 ### Threat classes
 
@@ -323,7 +323,7 @@ LeftoverLocals-style **GPU memory residue** ([Advanced Multi-Tenant hardening](#
 
 ### Multimodal and realtime channels (brief)
 
-Text-centric guardrails do not automatically cover **live audio/video** paths. Treat speech-to-tool and avatar channels as separate trust boundaries: authenticate the media path, detect synthetic/adversarial audio (**audio-jacking** class), constrain tool calls with the same Intent Gate as chat, and watch for **token-smuggling** encodings that bypass text-only filters. Pair with quantitative guardrail evals (e.g. CircleGuardBench-class suites) at CP 7 when moderation models are in the critical path.
+Text-centric guardrails do not automatically cover **live audio/video** paths. Treat speech-to-tool and avatar channels as separate trust boundaries: authenticate the media path, detect synthetic/adversarial audio (**audio-jacking** class), constrain tool calls with the same Intent Gate as chat, and watch for **token-smuggling** encodings that bypass text-only filters. Pair with quantitative guardrail evals (e.g. [CircleGuardBench](https://github.com/whitecircle/circle-guard-bench)-class suites) at CP 7 when moderation models are in the critical path.
 
 **Honest residual:** Tenant isolation and cleanup are the production baseline. KV-Cloak-class schemes aim at **confidentiality of stolen tensors** with near-lossless accuracy when keys stay secret; they do not stop a privileged process that holds the de-obfuscation keys, and they do not replace isolation against co-tenant timing attacks. Full AES/HE on every attention step remains generally impractical for high-throughput serving—hence the interest in fused obfuscation—but operational key custody becomes critical.
 
@@ -553,7 +553,7 @@ Regardless of pattern name:
 - [Intent Gate](08-agentic-ai-security.md#intent-gate) (Chapter 8)
 - [Appendix E.1.4 Agent with tools](17-appendix-e-implementation-reference.md#e14-agent-with-tools-mcp--apis)
 
-**Author practical guidance**
+**Operational & scope notes**
 - *L2–L3 patterns trade utility for isolation; select by threat model—do not claim full “prompt-injection solved” from filters alone*
 
 ## Guardrails
@@ -602,7 +602,7 @@ For this reason, guardrails should be part of a `Defense-in-Depth` including `Ga
 - [Chapter 9 - Common anti-patterns](09-anti-patterns.md#common-anti-patterns)
 - [Chapter 8 - Intent Gate](08-agentic-ai-security.md#intent-gate)
 
-**Author practical guidance**
+**Operational & scope notes**
 - *Guardrail bypass and threshold trade-offs reflect operational patterns, not normative standard text*
 
 ## Downstream conventional injection
@@ -724,7 +724,7 @@ Route all MCP traffic through a **governed gateway** instead of direct host → 
 | [Pomerium](https://github.com/pomerium/pomerium) | Auth + per-tool policies |
 | [ThinkWatch](https://github.com/ThinkWatchProject/ThinkWatch) | Enterprise AI bastion incl. MCP (Ch.11) |
 
-Reference architecture combining gateway + scanner: [agentgateway-mcp-firewall](https://github.com/skmahe1077/agentgateway-mcp-firewall) (agentgateway + MCP tool firewall + K8s `MCPServer` CRD via kmcp).
+Reference MCP firewall / gateway projects: [agentgateway](https://github.com/agentgateway/agentgateway) (protocol-native MCP/A2A proxy) and [mcp-firewall](https://github.com/ressl/mcp-firewall) (defense-in-depth MCP security gateway).
 
 ### MCP server hardening checklist (minimum bar)
 
@@ -870,7 +870,7 @@ Include MCP servers in threat modeling ([Chapter 2](02-scope-risk-threat-model.m
 - [Ingest security in RAG](#ingest-security-in-rag)
 - [Chapter 5 - Provenance and signing](05-model-artifact-supply-chain.md#provenance-and-signing)
 
-**Author practical guidance**
+**Operational & scope notes**
 - *Three-control minimum is an illustrative prioritization for resource-constrained teams*
 
 ## LLM and RAG control prioritization

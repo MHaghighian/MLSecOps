@@ -209,7 +209,7 @@ The topics below are **not** deprioritized forever—they inform design—but sh
 **Implementation guidance (this guide)**
 - Scope labels in [Reading priority](#reading-priority) and demonstrated-vs-emerging tables above
 
-**Author practical guidance**
+**Operational & scope notes**
 - *Cohen, S. et al. (2024). Morris II AI worm PoC - emerging / not standardized for baseline controls; Topics in the table above: emerging or plausible - prioritize demonstrated sections first*
 
 ---

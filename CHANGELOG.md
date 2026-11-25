@@ -15,7 +15,16 @@ All notable changes to the MLSecOps Guide are documented here.
 
 ### Changed
 
+- **Reference Model identity & framing** — repositioned the project across `README.md`, `GETTING-STARTED.md`, `GOVERNANCE.md`, `mkdocs.yml`, Ch.1, Ch.15, and `promotion/` from a framework synthesis to an independent open-source **MLSecOps Reference Model & Practical Guide** (retaining explicit *not official OWASP/NIST/ISO/OpenSSF* and *not legal advice* boundaries).
+- **`Operational & scope notes` convention** — replaced `Author practical guidance` blocks across chapters with `Operational & scope notes`, updated Ch.15 source-traceability conventions, and removed self-deprecating disclaimers.
+- **`schemas/` & `policies/` hardening** — added `Managed-API` `systemScope` (with `managedApiConfig`) and CycloneDX `1.7` `specVersion` support in `schemas/evidence-pack.schema.json`; tightened `policies/cp8_cp9_admission.rego` to fail closed on missing `modelArtifact.sha256Digest` (non-`Managed-API`), missing `managedApiConfig.configSnapshotHash` (`Managed-API`), unpinned `MCP09` servers, and omitted boolean flags.
+- **`scripts/generate_release_manifest.py`** — extended manifest file discovery to cover `policies/**/*`, `schemas/**/*`, `references/**/*.md`, `.github/workflows/*.yml`, `.github/*.py`, `RELEASING.md`, and `RELEASE_NOTES.md`.
+- **Diagrams & build pipeline** — added Appendix `E.1.7` diagram (`_e17.mmd`/`.png`), aligned `_06.mmd`/`.png` to `CP4`/`CP7`/`CP8` -> `CP9`, added dark-mode (`slate`) and `securityLevel: "strict"` support in `assets/javascripts/mermaid-init.js`, removed duplicate Mermaid+PNG rendering in `.github/prepare_pages.py` and `scripts/build-docx.py`, and streamlined `handbook-artifacts.yml`.
 - **RELEASING / DESIGN / SECURITY** — handbook DOCX/PDF via CI; dependency monitoring via **`pip-audit`** (Dependabot auto-PRs disabled again after #27 noise — same ops stance as #21).
+
+### Fixed
+
+- **Links, anchors, TOC & cross-references** — normalized `--` to `-` heading anchors in `.github/prepare_pages.py`, fixed broken internal/external links across chapters and docs, completed `TABLE-OF-CONTENTS.md`, placed Appendix `E.1.7` ahead of `E.1` References and added `E.4` YAML-to-JSON mapping in Ch.17, synced `RELEASING.md` and `README.md`, and resolved content mismatches in Ch.1, Ch.11, Ch.12, Ch.15, and Ch.16.
 
 ## [1.3.0] — 2026-10-22
 

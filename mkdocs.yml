@@ -1,8 +1,9 @@
 site_name: MLSecOps Practical Reference Guide
 site_url: https://mhaghighian.github.io/MLSecOps/
 site_description: >-
-  Open-source MLSecOps Practical Reference Guide for AI security, machine learning
-  security, LLM/RAG/agent security, secure MLOps, and ML supply chain controls.
+  Open-source MLSecOps reference model and practical guide for AI security,
+  lifecycle controls, Evidence Pack schemas, OPA Policy-as-Code, LLM/RAG/agent
+  security, and secure MLOps.
 repo_url: https://github.com/MHaghighian/MLSecOps
 repo_name: MHaghighian/MLSecOps
 edit_uri: edit/main/chapters-en/

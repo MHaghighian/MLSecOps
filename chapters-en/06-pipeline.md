@@ -119,7 +119,7 @@ flowchart LR
 - [Release decision model](#release-decision-model)
 - [Model and artifact controls](05-model-artifact-supply-chain.md) (Chapter 5)
 
-**Author practical guidance**
+**Operational & scope notes**
 - *Tool examples cited in the control-point table are informative; validate scanners and policy engines in your environment before gating releases*
 
 ## Release decision model
@@ -265,7 +265,7 @@ Basic CT cycle controls include validation of new data origin and quality, resca
 - [Kubernetes deployment reference - canary and rollback](16-kubernetes-deployment-reference.md) (Chapter 16)
 - [Monitoring and SOC integration](10-monitoring-soc-ir.md) (Chapter 10)
 
-**Author practical guidance**
+**Operational & scope notes**
 - *Canary traffic percentages (1-5%) and rollback thresholds are examples; calibrate with SLOs and incident playbooks*
 
 ## Difference between Data Drift and Adversarial Drift
@@ -360,7 +360,7 @@ Basic CT cycle controls include validation of new data origin and quality, resca
 - [Maturity Level 1](14-maturity-roadmap.md#level-1-foundational) (Chapter 14)
 - [Tool mapping](12-threat-control-tools-map.md) (Chapter 12)
 
-**Author practical guidance**
+**Operational & scope notes**
 - *Named tools (`ModelScan`, `ART`, `Garak`) are starting points; substitute organization-approved equivalents with equivalent evidence output*
 
 ## Lifecycle control prioritization
@@ -407,7 +407,7 @@ Acceptance thresholds must be defined and versioned in the organization's threat
 - [Security acceptance criteria](05-model-artifact-supply-chain.md#security-acceptance-criteria) (Chapter 5)
 - [Red Team program and security test cadence](#red-team-program-and-security-test-cadence)
 
-**Author practical guidance**
+**Operational & scope notes**
 - *Threshold values in the table are examples; version acceptance criteria in the threat model and Evidence Pack*
 
 ## Three categories of security testing
@@ -465,7 +465,7 @@ Results of each run must be recorded in `Evidence Pack` with test suite hash for
 - [Control point 7 test acceptance conditions](#control-point-7-test-acceptance-conditions)
 - [Continuous monitoring and test cadence](10-monitoring-soc-ir.md) (Chapter 10)
 
-**Author practical guidance**
+**Operational & scope notes**
 - *Use a smoke subset on every build and reserve full LLM API suites for release/CT to control cost and rate limits*
 
 ## Implementation note
@@ -484,7 +484,7 @@ Tool examples in Chapter 12 are informative and must be validated against the or
 - [Release decision model](#release-decision-model)
 - [Evidence Pack](11-governance-evidence.md#what-is-an-evidence-pack) (Chapter 11)
 
-**Author practical guidance**
+**Operational & scope notes**
 - *Promotion should stop when required evidence is missing unless a time-bound, audited exception is recorded*
 
 ## Golden rule

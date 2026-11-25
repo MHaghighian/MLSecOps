@@ -11,9 +11,9 @@
 - [Traceability convention](15-conclusion-appendix.md#traceability-and-source-mapping-convention) (Chapter 15)
 - [Master control matrix](#e6-master-control-matrix) maps to [lifecycle control points](06-pipeline.md#lifecycle-control-points) (Chapter 6)
 
-**Author practical guidance**
+**Operational & scope notes**
 
-- *Architecture cards, templates, and matrices are operational aids - not normative standard text*
+- *Architecture cards, templates, and matrices operationalize this reference model's lifecycle controls for production rollouts.*
 
 ---
 
@@ -124,7 +124,7 @@ flowchart TB
 | ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Supply chain | ModelScan, signing, verify before serve                                                                                                                                                                | 2, 3, 9        | [Ch.5](05-model-artifact-supply-chain.md), [Ch.16](16-kubernetes-deployment-reference.md)                                                                           |
 | Cluster      | Namespace isolation, NetworkPolicy, signed images                                                                                                                                                      | 3, 9, 10       | [Ch.16](16-kubernetes-deployment-reference.md)                                                                                                                      |
-| Runtime      | API key on inference, rate limits, egress allowlist                                                                                                                                                    | 10             | [Ch.16 vLLM pattern](16-kubernetes-deployment-reference.md#vllm-on-kubernetes-secure-deployment-pattern)                                                            |
+| Runtime      | API key on inference, rate limits, egress allowlist                                                                                                                                                    | 10             | [Ch.16 vLLM pattern](16-kubernetes-deployment-reference.md#vllm-on-kubernetes--secure-deployment-pattern)                                                            |
 | KV Cache     | Tenant-partitioned cache; no cross-tenant prefix reuse for sensitive tiers; session cleanup; treat externalized/persisted KV (incl. `CAG`) as sensitive; optional Emerging obfuscation (e.g. KV-Cloak) | 7, 10          | [Ch.7 KV Cache security](07-llm-rag-security.md#kv-cache-security), [Ch.16 GPU isolation](16-kubernetes-deployment-reference.md#gpu-isolation-and-shared-inference) |
 | CT / retrain | Same lifecycle as initial release                                                                                                                                                                      | Release gates 4, 7, 8 + integrity 9 | [Ch.6 CT cycle](06-pipeline.md#continuous-training-cycle)                                                                                                           |
 
@@ -217,23 +217,6 @@ flowchart LR
 
 ---
 
-### References / Source mapping
-
-**Frameworks and standards**
-
-- NIST AI RMF: Map (architecture-dependent controls)
-- OWASP LLM Top 10 / ASI / MCP themes per card
-
-**Implementation guidance (this guide)**
-
-- Architecture cards E.1.1-E.1.7 cross-link Chapters 2, 4-8, 10-11, 16, and [Appendix D](15-conclusion-appendix.md#appendix-d-managed-ai-services-security-reference)
-
-**Author practical guidance**
-
-- *Cards are fill-in operational patterns - not normative standard text*
-
----
-
 ### E.1.7 Developer-local inference (Docker Model Runner)
 
 **When to use:** Developers or CI need a **local OpenAI-compatible** (also Ollama-/Anthropic-shaped) endpoint for app iteration, agent dry-runs, or CP 7 suites **without** sending prompts to a public API — and your org already standardizes on Docker. **Not** a replacement for [E.1.3](#e13-self-hosted-llm-vllmkserve-on-kubernetes) multi-tenant production serving.
@@ -248,6 +231,8 @@ flowchart LR
   Reg[OCI registry / Hub / HF] --> Store
 ```
 
+![](../assets/diagrams/17-appendix-e-implementation-reference_e17.png)
+
 *Figure - Developer-local inference card: OCI-packaged weights on a workstation or CI runner, not a cluster admission path.*
 
 | Area | Minimum controls | Control points | Guide |
@@ -261,6 +246,23 @@ flowchart LR
 **Evidence Pack fields (add when DMR/CI-local is in scope):** `model_oci_digest`, `model_registry`, `dmr_or_engine_version`, `tcp_host_exposure`, `eci_or_network_isolation`.
 
 **Security note:** Track runner CVEs (e.g. unauthenticated configure / registry SSRF classes historically disclosed against `docker/model-runner`). Patch Desktop/Engine promptly; “local” does not mean “out of scope for IR.”
+
+---
+
+### References / Source mapping
+
+**Frameworks and standards**
+
+- NIST AI RMF: Map (architecture-dependent controls)
+- OWASP LLM Top 10 / ASI / MCP themes per card
+
+**Implementation guidance (this guide)**
+
+- Architecture cards E.1.1-E.1.7 cross-link Chapters 2, 4-8, 10-11, 16, and [Appendix D](15-conclusion-appendix.md#appendix-d-managed-ai-services-security-reference)
+
+**Operational & scope notes**
+
+- *Architecture cards are fill-in operational patterns for your stack; adapt control boundaries to your threat model.*
 
 ## E.2 Decision Matrix
 
@@ -329,7 +331,7 @@ flowchart TB
 - [Lifecycle control points](06-pipeline.md#lifecycle-control-points) (Chapter 6)
 - [Release decision model](06-pipeline.md#release-decision-model) (Chapter 6)
 
-**Author practical guidance**
+**Operational & scope notes**
 
 - *Decision matrix rows and example CI/CD stages are illustrative - mandatory themes vary by threat model*
 
@@ -374,7 +376,7 @@ Copy this table per system or architecture card. Replace placeholders. Output sh
 - [Expected output of threat modeling](02-scope-risk-threat-model.md#expected-output-of-threat-modeling) (Chapter 2)
 - [Lifecycle control points](06-pipeline.md#lifecycle-control-points) (Chapter 6)
 
-**Author practical guidance**
+**Operational & scope notes**
 
 - *Template table and release blockers are fill-in worksheets - not a certified threat-modeling method*
 
@@ -383,6 +385,14 @@ Copy this table per system or architecture card. Replace placeholders. Output sh
 An `Evidence Pack` is an **audit evidence pattern** ([Chapter 11](11-governance-evidence.md#what-is-an-evidence-pack)). Use the structure below as a fill-in template (JSON, YAML, or GRC form). Field names are illustrative.
 
 **Machine-readable companion:** validate production packs with [`schemas/evidence-pack.schema`](../schemas/evidence-pack.schema.md) and enforce CP8↔CP9 with [`policies/cp8_cp9_admission`](../policies/cp8_cp9_admission.md). See [Machine-readable Evidence Pack](11-governance-evidence.md#machine-readable-evidence-pack).
+
+| YAML template field (human worksheet) | Machine-readable JSON Schema path (`schemas/evidence-pack.schema.json`) |
+|---|---|
+| `control_point_8_approval.decision` | `lifecycleControlGates.cp8_releaseDecisionGate.decision` |
+| `model.artifact_hash` / `managed_api.config_snapshot_hash` | `modelArtifact.sha256Digest` / `managedApiConfig.configSnapshotHash` + `cp8_releaseDecisionGate.boundToCp9Digest` |
+| `model.signature_verify` / `policy.gate_decisions[cp9]` | `cryptographicProvenance.cp9_checkpointVerified` + `signatureMethod` |
+| `agent_mcp.tool_schema_pins` | `cryptographicProvenance.mcpSchemaHashes` + `runtimeAgentConfig.mcpTools` |
+| `security_validation.control_point_7_result` | `lifecycleControlGates.cp7_adversarialAndRedTeamGate.status` |
 
 ```yaml
 # Evidence Pack — template (informative; validate in your GRC/tooling)
@@ -539,7 +549,7 @@ Read order inside the pack: **CP 4 / 7 / 8 decisions first**, then **CP 9 integr
 - [Recommended Evidence Pack contents](11-governance-evidence.md#recommended-evidence-pack-contents) (Chapter 11)
 - [Appendix D Evidence fields](15-conclusion-appendix.md#evidence-pack-fields-managed-api) (Chapter 15)
 
-**Author practical guidance**
+**Operational & scope notes**
 
 - *YAML field names and minimum sections are illustrative implementation patterns*
 
@@ -606,7 +616,7 @@ Short runbooks for SOC and platform teams. Expand with your tooling, contacts, a
 - [E.7.2 Example B](#e72-example-b-multi-tenant-rag-saas-upload-and-per-user-chatbot) / [E.7.4 Example D](#e74-example-d-customer-facing-website-rag-chatbot-and-background-agents) (RAG poison)
 - [E.7.1 Example A](#e71-example-a-ai-coding-assistant-agent-mcp-ide-host) / [E.7.4 Example D](#e74-example-d-customer-facing-website-rag-chatbot-and-background-agents) (tool abuse)
 
-**Author practical guidance**
+**Operational & scope notes**
 
 - *Playbook phases and owners are starter runbooks - expand with your SLAs and tooling*
 
@@ -646,9 +656,9 @@ Unified view: **threat → prevent / detect / respond → lifecycle layer → co
 - [Primary Mapping](12-threat-control-tools-map.md#primary-mapping) (Chapter 12)
 - [Lifecycle control points](06-pipeline.md#lifecycle-control-points) (Chapter 6)
 
-**Author practical guidance**
+**Operational & scope notes**
 
-- *Matrix consolidates guide guidance for gap analysis - it does not add new normative requirements*
+- *This matrix consolidates the model's controls for gap analysis across lifecycle layers and evidence fields.*
 
 ## E.7 Secure-by-design worked examples
 
@@ -659,10 +669,10 @@ These examples apply the axiom in [Chapter 1 — Secure by design](01-intro.md#s
 
 | Example                        | Topology                        | Anchor card                                                                                    | Primary coverage                                                     |
 | ------------------------------ | ------------------------------- | ---------------------------------------------------------------------------------------------- | -------------------------------------------------------------------- |
-| A — AI coding assistant        | Agent + MCP + IDE host          | [E.1.4](#e14-agent-with-tools-mcp-apis) / [E.1.5](#e15-multi-agent-system)                     | Agentic (`ASI`), MCP (`MCP01-10`), `LLM01/02/05/06/07`, code-RAG     |
+| A — AI coding assistant        | Agent + MCP + IDE host          | [E.1.4](#e14-agent-with-tools-mcp--apis) / [E.1.5](#e15-multi-agent-system)                     | Agentic (`ASI`), MCP (`MCP01-10`), `LLM01/02/05/06/07`, code-RAG     |
 | B — Multi-tenant RAG SaaS      | Per-user upload + chatbot       | [E.1.1](#e11-enterprise-rag-internal-knowledge-base)                                           | `LLM02/04/08`, RAG isolation, data privacy                           |
 | C — Self-hosted model platform | vLLM/KServe on K8s              | [E.1.3](#e13-self-hosted-llm-vllmkserve-on-kubernetes)                                        | `LLM03`, supply chain, KV cache, CT, infra                           |
-| D — Customer-facing website    | RAG chatbot + background agents | [E.1.1](#e11-enterprise-rag-internal-knowledge-base) + [E.1.4](#e14-agent-with-tools-mcp-apis) | Composition: B's chat path + A's queued agency on a managed API or C |
+| D — Customer-facing website    | RAG chatbot + background agents | [E.1.1](#e11-enterprise-rag-internal-knowledge-base) + [E.1.4](#e14-agent-with-tools-mcp--apis) | Composition: B's chat path + A's queued agency on a managed API or C |
 
 
 These four cover the LLM products this series is for. They are **not** a 1:1 map of the [E.1 architecture cards](#e1-architecture-cards): managed AI API ([E.1.2](#e12-managed-ai-api-azure-openai-amazon-bedrock-google-vertex-ai)) is a substrate under A/B/D; developer-local DMR ([E.1.7](#e17-developer-local-inference-docker-model-runner)) is a substrate for laptop/CI—not a worked product example; classic ML ([E.1.6](#e16-classic-ml-tabular--vision--no-llm)) and foundation-model pretraining stay on their cards and [Chapters 4–6](04-data-security-privacy.md) (no prompt/RAG/agent surface to work through here). Multi-agent meshes are treated in A (sub-agents); a fifth swarm example would repeat Intent Gate and scope rules.
@@ -1109,12 +1119,12 @@ These defaults remove whole classes of over-privilege, cross-user access, creden
 
 - [Chapter 8 — Secure by design](08-agentic-ai-security.md#secure-by-design); [Tool trust boundary](08-agentic-ai-security.md#tool-trust-boundary); [Intent Gate](08-agentic-ai-security.md#intent-gate)
 - [Chapter 7 — Secure by design](07-llm-rag-security.md#secure-by-design); [MCP security](07-llm-rag-security.md#model-context-protocol-mcp-security); [Prompt injection defenses](07-llm-rag-security.md#prompt-injection-defenses-from-filters-to-architecture)
-- [E.1.4 Agent with tools](#e14-agent-with-tools-mcp-apis); [E.6 Master Control Matrix](#e6-master-control-matrix)
+- [E.1.4 Agent with tools](#e14-agent-with-tools-mcp--apis); [E.6 Master Control Matrix](#e6-master-control-matrix)
 - [Example B](#e72-example-b-multi-tenant-rag-saas-upload-and-per-user-chatbot) (identity-scoped retrieval); [Example C](#e73-example-c-self-hosted-model-platform-vllmkserve-on-kubernetes) (shared runtime / KV); [Example D](#e74-example-d-customer-facing-website-rag-chatbot-and-background-agents) (website composition)
 
-**Author practical guidance**
+**Operational & scope notes**
 
-- *This worked example composes existing guide controls into one architecture; the three-plane split and reality map are operational framing, not normative standard text*
+- *Three-plane ownership (product runtime, your control plane, downstream systems) defines where deterministic controls must be enforced when the model is untrusted.*
 
 ### E.7.2 Example B: Multi-tenant RAG SaaS (upload and per-user chatbot)
 
@@ -1346,7 +1356,7 @@ These defaults remove cross-tenant and cross-user retrieval, client filter forge
 - [Chapter 7 — Secure by design](07-llm-rag-security.md#secure-by-design); [Ingest security](07-llm-rag-security.md#ingest-security-in-rag); [Three-layer controls](07-llm-rag-security.md#three-layer-controls-in-rag); [Reindex Playbook](07-llm-rag-security.md#reindex-playbook)
 - [E.1.1 Enterprise RAG](#e11-enterprise-rag-internal-knowledge-base); [E.5.2 RAG corpus contamination](#e52-rag-corpus-contamination--retrieval-poisoning); [Example A](#e71-example-a-ai-coding-assistant-agent-mcp-ide-host) (when tools are added); [Example C](#e73-example-c-self-hosted-model-platform-vllmkserve-on-kubernetes) (shared inference / KV); [Example D](#e74-example-d-customer-facing-website-rag-chatbot-and-background-agents) (website chat + queued agents)
 
-**Author practical guidance**
+**Operational & scope notes**
 
 - *Tenant partition vs intra-tenant RLS is the operational distinction most often missed in SaaS RAG reviews*
 
@@ -1670,7 +1680,7 @@ These defaults remove unsigned-to-GPU, cross-tenant sticky prefix KV, skipped ad
 - [LeftoverLocals case study](13-case-studies.md#leftoverlocals-cve-2023-4969--documented-incident)
 - vLLM Automatic Prefix Caching / `cache_salt` (≥ 0.9.0); vLLM RFC *Cache Salting* (#16016) — gateway sets salt, need not expose to clients; Protect AI ModelScan (legacy serialization); safetensors format control; Sigstore cosign + Kyverno `Enforce` + webhook `Fail` with HA
 
-**Author practical guidance**
+**Operational & scope notes**
 
 - *Trust breaks at gateway authZ and prefix-cache reuse—not "at the GPU." Engine key ≠ tenant PEP; overwrite a **stable** `cache_salt` (omit ⇒ global share); reuse isolation ≠ capacity isolation; safetensors allowlist before ModelScan-on-legacy; MIG helps on K8s but is not absolute—and MPS is not isolation; telemetry must not re-open the data plane*
 
@@ -1885,7 +1895,7 @@ These defaults remove anonymous account retrieve, chat-loop tool dispatch, and C
 - [Example A](#e71-example-a-ai-coding-assistant-agent-mcp-ide-host) (Intent Gate, OBO, bound parameters); [Example B](#e72-example-b-multi-tenant-rag-saas-upload-and-per-user-chatbot) (RLS, Output Gate, CSP); [Example C](#e73-example-c-self-hosted-model-platform-vllmkserve-on-kubernetes) (if you self-host inference)
 - [Chapter 7 — Secure by design](07-llm-rag-security.md#secure-by-design); [Chapter 8 — Secure by design](08-agentic-ai-security.md#secure-by-design); [Chapter 8 — Chatbot vs AI agent](08-agentic-ai-security.md#chatbot-vs-ai-agent)
 
-**Author practical guidance**
+**Operational & scope notes**
 
 - *Split the answer runtime from the action runtime; anonymous is a capability class; the worker is not the chatbot*
 

@@ -53,9 +53,6 @@ Many security failures in AI systems do not stem from lack of advanced tools; th
 **Implementation guidance (this guide)**
 - Cross-references in table above map to Chapters 2, 4-8, 11, 16
 
-**Author practical guidance**
-- *Anti-pattern catalog synthesizes recurring field failures; not a normative standard checklist*
-
 ## Model without provenance
 
 One of the most dangerous states is when the team does not know exactly what data, code, dependencies, and parameters were used to build the model. In such a case, even if the model works well, it is not defensible from a security standpoint.
