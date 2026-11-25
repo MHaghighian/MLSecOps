@@ -1,9 +1,9 @@
 # CP8 ↔ CP9 admission policy (Rego)
 
-Executable Conftest/OPA sample that binds the digest approved at **CP 8** to the artifact verified at **CP 9**, and denies MCP schema drift, unreadable model binaries, missing agent kill-switch, and unsafe cross-model KV reuse.
+Executable Conftest/OPA sample that binds the digest approved at **CP 8** to the artifact (or managed-API config snapshot) verified at **CP 9**, and denies missing digests, unpinned MCP servers (`MCP09`), MCP schema drift, unreadable model binaries, missing agent kill-switch, and unsafe cross-model KV reuse.
 
 - Source: [`cp8_cp9_admission.rego`](cp8_cp9_admission.rego) (in-repo; clone to run Conftest)
-- Fixtures: [`testdata/evidence-pack.fail-digest.json`](testdata/evidence-pack.fail-digest.json)
+- Fixtures: [`testdata/evidence-pack.fail-digest.json`](testdata/evidence-pack.fail-digest.json) · [`testdata/evidence-pack.fail-unpinned-mcp.json`](testdata/evidence-pack.fail-unpinned-mcp.json)
 - Overview: [policies README](README.md)
 
 ```bash

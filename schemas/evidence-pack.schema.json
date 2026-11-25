@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://github.com/MHaghighian/MLSecOps/schemas/evidence-pack.schema.json",
   "title": "MLSecOps Release Evidence Pack",
-  "description": "Machine-readable Evidence Pack for MLSecOps lifecycle control points. Aligns with CycloneDX 1.6 BOM themes; not a substitute for a full CycloneDX document.",
+  "description": "Machine-readable Evidence Pack for MLSecOps lifecycle control points. Aligns with CycloneDX 1.6/1.7 ML-BOM themes; not a substitute for a full CycloneDX document.",
   "type": "object",
   "additionalProperties": true,
   "required": [
@@ -20,7 +20,7 @@
     },
     "specVersion": {
       "type": "string",
-      "const": "1.6"
+      "enum": ["1.6", "1.7"]
     },
     "serialNumber": {
       "type": "string",
@@ -37,7 +37,7 @@
         "timestamp": { "type": "string", "format": "date-time" },
         "systemScope": {
           "type": "string",
-          "enum": ["Classical-ML", "LLM-RAG", "Agentic-MCP", "Multimodal-Edge"]
+          "enum": ["Classical-ML", "LLM-RAG", "Agentic-MCP", "Multimodal-Edge", "Managed-API"]
         },
         "releaseId": { "type": "string" },
         "sharedResponsibilityRecord": {
@@ -95,6 +95,20 @@
         }
       }
     },
+    "managedApiConfig": {
+      "type": "object",
+      "description": "Required instead of modelArtifact when systemScope is Managed-API",
+      "properties": {
+        "provider": { "type": "string" },
+        "deploymentId": { "type": "string" },
+        "region": { "type": "string" },
+        "apiVersion": { "type": "string" },
+        "configSnapshotHash": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        }
+      }
+    },
     "lifecycleControlGates": {
       "type": "object",
       "required": [
@@ -136,7 +150,7 @@
             "boundToCp9Digest": {
               "type": "string",
               "pattern": "^sha256:[a-f0-9]{64}$",
-              "description": "Digest approved at CP8; CP9/admission must verify the same digest at deploy"
+              "description": "Digest approved at CP8 (model artifact SHA-256 or managed-API config snapshot SHA-256); CP9/admission must verify the same digest at deploy"
             }
           }
         }

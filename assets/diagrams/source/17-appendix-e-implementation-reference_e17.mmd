@@ -1,0 +1,5 @@
+flowchart LR
+  Dev[IDE / tests / Compose app] --> API[Local OpenAI-compatible API]
+  API --> Eng[Engine: llama.cpp or vLLM]
+  Eng --> Store[Local model store]
+  Reg[OCI registry / Hub / HF] --> Store

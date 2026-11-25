@@ -82,10 +82,12 @@ def ensure_playwright() -> None:
 
 
 async def _launch_browser(p):
-    try:
-        return await p.chromium.launch(channel="chrome", headless=True)
-    except Exception:
-        return await p.chromium.launch(channel="msedge", headless=True)
+    for channel in ("chrome", "msedge"):
+        try:
+            return await p.chromium.launch(channel=channel, headless=True)
+        except Exception:
+            continue
+    return await p.chromium.launch(headless=True)
 
 
 class MermaidRenderer:

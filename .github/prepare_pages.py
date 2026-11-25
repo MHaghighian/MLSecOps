@@ -49,41 +49,33 @@ LINK_REWRITES = {
 }
 
 
+def _normalize_mkdocs_fragment(match: re.Match[str]) -> str:
+    label, target, frag = match.group(1), match.group(2), match.group(3)
+    if target.startswith(("http://", "https://", "mailto:")):
+        return match.group(0)
+    # Python-Markdown toc collapses consecutive hyphens (GitHub keeps '--' for ' — ' / ' / ').
+    frag = re.sub(r"-{2,}", "-", frag)
+    return f"[{label}]({target}#{frag})"
+
+
 def rewrite_links(text: str) -> str:
     for old, new in LINK_REWRITES.items():
         text = text.replace(f"]({old})", f"]({new})")
         text = text.replace(f"]({old}#", f"]({new}#")
     text = re.sub(
-        r"#e13-self-hosted-llm-vllm--kserve-on-kubernetes",
-        "#e13-self-hosted-llm-vllmkserve-on-kubernetes",
-        text,
-    )
-    text = re.sub(
-        r"#e13-self-hosted-llm-vllm-kserve-on-kubernetes",
-        "#e13-self-hosted-llm-vllmkserve-on-kubernetes",
-        text,
-    )
-    text = re.sub(
-        r"#e72-example-b-multi-tenant-rag-saas-upload--per-user-chatbot",
-        "#e72-example-b-multi-tenant-rag-saas-upload-and-per-user-chatbot",
-        text,
-    )
-    text = re.sub(
-        r"#e74-example-d-customer-facing-website-rag-chatbot--background-agents",
-        "#e74-example-d-customer-facing-website-rag-chatbot-and-background-agents",
-        text,
-    )
-    text = re.sub(
-        r"#e14-agent-with-tools-mcp--apis",
-        "#e14-agent-with-tools-mcp-apis",
-        text,
-    )
-    text = re.sub(
-        r"#e16-classic-ml-tabular--vision--no-llm",
-        "#e16-classic-ml-tabular-vision-no-llm",
+        r"\[([^\]]+)\]\(([^)#\s]*)#([^)\s]+)\)",
+        _normalize_mkdocs_fragment,
         text,
     )
     text = text.replace("{#reading-paths}", "")
+    # On MkDocs Pages, Mermaid blocks render client-side via mermaid.min.js;
+    # strip the immediate static PNG fallback to prevent duplicate diagrams.
+    text = re.sub(
+        r"(```mermaid\s*\n.*?\n```)\s*\n+!\[\]\(\.\./assets/diagrams/[^)]+\)\n?",
+        r"\1\n\n",
+        text,
+        flags=re.DOTALL,
+    )
     return text
 
 
@@ -100,9 +92,9 @@ def main() -> None:
     (DOCS / "index.md").write_text(
         """# MLSecOps Practical Reference Guide
 
-**Open-source MLSecOps handbook for AI security, LLM/RAG, and secure MLOps.**
+**Open-source MLSecOps reference model and practical guide for AI security, LLM/RAG, agentic AI, and secure MLOps.**
 
-**v1.3.0** — practical reference for securing AI systems across the ML lifecycle: data, training, deployment, runtime, SOC, and governance.
+**v1.3.0** — lifecycle control model (`CP 1–10`), machine-readable Evidence Pack schema, OPA/Conftest policies, and Secure-by-Design blueprints across data, training, deployment, runtime, SOC, and governance.
 
 [GitHub repository](https://github.com/MHaghighian/MLSecOps) · [mhsec.me](https://mhsec.me) · [Getting Started](getting-started.md) · [Zenodo DOI](https://doi.org/10.5281/zenodo.21206780) · [OpenSSF Best Practices](https://www.bestpractices.dev/projects/15668)
 
@@ -127,10 +119,12 @@ def main() -> None:
 
 ## What this guide adds
 
-1. Ten lifecycle **control points** (CP 8 release bound to CP 9 admission)
-2. **Release decisions** separate from evidence-producing steps
-3. **`Evidence Pack`** per release (human + machine-readable schema in-repo)
-4. Unified thread: threat → runtime → SOC → governance
+This reference model defines an independent operational control architecture cross-mapped to OWASP, MITRE ATLAS, NIST, ISO, OpenSSF, and CSA:
+
+1. Ten lifecycle **control points** (`CP 1–10`) with **CP 8** release approval bound to **CP 9** admission
+2. Explicit separation of **release decisions** (`CP 4, 7, 8`) from **integrity verification** (`CP 9`) and evidence steps
+3. Machine-readable **`Evidence Pack`** ([`schemas/`](schemas/README.md)) and OPA/Conftest admission samples ([`policies/`](policies/README.md))
+4. **Secure-by-Design** blueprints ([Appendix E.7](chapters-en/17-appendix-e-implementation-reference.md#e7-secure-by-design-worked-examples)) linking threat modeling, runtime, SOC, and governance
 
 Details in [Chapter 1](chapters-en/01-intro.md#what-this-guide-adds-beyond-owasp-openssf-and-nist).
 """,

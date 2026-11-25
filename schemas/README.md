@@ -4,7 +4,7 @@ This folder turns the Chapter 11 **Evidence Pack** pattern into validateable JSO
 
 | File | Purpose |
 |------|---------|
-| [`evidence-pack.schema.json`](evidence-pack.schema.json) | JSON Schema (Draft 2020-12) for a release Evidence Pack aligned with CycloneDX 1.6 *themes* and the ten lifecycle control points |
+| [`evidence-pack.schema.json`](evidence-pack.schema.json) | JSON Schema (Draft 2020-12) for a release Evidence Pack aligned with CycloneDX 1.6/1.7 *themes* and the ten lifecycle control points |
 | [`examples/evidence-pack.example.json`](examples/evidence-pack.example.json) | Minimal filled example for tooling tests |
 
 **How to use**

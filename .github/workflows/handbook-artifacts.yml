@@ -30,18 +30,15 @@ jobs:
         with:
           python-version: "3.12"
 
-      - uses: actions/setup-node@v4
-        with:
-          node-version: "20"
-
       - name: Install system dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y pandoc libreoffice-writer chromium-browser
-          npm install -g @mermaid-js/mermaid-cli
+          sudo apt-get install -y pandoc libreoffice-writer
 
       - name: Install Python docx requirements
-        run: pip install -r scripts/requirements-docx.txt
+        run: |
+          pip install -r scripts/requirements-docx.txt
+          playwright install chromium
 
       - name: Compile handbook DOCX
         run: python scripts/build-docx.py --render-mermaid

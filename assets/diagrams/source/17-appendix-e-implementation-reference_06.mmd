@@ -1,11 +1,11 @@
 flowchart TB
     Change[Approved change] --> Load[Load artifacts]
     Load --> Scan[Security scan]
-    Scan --> Tests[Security validation]
-    Tests --> Policy[Policy decision]
-    Policy -->|Pass| Integrity[Integrity check]
-    Policy -->|Fail| Block[Block or exception]
-    Integrity --> Pack[Evidence Pack]
-    Pack --> Release[Release decision]
-    Release --> Deploy[Deploy]
+    Scan --> Tests[Security validation CP7]
+    Tests --> ReleaseDec[Release decisions CP4 / 7 / 8]
+    ReleaseDec -->|Pass| Integrity[Integrity checkpoint CP9]
+    ReleaseDec -->|Fail| Block[Block or exception]
+    Integrity -->|Pass| Pack[Evidence Pack]
+    Integrity -->|Fail| Block
+    Pack --> Deploy[Store / deploy]
     Deploy --> Monitor[Runtime monitor]

@@ -14,6 +14,11 @@ ROOT = Path(__file__).resolve().parents[1]
 INCLUDE_GLOBS = [
     "chapters-en/**/*.md",
     "assets/diagrams/**/*",
+    "policies/**/*",
+    "schemas/**/*",
+    "references/**/*.md",
+    ".github/workflows/*.yml",
+    ".github/*.py",
     "mkdocs.yml",
     "README.md",
     "LICENSE",
@@ -26,6 +31,8 @@ INCLUDE_GLOBS = [
     "DCO.md",
     "DESIGN.md",
     "RELEASE-INTEGRITY.md",
+    "RELEASING.md",
+    "RELEASE_NOTES.md",
     "requirements-pages.txt",
     "scripts/requirements-docx.txt",
 ]

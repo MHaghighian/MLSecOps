@@ -1,6 +1,6 @@
 # Evidence Pack JSON Schema
 
-Machine-readable Evidence Pack schema aligned with CycloneDX 1.6 themes and MLSecOps control points **4 / 7 / 8 / 9**.
+Machine-readable Evidence Pack schema aligned with CycloneDX 1.6/1.7 themes and MLSecOps control points **4 / 7 / 8 / 9**.
 
 - Schema file: [`evidence-pack.schema.json`](evidence-pack.schema.json)
 - Example instance: [`examples/evidence-pack.example.json`](examples/evidence-pack.example.json) · [example notes](evidence-pack.example.md)

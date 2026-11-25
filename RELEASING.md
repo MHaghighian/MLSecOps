@@ -182,7 +182,8 @@ After each release:
 | `v1.1.2` | Secure by design (Ch.1/4/7/8), PI L0–L3 defenses, tool maturity labels |
 | `v1.1.3` | KV Cache security (Ch.7), CAG/KV-Cloak notes, mhsec.me on docs site |
 | `v1.2.0` | Example C secure-by-design hardening (authZ, cache_salt, MIG/MPS/LeftoverLocals) |
-| `v1.3.0` | Restore inline Mermaid diagrams + MkDocs Mermaid render |
+| `v1.2.1` | Restore inline Mermaid diagrams + MkDocs Mermaid render |
+| `v1.3.0` | NIST Cyber AI Profile (IR 8596 iprd) mapping, release-gate/privacy/nav integrity, OpenSSF baseline-2 |
 | `v2.0.0` | Lifecycle model or major structural change |
 
 Document every release in [CHANGELOG.md](CHANGELOG.md).

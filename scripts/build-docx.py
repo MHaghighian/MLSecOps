@@ -166,6 +166,15 @@ def md_for_docx(path: Path, assets_dir: Path) -> str:
 
     text = path.read_text(encoding="utf-8")
 
+    # Prefer the checked-in PNG fallback when a mermaid fence already pairs with one
+    # directly underneath, avoiding duplicate figures and keeping custom names (e.g. _e17.png).
+    text = re.sub(
+        r"```mermaid\s*\n.*?\n```\s*\n+(?=!\[\]\(\.\./assets/diagrams/[^)]+\))",
+        "",
+        text,
+        flags=re.DOTALL,
+    )
+
     if MERMAID_BLOCK.search(text):
         from mermaid_to_png import replace_mermaid_with_images
 
