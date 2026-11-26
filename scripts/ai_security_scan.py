@@ -533,6 +533,12 @@ def scan_model_artifact(path: Path) -> list[Finding]:
             ver = struct.unpack("<I", head[4:8])[0]
             if ver not in (1, 2, 3):
                 findings.append(Finding("HIGH", "MODEL-GGUF-02", target, f"Unsupported GGUF format version {ver}"))
+            elif b"{{" in head or b"{%" in head:
+                hdr_text = head.decode("utf-8", errors="ignore")
+                if _JINJA_SSTI_RE.search(hdr_text):
+                    findings.append(
+                        Finding("CRITICAL", "MODEL-GGUF-SSTI", target, "Binary GGUF header metadata embeds Jinja2 SSTI payload (CVE-2024-34359 class)")
+                    )
 
     return findings
 
@@ -572,12 +578,28 @@ def main() -> int:
     findings: list[Finding] = []
 
     for target in args.mcp:
+        if not target.exists():
+            findings.append(Finding("HIGH", "SCAN-MISSING", str(target), "Target MCP path does not exist"))
+            continue
         paths = sorted(target.rglob("*.json")) if target.is_dir() else [target]
         for p in paths:
-            findings.extend(scan_mcp_document(json.loads(p.read_text(encoding="utf-8")), str(p), pinned_hashes=pins))
+            if p.is_symlink():
+                findings.append(Finding("HIGH", "MCP-SYMLINK-01", str(p), "MCP manifest path is a symbolic link"))
+                continue
+            try:
+                doc = json.loads(p.read_text(encoding="utf-8"))
+                if not isinstance(doc, dict):
+                    findings.append(Finding("HIGH", "MCP-JSON-BAD", str(p), "MCP JSON root must be an object"))
+                else:
+                    findings.extend(scan_mcp_document(doc, str(p), pinned_hashes=pins))
+            except Exception as exc:
+                findings.append(Finding("CRITICAL", "MCP-JSON-BAD", str(p), f"Malformed JSON manifest: {exc}"))
 
     for target in args.model:
-        paths = sorted(p for p in target.rglob("*") if p.is_file()) if target.is_dir() else [target]
+        if not target.exists():
+            findings.append(Finding("HIGH", "SCAN-MISSING", str(target), "Target model path does not exist"))
+            continue
+        paths = sorted(p for p in target.rglob("*") if p.is_file() or p.is_symlink()) if target.is_dir() else [target]
         for p in paths:
             findings.extend(scan_model_artifact(p))
 

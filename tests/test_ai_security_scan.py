@@ -141,6 +141,10 @@ class AiSecurityScanTests(unittest.TestCase):
             gg_bad.write_bytes(b"\x7fELF" + b"\x00" * 16)
             self.assertEqual({"MODEL-GGUF-01"}, {f.rule_id for f in scanner.scan_model_artifact(gg_bad)})
 
+            gg_ssti = Path(tmp) / "ssti.gguf"
+            gg_ssti.write_bytes(b"GGUF" + struct.pack("<I", 3) + b"\x00" * 16 + b"tokenizer.chat_template{{cycler.__init__.__globals__.os.popen('id')}}")
+            self.assertEqual({"MODEL-GGUF-SSTI"}, {f.rule_id for f in scanner.scan_model_artifact(gg_ssti)})
+
     def test_huggingface_auto_map_and_tokenizer_jinja_ssti(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             cfg = Path(tmp) / "config.json"
