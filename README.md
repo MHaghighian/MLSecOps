@@ -46,6 +46,36 @@ Learn more: [Chapter 1 — What this guide adds](chapters-en/01-intro.md#what-th
 
 ---
 
+## How this compares to OWASP, OpenSSF, NIST, CSA, and Google SAIF
+
+This repository is **not** meant to replace industry standards or vendor security tools. Below is an honest comparison showing where this reference model adds operational depth — and where established standards or dedicated frameworks lead.
+
+| Framework / Reference | Its primary strength | What this project adds operationally | Where the external framework leads |
+|---|---|---|---|
+| **OWASP AI Exchange & LLM / Agentic / MCP Top 10** | De facto community threat taxonomy, top-risk rankings (`LLM01–10`, `MCP01–10`, `ASI`), and broad attack/mitigation encyclopedia | Connects risks into concrete lifecycle release gates (`CP 4, 7, 8`), binds `CP 8` approval to `CP 9` admission, and ships runnable `Evidence Pack` JSON + Rego rules | Multi-organization consensus governance, breadth of threat cataloging, and community maintenance |
+| **OWASP AISVS / LLMSVS** | Detailed, testable verification requirements for AI/LLM security testing and assurance | Links security validation (`CP 7`) directly to CI/deploy admission (`CP 8 ↔ CP 9`) with example schemas, policies, and end-to-end architecture cards (`E.1` / `E.7`) | Clause-level verification requirement depth and formal testing specification structure |
+| **OpenSSF *Visualizing Secure MLOps* (2025)** | Authoritative 9-stage MLOps lifecycle map and 22 controls anchored in `Sigstore`/`SLSA` supply-chain tooling | Separates blocking release decisions (`CP 4/7/8`) from integrity checkpoints (`CP 9`), covers `Managed-API` snapshots, LLM `KV Cache` isolation, Agentic `Intent Gate` / `MCP09`, and runnable Conftest fixtures | Linux Foundation governance, deep `SLSA`/`Sigstore` ecosystem integration, and multi-vendor backing |
+| **CSA MAESTRO & AARM** | Dedicated 7-layer agentic threat modeling (`MAESTRO`) and runtime action-authorization specification (`AARM` `R1–R9`) | Places agentic controls (`Intent Gate`, pinned MCP schemas, memory provenance, `delegationDepthMax`) inside one full data-to-SOC lifecycle (`CP 1–10`) with Rego enforcement | Deep multi-agent threat-modeling methodology and dedicated runtime enforcement spec (`aarm.dev`) |
+| **Google SAIF** | Crisp 6-pillar executive framework for securing AI across corporate platforms | Translates principles into specific pipeline control points, Kubernetes serving rules ([`policies/k8s/`](policies/k8s/README.md)), SOC playbooks (`E.5`), and Evidence Pack schemas | Executive/cloud-strategy clarity backed by hyperscaler operational lessons |
+| **MITRE ATLAS** | Authoritative adversarial TTP matrix (`AML.T*`) and real-world AI incident case studies | Maps ATLAS techniques directly to CI gates, SIEM detections (Ch.10), and release thresholds (Ch.6/12) | Canonical adversary technique database and incident CTI curation |
+| **NIST AI RMF / IR 8596 & ISO/IEC 42001 / 23894** | Organizational risk governance (`AI RMF`), CSF 2.0 alignment (`IR 8596`), and auditable AI Management Systems (`42001`) | Provides the technical security control layer, SOC telemetry model, and machine-readable `Evidence Pack` inputs feeding audit/GRC workflows | Regulatory compliance, legal scope (e.g. EU AI Act), non-security AI risks (fairness, societal harm), and formal certification |
+
+### Honest strengths & current limitations
+
+**Where this reference model is strongest:**
+- **Actionable gate mechanics (`CP 4 / 7 / 8 ↔ CP 9`):** treats security validation and digest-bound deployment admission as enforceable CI/CD contracts rather than prose checklists.
+- **Executable companion artifacts:** ships working Draft 2020-12 [`schemas/`](schemas/README.md), tested OPA/Conftest [`policies/`](policies/README.md) (Evidence Pack + Kubernetes inference workloads), and a zero-dependency header/MCP sample scanner ([`scripts/ai_security_scan.py`](scripts/README.md)).
+- **Modern operational breadth:** covers `Managed-API` vs self-hosted models, `KV Cache` side-channel/isolation (`PromptPeek`/`KV-Cloak`/`VReparo`), Vector DB backup revocation, Docker Model Runner (`E.1.7`), and `MCP09` rug-pull pinning alongside classic ML.
+
+**Known limitations & gaps (transparent by design):**
+1. **Single-maintainer open-source project:** independent community work, not backed by standards-body consensus or usable as a formal certification claim.
+2. **Pretraining / large distributed training out of scope:** [Appendix E.1](chapters-en/17-appendix-e-implementation-reference.md#e1-architecture-cards) assumes consuming, RAG-augmenting, fine-tuning, or serving models rather than operating foundation-model pretraining clusters (DDP/FSDP, RLHF/DPO compute pipelines).
+3. **No cross-industry empirical study yet:** included policies, schemas, and scanner rules are verified via unit and negative tests (`scripts/verify_repo.py`), not yet backed by longitudinal production studies measuring false-positive rates or incident-reduction metrics across multiple organizations; sample checks do not replace dedicated production tools (`ModelScan`, `Garak`, `Promptfoo`, `Kyverno`, `Gitleaks`).
+4. **Standalone Evidence Pack schema & conformance model:** aligned with CycloneDX 1.6/1.7 themes rather than formalized yet as an `in-toto`/`SLSA` attestation predicate URI or clause-level pass/fail conformance standard (`AISVS` / `OSPS Baseline` style).
+5. **Partial mapping depth on some peer frameworks:** provides dedicated alignment views for OpenSSF, NIST IR 8596, and CSA AARM, while references to Google SAIF, OWASP AISVS, and NIST AI 600-1 remain high-level rather than clause-by-clause tables.
+
+---
+
 ## Topics covered
 
 | Area | Chapters / focus |
