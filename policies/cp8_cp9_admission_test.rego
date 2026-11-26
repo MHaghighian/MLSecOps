@@ -263,3 +263,42 @@ test_deny_transport_spoofing_delegation_and_bad_component_sha256 if {
 	some md in main.deny with input as bad
 	contains(md, "delegationDepthMax")
 }
+
+test_pretraining_distributed_and_conformance_rules if {
+	ok_pre := object.union(base_pack, {
+		"metadata": {"systemScope": "Pretraining-Distributed"},
+		"trainingClusterConfig": {
+			"topology": "FSDP",
+			"collectiveNetworkIsolated": true,
+			"workerAttestationVerified": true,
+			"checkpointSignedAndDigestBound": true,
+			"preferenceDataProvenanceVerified": true,
+			"intermediateStageValidated": true,
+		},
+		"conformanceProfile": {"targetLevel": 2, "controlIds": ["MLS-CP-01", "MLS-TR-01"]},
+	})
+	main.allow with input as ok_pre
+
+	bad_pre := object.union(ok_pre, {
+		"trainingClusterConfig": {
+			"collectiveNetworkIsolated": false,
+			"workerAttestationVerified": false,
+			"checkpointSignedAndDigestBound": false,
+			"preferenceDataProvenanceVerified": false,
+			"intermediateStageValidated": false,
+		},
+		"conformanceProfile": {"targetLevel": 2, "controlIds": []},
+	})
+	some m1 in main.deny with input as bad_pre
+	contains(m1, "collectiveNetworkIsolated")
+	some m2 in main.deny with input as bad_pre
+	contains(m2, "workerAttestationVerified")
+	some m3 in main.deny with input as bad_pre
+	contains(m3, "checkpointSignedAndDigestBound")
+	some m4 in main.deny with input as bad_pre
+	contains(m4, "RLHF/DPO preference dataset provenance")
+	some m5 in main.deny with input as bad_pre
+	contains(m5, "intermediate SFT-to-DPO/RLHF")
+	some m6 in main.deny with input as bad_pre
+	contains(m6, "MLS-* controlIds")
+}

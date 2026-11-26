@@ -61,6 +61,7 @@ jobs:
           check-jsonschema --schemafile schemas/evidence-pack.schema.json \
             schemas/examples/evidence-pack.example.json \
             schemas/examples/evidence-pack.managed-api.example.json \
+            schemas/examples/evidence-pack.pretraining.example.json \
             policies/testdata/evidence-pack.fail-digest.json \
             policies/testdata/evidence-pack.fail-unpinned-mcp.json
 

@@ -42,7 +42,7 @@
         },
         "systemScope": {
           "type": "string",
-          "enum": ["Classical-ML", "LLM-RAG", "Agentic-MCP", "Multimodal-Edge", "Managed-API"]
+          "enum": ["Classical-ML", "LLM-RAG", "Agentic-MCP", "Multimodal-Edge", "Managed-API", "Pretraining-Distributed"]
         },
         "releaseId": { "type": "string", "minLength": 1 },
         "sharedResponsibilityRecord": {
@@ -254,6 +254,39 @@
         "siemFeedActive": { "type": "boolean" },
         "rawPromptLoggingDisabled": { "type": "boolean" }
       }
+    },
+    "trainingClusterConfig": {
+      "type": "object",
+      "description": "Appendix E.1.8 / ISO 27090 Annex C distributed training & RLHF/DPO alignment security controls",
+      "properties": {
+        "topology": {
+          "type": "string",
+          "enum": ["single-node", "DDP", "FSDP", "pipeline-parallel", "federated"]
+        },
+        "collectiveNetworkIsolated": { "type": "boolean" },
+        "workerAttestationVerified": { "type": "boolean" },
+        "checkpointSignedAndDigestBound": { "type": "boolean" },
+        "preferenceDataProvenanceVerified": { "type": "boolean" },
+        "gradientClippingActive": { "type": "boolean" },
+        "intermediateStageValidated": { "type": "boolean" },
+        "dpTrainingApplied": { "type": "boolean" }
+      }
+    },
+    "conformanceProfile": {
+      "type": "object",
+      "description": "Self-assessed MLSecOps conformance claim mapped to MLS-* control IDs (references/STANDARDS-ALIGNMENT.md)",
+      "required": ["targetLevel"],
+      "properties": {
+        "profileVersion": { "type": "string", "minLength": 1 },
+        "targetLevel": { "type": "integer", "enum": [1, 2, 3] },
+        "controlIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^MLS-(?:CP|SC|DT|AG|RT|TR)-[0-9]{2}$"
+          }
+        }
+      }
     }
   },
   "allOf": [
@@ -297,6 +330,30 @@
         "properties": {
           "runtimeAgentConfig": {
             "required": ["killSwitchEnabled", "scopedCredentialsRequired"]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "metadata": {
+            "type": "object",
+            "properties": { "systemScope": { "const": "Pretraining-Distributed" } },
+            "required": ["systemScope"]
+          }
+        },
+        "required": ["metadata"]
+      },
+      "then": {
+        "required": ["trainingClusterConfig"],
+        "properties": {
+          "trainingClusterConfig": {
+            "required": [
+              "collectiveNetworkIsolated",
+              "workerAttestationVerified",
+              "checkpointSignedAndDigestBound"
+            ]
           }
         }
       }

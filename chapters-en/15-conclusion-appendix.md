@@ -619,8 +619,9 @@ Alongside cross-mapping **ISO/IEC 27090:2026**, ISO/IEC 42001, OpenSSF, NIST, CS
 
 1. **Ten lifecycle control points (`CP 1–10`)** from change initiation through monitoring and SOC.
 2. **Explicit separation** of evidence-producing steps from **blocking release decisions** (`CP 4, 7, 8`; `CP 7` blocking at Level 2+) and a hard **CP 9 integrity/admission checkpoint** bound to the approved CP 8 digest.
-3. **Machine-readable `Evidence Pack`** ([`schemas/`](../schemas/README.md)) plus executable **OPA/Conftest admission samples** ([`policies/`](../policies/README.md)).
-4. **`Secure-by-Design` blueprints** ([Appendix E.7](17-appendix-e-implementation-reference.md#e7-secure-by-design-worked-examples)) connecting threat modeling, runtime containment, SOC, and governance end-to-end.
+3. **Machine-readable `Evidence Pack`** ([`schemas/`](../schemas/README.md)) wrapped cleanly in `in-toto` v1 attestation envelopes ([`schemas/mlsecops-attestation.v1.schema.json`](../schemas/mlsecops-attestation.v1.schema.json)), plus executable **OPA/Conftest admission samples** ([`policies/`](../policies/README.md)).
+4. **`Secure-by-Design` blueprints** ([Appendix E.7](17-appendix-e-implementation-reference.md#e7-secure-by-design-worked-examples)) and distributed cluster cards (`E.1.8`) connecting threat modeling, runtime containment, SOC, and governance end-to-end.
+5. **Executable conformance & controlled evaluation:** Formal `MLS-*` Conformance Profile (Levels 1–3) with clause-level `OWASP AISVS v1.0 (C1–C12)`, `CSA MAESTRO` 7-layer, `MITRE ATLAS`, `ISO/IEC 42001`, and `NIST AI RMF` bridge tables ([`references/STANDARDS-ALIGNMENT.md`](../references/STANDARDS-ALIGNMENT.md)) alongside reproducible controlled benchmarks ([`references/EVALUATION-BENCHMARK.md`](../references/EVALUATION-BENCHMARK.md)).
 
 Teams implementing in production should use [Appendix E: Implementation Reference](17-appendix-e-implementation-reference.md) (architecture cards, decision matrix, templates, playbooks, master control matrix, and worked architectures).
 

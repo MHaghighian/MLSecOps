@@ -356,3 +356,38 @@ deny contains msg if {
 	not input.inferenceConfig.tenantKvPartitioned == true
 	msg := "HIGH [Ch.7/16]: cross-model KV cache reuse requires alignment control or tenant partition evidence"
 }
+
+# Appendix E.1.8 / ISO 27090 Annex C: distributed training (DDP/FSDP) and RLHF/DPO alignment controls.
+deny contains msg if {
+	input.metadata.systemScope == "Pretraining-Distributed"
+	not input.trainingClusterConfig.collectiveNetworkIsolated == true
+	msg := "CRITICAL [E.1.8]: Pretraining-Distributed requires isolated/encrypted collective fabric (collectiveNetworkIsolated=true)"
+}
+
+deny contains msg if {
+	input.metadata.systemScope == "Pretraining-Distributed"
+	not input.trainingClusterConfig.workerAttestationVerified == true
+	msg := "CRITICAL [E.1.8]: Pretraining-Distributed requires workerAttestationVerified=true across training ranks"
+}
+
+deny contains msg if {
+	input.metadata.systemScope == "Pretraining-Distributed"
+	not input.trainingClusterConfig.checkpointSignedAndDigestBound == true
+	msg := "CRITICAL [E.1.8]: distributed checkpoints require checkpointSignedAndDigestBound=true"
+}
+
+deny contains msg if {
+	input.trainingClusterConfig.preferenceDataProvenanceVerified == false
+	msg := "HIGH [E.1.8]: RLHF/DPO preference dataset provenance must not be unverified"
+}
+
+deny contains msg if {
+	input.trainingClusterConfig.intermediateStageValidated == false
+	msg := "HIGH [E.1.8]: intermediate SFT-to-DPO/RLHF gate validation failed or was skipped"
+}
+
+deny contains msg if {
+	input.conformanceProfile.targetLevel >= 2
+	count(object.get(input.conformanceProfile, "controlIds", [])) == 0
+	msg := "HIGH [Conformance]: Level 2+ conformanceProfile must declare non-empty MLS-* controlIds"
+}

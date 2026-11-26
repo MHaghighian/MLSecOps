@@ -231,6 +231,21 @@ class AiSecurityScanTests(unittest.TestCase):
             )
             self.assertEqual([], json.loads(res.stdout))
 
+            att = subprocess.run(
+                [
+                    sys.executable,
+                    str(ROOT / "scripts" / "ai_security_scan.py"),
+                    "--emit-intoto",
+                    str(ROOT / "schemas" / "examples" / "evidence-pack.example.json"),
+                ],
+                capture_output=True,
+                text=True,
+                check=True,
+            )
+            stmt = json.loads(att.stdout)
+            self.assertEqual("https://in-toto.io/Statement/v1", stmt["_type"])
+            self.assertEqual("https://mhaghighian.github.io/MLSecOps/attestation/evidence-pack/v1", stmt["predicateType"])
+
 
 if __name__ == "__main__":
     unittest.main()

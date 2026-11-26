@@ -310,8 +310,11 @@ Human-readable PDF/JSON dumps are useful for auditors, but Level 2+ pipelines th
 
 | Artifact | Location |
 |---|---|
-| JSON Schema (CycloneDX 1.6/1.7-aligned themes) | [`schemas/evidence-pack.schema`](../schemas/evidence-pack.schema.md) |
-| Example instances (`Agentic-MCP` + `Managed-API`) | [`schemas/evidence-pack.example`](../schemas/evidence-pack.example.md) |
+| JSON Schema (CycloneDX 1.6/1.7-aligned themes + `MLS-*` Conformance Profile) | [`schemas/evidence-pack.schema`](../schemas/evidence-pack.schema.md) |
+| `in-toto` Statement v1 Attestation Envelope (`SLSA` / predicate URI) | [`schemas/mlsecops-attestation.v1.schema.json`](../schemas/mlsecops-attestation.v1.schema.json) |
+| Example instances (`Agentic-MCP`, `Managed-API`, `Pretraining-Distributed`, `in-toto` v1) | [`schemas/evidence-pack.example`](../schemas/evidence-pack.example.md) |
+| Standards cross-walks & `MLS-*` Conformance Profile (`AISVS C1–C12`, `MAESTRO`, `ISO 42001`) | [`references/STANDARDS-ALIGNMENT.md`](../references/STANDARDS-ALIGNMENT.md) |
+| Controlled scanner & policy benchmark results | [`references/EVALUATION-BENCHMARK.md`](../references/EVALUATION-BENCHMARK.md) |
 | Admission / release policy samples (`package main`) | [`policies/cp8_cp9_admission`](../policies/cp8_cp9_admission.md) |
 | Kubernetes workload admission policy (`package mlsecops.k8s`) | [`policies/k8s/`](../policies/k8s/README.md) |
 | Companion static MCP/model scanner & QA verifier | [`scripts/README.md`](../scripts/README.md) |

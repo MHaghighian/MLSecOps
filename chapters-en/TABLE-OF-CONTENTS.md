@@ -354,6 +354,7 @@
   - [Multi-agent](17-appendix-e-implementation-reference.md#e15-multi-agent-system)
   - [Classic ML](17-appendix-e-implementation-reference.md#e16-classic-ml-tabular--vision--no-llm)
   - [Developer-local inference (Docker Model Runner)](17-appendix-e-implementation-reference.md#e17-developer-local-inference-docker-model-runner)
+  - [Pretraining & Distributed Fine-Tuning Cluster (DDP / FSDP / RLHF / DPO)](17-appendix-e-implementation-reference.md#e18-pretraining--distributed-fine-tuning-cluster-ddp--fsdp--rlhf--dpo)
 - [E.2 Decision Matrix](17-appendix-e-implementation-reference.md#e2-decision-matrix)
 - [E.3 Threat Model Template](17-appendix-e-implementation-reference.md#e3-threat-model-template)
 - [E.4 Evidence Pack Template](17-appendix-e-implementation-reference.md#e4-evidence-pack-template)

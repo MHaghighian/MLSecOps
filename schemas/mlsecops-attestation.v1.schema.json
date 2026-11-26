@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/MHaghighian/MLSecOps/schemas/mlsecops-attestation.v1.schema.json",
+  "title": "MLSecOps in-toto v1 Attestation Statement",
+  "description": "Wraps an MLSecOps Evidence Pack inside a standard https://in-toto.io/Statement/v1 envelope for Sigstore/Cosign and SLSA toolchain interoperability.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["_type", "subject", "predicateType", "predicate"],
+  "properties": {
+    "_type": {
+      "type": "string",
+      "const": "https://in-toto.io/Statement/v1"
+    },
+    "subject": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["name", "digest"],
+        "properties": {
+          "name": { "type": "string", "minLength": 1 },
+          "digest": {
+            "type": "object",
+            "required": ["sha256"],
+            "properties": {
+              "sha256": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              }
+            }
+          }
+        }
+      }
+    },
+    "predicateType": {
+      "type": "string",
+      "const": "https://mhaghighian.github.io/MLSecOps/attestation/evidence-pack/v1"
+    },
+    "predicate": {
+      "$ref": "evidence-pack.schema.json"
+    }
+  }
+}

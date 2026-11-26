@@ -14,6 +14,8 @@ from pathlib import Path
 
 import yaml
 from jsonschema import Draft202012Validator, FormatChecker, ValidationError
+from referencing import Registry
+from referencing.jsonschema import DRAFT202012
 
 ROOT = Path(__file__).resolve().parent.parent
 
@@ -63,7 +65,21 @@ def check_workflows_and_encoding() -> None:
 def check_evidence_pack_schema() -> None:
     schema_path = ROOT / "schemas" / "evidence-pack.schema.json"
     schema = json.loads(schema_path.read_text(encoding="utf-8"))
-    validator = Draft202012Validator(schema, format_checker=_strict_format_checker())
+    attestation_schema_path = ROOT / "schemas" / "mlsecops-attestation.v1.schema.json"
+    attestation_schema = json.loads(attestation_schema_path.read_text(encoding="utf-8"))
+
+    ep_resource = DRAFT202012.create_resource(schema)
+    att_resource = DRAFT202012.create_resource(attestation_schema)
+    registry = (
+        Registry()
+        .with_resource(schema["$id"], ep_resource)
+        .with_resource("evidence-pack.schema.json", ep_resource)
+        .with_resource(attestation_schema["$id"], att_resource)
+        .with_resource("mlsecops-attestation.v1.schema.json", att_resource)
+    )
+
+    validator = Draft202012Validator(schema, registry=registry, format_checker=_strict_format_checker())
+    att_validator = Draft202012Validator(attestation_schema, registry=registry, format_checker=_strict_format_checker())
 
     fixtures = [
         *sorted((ROOT / "schemas" / "examples").glob("*.json")),
@@ -73,11 +89,24 @@ def check_evidence_pack_schema() -> None:
         validator.validate(json.loads(fp.read_text(encoding="utf-8")))
         print(f"OK schema: {fp.relative_to(ROOT).as_posix()}")
 
+    intoto_fixtures = sorted((ROOT / "schemas" / "examples" / "intoto").glob("*.json"))
+    if not intoto_fixtures:
+        raise AssertionError("Expected at least one in-toto attestation example under schemas/examples/intoto/")
+    for fp in intoto_fixtures:
+        att_validator.validate(json.loads(fp.read_text(encoding="utf-8")))
+        print(f"OK attestation schema: {fp.relative_to(ROOT).as_posix()}")
+
     managed = json.loads(
         (ROOT / "schemas" / "examples" / "evidence-pack.managed-api.example.json").read_text(encoding="utf-8")
     )
     agentic = json.loads(
         (ROOT / "schemas" / "examples" / "evidence-pack.example.json").read_text(encoding="utf-8")
+    )
+    pretraining = json.loads(
+        (ROOT / "schemas" / "examples" / "evidence-pack.pretraining.example.json").read_text(encoding="utf-8")
+    )
+    intoto_sample = json.loads(
+        (ROOT / "schemas" / "examples" / "intoto" / "evidence-pack.intoto.example.json").read_text(encoding="utf-8")
     )
     bad_ts = json.loads(json.dumps(agentic))
     bad_ts["metadata"]["timestamp"] = "not-a-timestamp"
@@ -89,6 +118,7 @@ def check_evidence_pack_schema() -> None:
         ({k: v for k, v in managed.items() if k != "managedApiConfig"}, "Managed-API without managedApiConfig"),
         ({k: v for k, v in agentic.items() if k != "modelArtifact"}, "Non-managed without modelArtifact"),
         ({k: v for k, v in agentic.items() if k != "runtimeAgentConfig"}, "Agentic-MCP without runtimeAgentConfig"),
+        ({k: v for k, v in pretraining.items() if k != "trainingClusterConfig"}, "Pretraining-Distributed without trainingClusterConfig"),
         (bad_ts, "Invalid RFC-3339 metadata.timestamp"),
         (bad_cal, "Out-of-range calendar date in metadata.timestamp"),
     ]
@@ -99,6 +129,15 @@ def check_evidence_pack_schema() -> None:
             print(f"OK schema reject: {label}")
             continue
         raise AssertionError(f"Expected ValidationError for {label}")
+
+    bad_att = json.loads(json.dumps(intoto_sample))
+    bad_att["_type"] = "https://example.org/wrong-statement-type"
+    try:
+        att_validator.validate(bad_att)
+    except ValidationError:
+        print("OK attestation schema reject: Wrong in-toto _type")
+    else:
+        raise AssertionError("Expected ValidationError for wrong in-toto _type")
 
 
 def check_chapters_code_and_diagrams() -> None:
@@ -150,11 +189,17 @@ def check_release_manifest() -> None:
         "policies/k8s/inference_workload.rego",
         "policies/k8s/inference_workload_test.rego",
         "schemas/evidence-pack.schema.json",
+        "schemas/mlsecops-attestation.v1.schema.json",
         "schemas/examples/evidence-pack.managed-api.example.json",
+        "schemas/examples/evidence-pack.pretraining.example.json",
+        "schemas/examples/intoto/evidence-pack.intoto.example.json",
         "scripts/ai_security_scan.py",
         "scripts/build-docx.py",
+        "scripts/eval_benchmark.py",
         "scripts/README.md",
         "scripts/verify_repo.py",
+        "references/STANDARDS-ALIGNMENT.md",
+        "references/EVALUATION-BENCHMARK.md",
         "tests/test_ai_security_scan.py",
         "assets/javascripts/mermaid-init.js",
     ]
@@ -193,7 +238,12 @@ def run_python_unit_tests() -> None:
     }
     if "MCP09-UNPINNED-01" not in unpinned_hits:
         raise AssertionError(f"Expected MCP09-UNPINNED-01 on fail-unpinned-mcp fixture, got {unpinned_hits}")
-    print("OK scanner smoke check: examples clean, fail fixture detected")
+    import eval_benchmark as eb
+
+    _, bench_summary = eb.run_scanner_benchmark()
+    if bench_summary["fn"] != 0 or bench_summary["fp"] != 0:
+        raise AssertionError(f"Controlled benchmark regression: {bench_summary}")
+    print(f"OK scanner & benchmark check: {bench_summary['total_cases']} cases, recall={bench_summary['recall']:.0%}, fpr={bench_summary['false_positive_rate']:.0%}")
 
 
 def run_conftest(conftest_bin: str | None, require: bool) -> None:

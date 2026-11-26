@@ -213,7 +213,7 @@ flowchart LR
 | Release | Sign artifacts, Evidence Pack            | 8, 9           | [Ch.6](06-pipeline.md), [Ch.11](11-governance-evidence.md) |
 
 
-> **Out of scope:** These cards assume the organization **consumes or serves** a model. **Pretraining or fine-tuning your own foundation model** (large-scale data curation, training-compute integrity, base-model evaluation and release) is a distinct topology not covered by a dedicated card here; apply Chapters 4-6 controls and treat it as a separate assessment.
+> **Scope note:** Cards **E.1.1–E.1.7** cover consuming, RAG-augmenting, fine-tuning, or serving models; **E.1.8** extends the model to distributed foundation-model pretraining and post-training alignment (`DDP` / `FSDP` / `RLHF` / `DPO`) clusters operated on self-managed GPUs (hyperscaler custom-silicon hardware-fabric manufacturing remains the cloud provider's boundary).
 
 ---
 
@@ -249,16 +249,33 @@ flowchart LR
 
 ---
 
+### E.1.8 Pretraining & Distributed Fine-Tuning Cluster (DDP / FSDP / RLHF / DPO)
+
+**When to use:** Organizations operating multi-node GPU/accelerator clusters for base-model pretraining (`DDP`/`FSDP`/`Zero-3`) or post-training alignment (`SFT` → `RLHF`/`DPO`) where poisoning the collective fabric, training corpora, human-preference datasets, or intermediate checkpoints compromises all downstream models.
+
+| Layer / Threat Surface | Primary Risks | Mandatory MLSecOps Controls | Control Points | Primary References |
+|---|---|---|---|---|
+| **Collective Fabric (`NCCL` / `RoCE` / `InfiniBand`)** | Unauthenticated gradient eavesdropping, cross-job AllReduce injection, RDMA side-channels | Dedicated VRF/VLAN isolation per training job; encrypted RoCE/IPsec or physical cluster isolation; `NCCL_ASYNC_ERROR_HANDLING=1` | 9, 10 | ISO/IEC 27090:2026 Annex C; Ch.16 network segmentation |
+| **Worker & Job Identity** | Rogue compute node joining ring, compromised container overwriting shared NVMe checkpoints | Hardware/TEE or mTLS worker attestation before ring admission; append-only / write-once checkpoint promotion by orchestrator only | 5, 9 | OpenSSF SLSA / SPIFFE; `MLS-TR-01` |
+| **Intermediate Checkpoints** | *PoisonGPT*-style silent weight swap mid-run (`TOCTOU` across multi-day training) | Sign checkpoints with ephemeral job identity + bind resume/promotion SHA-256 into Evidence Pack (`checkpointSignedAndDigestBound`) | 5, 8, 9 | ISO/IEC 27090:2026 Clause 6.2; Ch.5 / Ch.6 |
+| **RLHF / DPO Preference Data** | Universal jailbreak backdoors via small poisoned preference subsets (*Rando & Tramèr*, *RankPoison*) | Cryptographic dataset provenance (`preferenceDataProvenanceVerified`); multi-annotator consensus & outlier filtering; frozen DPO $\pi_{ref}$ anchor; bounded clipping/DP-DPO | 2, 4, 7 | Rando & Tramèr (2024); ISO/IEC 27090:2026 Clause 6.2; OWASP `AISVS C1` |
+| **Gradient & Stage Transitions** | Multi-stage sequential poisoning slipping between SFT and DPO/RLHF; Byzantine gradient spikes | Global FSDP/DDP `clip_grad_norm_` (`gradientClippingActive`); mandatory **intermediate SFT-to-DPO validation gate** (`intermediateStageValidated`) before post-training begins | 4, 7, 8 | OWASP `AISVS C3 / C11`; `MLS-TR-01` / `MLS-TR-02` |
+
+**Evidence Pack fields (`systemScope: "Pretraining-Distributed"`):** requires `trainingClusterConfig` (`topology`, `collectiveNetworkIsolated`, `workerAttestationVerified`, `checkpointSignedAndDigestBound`, `preferenceDataProvenanceVerified`, `gradientClippingActive`, `intermediateStageValidated`, `dpTrainingApplied`) verified in CI/admission by [`policies/cp8_cp9_admission.rego`](../policies/cp8_cp9_admission.rego).
+
+---
+
 ### References / Source mapping
 
 **Frameworks and standards**
 
-- NIST AI RMF: Map (architecture-dependent controls)
-- OWASP LLM Top 10 / ASI / MCP themes per card
+- ISO/IEC 27090:2026: Clauses 6.2 (data/model poisoning), 6.7 (exfiltration), Annex C (distributed/federated lifecycle)
+- NIST AI RMF: Map / Measure (architecture-dependent controls)
+- OWASP AISVS (`C1`, `C3`, `C6`, `C11`), LLM Top 10 / ASI / MCP themes per card
 
 **Implementation guidance (this guide)**
 
-- Architecture cards E.1.1-E.1.7 cross-link Chapters 2, 4-8, 10-11, 16, and [Appendix D](15-conclusion-appendix.md#appendix-d-managed-ai-services-security-reference)
+- Architecture cards E.1.1-E.1.8 cross-link Chapters 2, 4-8, 10-11, 16, [Appendix D](15-conclusion-appendix.md#appendix-d-managed-ai-services-security-reference), and [`references/STANDARDS-ALIGNMENT.md`](../references/STANDARDS-ALIGNMENT.md)
 
 **Operational & scope notes**
 
@@ -273,6 +290,7 @@ Use this matrix to select **mandatory control themes** by architecture. Map each
 | -------------------------------- | -------------------------------------------------------- | ---------------------------------------------------- | ----------------------------------------------------------- | ------------------- |
 | **Managed AI API only**          | Gateway, DLP, config snapshot, Shadow AI policy          | 4 (data in prompts/RAG), 7 (injection/leak tests), 8 | 9 (deployment ID, region, config hash—not weight signature) | Ch.2, 7, Appendix D |
 | **Developer-local / CI runner (e.g. DMR)** | OCI digest pin, registry allowlist, unauthenticated API exposure, local CP 7 | 7 (suites on local base URL), 8 | 9 (model OCI digest + engine version—not cluster admission) | Ch.5, 12, [E.1.7](#e17-developer-local-inference-docker-model-runner) |
+| **Pretraining / Distributed RLHF-DPO** | Collective fabric isolation, worker attestation, checkpoint signing, SFT-to-DPO validation gate, preference provenance | 4 (corpus + preference provenance), 7 (SFT & post-DPO eval), 8 | 9 (`trainingClusterConfig` + signed checkpoint digest + `in-toto` Statement) | Ch.4, 5, [E.1.8](#e18-pretraining--distributed-fine-tuning-cluster-ddp--fsdp--rlhf--dpo) |
 | **Enterprise RAG**               | Ingest ACL, retrieval ACL, reindex playbook, output gate | 4 (poisoned corpus), 7 (RAG leakage tests), 8        | 9 (index version hash + model/config evidence)              | Ch.4, 7             |
 | **Self-hosted LLM**              | Model scan, signing, K8s isolation, admission verify     | 4, 7, 8                                              | 9 (signature + attestation)                                 | Ch.5, 6, 16         |
 | **Agent + MCP**                  | Intent Gate, tool allowlist, MCP scan, HITL              | 7 (tool misuse tests), 8                             | 9 (agent config + tool manifest hash)                       | Ch.7, 8             |

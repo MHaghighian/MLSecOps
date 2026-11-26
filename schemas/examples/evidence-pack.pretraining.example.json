@@ -1,0 +1,66 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.7",
+  "serialNumber": "urn:uuid:33333333-4444-5555-6666-777777777777",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2026-11-26T12:00:00Z",
+    "systemScope": "Pretraining-Distributed",
+    "releaseId": "foundation-7b-dpo-2026.11.0",
+    "sharedResponsibilityRecord": {
+      "modelOwner": "pretraining-team",
+      "platformOwner": "gpu-cluster-eng",
+      "ospoOwner": "ospo",
+      "socOwner": "soc"
+    }
+  },
+  "modelArtifact": {
+    "sha256Digest": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+  },
+  "trainingClusterConfig": {
+    "topology": "FSDP",
+    "collectiveNetworkIsolated": true,
+    "workerAttestationVerified": true,
+    "checkpointSignedAndDigestBound": true,
+    "preferenceDataProvenanceVerified": true,
+    "gradientClippingActive": true,
+    "intermediateStageValidated": true,
+    "dpTrainingApplied": false
+  },
+  "conformanceProfile": {
+    "profileVersion": "1.4.0",
+    "targetLevel": 2,
+    "controlIds": ["MLS-CP-01", "MLS-CP-02", "MLS-CP-03", "MLS-CP-04", "MLS-TR-01", "MLS-TR-02"]
+  },
+  "dataProvenance": {
+    "datasetVersion": "curated-pretrain-plus-dpo-2026-11",
+    "lineageUri": "s3://evidence/lineage/dpo-pairs-2026-11.json",
+    "piiScanResult": "PASS"
+  },
+  "lifecycleControlGates": {
+    "cp4_dataAndRagAclGate": {
+      "status": "PASS",
+      "piiControlsRecorded": true
+    },
+    "cp7_adversarialAndRedTeamGate": {
+      "status": "PASS",
+      "serializationScanner": "modelscan+ai_security_scan",
+      "unreadableArtifactsDetected": false,
+      "redTeamPhasesCompleted": 8,
+      "agentMisalignmentScore": 0.04
+    },
+    "cp8_releaseDecisionGate": {
+      "decision": "APPROVED",
+      "approverRole": "release-owner",
+      "boundToCp9Digest": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+    }
+  },
+  "cryptographicProvenance": {
+    "cp9_checkpointVerified": true,
+    "signatureMethod": "sigstore-model-transparency"
+  },
+  "runtimeTelemetry": {
+    "siemFeedActive": true,
+    "rawPromptLoggingDisabled": true
+  }
+}

@@ -994,6 +994,7 @@ def main() -> int:
     parser.add_argument("--model", type=Path, action="append", default=[], help="Model weight file or directory")
     parser.add_argument("--pins", type=Path, help="Evidence Pack or server->sha256 map JSON to verify MCP schema hashes")
     parser.add_argument("--emit-pins", type=Path, help="Print canonical mcpSchemaHashes JSON for an MCP file")
+    parser.add_argument("--emit-intoto", type=Path, help="Wrap an Evidence Pack JSON inside an https://in-toto.io/Statement/v1 envelope")
     parser.add_argument("--json", action="store_true", dest="json_out", help="Emit findings as JSON")
     parser.add_argument(
         "--fail-on",
@@ -1006,6 +1007,24 @@ def main() -> int:
     if args.emit_pins:
         doc = json.loads(args.emit_pins.read_text(encoding="utf-8"))
         print(json.dumps(extract_mcp_server_hashes(doc), indent=2, sort_keys=True))
+        return 0
+
+    if args.emit_intoto:
+        pack = json.loads(args.emit_intoto.read_text(encoding="utf-8"))
+        raw_digest = (
+            pack.get("modelArtifact", {}).get("sha256Digest")
+            or pack.get("managedApiConfig", {}).get("configSnapshotHash")
+            or pack.get("lifecycleControlGates", {}).get("cp8_releaseDecisionGate", {}).get("boundToCp9Digest", "")
+        )
+        hex_digest = raw_digest.removeprefix("sha256:")
+        subj_name = pack.get("metadata", {}).get("releaseId") or args.emit_intoto.stem
+        stmt = {
+            "_type": "https://in-toto.io/Statement/v1",
+            "subject": [{"name": str(subj_name), "digest": {"sha256": hex_digest}}],
+            "predicateType": "https://mhaghighian.github.io/MLSecOps/attestation/evidence-pack/v1",
+            "predicate": pack,
+        }
+        print(json.dumps(stmt, indent=2))
         return 0
 
     pins = _load_pins(args.pins)

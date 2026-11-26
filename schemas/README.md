@@ -4,10 +4,13 @@ This folder turns the Chapter 11 **Evidence Pack** pattern into validateable JSO
 
 | File | Purpose |
 |---|---|
-| [`evidence-pack.schema.json`](evidence-pack.schema.json) | JSON Schema (Draft 2020-12) for a release Evidence Pack aligned with CycloneDX 1.6/1.7 *themes*, lifecycle control points (`CP 4 / 7 / 8 / 9`), conditional `allOf` constraints per scope, `dataProvenance`, `localRunnerConfig`, `runtimeAgentConfig`, and `runtimeTelemetry` |
+| [`evidence-pack.schema.json`](evidence-pack.schema.json) | JSON Schema (Draft 2020-12) for a release Evidence Pack aligned with CycloneDX 1.6/1.7 *themes*, lifecycle control points (`CP 4 / 7 / 8 / 9`), conditional `allOf` constraints per scope (including `Pretraining-Distributed`), `dataProvenance`, `localRunnerConfig`, `trainingClusterConfig`, `conformanceProfile` (`MLS-*`), `runtimeAgentConfig`, and `runtimeTelemetry` |
+| [`mlsecops-attestation.v1.schema.json`](mlsecops-attestation.v1.schema.json) | Canonical `https://in-toto.io/Statement/v1` attestation envelope wrapping Evidence Pack JSON under `predicateType: "https://mhaghighian.github.io/MLSecOps/attestation/evidence-pack/v1"` |
 | [`evidence-pack.schema.md`](evidence-pack.schema.md) | Full field-by-field contract & validation behavior reference |
 | [`examples/evidence-pack.example.json`](examples/evidence-pack.example.json) | `Agentic-MCP` filled example (CycloneDX 1.6, pinned `mcpSchemaHashes`, KV partition, SOC telemetry) |
 | [`examples/evidence-pack.managed-api.example.json`](examples/evidence-pack.managed-api.example.json) | `Managed-API` filled example (CycloneDX 1.7, `configSnapshotHash`, RAG `dataProvenance`, backup revocation) |
+| [`examples/evidence-pack.pretraining.example.json`](examples/evidence-pack.pretraining.example.json) | `Pretraining-Distributed` filled example (`FSDP`, isolated collective network, worker attestation, checkpoint digest binding, `MLS-*` `conformanceProfile`) |
+| [`examples/intoto/evidence-pack.intoto.example.json`](examples/intoto/evidence-pack.intoto.example.json) | Filled `in-toto.io/Statement/v1` attestation wrapping the `Agentic-MCP` Evidence Pack |
 
 ## How to use
 
