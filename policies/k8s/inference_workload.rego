@@ -41,7 +41,7 @@ has_run_as_non_root if {
 	count(all_containers) > 0
 	every c in all_containers {
 		c.securityContext.runAsNonRoot == true
-		object.get(c.securityContext, "runAsUser", 1000) != 0
+		object.get(c.securityContext, "runAsUser", object.get(pod_spec.securityContext, "runAsUser", 1000)) != 0
 	}
 }
 
@@ -120,8 +120,21 @@ deny contains msg if {
 	some c in all_containers
 	some token in array.concat(object.get(c, "command", []), object.get(c, "args", []))
 	is_string(token)
-	regex.match("(sk-(?:proj-)?[A-Za-z0-9_-]{20,}|hf_[A-Za-z0-9]{20,}|ghp_[A-Za-z0-9]{20,}|AKIA[0-9A-Z]{16})", token)
+	regex.match("(sk-(?:proj-)?[A-Za-z0-9_-]{20,}|hf_[A-Za-z0-9]{20,}|ghp_[A-Za-z0-9]{20,}|glpat-[A-Za-z0-9_-]{20,}|xox[baprs]-[A-Za-z0-9-]{10,}|A(?:KIA|SIA)[0-9A-Z]{16})", token)
 	msg := sprintf("CRITICAL [Ch.5/16]: container %q exposes hardcoded token literal in command/args", [c.name])
+}
+
+deny contains msg if {
+	input.kind in workload_kinds
+	some c in all_containers
+	args := array.concat(object.get(c, "command", []), object.get(c, "args", []))
+	some i, token in args
+	is_string(token)
+	token == "--allowed-local-media-path"
+	i + 1 < count(args)
+	media_root := trim_space(args[i + 1])
+	media_root in {"/", "/etc", "/root", "/var", "/home"}
+	msg := sprintf("HIGH [Ch.16]: container %q sets dangerous --allowed-local-media-path=%q (LFI risk)", [c.name, media_root])
 }
 
 # Ch.16: reject host namespace breakouts and hostPath mounts.
@@ -158,14 +171,21 @@ deny contains msg if {
 	msg := sprintf("HIGH [Ch.16]: container %q binds hostPort %v (bypasses gateway/NetworkPolicy)", [c.name, port.hostPort])
 }
 
-# Ch.16: reject unauthenticated vLLM inference containers and direct LoadBalancer/NodePort exposure.
+# Ch.16: reject unauthenticated vLLM inference containers and direct LoadBalancer/NodePort/externalIPs exposure.
 vllm_auth_configured(c) if {
 	some env in object.get(c, "env", [])
 	upper(env.name) == "VLLM_API_KEY"
+	env.valueFrom
+} else if {
+	some env in object.get(c, "env", [])
+	upper(env.name) == "VLLM_API_KEY"
+	is_string(object.get(env, "value", ""))
+	count(trim_space(env.value)) > 0
 } else if {
 	some token in array.concat(object.get(c, "command", []), object.get(c, "args", []))
 	is_string(token)
-	contains(lower(token), "--api-key")
+	regex.match("^--api-key(?:=.+)?$", lower(token))
+	not lower(token) == "--api-key="
 }
 
 deny contains msg if {
@@ -180,6 +200,12 @@ deny contains msg if {
 	input.kind == "Service"
 	input.spec.type in {"LoadBalancer", "NodePort"}
 	msg := sprintf("HIGH [Ch.16]: Service %q uses %s (do not expose inference pods without gateway/WAF)", [object.get(input.metadata, "name", "<unnamed>"), input.spec.type])
+}
+
+deny contains msg if {
+	input.kind == "Service"
+	count(object.get(input.spec, "externalIPs", [])) > 0
+	msg := sprintf("HIGH [Ch.16]: Service %q defines spec.externalIPs (CVE-2020-8554 exposure vector)", [object.get(input.metadata, "name", "<unnamed>")])
 }
 
 # Ch.16: Pod Security Standards restricted — non-root, seccomp, privilege boundaries, read-only rootfs, dropped caps.
@@ -214,6 +240,21 @@ deny contains msg if {
 	some c in all_containers
 	not drops_all_capabilities(c)
 	msg := sprintf("HIGH [Ch.16]: container %q must drop ALL capabilities", [c.name])
+}
+
+deny contains msg if {
+	input.kind in workload_kinds
+	some c in all_containers
+	c.securityContext.procMount == "Unmasked"
+	msg := sprintf("CRITICAL [Ch.16]: container %q must not set procMount=Unmasked", [c.name])
+}
+
+deny contains msg if {
+	input.kind in workload_kinds
+	some c in all_containers
+	some cap in object.get(object.get(object.get(c, "securityContext", {}), "capabilities", {}), "add", [])
+	upper(cap) != "NET_BIND_SERVICE"
+	msg := sprintf("HIGH [Ch.16]: container %q must not add privileged capability %q", [c.name, cap])
 }
 
 deny contains msg if {

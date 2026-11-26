@@ -21,11 +21,11 @@ ROOT = Path(__file__).resolve().parent.parent
 def _strict_format_checker() -> FormatChecker:
     checker = FormatChecker()
 
-    @checker.checks("date-time")
+    @checker.checks("date-time", raises=ValueError)
     def _is_rfc3339(value: object) -> bool:
-        if not isinstance(value, str) or "T" not in value:
+        if not isinstance(value, str) or "T" not in value.upper():
             return False
-        parsed = datetime.fromisoformat(value.replace("Z", "+00:00"))
+        parsed = datetime.fromisoformat(value.replace("Z", "+00:00").replace("z", "+00:00"))
         return parsed.tzinfo is not None
 
     return checker
@@ -54,6 +54,9 @@ def check_workflows_and_encoding() -> None:
     m_ver = m_ver_match.group(1).strip("'\"") if m_ver_match else ""
     if not c_ver or c_ver != m_ver:
         raise AssertionError(f"Version drift: CITATION.cff={c_ver!r} vs mkdocs.yml={m_ver!r}")
+    pages_txt = (ROOT / ".github" / "prepare_pages.py").read_text(encoding="utf-8")
+    if f"**v{c_ver}**" not in pages_txt:
+        raise AssertionError(f"Version drift: prepare_pages.py banner does not contain **v{c_ver}**")
     print(f"OK encoding & version sync ({c_ver}): no UTF-8 BOM")
 
 
@@ -79,11 +82,15 @@ def check_evidence_pack_schema() -> None:
     bad_ts = json.loads(json.dumps(agentic))
     bad_ts["metadata"]["timestamp"] = "not-a-timestamp"
 
+    bad_cal = json.loads(json.dumps(agentic))
+    bad_cal["metadata"]["timestamp"] = "2026-99-99T00:00:00Z"
+
     negative_cases = [
         ({k: v for k, v in managed.items() if k != "managedApiConfig"}, "Managed-API without managedApiConfig"),
         ({k: v for k, v in agentic.items() if k != "modelArtifact"}, "Non-managed without modelArtifact"),
         ({k: v for k, v in agentic.items() if k != "runtimeAgentConfig"}, "Agentic-MCP without runtimeAgentConfig"),
         (bad_ts, "Invalid RFC-3339 metadata.timestamp"),
+        (bad_cal, "Out-of-range calendar date in metadata.timestamp"),
     ]
     for payload, label in negative_cases:
         try:
@@ -113,8 +120,7 @@ def check_chapters_code_and_diagrams() -> None:
             lang = m.group(1).lower()
             body = m.group(2)
             if lang in ("yaml", "yml"):
-                for doc in body.split("\n---"):
-                    list(yaml.safe_load_all(doc))
+                list(yaml.safe_load_all(body))
             elif lang == "json":
                 json.loads(body)
             elif lang == "mermaid":
@@ -159,13 +165,34 @@ def check_release_manifest() -> None:
 
 def run_python_unit_tests() -> None:
     tests_dir = ROOT / "tests"
-    if not tests_dir.is_dir():
-        return
-    suite = unittest.defaultTestLoader.discover(str(tests_dir), pattern="test_*.py", top_level_dir=str(tests_dir))
-    result = unittest.TextTestRunner(verbosity=1).run(suite)
-    if not result.wasSuccessful():
-        raise AssertionError(f"Python unit tests failed: {len(result.failures)} failures, {len(result.errors)} errors")
-    print(f"OK unit tests: {result.testsRun} tests passed")
+    if tests_dir.is_dir():
+        suite = unittest.defaultTestLoader.discover(str(tests_dir), pattern="test_*.py", top_level_dir=str(tests_dir))
+        result = unittest.TextTestRunner(verbosity=1).run(suite)
+        if not result.wasSuccessful():
+            raise AssertionError(f"Python unit tests failed: {len(result.failures)} failures, {len(result.errors)} errors")
+        print(f"OK unit tests: {result.testsRun} tests passed")
+
+    sys.path.insert(0, str(ROOT / "scripts"))
+    import ai_security_scan as scanner
+
+    for ex in sorted((ROOT / "schemas" / "examples").glob("*.json")):
+        doc = json.loads(ex.read_text(encoding="utf-8"))
+        pins = scanner.extract_mcp_server_hashes(doc) or doc.get("cryptographicProvenance", {}).get("mcpSchemaHashes") or None
+        hits = scanner.scan_mcp_document(doc, ex.name, pinned_hashes=pins)
+        if hits:
+            raise AssertionError(f"Clean example {ex.name} triggered scanner findings: {hits}")
+    unpinned_doc = json.loads((ROOT / "policies" / "testdata" / "evidence-pack.fail-unpinned-mcp.json").read_text(encoding="utf-8"))
+    unpinned_hits = {
+        f.rule_id
+        for f in scanner.scan_mcp_document(
+            unpinned_doc,
+            "evidence-pack.fail-unpinned-mcp.json",
+            pinned_hashes=unpinned_doc["cryptographicProvenance"]["mcpSchemaHashes"],
+        )
+    }
+    if "MCP09-UNPINNED-01" not in unpinned_hits:
+        raise AssertionError(f"Expected MCP09-UNPINNED-01 on fail-unpinned-mcp fixture, got {unpinned_hits}")
+    print("OK scanner smoke check: examples clean, fail fixture detected")
 
 
 def run_conftest(conftest_bin: str | None, require: bool) -> None:

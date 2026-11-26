@@ -7,9 +7,9 @@ Uses `package mlsecops.k8s` so Evidence Pack checks (`conftest test --policy pol
 ## Controls enforced
 
 - **Digest-pinned images (`CP 9`):** deny `:latest` or unpinned tags missing `@sha256:<64-hex>`
-- **Supply-chain & secret hygiene (`Ch.5/16`):** reject `--trust-remote-code` / `TRUST_REMOTE_CODE`, and forbid plaintext secrets (`HF_TOKEN`, `VLLM_API_KEY`, `*_API_KEY`, `*_TOKEN`, `*_SECRET`) instead of `valueFrom`
-- **Node & host isolation (`Ch.16`):** deny `hostNetwork`, `hostPID`, `hostIPC`, and `hostPath` volume mounts
-- **Restricted Pod Security Standards (`Ch.16`):** enforce `runAsNonRoot: true`, `seccompProfile` (`RuntimeDefault`/`Localhost`), `allowPrivilegeEscalation: false`, `capabilities.drop: ["ALL"]`, `readOnlyRootFilesystem: true`, and forbid `privileged: true`
+- **Supply-chain & secret hygiene (`Ch.5/16`):** reject `--trust-remote-code` / `TRUST_REMOTE_CODE`, flag risky root `--allowed-local-media-path`, require non-empty `VLLM_API_KEY` / `--api-key` auth on vLLM containers, and forbid plaintext secrets in env or CLI args instead of `valueFrom`
+- **Node, network & host isolation (`Ch.16`):** deny `hostNetwork`, `hostPID`, `hostIPC`, `hostPort`, `hostPath` mounts, and `LoadBalancer`/`NodePort`/`externalIPs` `Service` exposure
+- **Restricted Pod Security Standards (`Ch.16`):** enforce `runAsNonRoot: true`, `seccompProfile` (`RuntimeDefault`/`Localhost`), `allowPrivilegeEscalation: false`, `capabilities.drop: ["ALL"]` (no extra caps beyond `NET_BIND_SERVICE`), `readOnlyRootFilesystem: true`, and forbid `privileged: true` or `procMount: Unmasked`
 - **Compute hijacking & token minimization (`Ch.3/16`):** require `resources.limits.memory` and `automountServiceAccountToken: false`
 
 ## Run locally

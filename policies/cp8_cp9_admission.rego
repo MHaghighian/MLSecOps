@@ -194,7 +194,15 @@ deny contains msg if {
 	msg := sprintf("HIGH [Ch.5/CP9]: weak hash algorithm %v on component %v; use SHA-256+", [h.alg, component.name])
 }
 
-ml_component_sha256_hashes contains lower(h.content) if {
+deny contains msg if {
+	some component in input.components
+	some h in component.hashes
+	upper(trim_space(h.alg)) == "SHA-256"
+	not is_sha256_hex(lower(trim_space(h.content)))
+	msg := sprintf("CRITICAL [Ch.5/CP9]: component %v declares invalid SHA-256 hash %v", [component.name, h.content])
+}
+
+ml_component_sha256_hashes contains lower(trim_space(h.content)) if {
 	some component in input.components
 	component.type == "machine-learning-model"
 	some h in component.hashes
@@ -274,19 +282,40 @@ deny contains msg if {
 	msg := sprintf("CRITICAL [Ch.8 MCP]: schema hash drift for server %v", [tool.serverName])
 }
 
+is_local_clear_endpoint(endpoint) if {
+	regex.match("^(https?|wss?)://(localhost|127\\.0\\.0\\.1|\\[::1\\])(:|/|$)", lower(endpoint))
+}
+
 deny contains msg if {
 	some tool in input.runtimeAgentConfig.mcpTools
-	lower(object.get(tool, "transport", "")) in {"http", "ws"}
-	endpoint := lower(object.get(tool, "endpoint", ""))
-	not regex.match("^https?://(localhost|127\\.0\\.0\\.1)(:|/|$)", endpoint)
+	endpoint := object.get(tool, "endpoint", "")
+	transport := lower(object.get(tool, "transport", ""))
+	transport in {"http", "ws"}
+	not is_local_clear_endpoint(endpoint)
 	msg := sprintf("CRITICAL [Ch.8 MCP]: remote MCP server %v uses cleartext transport %v", [tool.serverName, tool.transport])
 }
 
 deny contains msg if {
 	some tool in input.runtimeAgentConfig.mcpTools
+	endpoint := object.get(tool, "endpoint", "")
+	transport := lower(object.get(tool, "transport", ""))
+	not transport in {"http", "ws"}
+	regex.match("^(http|ws)://", lower(endpoint))
+	not is_local_clear_endpoint(endpoint)
+	msg := sprintf("CRITICAL [Ch.8 MCP]: MCP server %v endpoint %v uses cleartext http/ws", [tool.serverName, endpoint])
+}
+
+deny contains msg if {
+	some tool in input.runtimeAgentConfig.mcpTools
 	endpoint := lower(object.get(tool, "endpoint", ""))
-	regex.match("(169\\.254\\.169\\.254|100\\.100\\.100\\.200|metadata\\.google\\.internal)", endpoint)
+	regex.match("(169\\.254\\.\\d+\\.\\d+|100\\.100\\.100\\.200|metadata\\.google\\.internal|metadata\\.azure\\.internal|fd00:ec2::254|::ffff:169\\.254\\.|0\\.0\\.0\\.0)", endpoint)
 	msg := sprintf("CRITICAL [Ch.8 MCP SSRF]: MCP server %v targets cloud metadata endpoint", [tool.serverName])
+}
+
+deny contains msg if {
+	depth := input.runtimeAgentConfig.delegationDepthMax
+	depth > 4
+	msg := sprintf("HIGH [Ch.8 ASI07/ASI08]: delegationDepthMax (%v) exceeds 4-hop safety bound", [depth])
 }
 
 # Ch.8 (OWASP ASI02/ASI03/ASI06 & MCP Sampling): kill-switch, scoped creds, Intent Gate, memory provenance, sampling cap.

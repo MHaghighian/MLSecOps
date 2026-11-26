@@ -81,4 +81,4 @@ jobs:
       - name: Run full repository, AI scanner, & policy verification suite
         run: |
           python scripts/verify_repo.py --require-conftest --with-mkdocs
-          python scripts/ai_security_scan.py --mcp schemas/examples/evidence-pack.example.json --fail-on HIGH
+          python scripts/ai_security_scan.py --mcp schemas/examples/evidence-pack.example.json --pins schemas/examples/evidence-pack.example.json --fail-on HIGH

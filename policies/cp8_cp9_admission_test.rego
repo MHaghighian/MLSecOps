@@ -236,3 +236,30 @@ test_deny_agentic_asi_and_sampling_and_kv if {
 	some mkv in main.deny with input as bad
 	contains(mkv, "HIGH [Ch.7/16]: cross-model KV cache reuse")
 }
+
+test_deny_transport_spoofing_delegation_and_bad_component_sha256 if {
+	bad := object.union(base_pack, {
+		"components": [{
+			"name": "bad-sha",
+			"type": "machine-learning-model",
+			"hashes": [{"alg": "SHA-256", "content": "not-64-hex"}],
+		}],
+		"runtimeAgentConfig": {
+			"delegationDepthMax": 8,
+			"mcpTools": [{
+				"serverName": "spoofed-tls",
+				"transport": "https",
+				"endpoint": "http://169.254.170.2/v2/credentials",
+				"currentSchemaHash": hash_a,
+			}],
+		},
+	})
+	some mc in main.deny with input as bad
+	contains(mc, "invalid SHA-256 hash")
+	some mt in main.deny with input as bad
+	contains(mt, "uses cleartext http/ws")
+	some ms in main.deny with input as bad
+	contains(ms, "CRITICAL [Ch.8 MCP SSRF]")
+	some md in main.deny with input as bad
+	contains(md, "delegationDepthMax")
+}

@@ -98,6 +98,37 @@ test_deny_exposure_and_unauthenticated_vllm if {
 	contains(m_auth, "VLLM_API_KEY")
 	some m_hp in k8s.deny with input as bad_port
 	contains(m_hp, "hostPort")
+
+	bad_svc_ext := {
+		"apiVersion": "v1",
+		"kind": "Service",
+		"metadata": {"name": "vllm-ext"},
+		"spec": {"type": "ClusterIP", "externalIPs": ["203.0.113.10"]},
+	}
+	some m_ext in k8s.deny with input as bad_svc_ext
+	contains(m_ext, "externalIPs")
+
+	empty_auth := object.union(base_deploy, {"spec": {"template": {"spec": {"containers": [{
+		"name": "vllm",
+		"image": pinned_img,
+		"args": ["--allowed-local-media-path", "/"],
+		"env": [{"name": "VLLM_API_KEY", "value": ""}],
+		"resources": {"limits": {"memory": "16Gi"}},
+		"securityContext": {
+			"procMount": "Unmasked",
+			"allowPrivilegeEscalation": false,
+			"readOnlyRootFilesystem": true,
+			"capabilities": {"drop": ["ALL"], "add": ["NET_ADMIN"]},
+		},
+	}]}}}})
+	some m_empty in k8s.deny with input as empty_auth
+	contains(m_empty, "VLLM_API_KEY")
+	some m_lfi in k8s.deny with input as empty_auth
+	contains(m_lfi, "--allowed-local-media-path")
+	some m_pm in k8s.deny with input as empty_auth
+	contains(m_pm, "procMount=Unmasked")
+	some m_cap in k8s.deny with input as empty_auth
+	contains(m_cap, "NET_ADMIN")
 }
 
 test_deny_host_escape_surfaces if {
