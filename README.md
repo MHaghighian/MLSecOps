@@ -29,30 +29,31 @@ It defines an actionable **lifecycle control model (`CP 1–10`)**, machine-read
 
 ## Who is this for?
 
-Security engineers, ML/MLOps teams, architects, and risk owners who need a **practical MLSecOps** reference aligned with OWASP AI Exchange, MITRE ATLAS, NIST AI RMF, ISO/IEC 42001, OpenSSF Secure MLOps, and CSA MAESTRO — with operational controls, evidence, and rollout guidance.
+Security engineers, ML/MLOps teams, architects, and risk owners who need a **practical MLSecOps** reference aligned primarily with **ISO/IEC 27090:2026**, alongside MITRE ATLAS, NIST AI RMF / IR 8596, ISO/IEC 42001, OpenSSF Secure MLOps, CSA MAESTRO, and OWASP — with operational controls, evidence, and rollout guidance.
 
 ---
 
 ## What this guide adds
 
-This project defines an independent **MLSecOps reference architecture and control model**, cross-mapped to OWASP, MITRE ATLAS, NIST AI RMF, ISO/IEC 42001, OpenSSF Secure MLOps, and CSA MAESTRO. Its core operational contributions are:
+This project defines an independent **MLSecOps reference architecture and control model**, cross-mapped to **ISO/IEC 27090:2026**, ISO/IEC 42001, MITRE ATLAS, NIST AI RMF / IR 8596, OpenSSF Secure MLOps, CSA MAESTRO, and OWASP. Its core operational contributions are:
 
 1. **Ten lifecycle control points (`CP 1–10`)** — one continuous control thread from change initiation through runtime and SOC  
 2. **Blocking release decisions** at control points **4, 7, 8** (CP 7 blocking at Level 2+) — separately, a mandatory **integrity/provenance checkpoint at CP 9** bound to the CP 8 digest at admission to close the TOCTOU gap  
 3. **Auditable `Evidence Pack`** per release — with a machine-readable JSON Schema ([`schemas/`](schemas/README.md)), OPA/Conftest admission & Kubernetes workload samples ([`policies/`](policies/README.md)), and companion static scanner/QA tooling ([`scripts/`](scripts/README.md) · `tests/`)  
 4. **[Implementation Reference](chapters-en/17-appendix-e-implementation-reference.md)** — architecture cards, decision matrix, templates, playbooks, and end-to-end **Secure-by-Design** system blueprints (`E.7`)
 
-Learn more: [Chapter 1 — What this guide adds](chapters-en/01-intro.md#what-this-guide-adds-beyond-owasp-openssf-and-nist). See also [Getting started](GETTING-STARTED.md).
+Learn more: [Chapter 1 — What this guide adds](chapters-en/01-intro.md#what-this-guide-adds-beyond-isoiec-27090-owasp-openssf-and-nist). See also [Getting started](GETTING-STARTED.md).
 
 ---
 
-## How this compares to OWASP, OpenSSF, NIST, CSA, and Google SAIF
+## How this compares to ISO/IEC 27090:2026, OWASP, OpenSSF, NIST, CSA, and Google SAIF
 
-This repository is **not** meant to replace industry standards or vendor security tools. Below is an honest comparison showing where this reference model adds operational depth — and where established standards or dedicated frameworks lead.
+This repository is **not** meant to replace international standards or vendor security tools. Wherever AI cybersecurity threats and mitigations overlap between international standards and community taxonomies, this guide cites **`ISO/IEC 27090:2026`** as the **primary standards baseline** (with `OWASP AI Exchange` — which contributed open material to ISO/IEC 27090 — and topic-specific lists as open implementation companions). Below is an honest comparison showing where this reference model adds operational depth and where external standards lead.
 
-| Framework / Reference | Its primary strength | What this project adds operationally | Where the external framework leads |
+| Framework / Standard | Its primary strength | What this project adds operationally | Where the external framework leads |
 |---|---|---|---|
-| **OWASP AI Exchange & LLM / Agentic / MCP Top 10** | De facto community threat taxonomy, top-risk rankings (`LLM01–10`, `MCP01–10`, `ASI`), and broad attack/mitigation encyclopedia | Connects risks into concrete lifecycle release gates (`CP 4, 7, 8`), binds `CP 8` approval to `CP 9` admission, and ships runnable `Evidence Pack` JSON + Rego rules | Multi-organization consensus governance, breadth of threat cataloging, and community maintenance |
+| **ISO/IEC 27090:2026** *(Primary AI security standard)* | Published ISO/IEC JTC 1/SC 27 guidance standard addressing AI-specific compromises (`Clause 6.2–6.11`: data/direct poisoning, evasion, membership inference, exfiltration, inversion, sensitive output, prompt/output injection), mitigation tradeoffs (`Clause 7`), and lifecycle/federated annexes (`Annex A–C`) | Operationalizes Clauses `5–7` into executable release gates (`CP 4, 7, 8`), binds `CP 8` approval to `CP 9` admission, specifies `Managed-API` vs self-hosted weights, adds `KV Cache` & `MCP09` runtime rules, and ships JSON Schema + Rego samples | Formal international ISO/IEC consensus authority supporting `ISO/IEC 27001`/`42001` risk treatments and regulatory alignment (e.g., EU AI Act Art. 15) |
+| **OWASP AI Exchange & LLM / Agentic / MCP Top 10** | Open-source (CC0/FLOSS) threat/control encyclopedia (major contributor to ISO/IEC 27090), risk rankings (`LLM01–10`, `MCP01–10`, `ASI`), and day-to-day testing guidance | Connects open threat lists into CI release gates (`CP 4, 7, 8 ↔ CP 9`) and ships runnable `Evidence Pack` JSON + Conftest Rego rules | Broad open community encyclopedia, domain-specific `MCP01–10` / `ASI` checklists, and rapid community updates |
 | **OWASP AISVS / LLMSVS** | Detailed, testable verification requirements for AI/LLM security testing and assurance | Links security validation (`CP 7`) directly to CI/deploy admission (`CP 8 ↔ CP 9`) with example schemas, policies, and end-to-end architecture cards (`E.1` / `E.7`) | Clause-level verification requirement depth and formal testing specification structure |
 | **OpenSSF *Visualizing Secure MLOps* (2025)** | Authoritative 9-stage MLOps lifecycle map and 22 controls anchored in `Sigstore`/`SLSA` supply-chain tooling | Separates blocking release decisions (`CP 4/7/8`) from integrity checkpoints (`CP 9`), covers `Managed-API` snapshots, LLM `KV Cache` isolation, Agentic `Intent Gate` / `MCP09`, and runnable Conftest fixtures | Linux Foundation governance, deep `SLSA`/`Sigstore` ecosystem integration, and multi-vendor backing |
 | **CSA MAESTRO & AARM** | Dedicated 7-layer agentic threat modeling (`MAESTRO`) and runtime action-authorization specification (`AARM` `R1–R9`) | Places agentic controls (`Intent Gate`, pinned MCP schemas, memory provenance, `delegationDepthMax`) inside one full data-to-SOC lifecycle (`CP 1–10`) with Rego enforcement | Deep multi-agent threat-modeling methodology and dedicated runtime enforcement spec (`aarm.dev`) |
@@ -72,7 +73,7 @@ This repository is **not** meant to replace industry standards or vendor securit
 2. **Pretraining / large distributed training out of scope:** [Appendix E.1](chapters-en/17-appendix-e-implementation-reference.md#e1-architecture-cards) assumes consuming, RAG-augmenting, fine-tuning, or serving models rather than operating foundation-model pretraining clusters (DDP/FSDP, RLHF/DPO compute pipelines).
 3. **No cross-industry empirical study yet:** included policies, schemas, and scanner rules are verified via unit and negative tests (`scripts/verify_repo.py`), not yet backed by longitudinal production studies measuring false-positive rates or incident-reduction metrics across multiple organizations; sample checks do not replace dedicated production tools (`ModelScan`, `Garak`, `Promptfoo`, `Kyverno`, `Gitleaks`).
 4. **Standalone Evidence Pack schema & conformance model:** aligned with CycloneDX 1.6/1.7 themes rather than formalized yet as an `in-toto`/`SLSA` attestation predicate URI or clause-level pass/fail conformance standard (`AISVS` / `OSPS Baseline` style).
-5. **Partial mapping depth on some peer frameworks:** provides dedicated alignment views for OpenSSF, NIST IR 8596, and CSA AARM, while references to Google SAIF, OWASP AISVS, and NIST AI 600-1 remain high-level rather than clause-by-clause tables.
+5. **Partial clause-level conformance depth on some standards:** maps key clauses of **ISO/IEC 27090:2026** (`5`, `6.2–6.11`, `7`, `Annexes A–C`), OpenSSF, NIST IR 8596, and CSA AARM across chapters and [Appendix](chapters-en/15-conclusion-appendix.md#appendix-isoiec-270902026-clause-cross-reference), while Google SAIF, OWASP AISVS, and NIST AI 600-1 remain conceptual rather than clause-by-clause tables (and copyright ISO text is cited by clause topic, not reproduced verbatim).
 
 ---
 
@@ -247,18 +248,14 @@ Zenodo. https://doi.org/10.5281/zenodo.21206780
 
 ## Frameworks referenced
 
-- OWASP AI Exchange (https://owaspai.org/)  
-- OWASP LLM Top 10 (2025)  
-- OWASP ML Top 10 (draft)  
-- OWASP Agentic / MCP  
+- **ISO/IEC 27090:2026** (*Cybersecurity — Artificial intelligence (AI) — Addressing security threats and compromises to AI systems*, primary AI security standard)  
+- ISO/IEC 42001 · ISO/IEC 23894 · ISO/IEC 27001 / 27002  
 - MITRE ATLAS  
-- NIST AI RMF  
-- NIST Cyber AI Profile (IR 8596 iprd) — CSF 2.0 Community Profile for AI  
-- ISO/IEC 42001 · ISO/IEC 23894  
-- EU AI Act  
-- OpenSSF MLSecOps Whitepaper  
-- CSA MAESTRO  
-- CSA AARM — [AARM Alignment](references/AARM-ALIGNMENT.md) (agentic runtime; complementary mapping)
+- NIST AI RMF · NIST Cyber AI Profile (IR 8596 iprd)  
+- OpenSSF MLSecOps Whitepaper (2025)  
+- CSA MAESTRO & CSA AARM — [AARM Alignment](references/AARM-ALIGNMENT.md) (agentic runtime; complementary mapping)  
+- OWASP AI Exchange (https://owaspai.org/ — open community companion & contributor to ISO/IEC 27090) · OWASP LLM Top 10 (2025) · OWASP Agentic / MCP · OWASP ML Top 10 (draft)  
+- EU AI Act
 
 ---
 

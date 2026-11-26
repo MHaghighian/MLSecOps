@@ -9,11 +9,10 @@ In `MLSecOps`, data security is not only a pre-training control. Data must be co
 ### References / Source mapping
 
 **Frameworks and standards**
-- OWASP ML Top 10 (draft): `ML02` Data Poisoning
-- data pipeline integrity themes
+- **ISO/IEC 27090:2026**: Clause `6.2` (Data poisoning), Clause `6.11.4` (AI system/data provenance), Clause 5 (`dev` environment security)
 - MITRE ATLAS: `AML.T0020` Poison Training Data
-- OWASP AI Exchange: [Data poisoning](https://owaspai.org/go/datapoison/)
-- [Development-time data leak](https://owaspai.org/go/devdataleak/)
+- OWASP ML Top 10 (draft): `ML02` Data Poisoning
+- OWASP AI Exchange: [Data poisoning](https://owaspai.org/go/datapoison/), [Development-time data leak](https://owaspai.org/go/devdataleak/) (open companion)
 
 **Implementation guidance (this guide)**
 - [Lifecycle control point 4](06-pipeline.md#lifecycle-control-points) (Chapter 6)
@@ -105,8 +104,9 @@ An important limitation is that `Differential Privacy` alone does not guarantee 
 ### References / Source mapping
 
 **Frameworks and standards**
-- OWASP AI Exchange: [Model inversion and membership inference](https://owaspai.org/go/modelinversionandmembership/)
+- **ISO/IEC 27090:2026**: Clause `6.4` (Membership inference), Clause `6.6` (Model inversion), Clause `7` (mitigation tradeoffs between differential privacy and utility/robustness)
 - NIST AI RMF: Measure (privacy-related metrics); Differential privacy parameter trade-offs are domain-specific - validate with privacy audit tools below
+- OWASP AI Exchange: [Model inversion and membership inference](https://owaspai.org/go/modelinversionandmembership/) (open companion)
 
 ## Information leakage from Embedding
 

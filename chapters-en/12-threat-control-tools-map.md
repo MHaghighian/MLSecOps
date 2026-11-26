@@ -16,14 +16,13 @@ Do not treat Mature and Emerging examples as equivalent trust levels when they a
 
 > **Reading note:** The [Primary Mapping](#primary-mapping) and [layered architecture](#layered-tool-architecture) sections are the main reference for threat modeling. Detailed CLI examples are optional and live in the [appendix below](#appendix-informative-tool-command-reference)—skip them unless you are implementing evidence collection.
 
-For broader threat–control coverage across all AI types, use the [OWASP AI Exchange periodic table](https://owaspai.org/go/periodictable/) as a complementary index. This chapter maps threats to **MLOps lifecycle stages**, tool layers, and control points in Chapter 6—it does not reproduce the Exchange catalog.
+For formal international AI threat/mitigation definitions, align first with **ISO/IEC 27090:2026** (Clauses `5–7` and `Annexes A–C`); for open community deep dives, use its companion contributor, the [OWASP AI Exchange periodic table](https://owaspai.org/go/periodictable/). This chapter maps threats to **MLOps lifecycle stages**, tool layers, and control points in Chapter 6—it does not reproduce either catalog verbatim.
 
 ### References / Source mapping
 
 **Frameworks and standards**
-- [Periodic table of AI security](https://owaspai.org/go/periodictable/)
-- [AI security matrix](https://owaspai.org/go/aisecuritymatrix/)
-- [Threats overview](https://owaspai.org/go/threatsoverview/)
+- **ISO/IEC 27090:2026**: Clauses 6–7 & Annex A (AI compromises, mitigations, and lifecycle mapping)
+- [OWASP AI Exchange — Periodic table of AI security](https://owaspai.org/go/periodictable/) & [AI security matrix](https://owaspai.org/go/aisecuritymatrix/) (open companion)
 
 **Implementation guidance (this guide)**
 - [Poisoning taxonomy](05-model-artifact-supply-chain.md#poisoning-taxonomy-across-the-lifecycle) (Chapter 5)

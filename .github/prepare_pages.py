@@ -139,7 +139,7 @@ This reference model defines an independent operational control architecture cro
 3. Machine-readable **`Evidence Pack`** ([`schemas/`](schemas/README.md)) and OPA/Conftest admission samples ([`policies/`](policies/README.md))
 4. **Secure-by-Design** blueprints ([Appendix E.7](chapters-en/17-appendix-e-implementation-reference.md#e7-secure-by-design-worked-examples)) linking threat modeling, runtime, SOC, and governance
 
-Details in [Chapter 1](chapters-en/01-intro.md#what-this-guide-adds-beyond-owasp-openssf-and-nist).
+Details in [Chapter 1](chapters-en/01-intro.md#what-this-guide-adds-beyond-isoiec-27090-owasp-openssf-and-nist).
 """,
         encoding="utf-8",
     )

@@ -19,7 +19,7 @@ Implementing full `MLSecOps` in a single phase is usually impractical. Teams mus
 
 ## Maturity Levels
 
-These levels are **descriptive prioritization guidance, not a numeric scoring rubric**, and they measure the maturity of *security* controls only. **No maturity level - including Level 1 - confers conformance with ISO/IEC 42001, ISO/IEC 27001, or the EU AI Act.** Those regimes require a management system (policy, impact assessment, internal audit, management review, conformity assessment) whose mandatory clauses apply regardless of maturity level; track them separately.
+These levels are **descriptive prioritization guidance, not a numeric scoring rubric**, and they measure the maturity of *security* controls only. **No maturity level - including Level 1 - confers conformance with ISO/IEC 42001, ISO/IEC 27001, ISO/IEC 27090:2026 (non-certifiable guidance), or the EU AI Act.** Those regimes require formal management-system clauses or technical risk documentation whose obligations apply regardless of maturity level; track them separately.
 
 | Level | Status | Characteristics |
 |---|---|---|
@@ -31,6 +31,7 @@ These levels are **descriptive prioritization guidance, not a numeric scoring ru
 ### References / Source mapping
 
 **Frameworks and standards**
+- **ISO/IEC 27090:2026**: Clause 5 & Clause 7 (lifecycle security integration and safeguard continuity)
 - OpenSSF MLSecOps whitepaper (2025): lifecycle visualization
 - NIST AI RMF: phased capability building
 

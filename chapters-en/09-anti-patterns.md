@@ -43,12 +43,9 @@ Many security failures in AI systems do not stem from lack of advanced tools; th
 ### References / Source mapping
 
 **Frameworks and standards**
-- OWASP LLM Top 10 (2025): `LLM01`-`LLM10` themes in table
-- OWASP Agentic: `ASI02` Tool Misuse
-- OWASP MCP Top 10 (2025): `MCP03`, `MCP09`
-- MITRE ATLAS: `AML.T0053` AI Agent Tool Invocation
-- `AML.T0080` AI Agent Context Poisoning
-- `AML.T0110` AI Agent Tool Poisoning
+- **ISO/IEC 27090:2026**: Clauses 5, `6.7`, `6.9`, `6.11.4`, and Clause 7 (safeguard continuity across lifecycle)
+- MITRE ATLAS: `AML.T0053` AI Agent Tool Invocation, `AML.T0080` AI Agent Context Poisoning, `AML.T0110` AI Agent Tool Poisoning
+- OWASP LLM Top 10 (2025): `LLM01`-`LLM10`, OWASP Agentic (`ASI02`), OWASP MCP Top 10 (`MCP03`, `MCP09`)
 
 **Implementation guidance (this guide)**
 - Cross-references in table above map to Chapters 2, 4-8, 11, 16

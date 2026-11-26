@@ -763,10 +763,10 @@ See [Chapter 7 — MCP security](07-llm-rag-security.md#model-context-protocol-m
 ### References / Source mapping
 
 **Frameworks and standards**
-- OWASP MCP Top 10 (2025): `MCP01`-`MCP10` (tool poisoning: `MCP03`)
-- [OWASP MCP Security Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/MCP_Security_Cheat_Sheet.html)
-- MITRE ATLAS: `AML.T0110` AI Agent Tool Poisoning
-- `AML.T0053` AI Agent Tool Invocation (abuse path)
+- **ISO/IEC 27090:2026**: Clauses `6.9` (Indirect prompt injection via tool output), `6.10` (Downstream injection), `6.11.3` (Governing unwanted behavior), `6.11.4` (Least privilege for AI agents & AI provenance)
+- CSA MAESTRO & AARM (`R1–R9` agent runtime actions)
+- OWASP MCP Top 10 (2025): `MCP01`-`MCP10` (`MCP03`, `MCP09`) & [OWASP MCP Security Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/MCP_Security_Cheat_Sheet.html)
+- MITRE ATLAS: `AML.T0110` AI Agent Tool Poisoning, `AML.T0053` AI Agent Tool Invocation
 - OWASP Agentic: `ASI02` Tool Misuse (tool path overlap with MCP-hosted agents)
 
 **Implementation guidance (this guide)**

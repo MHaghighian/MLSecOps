@@ -9,6 +9,7 @@ This article is written for organizations that develop, deploy, or maintain `ML`
 ### References / Source mapping
 
 **Frameworks and standards**
+- **ISO/IEC 27090:2026**: Clause 5 (organizational context), Clause 6 (AI-specific compromise types), Annex A (lifecycle mapping)
 - NIST AI RMF: Govern / Map (context and scope)
 - ISO/IEC 42001: scope of the AI management system
 

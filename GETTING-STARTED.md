@@ -26,19 +26,20 @@ Canonical decision card: [Release decision model](chapters-en/06-pipeline.md#rel
 
 | You need… | Read first |
 |-----------|------------|
-| Threat/control taxonomy | [OWASP AI Exchange](https://owaspai.org) |
+| Formal AI cybersecurity standard (threats, compromises, mitigation interactions) | **ISO/IEC 27090:2026** (guidance standard — Clauses 5–7 & Annexes A–C) |
+| Open community threat/control companion | [OWASP AI Exchange](https://owaspai.org) (open contributor to ISO/IEC 27090) |
 | When to block release + what evidence to keep | **This guide** ([Ch.6](chapters-en/06-pipeline.md), [Appendix E](chapters-en/17-appendix-e-implementation-reference.md)) |
-| Org AI risk program / CSF language | NIST AI RMF; optional gap lens: NIST IR 8596 (**iprd draft — not certification**) |
+| Org AI risk program / AIMS / CSF language | ISO/IEC 42001 / NIST AI RMF; optional gap lens: NIST IR 8596 (**iprd draft — not certification**) |
 | Tool examples (do **not** install everything) | [Ch.12](chapters-en/12-threat-control-tools-map.md) — pick by maturity label |
 
-Relationship detail: [Chapter 1 — Relationship to OWASP AI Exchange](chapters-en/01-intro.md#relationship-to-owasp-ai-exchange).
+Relationship detail: [Chapter 1 — Relationship to ISO/IEC 27090:2026](chapters-en/01-intro.md#relationship-to-isoiec-270902026) · [Relationship to OWASP AI Exchange](chapters-en/01-intro.md#relationship-to-owasp-ai-exchange).
 
 ---
 
 ## Quick Start (5 Minutes)
 
 1. Read [Why this guide matters](chapters-en/01-intro.md#why-this-guide-matters) (Chapter 1)
-2. Skim [What this guide adds](chapters-en/01-intro.md#what-this-guide-adds-beyond-owasp-openssf-and-nist) (Chapter 1)  
+2. Skim [What this guide adds](chapters-en/01-intro.md#what-this-guide-adds-beyond-isoiec-27090-owasp-openssf-and-nist) (Chapter 1)  
 3. Skim [Attack surface matrix](chapters-en/02-scope-risk-threat-model.md#attack-surface-matrix) (Chapter 2)  
 4. Review [Lifecycle control points](chapters-en/06-pipeline.md#lifecycle-control-points) + [Release decision model](chapters-en/06-pipeline.md#release-decision-model) (Chapter 6)  
 5. Open [Primary Mapping](chapters-en/12-threat-control-tools-map.md#primary-mapping) (Chapter 12)  

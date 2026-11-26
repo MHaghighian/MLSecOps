@@ -9,9 +9,10 @@ In `MLSecOps`, every model must have defined origin, version, hash, signature, e
 ### References / Source mapping
 
 **Frameworks and standards**
-- OWASP ML Top 10
+- **ISO/IEC 27090:2026**: Clause 5 (supply chain), Clause `6.7` (Direct model poisoning), Clause `6.11.4` (AI provenance), Annex B (supply chain tampering), Annex C (federated/distributed ML)
 - MITRE ATLAS supply-chain and model integrity techniques
 - NIST SSDF / SLSA themes for artifact provenance (where applicable)
+- OWASP ML Top 10 (draft)
 
 **Implementation guidance (this guide)**
 - [Lifecycle control points 2, 7, 8, 9](06-pipeline.md#lifecycle-control-points) (Chapter 6)
@@ -30,11 +31,9 @@ In `MLSecOps`, every model must have defined origin, version, hash, signature, e
 ### References / Source mapping
 
 **Frameworks and standards**
-- OWASP ML Top 10 (draft): model integrity and supply-chain themes
-- MITRE ATLAS: `AML.T0015` Evade AI Model
-- `AML.T0058` Publish Poisoned Models
-- OWASP AI Exchange: [Model poisoning](https://owaspai.org/go/modelpoison/)
-- [Supply-chain model poisoning](https://owaspai.org/go/supplymodelpoison/)
+- **ISO/IEC 27090:2026**: Clause `6.3` (Evasion attack), Clause `6.7` (Direct model poisoning), Clause `6.11.4` (Provenance), Annex B
+- MITRE ATLAS: `AML.T0015` Evade AI Model, `AML.T0058` Publish Poisoned Models
+- OWASP ML Top 10 (draft) & OWASP AI Exchange: [Model poisoning](https://owaspai.org/go/modelpoison/), [Supply-chain model poisoning](https://owaspai.org/go/supplymodelpoison/) (open companion)
 
 **Implementation guidance (this guide)**
 - [Minimum Adversarial Robustness requirements](#minimum-adversarial-robustness-requirements)

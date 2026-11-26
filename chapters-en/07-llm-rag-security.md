@@ -37,11 +37,9 @@ In classic models, security focus is mostly on training data, the model, numeric
 ### References / Source mapping
 
 **Frameworks and standards**
-- OWASP LLM Top 10 (2025): `LLM01`-`LLM10` (table above)
-- MITRE ATLAS: `AML.T0051` LLM Prompt Injection
-- `AML.T0070` RAG Poisoning
-- `AML.T0053` AI Agent Tool Invocation (agent path)
-- OWASP AI Exchange: [Periodic table of AI security](https://owaspai.org/go/periodictable/)
+- **ISO/IEC 27090:2026**: Clauses `6.8` (Sensitive model output), `6.9` (Prompt injection — direct & indirect), `6.10` (Output containing injection attacks), `6.11.3` (Governing unwanted model behavior), Clause 7 (logging & throttling)
+- MITRE ATLAS: `AML.T0051` LLM Prompt Injection, `AML.T0070` RAG Poisoning, `AML.T0053` AI Agent Tool Invocation
+- OWASP LLM Top 10 (2025): `LLM01`-`LLM10` (table above) & OWASP AI Exchange ([Periodic table](https://owaspai.org/go/periodictable/) — open companion)
 
 **Implementation guidance (this guide)**
 - [Chapter 12 - Primary mapping](12-threat-control-tools-map.md#primary-mapping)
@@ -76,7 +74,7 @@ LLM security is not solved by installing a single tool. A set of capabilities mu
 
 ## Augmentation data (runtime behavior assets)
 
-The OWASP AI Exchange groups **augmentation data**—material inserted into model input to steer behavior—with the same confidentiality and integrity concerns as training data. In this guide that includes:
+**ISO/IEC 27090:2026** (Clause `6.2` data/augmentation poisoning and `6.11.2` data limitations) — elaborated in the open [OWASP AI Exchange](https://owaspai.org) — treats **augmentation data** (material inserted into model input to steer behavior) with the same confidentiality and integrity concerns as training data. In this guide that includes:
 
 - `RAG` corpus and retrieved chunks — [Ingest security](#ingest-security-in-rag), [Retrieval Poisoning](#retrieval-poisoning)
 - System prompts and instruction templates — [System Prompt Leakage](#system-prompt-leakage-llm07)

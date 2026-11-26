@@ -25,6 +25,7 @@ The model begins with prerequisite `Planning` and `Threat Modeling`, then define
 ### References / Source mapping
 
 **Frameworks and standards**
+- **ISO/IEC 27090:2026**: Clause 5 (`5.1` risk-based controls & red teaming), Clause 7 (safeguard continuity & mitigation interactions across lifecycle), Annex A
 - [OpenSSF Secure MLOps whitepaper (2025)](https://openssf.org/wp-content/uploads/2025/08/OpenSSF_MLSecOps_Whitepaper.pdf): lifecycle visualization baseline
 - NIST AI RMF: integrated risk management across lifecycle stages
 

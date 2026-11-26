@@ -230,21 +230,23 @@ The methods below apply established threat-modeling techniques to ML/AI assets. 
 
 | Framework | Application |
 |---|---|
-| `NIST AI RMF` | Risk management for AI systems |
-| `NIST Cyber AI Profile` (IR 8596) | CSF 2.0 Community Profile for AI cybersecurity outcomes (preliminary draft) |
+| **`ISO/IEC 27090:2026`** | Primary international cybersecurity guidance for AI-specific threats, compromises, and mitigation interactions (`Clauses 5–7`, `Annexes A–C`; non-certifiable — feeds `ISO/IEC 42001` / `27001`) |
 | `ISO/IEC 42001` | AI management system |
 | `ISO/IEC 23894` | AI risk management |
+| `NIST AI RMF` | Risk management for AI systems |
+| `NIST Cyber AI Profile` (IR 8596) | CSF 2.0 Community Profile for AI cybersecurity outcomes (preliminary draft) |
+| `MITRE ATLAS` | Modeling attack techniques against AI |
+| `OWASP AI Exchange` | Open community AI security companion (contributor to `ISO/IEC 27090`) |
 | `OWASP LLM Top 10` | Threats to language models (2025 edition, stabilized) |
 | `OWASP ML Top 10` | Threats to ML models (still `draft`) |
-| `OWASP LLMSVS` | Verification standard for LLMs (structured testing and evaluation) |
-| `MITRE ATLAS` | Modeling attack techniques against AI |
+| `OWASP LLMSVS` / `AISVS` | Verification standards for LLM/AI testing and evaluation |
 | `EU AI Act` | Legal requirements based on risk level |
 
 ### References / Source mapping
 
 **Frameworks and standards**
-- Sources listed in table above
-- OWASP AI Exchange: [Governance controls](https://owaspai.org/go/governancecontrols/)
+- **ISO/IEC 27090:2026** (primary AI cybersecurity guidance) and sources listed in table above
+- OWASP AI Exchange: [Governance controls](https://owaspai.org/go/governancecontrols/) (open companion)
 
 **Implementation guidance (this guide)**
 - [NIST Cyber AI Profile (CSF mapping)](#nist-cyber-ai-profile-csf-mapping)

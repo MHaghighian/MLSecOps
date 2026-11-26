@@ -28,13 +28,10 @@ flowchart TB
 ### References / Source mapping
 
 **Frameworks and standards**
-- OWASP AI Exchange: [MONITOR USE](https://owaspai.org/go/monitoruse/)
+- **ISO/IEC 27090:2026**: Clause 7 (logging, monitoring, throttling, lifecycle continuity) & Clause 6 compromises (`6.2–6.10`)
 - NIST AI RMF: Measure / Manage
-- MITRE ATLAS: `AML.T0051` LLM Prompt Injection
-- `AML.T0053` AI Agent Tool Invocation
-- `AML.T0070` RAG Poisoning
-- `AML.T0080` AI Agent Context Poisoning
-- `AML.T0110` AI Agent Tool Poisoning
+- MITRE ATLAS: `AML.T0051`, `AML.T0053`, `AML.T0070`, `AML.T0080`, `AML.T0110`
+- OWASP AI Exchange: [MONITOR USE](https://owaspai.org/go/monitoruse/) (open companion)
 
 **Implementation guidance (this guide)**
 - [Three categories of security testing](06-pipeline.md#three-categories-of-security-testing) (Chapter 6)

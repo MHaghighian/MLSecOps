@@ -256,9 +256,10 @@ These threats overlap with OWASP LLM/ML Top 10, `MITRE ATLAS`, agentic security 
 ### References / Source mapping
 
 **Frameworks and standards**
-- OWASP LLM Top 10 (2025): IDs listed above
+- **ISO/IEC 27090:2026**: Clause 6 (`6.5` model exfiltration, `6.8` sensitive output, `6.9` prompt injection, `6.11.4` agent least privilege) and Annex B (AI variants of conventional cyber attacks)
 - MITRE ATLAS: `AML.T*` mappings listed above
-- OWASP AI Exchange: [Threats overview](https://owaspai.org/go/threatsoverview/)
+- OWASP LLM Top 10 (2025): IDs listed above
+- OWASP AI Exchange: [Threats overview](https://owaspai.org/go/threatsoverview/) (open companion)
 
 **Implementation guidance (this guide)**
 - [Chapter 12 - MITRE ATLAS mapping](12-threat-control-tools-map.md#mitre-atlas-mapping)

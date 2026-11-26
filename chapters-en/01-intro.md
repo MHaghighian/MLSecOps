@@ -10,7 +10,7 @@ This guide focuses on AI supply chain threats, `Adversarial ML` attacks, large l
 
 **Problem:** Traditional `DevSecOps` controls are insufficient for AI systems because security risks extend beyond source code into data, models, prompts, embeddings, retrieval pipelines, and autonomous agents. Security failures in production AI systems often occur outside the application code layer—in training data, model artifacts, `RAG` indexes, and runtime behavior.
 
-**Method & Architecture:** This work defines an independent lifecycle control model (`CP 1–10`), blocking release and admission gates (`CP 4, 7, 8` + `CP 9`), machine-readable [`Evidence Pack` schema](../schemas/README.md), executable [`OPA/Conftest` admission policies](../policies/README.md), and `Secure-by-Design` system blueprints ([Appendix E.7](17-appendix-e-implementation-reference.md#e7-secure-by-design-worked-examples)), cross-mapped to published frameworks (`OWASP LLM/ML/Agentic/MCP Top 10`, `MITRE ATLAS`, `NIST AI RMF` & `IR 8596`, `ISO/IEC 42001`, `OpenSSF MLSecOps`, `CSA MAESTRO`) and research through late 2026.
+**Method & Architecture:** This work defines an independent lifecycle control model (`CP 1–10`), blocking release and admission gates (`CP 4, 7, 8` + `CP 9`), machine-readable [`Evidence Pack` schema](../schemas/README.md), executable [`OPA/Conftest` admission policies](../policies/README.md), and `Secure-by-Design` system blueprints ([Appendix E.7](17-appendix-e-implementation-reference.md#e7-secure-by-design-worked-examples)), cross-mapped primarily to **`ISO/IEC 27090:2026`**, `ISO/IEC 42001`, `MITRE ATLAS`, `NIST AI RMF` & `IR 8596`, `OpenSSF MLSecOps`, `CSA MAESTRO`, and `OWASP` through late 2026.
 
 **Design thesis:** AI system security is defensible only as a continuous, auditable flow enforced outside the model—from data and artifacts through admission, runtime, and SOC—rather than periodic checklists or prompt-layer filters. This reference model presents original operational architecture and control designs; it is an engineering reference rather than an empirical survey.
 
@@ -53,7 +53,7 @@ Despite the growing number of AI security frameworks, practitioners still lack a
 
 **Implementation guidance (this guide)**
 - [Why this guide matters](#why-this-guide-matters)
-- [What this guide adds](#what-this-guide-adds-beyond-owasp-openssf-and-nist)
+- [What this guide adds](#what-this-guide-adds-beyond-isoiec-27090-owasp-openssf-and-nist)
 
 ## Why this guide matters
 
@@ -80,17 +80,13 @@ This work goes beyond high-level framework checklists by defining a complete, en
 ### References / Source mapping
 
 **Frameworks and standards**
-- OWASP LLM Top 10 (2025)
-- OWASP AI Exchange
-- MITRE ATLAS
-- NIST AI RMF
-- ISO/IEC 42001
-- OpenSSF MLSecOps whitepaper (2025)
-- CSA MAESTRO - full citations in [Chapter 15 References](15-conclusion-appendix.md#references)
+- **ISO/IEC 27090:2026** (*Cybersecurity — AI — Addressing security threats and compromises to AI systems*, primary technical baseline)
+- ISO/IEC 42001 · NIST AI RMF · MITRE ATLAS · OpenSSF MLSecOps whitepaper (2025) · CSA MAESTRO
+- OWASP LLM Top 10 (2025) & OWASP AI Exchange (full citations in [Chapter 15 References](15-conclusion-appendix.md#references))
 
-## What this guide adds beyond OWASP, OpenSSF, and NIST
+## What this guide adds beyond ISO/IEC 27090, OWASP, OpenSSF, and NIST
 
-This project defines an **independent operational reference architecture** cross-mapped to published frameworks (`OWASP`, `MITRE ATLAS`, `NIST`, `ISO/IEC 42001`, `OpenSSF`, `CSA MAESTRO`) rather than merely summarizing them. Its core architectural and engineering contributions are:
+This project defines an **independent operational reference architecture** cross-mapped to published standards (`ISO/IEC 27090:2026`, `ISO/IEC 42001`, `MITRE ATLAS`, `NIST AI RMF`, `OpenSSF`, `CSA MAESTRO`, `OWASP`) rather than merely summarizing them. Its core architectural and engineering contributions are:
 
 | # | Contribution | Where to read |
 |---|---|---|
@@ -332,13 +328,39 @@ Each stage in this lifecycle maps to security control points, evidence collectio
 **Implementation guidance (this guide)**
 - [Lifecycle control points](06-pipeline.md#lifecycle-control-points) (Chapter 6) - the 10-point model in the mapping table is this guide's operational layer
 
+## Relationship to ISO/IEC 27090:2026
+
+[**ISO/IEC 27090:2026**](https://www.iso.org/standard/27090.html) (*Cybersecurity — Artificial intelligence (AI) — Addressing security threats and compromises to AI systems*, ISO/IEC JTC 1/SC 27, October 2026) is the primary international standard cited across technical chapters in this guide wherever AI-specific cybersecurity compromises and mitigations overlap with community taxonomies. Like other guidance standards, ISO/IEC 27090:2026 is **not certifiable** on its own — it supplies the AI-specific threat and control layer feeding risk assessments under **ISO/IEC 27001** and **ISO/IEC 42001**.
+
+| ISO/IEC 27090:2026 Clause / Annex | Scope in the standard | Where this guide operationalizes it |
+|---|---|---|
+| **Clause 5** (`5.1` General) | Applying ISO/IEC 27002-style risk-based controls, governance, threat modeling, supply chain, and red teaming across the AI lifecycle | [Ch.2](02-scope-risk-threat-model.md) · [Ch.5](05-model-artifact-supply-chain.md) · [Ch.6](06-pipeline.md) |
+| **Clause 6.2 & 6.7** | Data poisoning (`6.2`) and direct model poisoning (`6.7`) | [Ch.4](04-data-security-privacy.md) · [Ch.5](05-model-artifact-supply-chain.md) (`CP 2, CP 4, CP 9`) |
+| **Clause 6.3 & 6.5** | Adversarial evasion (`6.3`) and model exfiltration / theft (`6.5`) | [Ch.5](05-model-artifact-supply-chain.md) · [Ch.12](12-threat-control-tools-map.md) (`CP 7`) |
+| **Clause 6.4, 6.6 & 6.8** | Membership inference (`6.4`), model inversion (`6.6`), and sensitive model output (`6.8`) | [Ch.4](04-data-security-privacy.md) · [Ch.7](07-llm-rag-security.md) (`KV Cache` / embedding privacy) |
+| **Clause 6.9 & 6.10** | Direct/indirect prompt injection (`6.9`) and model output containing injection attacks (`6.10`) | [Ch.7](07-llm-rag-security.md) · [Ch.8](08-agentic-ai-security.md) (`AI Gateway`, `L0–L3`, output sanitization) |
+| **Clause 6.11** | Data limitations (`6.11.2`), governing unwanted behavior (`6.11.3`), agent least privilege & AI provenance (`6.11.4`) | [Ch.4](04-data-security-privacy.md) · [Ch.5](05-model-artifact-supply-chain.md) · [Ch.8](08-agentic-ai-security.md) (`Intent Gate`, `CP 9`) |
+| **Clause 7** (`7.1–7.9`) | Mitigation interactions & defense conflicts, lifecycle safeguard continuity, dev hardening, logging, and throttling | [Ch.6](06-pipeline.md) · [Ch.10](10-monitoring-soc-ir.md) (`CP 4/7/8 ↔ CP 9`, SIEM, rate limits) |
+| **Annexes A, B & C** | Lifecycle/asset threat mapping (`A`), AI variants of conventional attacks (`B`), distributed/federated ML (`C`) | [Ch.5 Federated](05-model-artifact-supply-chain.md#federated-learning) · [Ch.6](06-pipeline.md) · [Ch.12](12-threat-control-tools-map.md) |
+
+See [Appendix: ISO/IEC 27090:2026 Clause Cross-Reference](15-conclusion-appendix.md#appendix-isoiec-270902026-clause-cross-reference) for quick lookup.
+
+### References / Source mapping
+
+**Frameworks and standards**
+- **ISO/IEC 27090:2026**: Clauses 5, 6 (`6.1–6.11`), 7 (`7.1–7.9`), and Annexes A–C (https://www.iso.org/standard/27090.html)
+- ISO/IEC 42001 & ISO/IEC 27001 / 27002 (management-system and baseline security context)
+
+**Implementation guidance (this guide)**
+- [Lifecycle control points](06-pipeline.md#lifecycle-control-points) (Chapter 6) · [Evidence Pack](11-governance-evidence.md#what-is-an-evidence-pack) (Chapter 11)
+
 ## Relationship to OWASP projects
 
-This guide is designed to complement—not replace—existing OWASP AI security work:
+This guide complements—with **ISO/IEC 27090:2026** taking precedence where both cover the same AI security ground—existing OWASP AI security resources:
 
 | OWASP project | Primary role | How this guide uses it |
 |---|---|---|
-| **`OWASP AI Exchange`** | Comprehensive threat, control, and testing framework for all AI types | Used as the primary OWASP taxonomy and control reference; this guide maps Exchange threats to lifecycle control points, release gates, and `Evidence Pack` fields |
+| **`OWASP AI Exchange`** | Open community threat, control, and testing companion (which contributed substantial material to `ISO/IEC 27090:2026`) | Complementary open-access taxonomy and deep technical rationale behind controls cited from `ISO/IEC 27090:2026` |
 | `OWASP Top 10 for LLM Applications` | Threat categories for LLM applications | Used as a threat taxonomy for prompt injection, data leakage, supply chain, agentic risk, and runtime controls |
 | `OWASP LLMSVS` / `AISVS` | Verification requirements and test expectations | Used as verification references; this guide does not redefine detailed test procedures |
 | `OWASP MCP Top 10` and MCP Security Cheat Sheet | MCP-specific risks and mitigations | Used for MCP gateway, tool schema, shadow MCP, and tool-output control guidance |
@@ -359,11 +381,11 @@ The contribution of this guide is the **lifecycle view**: selecting and sequenci
 
 ## Relationship to OWASP AI Exchange
 
-The [OWASP AI Exchange](https://owaspai.org) is the OWASP Flagship resource for AI security and privacy fundamentals: threats, controls, testing methodology, and alignment with standards such as ISO/IEC 27090. This guide **builds on** the Exchange—it does not duplicate it.
+The open-source [OWASP AI Exchange](https://owaspai.org) contributed extensive foundational material to **ISO/IEC 27090:2026** and remains an open-access companion for detailed threat/control rationale and testing methods. This guide uses **ISO/IEC 27090:2026** as the formal standards reference where they overlap, and uses OWASP AI Exchange alongside it for open permalinks and deep operational examples.
 
-| Question | Use **OWASP AI Exchange** | Use **this guide** |
+| Question | Use **ISO/IEC 27090:2026 / OWASP AI Exchange** | Use **this guide** |
 |---|---|---|
-| What threats and controls exist for my AI system? | Threat matrix, periodic table, risk-analysis decision tree | — |
+| What formal AI threats and mitigation tradeoffs apply? | **ISO/IEC 27090:2026** Clauses `5–7` (open companion rationale in OWASP AI Exchange threat matrix / periodic table) | — |
 | How do I test prompt injection or adversarial robustness in depth? | AI security testing procedures and tool reviews | Control point 7 acceptance criteria + tool examples in Ch.12 |
 | How do I run an AI program or full privacy/GDPR program? | GUARD steps, AI privacy chapter | Shadow AI ops (Ch.11); operational data controls (Ch.4) |
 | How do I implement MLSecOps in CI/CD and production? | General control descriptions | Ten lifecycle control points, release gates, `Evidence Pack`, Appendix E |
@@ -380,7 +402,7 @@ The [OWASP AI Exchange](https://owaspai.org) is the OWASP Flagship resource for 
 - [Periodic table of AI security](https://owaspai.org/go/periodictable/)
 
 **Implementation guidance (this guide)**
-- [What this guide adds](#what-this-guide-adds-beyond-owasp-openssf-and-nist)
+- [What this guide adds](#what-this-guide-adds-beyond-isoiec-27090-owasp-openssf-and-nist)
 - [Traceability convention](15-conclusion-appendix.md#traceability-and-source-mapping-convention) (Chapter 15)
 - [Lifecycle control points](06-pipeline.md#lifecycle-control-points) (Chapter 6)
 - [Which framework first?](../GETTING-STARTED.md#which-framework-first) (`GETTING-STARTED.md`)

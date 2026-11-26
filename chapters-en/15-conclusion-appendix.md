@@ -373,6 +373,33 @@ Illustrative bridge from this guide’s lifecycle control points to CSF 2.0 Func
 - [Chapter 11 — Cyber AI Profile](11-governance-evidence.md#nist-cyber-ai-profile-csf-mapping)
 - [Lifecycle control points](06-pipeline.md#lifecycle-control-points) (Chapter 6)
 
+## Appendix: ISO/IEC 27090:2026 Clause Cross-Reference
+
+> **Guidance standard (not certifiable).** Use [**ISO/IEC 27090:2026**](https://www.iso.org/standard/27090.html) (*Cybersecurity — Artificial intelligence (AI) — Addressing security threats and compromises to AI systems*, ISO/IEC JTC 1/SC 27) as the primary technical threat/control standard feeding `ISO/IEC 42001` / `ISO/IEC 27001` risk assessments, ahead of community threat lists where scope overlaps.
+
+| ISO/IEC 27090:2026 Reference | Topic in ISO/IEC 27090:2026 | Guide Chapter & Lifecycle Mapping |
+|---|---|---|
+| **Clause 5 (`5.1`)** | Risk-based ISO/IEC 27002 controls, AI governance, threat modeling, supply chain & red teaming | [Ch.2](02-scope-risk-threat-model.md) · [Ch.5](05-model-artifact-supply-chain.md) · [Ch.6](06-pipeline.md) (`CP 1–10`) |
+| **Clause 6.2** | Data poisoning (training/fine-tuning/augmentation) | [Ch.4](04-data-security-privacy.md) · [Ch.5](05-model-artifact-supply-chain.md) · [Ch.7 RAG](07-llm-rag-security.md#retrieval-poisoning) (`CP 4`) |
+| **Clause 6.3** | Evasion attack | [Ch.5](05-model-artifact-supply-chain.md#minimum-adversarial-robustness-requirements) · [Ch.12 ART](12-threat-control-tools-map.md#l2--classic-model-adversarial-test-art) (`CP 7`) |
+| **Clause 6.4 & 6.6** | Membership inference (`6.4`) and model inversion (`6.6`) | [Ch.4 Privacy](04-data-security-privacy.md#differential-privacy) · [Ch.12 Privacy Audit](12-threat-control-tools-map.md#l2--model-privacy-audit) |
+| **Clause 6.5** | Model exfiltration / extraction | [Ch.5](05-model-artifact-supply-chain.md#model-theft-and-extraction-paths) · [Ch.10](10-monitoring-soc-ir.md) |
+| **Clause 6.7** | Direct model poisoning (weights/parameters/artifacts) | [Ch.5](05-model-artifact-supply-chain.md#risk-of-unsafe-formats) · [Ch.6](06-pipeline.md#binding-cp-8-to-cp-9-close-the-toctou-gap) (`CP 2, CP 8↔CP 9`) |
+| **Clause 6.8** | Sensitive model output | [Ch.4](04-data-security-privacy.md) · [Ch.7 KV/Output](07-llm-rag-security.md#kv-cache-security) · [Ch.10](10-monitoring-soc-ir.md) |
+| **Clause 6.9 & 6.10** | Prompt injection (`6.9`) and output containing injection attacks (`6.10`) | [Ch.7](07-llm-rag-security.md#prompt-injection-defenses-from-filters-to-architecture) · [Ch.8](08-agentic-ai-security.md#tool-output-injection) |
+| **Clause 6.11 (`6.11.2–6.11.4`)** | Data limitations, governing unwanted behavior, agent least privilege & AI provenance | [Ch.4](04-data-security-privacy.md) · [Ch.5 AI-BOM](05-model-artifact-supply-chain.md#sbom-and-ai-bom) · [Ch.8 Intent Gate](08-agentic-ai-security.md#intent-gate) |
+| **Clause 7 (`7.1–7.9`)** | Mitigation interactions/conflicts, lifecycle continuity, dev hardening, logging, throttling | [Ch.4 DP tradeoffs](04-data-security-privacy.md#differential-privacy) · [Ch.6](06-pipeline.md) · [Ch.10](10-monitoring-soc-ir.md) |
+| **Annexes A, B & C** | Lifecycle mapping (`A`), AI variants of conventional attacks (`B`), federated/distributed ML (`C`) | [Ch.5 Federated](05-model-artifact-supply-chain.md#federated-learning) · [Ch.12](12-threat-control-tools-map.md) · [Ch.13](13-case-studies.md) |
+
+### References / Source mapping
+
+**Frameworks and standards**
+- **ISO/IEC 27090:2026**: Clauses 5–7 & Annexes A–C (https://www.iso.org/standard/27090.html)
+- OWASP AI Exchange: open contributor & implementation companion (https://owaspai.org/)
+
+**Implementation guidance (this guide)**
+- [Chapter 1 — Relationship to ISO/IEC 27090:2026](01-intro.md#relationship-to-isoiec-270902026) · [Chapter 11 — Governance & Evidence Pack](11-governance-evidence.md)
+
 ## Traceability and source mapping convention
 
 This project clearly separates **external standards and research** from its **own original reference model, control architecture, and executable artifacts**. Per-section **`References / Source mapping`** blocks make that boundary explicit for engineering reviews, audits, and external citations.
@@ -413,14 +440,15 @@ Each major section may end with:
 
 ### Frameworks and Standards
 
+- **ISO/IEC 27090:2026**. *Cybersecurity — Artificial intelligence (AI) — Addressing security threats and compromises to AI systems* (ISO/IEC JTC 1/SC 27, primary technical AI security guidance standard). https://www.iso.org/standard/27090.html
+- ISO/IEC 42001:2023. *Artificial Intelligence — Management System*.
+- ISO/IEC 23894:2023. *Artificial Intelligence — Guidance on Risk Management*.
 - OpenSSF (2025). *Visualizing Secure MLOps (MLSecOps) Whitepaper*. https://openssf.org/blog/2025/08/05/visualizing-secure-mlops-mlsecops-a-practical-guide-for-building-robust-ai-ml-pipeline-security/ · PDF: https://openssf.org/wp-content/uploads/2025/08/OpenSSF_MLSecOps_Whitepaper.pdf
 - NIST (2023). *AI Risk Management Framework (AI RMF 1.0)*. https://www.nist.gov/itl/ai-risk-management-framework
 - NIST (2024). *Generative AI Profile (NIST-AI-600-1)*.
 - NIST (2025). *Cybersecurity Framework Profile for Artificial Intelligence (Cyber AI Profile)*, NIST IR 8596 iprd (Initial Preliminary Draft). https://doi.org/10.6028/NIST.IR.8596.iprd — https://csrc.nist.gov/pubs/ir/8596/iprd
 - NIST (2024). *Transition to Post-Quantum Cryptography Standards*, NIST IR 8547 ipd. https://csrc.nist.gov/pubs/ir/8547/ipd
 - NIST. *Cybersecurity Framework (CSF) 2.0*. https://www.nist.gov/cyberframework
-- ISO/IEC 42001:2023. *Artificial Intelligence — Management System*.
-- ISO/IEC 23894:2023. *Artificial Intelligence — Guidance on Risk Management*.
 - European Union (2024). *EU AI Act*. https://artificialintelligenceact.eu/
 - Cloud Security Alliance (2025). *MAESTRO — Multi-Agent Environment Security Framework*.
 - Cloud Security Alliance. *AARM — Autonomous Action Runtime Management*. https://aarm.dev/
@@ -587,7 +615,7 @@ AI security is not solved by a single tool, a secure prompt, or a simple test. S
 
 ### What this guide contributes
 
-Alongside cross-mapping OWASP, OpenSSF, NIST, ISO, and CSA frameworks, this project defines an independent **MLSecOps reference model and control architecture** engineered across the guide, `schemas/`, `policies/`, and Appendix E:
+Alongside cross-mapping **ISO/IEC 27090:2026**, ISO/IEC 42001, OpenSSF, NIST, CSA, and OWASP frameworks, this project defines an independent **MLSecOps reference model and control architecture** engineered across the guide, `schemas/`, `policies/`, and Appendix E:
 
 1. **Ten lifecycle control points (`CP 1–10`)** from change initiation through monitoring and SOC.
 2. **Explicit separation** of evidence-producing steps from **blocking release decisions** (`CP 4, 7, 8`; `CP 7` blocking at Level 2+) and a hard **CP 9 integrity/admission checkpoint** bound to the approved CP 8 digest.
@@ -603,10 +631,11 @@ Organizations that adopt the practices in this reference model can improve the *
 ### References / Source mapping
 
 **Frameworks and standards**
+- **ISO/IEC 27090:2026** (primary AI cybersecurity standard — Clauses 5–7 & Annexes A–C)
+- ISO/IEC 42001
 - OpenSSF MLSecOps whitepaper (2025)
 - NIST AI RMF
-- OWASP LLM Top 10 (2025)
-- ISO/IEC 42001
+- OWASP LLM Top 10 (2025) & OWASP AI Exchange
 
 **Implementation guidance (this guide)**
 - [What this guide contributes](#what-this-guide-contributes) (this section)
