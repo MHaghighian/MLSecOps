@@ -201,11 +201,12 @@ servingEngineSpec:
       requestGPU: 1
 ```
 
-**MLSecOps checklist for vLLM:**
+**MLSecOps checklist for vLLM (enforced in sample policy [`policies/k8s/inference_workload.rego`](../policies/k8s/README.md)):**
 
-- [ ] Image digest-pinned and cosign-verified before deploy
-- [ ] `VLLM_API_KEY` per tenant or per environment (not shared prod/staging)
-- [ ] No public LoadBalancer without gateway/WAF in front
+- [ ] Image digest-pinned (`@sha256:...`) and cosign-verified before deploy; disallow `--trust-remote-code` and root/system `--allowed-local-media-path`
+- [ ] Non-empty `VLLM_API_KEY` (via `secretKeyRef`, never plaintext env/CLI literal) per tenant or environment
+- [ ] No `hostPort`, `hostNetwork`/`hostPID`/`hostIPC`/`hostPath`, or direct `LoadBalancer`/`NodePort`/`externalIPs` `Service` without gateway/WAF
+- [ ] Restricted PSS on containers and `initContainers`: `runAsNonRoot: true`, `runAsUser != 0`, `seccompProfile: RuntimeDefault`/`Localhost`, `procMount != Unmasked`, `capabilities.drop: ["ALL"]`, `readOnlyRootFilesystem: true`, `resources.limits.memory`, `automountServiceAccountToken: false`
 - [ ] GPU memory sanitization considered after CVE-class issues (see LeftoverLocals, Ch.13)
 - [ ] Router + engine NetworkPolicy restricts who can reach port 8000
 
@@ -373,11 +374,11 @@ Pair cluster manifests with an MCP server source review such as `mcps-audit` bef
 
 ## Minimum baseline checklist (Level 2 production)
 
-- [ ] Dedicated namespaces with restricted PSA for inference
-- [ ] Default-deny NetworkPolicy + gateway-only ingress
-- [ ] Kyverno (or OPA) blocks unsigned images in prod namespaces
-- [ ] Inference pods: non-root, dropped capabilities, secrets from External Secrets/Vault
-- [ ] vLLM/KServe protected by API key or OAuth at gateway
+- [ ] Dedicated namespaces with restricted PSA (`runAsNonRoot`, `seccompProfile`, `readOnlyRootFilesystem`, no `host*`/`hostPort`/`procMount: Unmasked`) — verify via [`policies/k8s/`](../policies/k8s/README.md)
+- [ ] Default-deny NetworkPolicy + gateway-only ingress (no raw `LoadBalancer`/`NodePort`/`externalIPs`)
+- [ ] Kyverno (or OPA) blocks unsigned/unpinned (`@sha256:`) images and `--trust-remote-code` in prod namespaces
+- [ ] Inference pods: non-root, dropped `ALL` capabilities, `automountServiceAccountToken: false`, bounded `resources.limits.memory`, secrets via External Secrets/`secretKeyRef`
+- [ ] vLLM/KServe protected by non-empty `VLLM_API_KEY` or OAuth at gateway
 - [ ] GPU isolation strategy documented (MIG or dedicated nodes for sensitive tenants)
 - [ ] Runtime rules for GPU abuse and cryptomining enabled
 - [ ] Deploy only digest-pinned, signed images tied to Evidence Pack

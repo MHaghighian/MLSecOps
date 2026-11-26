@@ -309,8 +309,10 @@ Human-readable PDF/JSON dumps are useful for auditors, but Level 2+ pipelines th
 | Artifact | Location |
 |---|---|
 | JSON Schema (CycloneDX 1.6/1.7-aligned themes) | [`schemas/evidence-pack.schema`](../schemas/evidence-pack.schema.md) |
-| Example instance | [`schemas/evidence-pack.example`](../schemas/evidence-pack.example.md) |
-| Admission / release policy samples | [`policies/cp8_cp9_admission`](../policies/cp8_cp9_admission.md) |
+| Example instances (`Agentic-MCP` + `Managed-API`) | [`schemas/evidence-pack.example`](../schemas/evidence-pack.example.md) |
+| Admission / release policy samples (`package main`) | [`policies/cp8_cp9_admission`](../policies/cp8_cp9_admission.md) |
+| Kubernetes workload admission policy (`package mlsecops.k8s`) | [`policies/k8s/`](../policies/k8s/README.md) |
+| Companion static MCP/model scanner & QA verifier | [`scripts/README.md`](../scripts/README.md) |
 
 **Minimum machine fields for production:** `lifecycleControlGates` (CP 4/7/8 statuses + `boundToCp9Digest`) and `cryptographicProvenance.cp9_checkpointVerified`. Prefer emitting or attaching a full **CycloneDX 1.6/1.7** / **SPDX 3.x AI-Data** BOM when your toolchain supports it; this schema is the guide’s lightweight bridge, not a replacement for those standards.
 

@@ -30,7 +30,7 @@ There are no published advisories to date if the Advisories list is empty — th
 
 ## Scope
 
-This policy covers the **MLSecOps Guide repository** — Markdown content, release assets, documentation build scripts, and GitHub Actions workflows in this repo.
+This policy covers the **MLSecOps Reference Model & Practical Guide repository** — Markdown content, Evidence Pack schemas (`schemas/`), OPA/Conftest policies (`policies/`), companion Python verification/scanning scripts (`scripts/` + `tests/`), release assets, and GitHub Actions workflows in this repo.
 
 It does **not** cover:
 
@@ -41,13 +41,14 @@ For vulnerabilities in **your** production AI systems, maintain your own disclos
 
 ## Security assessment (this repository)
 
-Most likely / impactful issues for **this docs project** (not reader deployments):
+Most likely / impactful issues for **this repository** (not reader deployments):
 
 | Risk | Impact | Mitigation |
 |------|--------|------------|
-| Malicious or misleading content in chapters | Reader harm / reputational | PR review, citations, CI docs build |
+| Malicious or misleading content in chapters/schemas/policies | Reader harm / broken controls | PR review, citations, DCO check, Conftest + schema + unit-test CI |
+| Unsafe deserialization in companion scanner tooling | Host code execution during static inspection | Zero-execution stdlib parser design in `scripts/ai_security_scan.py` (no `pickle.loads`, bounded `O(header)` reads) |
 | Compromised GitHub account or Actions secrets | Site defacement, secret leak | Owner-only admin; secrets in Actions only; MFA on GitHub |
-| Supply-chain issue in MkDocs/pip tooling | Bad site build | Pinned/ranged requirements; **`pip-audit`** workflow (PR + weekly); maintainer-reviewed pin bumps |
+| Supply-chain issue in MkDocs/pip/CI tooling | Bad site or CI compromise | Pinned Conftest SHA-256; **`pip-audit`** workflow (PR + weekly); maintainer-reviewed pin bumps |
 | Leaked credentials in git history | Unauthorized access | No secrets in repo; rotate if exposed ([GOVERNANCE.md](GOVERNANCE.md)) |
 
 Deeper product threat modeling for AI systems is the subject of the guide itself (e.g. Chapters 2–3, 6–8), not a runtime service in this repository. System actors: [DESIGN.md](DESIGN.md).

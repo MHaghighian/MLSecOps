@@ -39,7 +39,7 @@ This project defines an independent **MLSecOps reference architecture and contro
 
 1. **Ten lifecycle control points (`CP 1–10`)** — one continuous control thread from change initiation through runtime and SOC  
 2. **Blocking release decisions** at control points **4, 7, 8** (CP 7 blocking at Level 2+) — separately, a mandatory **integrity/provenance checkpoint at CP 9** bound to the CP 8 digest at admission to close the TOCTOU gap  
-3. **Auditable `Evidence Pack`** per release — with a machine-readable JSON Schema ([`schemas/`](schemas/README.md)) and OPA/Conftest admission samples ([`policies/`](policies/README.md))  
+3. **Auditable `Evidence Pack`** per release — with a machine-readable JSON Schema ([`schemas/`](schemas/README.md)), OPA/Conftest admission & Kubernetes workload samples ([`policies/`](policies/README.md)), and companion static scanner/QA tooling ([`scripts/`](scripts/README.md) · `tests/`)  
 4. **[Implementation Reference](chapters-en/17-appendix-e-implementation-reference.md)** — architecture cards, decision matrix, templates, playbooks, and end-to-end **Secure-by-Design** system blueprints (`E.7`)
 
 Learn more: [Chapter 1 — What this guide adds](chapters-en/01-intro.md#what-this-guide-adds-beyond-owasp-openssf-and-nist). See also [Getting started](GETTING-STARTED.md).
@@ -145,6 +145,17 @@ python scripts/build-docx.py --render-mermaid
 
 The build uses **Pandoc** with the project Word template (`scripts/templates/reference.docx`, or auto-download from the [v1.0.0 Release DOCX](https://github.com/MHaghighian/MLSecOps/releases/download/v1.0.0/MLSecOps-Practical-Reference-Guide-v1.0.0.docx) on first run). Template details: [scripts/templates/README.md](scripts/templates/README.md). Maintainer checklist: [RELEASING.md](RELEASING.md).
 
+### Verify schemas, policies, and static checks locally
+
+```bash
+python -m pip install -r requirements-pages.txt jsonschema pyyaml beautifulsoup4
+conftest verify --policy policies
+python scripts/verify_repo.py --require-conftest --with-mkdocs
+python scripts/ai_security_scan.py --mcp path/to/mcp.json --pins schemas/examples/evidence-pack.example.json --model path/to/models/
+```
+
+See [scripts/README.md](scripts/README.md) for rule IDs (`MCP-*` / `MODEL-*`) and [policies/README.md](policies/README.md) for admission policy usage.
+
 ---
 
 ## Frequently asked questions
@@ -162,18 +173,19 @@ The build uses **Pandoc** with the project Word template (`scripts/templates/ref
 
 ```text
 MLSecOps/
-├── chapters-en/          # Guide chapters (English)
-├── assets/diagrams/      # Diagram PNGs and Mermaid source (.mmd)
-├── policies/             # OPA / Conftest Policy-as-Code samples
-├── schemas/              # Machine-readable Evidence Pack JSON Schema
+├── chapters-en/          # Guide chapters (English, Ch. 1–16 + Appendix E + TOC)
+├── assets/diagrams/      # Diagram PNGs and Mermaid source (.mmd / .svg)
+├── policies/             # OPA / Conftest Policy-as-Code (Evidence Pack + k8s/)
+├── schemas/              # Machine-readable Evidence Pack JSON Schema + examples
 ├── references/           # Complementary alignment docs (e.g. AARM)
-├── scripts/              # Build & security checks (build-docx.py, verify_repo.py, ai_security_scan.py, mermaid_to_png.py, generate_release_manifest.py)
-├── tests/                # Non-redundant unit tests for security scanners & verification tooling
-├── dist/                 # Local DOCX output (gitignored)
+├── releases/             # Release notes bodies & historical release index
+├── scripts/              # Build, verification & zero-dep AI security scan tooling
+├── tests/                # Targeted unit tests for scanner & verification checks
+├── dist/                 # Local DOCX/PDF output (gitignored)
 ├── GETTING-STARTED.md    # Role-based reading paths
 ├── CITATION.cff          # Citation metadata (DOI)
 ├── CHANGELOG.md
-└── .github/workflows/    # Pages deploy, docs CI, releases, artifacts
+└── .github/workflows/    # Pages deploy, docs CI, DCO, pip-audit, releases, artifacts
 ```
 
 ---

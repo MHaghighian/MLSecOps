@@ -46,19 +46,19 @@ We prefer pinned or ranged FLOSS packages from PyPI. New dependencies need a sho
 
 **Readers** do not need to build anything: use the [documentation site](https://mhaghighian.github.io/MLSecOps/) or browse `chapters-en/`.
 
-**Maintainers / contributors** (site build):
+**Maintainers / contributors** (site build & full QA verification):
 
-Requirements: Python 3.12+, pip.
+Requirements: Python 3.12+, pip, and optionally [Conftest](https://www.conftest.dev/) (`v0.71.1` in CI) for OPA Rego evaluation.
 
 ```bash
-python -m pip install -r requirements-pages.txt
-python .github/prepare_pages.py
-mkdocs build --strict
-python scripts/verify_repo.py --with-mkdocs
-python scripts/ai_security_scan.py --mcp schemas/examples/evidence-pack.example.json
+python -m pip install -r requirements-pages.txt check-jsonschema jsonschema pyyaml beautifulsoup4
+conftest verify --policy policies
+python scripts/verify_repo.py --require-conftest --with-mkdocs
+python -m unittest discover -s tests
+python scripts/ai_security_scan.py --mcp schemas/examples/evidence-pack.example.json --pins schemas/examples/evidence-pack.example.json --fail-on HIGH
 ```
 
-GitHub Actions runs the same MkDocs build on pull requests and on `main` (see `.github/workflows/docs-check.yml`).
+`scripts/verify_repo.py` validates workflow YAMLs, UTF-8 encoding (no BOM on `.py`/`.rego`/`.json`/`.js`), `CITATION.cff` ↔ `mkdocs.yml` ↔ `prepare_pages.py` version sync, strict Draft 2020-12 JSON Schema & negative cases (including calendar RFC-3339 date checks), YAML/JSON/Mermaid parity across all chapters, release manifest file coverage, Python unit tests, scanner smoke checks, Conftest pass/fail fixtures, and a single-pass `site/` HTML broken-link/anchor audit. See `.github/workflows/docs-check.yml` for the exact CI job definitions and [scripts README](scripts/README.md) for CLI details.
 
 Optional (Word export) — also needs [Pandoc](https://pandoc.org/) for `scripts/build-docx.py`:
 

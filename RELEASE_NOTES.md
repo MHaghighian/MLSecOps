@@ -6,25 +6,26 @@ Official releases: [GitHub Releases](https://github.com/MHaghighian/MLSecOps/rel
 
 ## v1.4.0 — 2026-11-25
 
-**Reference Model identity + Policy-as-Code + Evidence Pack schema** — positions the project as an independent **MLSecOps Reference Model & Practical Guide**, adds CycloneDX 1.6/1.7 Evidence Pack schemas (`schemas/`) and OPA/Conftest policies (`policies/` + `policies/k8s/`), documents Vector DB backup/snapshot revocation and Docker Model Runner (`E.1.7`), automates CI schema/Conftest verification and DOCX/PDF release artifacts, and aligns links/diagrams/history across the repository.
+**Reference Model identity + Policy-as-Code + Evidence Pack schema + Static Scanner** — positions the project as an independent **MLSecOps Reference Model & Practical Guide**, adds CycloneDX 1.6/1.7 Evidence Pack schemas (`schemas/`), OPA/Conftest policies (`policies/` + `policies/k8s/`), a zero-dependency static MCP/model header scanner (`scripts/ai_security_scan.py` + `tests/`), documents Vector DB backup/snapshot revocation and Docker Model Runner (`E.1.7`), automates CI schema/Conftest/QA verification and DOCX/PDF release artifacts, and aligns docs/links/diagrams across the repository.
 
 **DOI:** concept [10.5281/zenodo.21206780](https://doi.org/10.5281/zenodo.21206780) (version DOI updates after Zenodo deposit)
 
 | Format | Link |
 |--------|------|
 | Source (ZIP) | [Source code (zip)](https://github.com/MHaghighian/MLSecOps/archive/refs/tags/v1.4.0.zip) |
-| Markdown | `chapters-en/`, `schemas/`, `policies/` in this repository |
+| Markdown / Schemas / Policies / Scripts | `chapters-en/`, `schemas/`, `policies/`, `scripts/`, `tests/` in this repository |
 | Site | https://mhaghighian.github.io/MLSecOps/ |
 | Maintainer | https://mhsec.me |
 | Word / PDF | Attached via Handbook Artifacts workflow on release tags (or `python scripts/build-docx.py --render-mermaid`) |
 
 ### Highlights
 
-- **Reference Model identity:** unified framing and `Operational & scope notes` across `README.md`, `GETTING-STARTED.md`, `GOVERNANCE.md`, `CITATION.cff`, `mkdocs.yml`, Ch.1–Ch.17, and `promotion/`
+- **Reference Model identity:** unified framing and `Operational & scope notes` across `README.md`, `GETTING-STARTED.md`, `GOVERNANCE.md`, `DESIGN.md`, `SECURITY.md`, `CITATION.cff`, `mkdocs.yml`, and Ch.1–Ch.17 (out-of-scope `promotion/` removed; Search Console assets moved under `.github/seo/`)
 - **Machine-readable Evidence Pack (`schemas/`):** Draft 2020-12 JSON Schema (`CycloneDX 1.6`/`1.7`, conditional `Managed-API` vs self-hosted/`Agentic-MCP` constraints, `dataProvenance`, `localRunnerConfig`, `runtimeTelemetry`) + `Agentic-MCP` and `Managed-API` example packs
-- **Executable OPA/Conftest Policy-as-Code (`policies/`):** fail-closed admission rules covering `CP4`/`CP7`/`CP8`/`CP9`, SHA-256 digest binding, `MCP09`/drift/kill-switch/KV checks, unit tests (`conftest verify`), and Kubernetes inference Pod/Deployment hardening (`policies/k8s/`)
+- **Executable OPA/Conftest Policy-as-Code (`policies/`):** fail-closed rules (`CP4`/`CP7`/`CP8`/`CP9` SHA-256 digest bind, quantitative `agentMisalignmentScore`/`redTeamPhasesCompleted`, CycloneDX component hashes, `MCP09`/SSRF/cleartext/`ASI02`/`ASI06`/`ASI07` `delegationDepthMax`) + Kubernetes inference workload & `Service` hardening (`policies/k8s/`) verified via `conftest verify`
+- **Zero-dependency static MCP & model scanner (`scripts/ai_security_scan.py` + `tests/`):** ZWNJ-preserving Unicode/Bidi & NFKC scan, MCP tool poisoning, unpinned runners (`npx`/`uvx`/`bunx`/`pnpx`/`pipx`/`docker`), canonical `tools/list` SHA-256 pinning, VM stack+memo `pickletools` disassembly (`CVE-2025-10157`), ZIP polyglots/LFH diffs/CRC-32 anomalies (`CVE-2025-1945`/`CVE-2025-10156`), bounded GGUF KV walk (`CVE-2024-34359`), varint ONNX traversal (`CVE-2024-5187`), NumPy `.npy` object arrays, and Safetensors offset integrity
 - **Technical coverage updates:** Vector DB backup/snapshot revocation (Ch.4/Ch.7), Docker Model Runner OCI cards (`Ch.5` / `E.1.7` / `Ch.12` / `Ch.16`), `E.4` YAML↔JSON mapping, and diagram/link/dark-mode Mermaid strict fixes
-- **CI & release integrity:** SHA-256-pinned Conftest & schema checks in `docs-check.yml`, `pip-audit` dependency auditing, draft-safe `handbook-artifacts.yml`, and expanded `generate_release_manifest.py`
+- **CI & release integrity:** SHA-256-pinned Conftest (`v0.71.1`), schema checks, and `scripts/verify_repo.py` in `docs-check.yml`, `pip-audit` dependency auditing, draft-safe `handbook-artifacts.yml`, and expanded `generate_release_manifest.py`
 
 Full change history: [CHANGELOG.md](CHANGELOG.md).
 

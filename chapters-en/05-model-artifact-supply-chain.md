@@ -128,7 +128,7 @@ Migrating to `safetensors` or quantized formats such as `GGUF` removes many pick
 
 **Operational controls (CP 2 / CP 7 / CP 9):**
 
-- Scan artifacts with a **serialization + header-aware** scanner before load (e.g. `ModelScan` plus an ML-BOM oriented scanner such as [`aisbom-cli`](https://github.com/Lab700xOrg/aisbom) where available).
+- Scan artifacts with a **serialization + header-aware** scanner before load (e.g. `ModelScan` plus an ML-BOM oriented scanner such as [`aisbom-cli`](https://github.com/Lab700xOrg/aisbom) where available; this repository also includes a zero-dependency O(header) reference helper, [`scripts/ai_security_scan.py`](../scripts/README.md), demonstrating stack/memo Pickle disassembly, ZIP polyglot / LFH-vs-CD filename diffs / CRC-32 anomalies, HuggingFace `auto_map` & Jinja2 `chat_template` SSTI in `tokenizer_config.json` and binary GGUF headers, ONNX `external_data` path traversal, NumPy `.npy` object arrays, and Safetensors buffer offset bounds).
 - Fail closed on **unreadable / obfuscated** blobs; record scanner tags (for example `aisbom:unreadable`) in the Evidence Pack and deny promote/deploy — see [`policies/cp8_cp9_admission`](../policies/cp8_cp9_admission.md).
 - Prefer producing a machine-readable **ML-BOM / AI-BOM** (CycloneDX 1.6/1.7 themes) alongside traditional SBOM ([SBOM and AI-BOM](#sbom-and-ai-bom)).
 - Treat **hardware-backed provenance** (TEE attestation, confidential GPU / CVM patterns, CPU↔GPU trusted paths) as Emerging depth for high-assurance deployments — software signing remains the baseline; TEEs do not replace CP 9 verify at admission.

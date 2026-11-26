@@ -33,8 +33,10 @@ The **Create Release** workflow generates `SHA256SUMS` and a cosign keyless sign
 
 ### Pre-release (content & verification)
 
-- [x] Reference Model identity, `schemas/`, `policies/` (`CP4`/`CP7`/`CP8`/`CP9` + `policies/k8s/`), CI verification, and Appendix `E.1.7` / `E.4` updates
-- [x] Version strings bumped to v1.4.0 (`CITATION.cff`, `mkdocs.yml`, docs, chapters)
+- [x] Reference Model identity, `schemas/`, `policies/` (`CP4`/`CP7`/`CP8`/`CP9` + `policies/k8s/`), `scripts/ai_security_scan.py`, `scripts/verify_repo.py`, `tests/`, and Appendix `E.1.7` / `E.4` updates
+- [x] Repository root cleanup (Search Console files under `.github/seo/`, out-of-scope `promotion/` removed)
+- [x] Version strings synced to `v1.4.0` (`CITATION.cff`, `mkdocs.yml`, `.github/prepare_pages.py`, docs, chapters)
+- [ ] Run `python scripts/verify_repo.py --require-conftest --with-mkdocs` and confirm 0 findings from `ai_security_scan.py` before tagging
 
 ### Git
 
@@ -184,7 +186,7 @@ After each release:
 | `v1.2.0` | Example C secure-by-design hardening (authZ, cache_salt, MIG/MPS/LeftoverLocals) |
 | `v1.2.1` | Restore inline Mermaid diagrams + MkDocs Mermaid render |
 | `v1.3.0` | NIST Cyber AI Profile (IR 8596 iprd) mapping, release-gate/privacy/nav integrity, OpenSSF baseline-2 |
-| `v1.4.0` | Reference Model & Practical Guide identity, CycloneDX 1.6/1.7 Evidence Pack schemas, OPA/Conftest policies (`CP4`/`CP7`/`CP8`/`CP9` + K8s), DMR/Vector DB revocation, hardened CI/release workflows |
+| `v1.4.0` | Reference Model & Practical Guide identity, CycloneDX 1.6/1.7 Evidence Pack schemas (`schemas/`), OPA/Conftest policies (`CP4`/`CP7`/`CP8`/`CP9` + `policies/k8s/`), zero-dep static MCP/model scanner (`scripts/ai_security_scan.py` + `tests/`), DMR/Vector DB revocation, hardened CI/QA/release workflows |
 | `v2.0.0` | Lifecycle model or major structural change |
 
 Document every release in [CHANGELOG.md](CHANGELOG.md).

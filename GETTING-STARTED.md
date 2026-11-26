@@ -101,7 +101,7 @@ From [Release decision model](chapters-en/06-pipeline.md#release-decision-model)
 
 Maturity detail: [Chapter 14](chapters-en/14-maturity-roadmap.md).
 
-> **Pipelines:** Reference Conftest/OPA samples live in [`policies/`](policies/README.md); Evidence Pack schema in [`schemas/`](schemas/README.md). They illustrate control intent for Chapters 6/12/16 — adapt before production use.
+> **Pipelines & reference tooling:** Reference Conftest/OPA samples live in [`policies/`](policies/README.md) (including Kubernetes workload rules in [`policies/k8s/`](policies/k8s/README.md)), Evidence Pack JSON Schema in [`schemas/`](schemas/README.md), and fast static MCP/model scanning & repo checks in [companion scripts](scripts/README.md) (`scripts/ai_security_scan.py`, `scripts/verify_repo.py`). They illustrate control intent for Chapters 5, 6, 8, 11, 12, and 16 — adapt before production use.
 
 ---
 

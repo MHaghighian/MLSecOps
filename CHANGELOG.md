@@ -11,7 +11,8 @@ All notable changes to the MLSecOps Reference Model & Practical Guide are docume
 
 ### Changed
 
-- **QA & performance refactoring** — refactored `scripts/verify_repo.py` to single-pass HTML parsing (~2x fewer BeautifulSoup passes), pre-normalized `.mmd` lookup, strict stdlib RFC-3339 `date-time` checking, automated `tests/` discovery, and added `minLength`/`timestamp` pattern + `runtimeAgentConfig` `ASI02`/`ASI06`/MCP transport fields in `schemas/evidence-pack.schema.json`.
+- **QA & performance refactoring** — refactored `scripts/verify_repo.py` to single-pass HTML parsing (~2x fewer BeautifulSoup passes), pre-normalized `.mmd` lookup, strict stdlib RFC-3339 `date-time` checking, `CITATION.cff`/`mkdocs.yml`/`prepare_pages.py` version sync, automated `tests/` discovery, and added `minLength`/`timestamp` pattern + `runtimeAgentConfig` `ASI02`/`ASI06`/MCP transport fields in `schemas/evidence-pack.schema.json`.
+- **Full repository documentation alignment** — added [`scripts/README.md`](scripts/README.md) (documenting every `MCP-*`/`MODEL-*` scanner rule and verification workflow); expanded [`schemas/`](schemas/README.md) (`evidence-pack.schema.md`, `evidence-pack.example.md`) and [`policies/`](policies/README.md) (`cp8_cp9_admission.md`, `policies/k8s/README.md`) rule tables; updated `README.md`, `GETTING-STARTED.md`, `CONTRIBUTING.md`, `DESIGN.md`, `SECURITY.md`, `GOVERNANCE.md`, `RELEASING.md`, `RELEASE_NOTES.md`, `RELEASE-INTEGRITY.md`, `releases/v1.4.0-RELEASE-BODY.md`, `releases/README.md`, PR/issue templates, and Chapters 5, 7, 8, 11, 12, 16, and 17 to match all executable schemas, policies, and static checks cleanly.
 - **Repo root cleanup** — removed `promotion/` (Medium draft out of scope for the reference model tree); moved Search Console assets from `seo/` to `.github/seo/` (updated Pages/`prepare_pages`/`inject_google_verification`/manifest/`RELEASING.md`); ignore local `_log_*/` build leftovers.
 
 ## [1.4.0] — 2026-11-25

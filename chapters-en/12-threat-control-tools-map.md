@@ -189,6 +189,8 @@ Decision behavior: `modelscan` returns exit codes that can support an automated 
 
 Evidence: `modelscan-report.json` file. This control maps to lifecycle control point 2 (`Load Artifacts`).
 
+For zero-dependency static header checks without executing untrusted archives or pickle streams, see the repository's reference helper [`scripts/ai_security_scan.py`](../scripts/README.md) (`python scripts/ai_security_scan.py --model ./models/ --json`).
+
 ### L2 — Secret Scanning: Gitleaks
 
 Purpose: Find API keys, tokens, and credentials in code, notebooks, and git history.
@@ -456,8 +458,10 @@ deny contains msg if {
 ```
 
 ```bash
-# Evaluate an Evidence Pack JSON against the repo policies
+# Run Rego unit tests and evaluate an Evidence Pack JSON or K8s inference YAML
+conftest verify --policy ./policies
 conftest test --policy ./policies schemas/examples/evidence-pack.example.json
+conftest test --policy ./policies/k8s --namespace mlsecops.k8s policies/k8s/testdata/inference-pass.yaml
 ```
 
 Decision behavior: Any `deny` should block or escalate the release decision. Evidence: `OPA/Conftest` decision log.
@@ -541,7 +545,7 @@ Decision behavior: If membership inference success rate exceeds the threat model
 
 | Tool | Control point / area | Representative command | Decision criterion |
 | --- | --- | --- | --- |
-| `ModelScan` | 2 Load | `modelscan -p model.pkl -r json` | Unsafe artifact finding |
+| `ModelScan` (+ [`ai_security_scan.py`](../scripts/README.md) sample) | 2 Load | `modelscan -p model.pkl -r json` / `ai_security_scan.py --model ./models/` | Unsafe serialization or binary header finding |
 | `Gitleaks` | 3 Scan | `gitleaks detect --exit-code 1` | Any secret found |
 | `Trivy` | 3 Scan | `trivy fs --exit-code 1 --severity CRITICAL` | Critical CVE |
 | `lintML` / `NB Defense` | 3 Scan | `lintml ./src` / `nbdefense scan` | Unsafe pattern/secret |

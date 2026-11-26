@@ -1,38 +1,24 @@
 ---
 name: Bug report
-about: Create a report to help us improve
+about: Report a technical error, broken link, schema/policy gap, or build failure
 title: ''
 labels: ''
 assignees: ''
 
 ---
 
-**Describe the bug**
-A clear and concise description of what the bug is.
+**Describe the issue**
+A clear description of the technical inaccuracy, schema/policy bypass, broken link, or build failure.
 
-**To Reproduce**
-Steps to reproduce the behavior:
-1. Go to '...'
-2. Click on '....'
-3. Scroll down to '....'
-4. See error
+**Location**
+- File / Chapter / Script: (e.g. `chapters-en/08-agentic-ai-security.md`, `policies/cp8_cp9_admission.rego`, `scripts/ai_security_scan.py`)
+- Section or Rule ID (if applicable):
+
+**Reproduction / verification output**
+Steps or command to reproduce (e.g. `python scripts/verify_repo.py --with-mkdocs` or `conftest test ...`).
 
 **Expected behavior**
-A clear and concise description of what you expected to happen.
-
-**Screenshots**
-If applicable, add screenshots to help explain your problem.
-
-**Desktop (please complete the following information):**
- - OS: [e.g. iOS]
- - Browser [e.g. chrome, safari]
- - Version [e.g. 22]
-
-**Smartphone (please complete the following information):**
- - Device: [e.g. iPhone6]
- - OS: [e.g. iOS8.1]
- - Browser [e.g. stock browser, safari]
- - Version [e.g. 22]
+What the documentation, policy, schema, or scanner should state or enforce, with a primary source where applicable.
 
 **Additional context**
-Add any other context about the problem here.
+Environment details (Python / Conftest version) or screenshots if relevant.

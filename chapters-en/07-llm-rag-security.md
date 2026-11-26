@@ -757,6 +757,8 @@ Use **complementary** scanners — they target different surfaces. Labels: **Mat
 | [Damn Vulnerable MCP Server](https://github.com/harishsg993010/damn-vulnerable-MCP-server) | Research / Lab | Intentionally vulnerable lab | Red team training (Ch.13) |
 | [mcp-injection-experiments](https://github.com/invariantlabs-ai/mcp-injection-experiments) | Research / Lab | Tool poisoning PoCs | Security research and test harness design |
 
+**Companion offline static sample (`scripts/ai_security_scan.py`):** this repository includes a zero-dependency CLI helper ([`scripts/README.md`](../scripts/README.md)) for offline manifest/pin checks (`--mcp`, `--pins`, `--emit-pins`) covering Unicode Tag/Bidi/NFKC smuggling, HTML-comment poisoning, wildcard `autoApprove`/`alwaysAllow`, cross-map server shadowing (`mcpServers` + `servers`), unpinned `npx`/`uvx`/`bunx`/`pnpx`/`pipx`/`docker` runners, obfuscated SSRF, and canonical `tools/list` SHA-256 verification without spawning MCP servers.
+
 **Curated indexes:** [awesome-mcp-security](https://github.com/AIM-Intelligence/awesome-mcp-security) (papers + tools), [Puliczek/awesome-mcp-security](https://github.com/Puliczek/awesome-mcp-security) (broader community list), [awesome-mcp-gateways](https://github.com/e2b-dev/awesome-mcp-gateways) (gateways). **Checklist:** [SlowMist MCP Security Checklist](https://github.com/slowmist/MCP-Security-Checklist) for self-assessment across client, server, and multi-MCP scenarios.
 
 #### Source code scan — mcps-audit *(Emerging)*

@@ -9,7 +9,7 @@ Pre-built **DOCX** (and **PDF** when conversion succeeds) plus `HANDBOOK-SHA256S
 | Item | Location |
 |------|----------|
 | Source (ZIP) | [v1.4.0 archive](https://github.com/MHaghighian/MLSecOps/archive/refs/tags/v1.4.0.zip) |
-| Markdown / Schemas / Policies | `chapters-en/`, `schemas/`, `policies/` in the repository root |
+| Markdown / Schemas / Policies / Scripts | `chapters-en/`, `schemas/`, `policies/`, `scripts/`, `tests/` in the repository root |
 | Site | https://mhaghighian.github.io/MLSecOps/ |
 | Maintainer | https://mhsec.me |
 | Zenodo DOI | [10.5281/zenodo.21206780](https://doi.org/10.5281/zenodo.21206780) (concept; version DOI after deposit) |

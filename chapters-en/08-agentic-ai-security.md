@@ -756,6 +756,8 @@ An intelligent agent must not run with full trust. Every tool, every memory, eve
 
 Agents in Cursor, Claude Code, and similar hosts often invoke tools via **Model Context Protocol (MCP)** servers. MCP-specific threats (tool poisoning, rug pulls, shadow servers, MCP09) require gateway + schema pinning + static scan — not Intent Gate alone.
 
+In the repository's reference artifacts, [`schemas/evidence-pack.schema.json`](../schemas/evidence-pack.schema.md) and [`policies/cp8_cp9_admission.rego`](../policies/cp8_cp9_admission.md) model and enforce `intentGateEnabled` (`ASI02`/`ASI03`), `memoryProvenanceVerified` (`ASI06`), `delegationDepthMax <= 4` (`ASI07`/`ASI08`), capped MCP sampling, and pinned `mcpSchemaHashes` verification (`scripts/ai_security_scan.py`).
+
 See [Chapter 7 — MCP security](07-llm-rag-security.md#model-context-protocol-mcp-security) for OWASP MCP Top 10 mapping, gateway patterns, `mcps-audit`, and Snyk Agent Scan (mcp-scan) for installed configs.
 
 ### References / Source mapping

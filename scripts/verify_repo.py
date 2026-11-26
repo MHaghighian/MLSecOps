@@ -153,6 +153,7 @@ def check_release_manifest() -> None:
         "schemas/examples/evidence-pack.managed-api.example.json",
         "scripts/ai_security_scan.py",
         "scripts/build-docx.py",
+        "scripts/README.md",
         "scripts/verify_repo.py",
         "tests/test_ai_security_scan.py",
         "assets/javascripts/mermaid-init.js",

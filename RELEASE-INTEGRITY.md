@@ -9,7 +9,7 @@ For each official release (from the Create Release workflow / [RELEASING.md](REL
 | Asset | Purpose |
 |-------|---------|
 | Git tag (e.g. `v1.4.0`) | Immutable pointer to the release commit |
-| `SHA256SUMS` | Cryptographic hashes of release-relevant paths |
+| `SHA256SUMS` | Cryptographic hashes of release-relevant paths (`chapters-en/`, `assets/`, `schemas/`, `policies/`, `references/`, `releases/`, `scripts/`, `tests/`, `.github/`, root docs) |
 | `SHA256SUMS.sigstore.json` or `.asc` | Cosign keyless bundle or maintainer GPG detached signature over `SHA256SUMS` |
 
 ## Verify a release

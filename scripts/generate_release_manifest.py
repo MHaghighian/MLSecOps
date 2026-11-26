@@ -20,6 +20,7 @@ INCLUDE_GLOBS = [
     "references/**/*.md",
     "releases/*.md",
     "scripts/*.py",
+    "scripts/README.md",
     "scripts/templates/README.md",
     "tests/*.py",
     ".github/workflows/*.yml",

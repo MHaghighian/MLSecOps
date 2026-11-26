@@ -389,10 +389,12 @@ An `Evidence Pack` is an **audit evidence pattern** ([Chapter 11](11-governance-
 | YAML template field (human worksheet) | Machine-readable JSON Schema path (`schemas/evidence-pack.schema.json`) |
 |---|---|
 | `control_point_8_approval.decision` | `lifecycleControlGates.cp8_releaseDecisionGate.decision` |
+| `data.pii_scan_result` / `rag.reindex_playbook_run` | `dataProvenance.piiScanResult` / `dataProvenance.backupRevocationVerified` |
 | `model.artifact_hash` / `managed_api.config_snapshot_hash` | `modelArtifact.sha256Digest` / `managedApiConfig.configSnapshotHash` + `cp8_releaseDecisionGate.boundToCp9Digest` |
 | `model.signature_verify` / `policy.gate_decisions[cp9]` | `cryptographicProvenance.cp9_checkpointVerified` + `signatureMethod` |
-| `agent_mcp.tool_schema_pins` | `cryptographicProvenance.mcpSchemaHashes` + `runtimeAgentConfig.mcpTools` |
-| `security_validation.control_point_7_result` | `lifecycleControlGates.cp7_adversarialAndRedTeamGate.status` |
+| `agent_mcp.tool_schema_pins` + agent controls | `cryptographicProvenance.mcpSchemaHashes` + `runtimeAgentConfig` (`mcpTools`, `intentGateEnabled`, `memoryProvenanceVerified`, `delegationDepthMax`, `samplingBudgetCapped`) |
+| `security_validation.control_point_7_result` | `lifecycleControlGates.cp7_adversarialAndRedTeamGate` (`status`, `agentMisalignmentScore`, `redTeamPhasesCompleted`, `unreadableArtifactsDetected`) |
+| Local runner (`E.1.7`) / KV / Telemetry | `localRunnerConfig` / `inferenceConfig` / `runtimeTelemetry.rawPromptLoggingDisabled` |
 
 ```yaml
 # Evidence Pack — template (informative; validate in your GRC/tooling)

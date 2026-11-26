@@ -47,6 +47,16 @@ LINK_REWRITES = {
     ".github/workflows/": "https://github.com/MHaghighian/MLSecOps/tree/main/.github/workflows/",
     "releases/v1.3.0-RELEASE-BODY.md": "https://github.com/MHaghighian/MLSecOps/blob/main/releases/v1.3.0-RELEASE-BODY.md",
     "releases/v1.4.0-RELEASE-BODY.md": "https://github.com/MHaghighian/MLSecOps/blob/main/releases/v1.4.0-RELEASE-BODY.md",
+    "scripts/README.md": "https://github.com/MHaghighian/MLSecOps/blob/main/scripts/README.md",
+    "../scripts/README.md": "https://github.com/MHaghighian/MLSecOps/blob/main/scripts/README.md",
+    "scripts/ai_security_scan.py": "https://github.com/MHaghighian/MLSecOps/blob/main/scripts/ai_security_scan.py",
+    "../scripts/ai_security_scan.py": "https://github.com/MHaghighian/MLSecOps/blob/main/scripts/ai_security_scan.py",
+    "scripts/verify_repo.py": "https://github.com/MHaghighian/MLSecOps/blob/main/scripts/verify_repo.py",
+    "../scripts/verify_repo.py": "https://github.com/MHaghighian/MLSecOps/blob/main/scripts/verify_repo.py",
+    "scripts/build-docx.py": "https://github.com/MHaghighian/MLSecOps/blob/main/scripts/build-docx.py",
+    "scripts/generate_release_manifest.py": "https://github.com/MHaghighian/MLSecOps/blob/main/scripts/generate_release_manifest.py",
+    "tests/test_ai_security_scan.py": "https://github.com/MHaghighian/MLSecOps/blob/main/tests/test_ai_security_scan.py",
+    "../tests/test_ai_security_scan.py": "https://github.com/MHaghighian/MLSecOps/blob/main/tests/test_ai_security_scan.py",
 }
 
 
@@ -59,8 +69,10 @@ def _normalize_mkdocs_fragment(match: re.Match[str]) -> str:
     return f"[{label}]({target}#{frag})"
 
 
-def rewrite_links(text: str) -> str:
+def rewrite_links(text: str, *, rewrite_readme: bool = True) -> str:
     for old, new in LINK_REWRITES.items():
+        if not rewrite_readme and old == "README.md":
+            continue
         text = text.replace(f"]({old})", f"]({new})")
         text = text.replace(f"]({old}#", f"]({new}#")
     text = re.sub(
@@ -80,9 +92,9 @@ def rewrite_links(text: str) -> str:
     return text
 
 
-def write_doc(src: Path, dst: Path) -> None:
+def write_doc(src: Path, dst: Path, *, rewrite_readme: bool = True) -> None:
     dst.parent.mkdir(parents=True, exist_ok=True)
-    dst.write_text(rewrite_links(src.read_text(encoding="utf-8")), encoding="utf-8")
+    dst.write_text(rewrite_links(src.read_text(encoding="utf-8"), rewrite_readme=rewrite_readme), encoding="utf-8")
 
 
 def main() -> None:
@@ -95,7 +107,7 @@ def main() -> None:
 
 **Open-source MLSecOps reference model and practical guide for AI security, LLM/RAG, agentic AI, and secure MLOps.**
 
-**v1.4.0** — lifecycle control model (`CP 1–10`), machine-readable Evidence Pack schema, OPA/Conftest Policy-as-Code suites (Evidence Pack + Kubernetes workloads), and Secure-by-Design blueprints across data, training, deployment, runtime, SOC, and governance.
+**v1.4.0** — lifecycle control model (`CP 1–10`), machine-readable Evidence Pack schema, OPA/Conftest Policy-as-Code suites (Evidence Pack + Kubernetes workloads), zero-dependency static MCP/model scanner (`scripts/ai_security_scan.py`), and Secure-by-Design blueprints across data, training, deployment, runtime, SOC, and governance.
 
 [GitHub repository](https://github.com/MHaghighian/MLSecOps) · [mhsec.me](https://mhsec.me) · [Getting Started](getting-started.md) · [Zenodo DOI](https://doi.org/10.5281/zenodo.21206780) · [OpenSSF Best Practices](https://www.bestpractices.dev/projects/15668)
 
@@ -159,6 +171,8 @@ Details in [Chapter 1](chapters-en/01-intro.md#what-this-guide-adds-beyond-owasp
         src_dir = ROOT / sample_dir
         if src_dir.exists():
             shutil.copytree(src_dir, DOCS / sample_dir, dirs_exist_ok=True)
+            for md_src in src_dir.rglob("*.md"):
+                write_doc(md_src, DOCS / sample_dir / md_src.relative_to(src_dir), rewrite_readme=False)
 
     license_src = ROOT / "LICENSE"
     if license_src.exists():
