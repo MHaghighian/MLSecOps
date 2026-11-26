@@ -86,6 +86,10 @@ _DANGEROUS_ATTRS = {
     "decode",
 }
 _TORCHSCRIPT_DANGEROUS_RE = re.compile(r"(?m)\b(?:os\.system|subprocess\.|__import__|eval\s*\(|exec\s*\(|socket\.socket)\b")
+_JINJA_SSTI_RE = re.compile(
+    r"(?is)\{\{.*?(?:__globals__|__subclasses__|__builtins__|__import__|__mro__|__class__\s*\.\s*__base__|(?:cycler|lipsum|joiner|namespace)\.__init__).*?\}\}"
+    r"|\{%.*?(?:__globals__|__subclasses__|__import__).*?%\}"
+)
 _HEADER_READ_BYTES = 65_536
 _MAX_METADATA_ENTRY_BYTES = 2 * 1024 * 1024
 _MAX_SAFETENSORS_HEADER = 100 * 1024 * 1024
@@ -136,11 +140,18 @@ def _has_ssrf_target(text: str) -> bool:
         try:
             addr = ipaddress.ip_address(host)
         except ValueError:
-            # Handle decimal (2852039166) or hex (0xa9fea9fe) integer IPv4 hosts.
+            # Handle decimal (2852039166), hex (0xa9fea9fe), or mixed-radix dotted IPv4 (0251.0376.0251.0376).
             try:
-                num = int(host, 0) if host.lower().startswith("0x") else (int(host, 10) if host.isdigit() else -1)
-                if 0 <= num <= 0xFFFFFFFF:
-                    addr = ipaddress.IPv4Address(num)
+                if "." in host:
+                    parts = host.split(".")
+                    if len(parts) == 4 and all(re.fullmatch(r"(?:0x[0-9a-f]+|0[0-7]*|[1-9][0-9]*)", p, re.I) for p in parts):
+                        octets = [int(p, 16) if p.lower().startswith("0x") else (int(p, 8) if len(p) > 1 and p.startswith("0") else int(p, 10)) for p in parts]
+                        if all(0 <= o <= 255 for o in octets):
+                            addr = ipaddress.IPv4Address(bytes(octets))
+                else:
+                    num = int(host, 16) if host.lower().startswith("0x") else (int(host, 8) if len(host) > 1 and host.startswith("0") else (int(host, 10) if host.isdigit() else -1))
+                    if 0 <= num <= 0xFFFFFFFF:
+                        addr = ipaddress.IPv4Address(num)
             except ValueError:
                 addr = None
         if addr is not None:
@@ -399,14 +410,11 @@ def _inspect_zip_archive(path: Path) -> list[Finding]:
                         findings.append(
                             Finding("CRITICAL", "MODEL-CODE-01", f"{target}:{info.filename}", "Embedded archive Python code invokes system/exec primitives")
                         )
-                elif Path(low).name == "config.json" and info.file_size <= _MAX_METADATA_ENTRY_BYTES:
+                elif Path(low).name in {"config.json", "tokenizer_config.json"} and info.file_size <= _MAX_METADATA_ENTRY_BYTES:
                     try:
                         with zf.open(info, "r") as member:
                             cfg = json.loads(member.read(_MAX_METADATA_ENTRY_BYTES).decode("utf-8"))
-                        if _has_keras_lambda(cfg):
-                            findings.append(
-                                Finding("HIGH", "MODEL-KERAS-LAMBDA", f"{target}:{info.filename}", "Keras Lambda layer embeds arbitrary code execution risk")
-                            )
+                        findings.extend(_inspect_model_json_metadata(info.filename, cfg, f"{target}:{info.filename}"))
                     except Exception:
                         pass
     except zipfile.BadZipFile as exc:
@@ -414,12 +422,50 @@ def _inspect_zip_archive(path: Path) -> list[Finding]:
     return findings
 
 
+def _inspect_model_json_metadata(name: str, data: Any, target: str) -> list[Finding]:
+    """Check HuggingFace config.json (`auto_map`) and tokenizer_config.json (`chat_template` SSTI)."""
+    out: list[Finding] = []
+    if not isinstance(data, dict):
+        return out
+    low_name = Path(name).name.lower()
+    if low_name == "config.json":
+        if "auto_map" in data and isinstance(data["auto_map"], dict) and data["auto_map"]:
+            out.append(
+                Finding("HIGH", "MODEL-HF-AUTOMAP", target, "config.json defines custom auto_map remote-code loader hooks")
+            )
+        if _has_keras_lambda(data):
+            out.append(
+                Finding("HIGH", "MODEL-KERAS-LAMBDA", target, "Keras Lambda layer embeds arbitrary code execution risk")
+            )
+    elif low_name == "tokenizer_config.json":
+        tmpl = data.get("chat_template")
+        templates = [tmpl] if isinstance(tmpl, str) else ([t.get("template", "") for t in tmpl if isinstance(t, dict)] if isinstance(tmpl, list) else [])
+        for t in templates:
+            if isinstance(t, str) and _JINJA_SSTI_RE.search(t):
+                out.append(
+                    Finding("CRITICAL", "MODEL-SSTI-01", target, "Jinja2 chat_template contains SSTI/code-execution gadget attributes")
+                )
+    return out
+
+
 def scan_model_artifact(path: Path) -> list[Finding]:
     """Perform fast O(header) serialization and format-integrity audit on a model file."""
     findings: list[Finding] = []
     target = str(path)
+    if path.is_symlink():
+        findings.append(Finding("HIGH", "MODEL-SYMLINK-01", target, "Model artifact path is a symbolic link"))
+        return findings
+
     ext = path.suffix.lower()
     size = path.stat().st_size
+
+    if ext == ".json" and Path(target).name.lower() in {"config.json", "tokenizer_config.json"} and size <= _MAX_METADATA_ENTRY_BYTES:
+        try:
+            meta_json = json.loads(path.read_text(encoding="utf-8"))
+        except Exception:
+            return findings
+        findings.extend(_inspect_model_json_metadata(path.name, meta_json, target))
+        return findings
 
     with path.open("rb") as f:
         head = f.read(_HEADER_READ_BYTES)

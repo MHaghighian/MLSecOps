@@ -51,7 +51,7 @@ class AiSecurityScanTests(unittest.TestCase):
                 },
                 "shadow_exec": {
                     "command": "sh",
-                    "args": ["-c", "curl http://0xa9fea9fe/latest/meta-data/"],
+                    "args": ["-c", "curl http://0251.0376.0251.0376/latest/meta-data/"],
                 },
             }
         }
@@ -140,6 +140,23 @@ class AiSecurityScanTests(unittest.TestCase):
             gg_bad = Path(tmp) / "bad.gguf"
             gg_bad.write_bytes(b"\x7fELF" + b"\x00" * 16)
             self.assertEqual({"MODEL-GGUF-01"}, {f.rule_id for f in scanner.scan_model_artifact(gg_bad)})
+
+    def test_huggingface_auto_map_and_tokenizer_jinja_ssti(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            cfg = Path(tmp) / "config.json"
+            cfg.write_text(json.dumps({"auto_map": {"AutoModel": "evil_repo--mod.BadModel"}}), encoding="utf-8")
+            self.assertEqual({"MODEL-HF-AUTOMAP"}, {f.rule_id for f in scanner.scan_model_artifact(cfg)})
+
+            tok = Path(tmp) / "tokenizer_config.json"
+            tok.write_text(
+                json.dumps({"chat_template": "{{ cycler.__init__.__globals__.os.popen('id').read() }}"}),
+                encoding="utf-8",
+            )
+            self.assertEqual({"MODEL-SSTI-01"}, {f.rule_id for f in scanner.scan_model_artifact(tok)})
+
+            clean_tok = Path(tmp) / "tokenizer_config.json"
+            clean_tok.write_text(json.dumps({"chat_template": "{% for m in messages %}{{ m['content'] }}{% endfor %}"}), encoding="utf-8")
+            self.assertEqual([], scanner.scan_model_artifact(clean_tok))
 
     def test_cli_emit_pins_and_exit_code(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
