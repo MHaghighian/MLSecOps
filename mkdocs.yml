@@ -67,8 +67,10 @@ nav:
       - OPA / Conftest Policies: policies/README.md
       - CP8-CP9 Admission Policy: policies/cp8_cp9_admission.md
       - Kubernetes Workload Policy: policies/k8s/README.md
+      - Witness & Archivista Policy: policies/witness/README.md
       - AARM Alignment: references/aarm-alignment.md
       - Standards & Conformance: references/standards-alignment.md
+      - in-toto, Witness & Archivista: references/intoto-witness-archivista.md
       - Controlled Benchmark: references/evaluation-benchmark.md
   - Guide:
       - Table of Contents: chapters-en/TABLE-OF-CONTENTS.md

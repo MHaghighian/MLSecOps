@@ -16,17 +16,29 @@
       "minItems": 1,
       "items": {
         "type": "object",
-        "required": ["name", "digest"],
+        "required": ["digest"],
         "properties": {
           "name": { "type": "string", "minLength": 1 },
+          "uri": { "type": "string", "minLength": 1 },
+          "downloadLocation": { "type": "string", "minLength": 1 },
+          "mediaType": { "type": "string", "minLength": 1 },
+          "annotations": { "type": "object" },
           "digest": {
             "type": "object",
-            "required": ["sha256"],
+            "minProperties": 1,
             "properties": {
               "sha256": {
                 "type": "string",
                 "pattern": "^[a-f0-9]{64}$"
+              },
+              "sha512": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{128}$"
               }
+            },
+            "additionalProperties": {
+              "type": "string",
+              "pattern": "^[a-f0-9]+$"
             }
           }
         }

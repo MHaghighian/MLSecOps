@@ -2,9 +2,9 @@
 
 Machine-readable JSON Schema ([Draft 2020-12](evidence-pack.schema.json)) aligned with CycloneDX 1.6/1.7 themes and MLSecOps control points **4 / 7 / 8 / 9**.
 
-- Schema files: [`evidence-pack.schema.json`](evidence-pack.schema.json) · [`mlsecops-attestation.v1.schema.json`](mlsecops-attestation.v1.schema.json) (`in-toto` v1 envelope)
-- Filled examples: [examples guide](evidence-pack.example.md) (`Agentic-MCP` + `Managed-API` + `Pretraining-Distributed` + `in-toto` v1)
-- Conformance standard: [Standards Alignment & `MLS-*` Profile](../references/STANDARDS-ALIGNMENT.md)
+- Schema files: [`evidence-pack.schema.json`](evidence-pack.schema.json) · [`mlsecops-attestation.v1.schema.json`](mlsecops-attestation.v1.schema.json) (`in-toto` v1 Statement) · [`dsse-envelope.v1.schema.json`](dsse-envelope.v1.schema.json) (DSSE Envelope)
+- Filled examples: [examples guide](evidence-pack.example.md) (`Agentic-MCP` + `Managed-API` + `Pretraining-Distributed` + `in-toto` v1 + `DSSE`)
+- Conformance & provenance guides: [Standards Alignment & `MLS-*` Profile](../references/STANDARDS-ALIGNMENT.md) · [in-toto, Witness & Archivista](../references/INTOTO-WITNESS-ARCHIVISTA.md)
 - Overview: [schemas README](README.md) · Admission policy: [`policies/cp8_cp9_admission`](../policies/cp8_cp9_admission.md)
 
 ## Top-level structure & field contract

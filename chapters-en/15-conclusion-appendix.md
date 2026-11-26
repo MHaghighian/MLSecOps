@@ -492,7 +492,7 @@ Each major section may end with:
 - `lintML` (NVIDIA), `NB Defense` (Protect AI) — linter and notebook/ML code scan
 - `Gitleaks`, `Trivy`, `Syft`, `Grype` — secret/SCA/SBOM
 - `Checkov`, `tfsec`, `OPA`/`Conftest`, `Kyverno` — IaC and policy-as-code
-- `Sigstore / Cosign / Rekor`, `sigstore/model-transparency` (`model-signing`), `SLSA` — model signing and provenance
+- `Sigstore / Cosign / Rekor`, `sigstore/model-transparency` (`model-signing`), `SLSA`, `in-toto Attestation Framework v1` / `DSSE` (https://github.com/in-toto/attestation), `in-toto/witness` (https://github.com/in-toto/witness), `in-toto/archivista` (https://github.com/in-toto/archivista) — model signing, DSSE step collections, and private graph provenance storage
 - `CycloneDX 1.7 (ECMA-424)`, `cdxgen` (`aibom`), `OWASP AIBOM Generator`, `aisbom-cli` (https://github.com/Lab700xOrg/aisbom) — SBOM and ML-BOM/AI-BOM
 - `Docker Model Runner` (https://docs.docker.com/ai/model-runner/) — OCI-packaged local model runner (dev/CI)
 - `agentgateway` (https://github.com/agentgateway/agentgateway), `mcp-firewall` (https://github.com/ressl/mcp-firewall), `ToTra` (https://github.com/SugaC-275/ToTra), `ThinkWatch` (https://github.com/ThinkWatchProject/ThinkWatch) — AI/MCP gateways and proxies

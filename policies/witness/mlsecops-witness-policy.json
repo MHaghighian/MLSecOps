@@ -1,0 +1,46 @@
+{
+  "expires": "2035-12-31T23:59:59Z",
+  "steps": {
+    "cp7-cp9-gate": {
+      "name": "cp7-cp9-gate",
+      "attestations": [
+        {
+          "type": "https://witness.dev/attestations/git/v0.1",
+          "regopolicies": [
+            {
+              "name": "clean-git-workspace",
+              "module": "cGFja2FnZSBnaXQKCmRlbnlbbXNnXSB7CiAgICBpbnB1dC5zdGF0dXMgIT0gIiIKICAgIG1zZyA6PSAicmVsZWFzZSBidWlsZCByYW4gb24gZGlydHkgZ2l0IHdvcmtzcGFjZSIKfQo="
+            }
+          ]
+        },
+        {
+          "type": "https://witness.dev/attestations/material/v0.1"
+        },
+        {
+          "type": "https://witness.dev/attestations/product/v0.1"
+        },
+        {
+          "type": "https://witness.dev/attestations/command-run/v0.1",
+          "regopolicies": [
+            {
+              "name": "enforce-zero-exitcode",
+              "module": "cGFja2FnZSBjb21tYW5kcnVuCgpkZW55W21zZ10gewogICAgaW5wdXQuZXhpdGNvZGUgIT0gMAogICAgbXNnIDo9ICJDUDcvQ1A5IHN0ZXAgZXhpdGVkIHdpdGggbm9uLXplcm8gc3RhdHVzIgp9Cg=="
+            }
+          ]
+        }
+      ],
+      "functionaries": [
+        {
+          "type": "publickey",
+          "publickeyid": "REPLACE-WITH-KEY-SHA256"
+        }
+      ]
+    }
+  },
+  "publickeys": {
+    "REPLACE-WITH-KEY-SHA256": {
+      "keyid": "REPLACE-WITH-KEY-SHA256",
+      "key": ""
+    }
+  }
+}

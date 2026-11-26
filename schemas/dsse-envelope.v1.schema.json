@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/MHaghighian/MLSecOps/schemas/dsse-envelope.v1.schema.json",
+  "title": "DSSE Envelope for in-toto / Witness / Archivista",
+  "description": "Validates a Dead Simple Signing Envelope (DSSE) carrying an application/vnd.in-toto+json Statement v1 payload.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["payloadType", "payload", "signatures"],
+  "properties": {
+    "payloadType": {
+      "type": "string",
+      "const": "application/vnd.in-toto+json"
+    },
+    "payload": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9+/=_-]+$"
+    },
+    "signatures": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["keyid", "sig"],
+        "properties": {
+          "keyid": { "type": "string" },
+          "sig": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9+/=_-]+$"
+          }
+        }
+      }
+    }
+  }
+}

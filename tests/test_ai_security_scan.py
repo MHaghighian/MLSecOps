@@ -246,6 +246,34 @@ class AiSecurityScanTests(unittest.TestCase):
             self.assertEqual("https://in-toto.io/Statement/v1", stmt["_type"])
             self.assertEqual("https://mhaghighian.github.io/MLSecOps/attestation/evidence-pack/v1", stmt["predicateType"])
 
+            import base64
+            dsse_proc = subprocess.run(
+                [
+                    sys.executable,
+                    str(ROOT / "scripts" / "ai_security_scan.py"),
+                    "--emit-dsse",
+                    str(ROOT / "schemas" / "examples" / "evidence-pack.example.json"),
+                ],
+                capture_output=True,
+                text=True,
+                check=True,
+            )
+            env = json.loads(dsse_proc.stdout)
+            self.assertEqual("application/vnd.in-toto+json", env["payloadType"])
+            decoded = json.loads(base64.b64decode(env["payload"]).decode("utf-8"))
+            self.assertEqual("https://in-toto.io/Statement/v1", decoded["_type"])
+            self.assertEqual(
+                b"DSSEv1 28 application/vnd.in-toto+json 2 {}",
+                scanner.dsse_pae("application/vnd.in-toto+json", b"{}"),
+            )
+
+            w_policy = json.loads((ROOT / "policies" / "witness" / "mlsecops-witness-policy.json").read_text(encoding="utf-8"))
+            for att_req in w_policy["steps"]["cp7-cp9-gate"]["attestations"]:
+                for rp in att_req.get("regopolicies", []):
+                    mod_txt = base64.b64decode(rp["module"]).decode("utf-8")
+                    self.assertIn("package ", mod_txt)
+                    self.assertIn("deny[msg]", mod_txt)
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -374,7 +374,7 @@ Every released model must be traceable. It must be possible to answer:
 
 For model signing, in addition to general tools such as `Cosign`, there is now a dedicated tool `sigstore/model-transparency` (`model-signing` package) built with `OpenSSF`, `NVIDIA`, and `HiddenLayer` for ML models. This tool supports keyless identity-based signing (`OIDC`), which reduces long-term private key management burden (identity provider trust and verification policy still required), and can record signing events in the public `Rekor` transparency log for auditability (commands in Chapter 12).
 
-> **Confidentiality:** Public transparency logs expose signature metadata and artifact hashes. For proprietary models or regulated environments, use private attestation registries, internal object storage with object lock, or organization-controlled provenance—document the choice in the `Evidence Pack`.
+> **Confidentiality & Private Provenance:** Public transparency logs expose signature metadata and artifact hashes. For proprietary models or regulated environments, use **in-toto Statement v1 + DSSE + Witness + a private Archivista** instance (or private OCI/object-lock registries) rather than public Rekor logs — see [in-toto, Witness & Archivista Guide](../references/INTOTO-WITNESS-ARCHIVISTA.md) and document the store in the `Evidence Pack`.
 
 In some scenarios, `Watermarking` can also be used to embed an identifiable mark in the model or its output. This mechanism can help prove ownership, identify copied models, or track unauthorized use, but it is a supplementary control and does not replace digital signing or `Provenance Tracking`.
 

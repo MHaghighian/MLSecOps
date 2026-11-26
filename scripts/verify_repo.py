@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import base64
 import json
 import re
 import shutil
@@ -67,19 +68,25 @@ def check_evidence_pack_schema() -> None:
     schema = json.loads(schema_path.read_text(encoding="utf-8"))
     attestation_schema_path = ROOT / "schemas" / "mlsecops-attestation.v1.schema.json"
     attestation_schema = json.loads(attestation_schema_path.read_text(encoding="utf-8"))
+    dsse_schema_path = ROOT / "schemas" / "dsse-envelope.v1.schema.json"
+    dsse_schema = json.loads(dsse_schema_path.read_text(encoding="utf-8"))
 
     ep_resource = DRAFT202012.create_resource(schema)
     att_resource = DRAFT202012.create_resource(attestation_schema)
+    dsse_resource = DRAFT202012.create_resource(dsse_schema)
     registry = (
         Registry()
         .with_resource(schema["$id"], ep_resource)
         .with_resource("evidence-pack.schema.json", ep_resource)
         .with_resource(attestation_schema["$id"], att_resource)
         .with_resource("mlsecops-attestation.v1.schema.json", att_resource)
+        .with_resource(dsse_schema["$id"], dsse_resource)
+        .with_resource("dsse-envelope.v1.schema.json", dsse_resource)
     )
 
     validator = Draft202012Validator(schema, registry=registry, format_checker=_strict_format_checker())
     att_validator = Draft202012Validator(attestation_schema, registry=registry, format_checker=_strict_format_checker())
+    dsse_validator = Draft202012Validator(dsse_schema, registry=registry, format_checker=_strict_format_checker())
 
     fixtures = [
         *sorted((ROOT / "schemas" / "examples").glob("*.json")),
@@ -89,12 +96,31 @@ def check_evidence_pack_schema() -> None:
         validator.validate(json.loads(fp.read_text(encoding="utf-8")))
         print(f"OK schema: {fp.relative_to(ROOT).as_posix()}")
 
-    intoto_fixtures = sorted((ROOT / "schemas" / "examples" / "intoto").glob("*.json"))
+    intoto_fixtures = sorted((ROOT / "schemas" / "examples" / "intoto").glob("*.intoto.example.json"))
     if not intoto_fixtures:
         raise AssertionError("Expected at least one in-toto attestation example under schemas/examples/intoto/")
     for fp in intoto_fixtures:
         att_validator.validate(json.loads(fp.read_text(encoding="utf-8")))
         print(f"OK attestation schema: {fp.relative_to(ROOT).as_posix()}")
+
+    dsse_fixtures = sorted((ROOT / "schemas" / "examples" / "intoto").glob("*.dsse.example.json"))
+    if not dsse_fixtures:
+        raise AssertionError("Expected at least one DSSE example under schemas/examples/intoto/")
+    for fp in dsse_fixtures:
+        env = json.loads(fp.read_text(encoding="utf-8"))
+        dsse_validator.validate(env)
+        decoded_stmt = json.loads(base64.b64decode(env["payload"]).decode("utf-8"))
+        att_validator.validate(decoded_stmt)
+        print(f"OK DSSE envelope + decoded Statement v1: {fp.relative_to(ROOT).as_posix()}")
+
+    w_policy = json.loads((ROOT / "policies" / "witness" / "mlsecops-witness-policy.json").read_text(encoding="utf-8"))
+    for step_name, step_cfg in w_policy.get("steps", {}).items():
+        for att_req in step_cfg.get("attestations", []):
+            for rp in att_req.get("regopolicies", []):
+                mod_txt = base64.b64decode(rp["module"]).decode("utf-8")
+                if "package " not in mod_txt or "deny" not in mod_txt:
+                    raise AssertionError(f"Invalid Witness Rego module {rp.get('name')} in step {step_name}")
+    print("OK witness policy JSON & Base64 Rego modules: policies/witness/mlsecops-witness-policy.json")
 
     managed = json.loads(
         (ROOT / "schemas" / "examples" / "evidence-pack.managed-api.example.json").read_text(encoding="utf-8")
@@ -138,6 +164,27 @@ def check_evidence_pack_schema() -> None:
         print("OK attestation schema reject: Wrong in-toto _type")
     else:
         raise AssertionError("Expected ValidationError for wrong in-toto _type")
+
+    bad_subj = json.loads(json.dumps(intoto_sample))
+    bad_subj["subject"] = [{"name": "missing-digest"}]
+    try:
+        att_validator.validate(bad_subj)
+    except ValidationError:
+        print("OK attestation schema reject: ResourceDescriptor without digest")
+    else:
+        raise AssertionError("Expected ValidationError for ResourceDescriptor without digest")
+
+    dsse_sample = json.loads(
+        (ROOT / "schemas" / "examples" / "intoto" / "evidence-pack.dsse.example.json").read_text(encoding="utf-8")
+    )
+    bad_dsse = json.loads(json.dumps(dsse_sample))
+    bad_dsse["payloadType"] = "application/json"
+    try:
+        dsse_validator.validate(bad_dsse)
+    except ValidationError:
+        print("OK DSSE schema reject: Wrong DSSE payloadType")
+    else:
+        raise AssertionError("Expected ValidationError for wrong DSSE payloadType")
 
 
 def check_chapters_code_and_diagrams() -> None:
@@ -190,15 +237,20 @@ def check_release_manifest() -> None:
         "policies/k8s/inference_workload_test.rego",
         "schemas/evidence-pack.schema.json",
         "schemas/mlsecops-attestation.v1.schema.json",
+        "schemas/dsse-envelope.v1.schema.json",
         "schemas/examples/evidence-pack.managed-api.example.json",
         "schemas/examples/evidence-pack.pretraining.example.json",
         "schemas/examples/intoto/evidence-pack.intoto.example.json",
+        "schemas/examples/intoto/evidence-pack.dsse.example.json",
+        "policies/witness/mlsecops-witness-policy.json",
+        "policies/witness/README.md",
         "scripts/ai_security_scan.py",
         "scripts/build-docx.py",
         "scripts/eval_benchmark.py",
         "scripts/README.md",
         "scripts/verify_repo.py",
         "references/STANDARDS-ALIGNMENT.md",
+        "references/INTOTO-WITNESS-ARCHIVISTA.md",
         "references/EVALUATION-BENCHMARK.md",
         "tests/test_ai_security_scan.py",
         "assets/javascripts/mermaid-init.js",

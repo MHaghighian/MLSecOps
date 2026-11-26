@@ -48,6 +48,10 @@ LINK_REWRITES = {
     "../references/EVALUATION-BENCHMARK.md": "../references/evaluation-benchmark.md",
     "references/EVALUATION-BENCHMARK.md": "references/evaluation-benchmark.md",
     "EVALUATION-BENCHMARK.md": "evaluation-benchmark.md",
+    "../references/INTOTO-WITNESS-ARCHIVISTA.md": "../references/intoto-witness-archivista.md",
+    "../../references/INTOTO-WITNESS-ARCHIVISTA.md": "../../references/intoto-witness-archivista.md",
+    "references/INTOTO-WITNESS-ARCHIVISTA.md": "references/intoto-witness-archivista.md",
+    "INTOTO-WITNESS-ARCHIVISTA.md": "intoto-witness-archivista.md",
     # Non-doc paths → GitHub (MkDocs --strict cannot resolve repo files)
     "requirements-pages.txt": "https://github.com/MHaghighian/MLSecOps/blob/main/requirements-pages.txt",
     "scripts/requirements-docx.txt": "https://github.com/MHaghighian/MLSecOps/blob/main/scripts/requirements-docx.txt",

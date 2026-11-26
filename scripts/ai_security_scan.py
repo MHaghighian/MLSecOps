@@ -988,6 +988,28 @@ def _load_pins(pin_path: Path | None) -> dict[str, str] | None:
     raise ValueError(f"Unsupported pins JSON format in {pin_path}")
 
 
+def dsse_pae(payload_type: str, payload: bytes) -> bytes:
+    """Return canonical DSSE Pre-Authentication Encoding (`DSSEv1 <len> <type> <len> <body>`)."""
+    pt = payload_type.encode("utf-8")
+    return b"DSSEv1 " + str(len(pt)).encode("ascii") + b" " + pt + b" " + str(len(payload)).encode("ascii") + b" " + payload
+
+
+def build_intoto_statement(pack: dict[str, Any], fallback_name: str) -> dict[str, Any]:
+    raw_digest = (
+        pack.get("modelArtifact", {}).get("sha256Digest")
+        or pack.get("managedApiConfig", {}).get("configSnapshotHash")
+        or pack.get("lifecycleControlGates", {}).get("cp8_releaseDecisionGate", {}).get("boundToCp9Digest", "")
+    )
+    hex_digest = raw_digest.removeprefix("sha256:")
+    subj_name = pack.get("metadata", {}).get("releaseId") or fallback_name
+    return {
+        "_type": "https://in-toto.io/Statement/v1",
+        "subject": [{"name": str(subj_name), "digest": {"sha256": hex_digest}}],
+        "predicateType": "https://mhaghighian.github.io/MLSecOps/attestation/evidence-pack/v1",
+        "predicate": pack,
+    }
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--mcp", type=Path, action="append", default=[], help="MCP config / manifest JSON file or directory")
@@ -995,6 +1017,7 @@ def main() -> int:
     parser.add_argument("--pins", type=Path, help="Evidence Pack or server->sha256 map JSON to verify MCP schema hashes")
     parser.add_argument("--emit-pins", type=Path, help="Print canonical mcpSchemaHashes JSON for an MCP file")
     parser.add_argument("--emit-intoto", type=Path, help="Wrap an Evidence Pack JSON inside an https://in-toto.io/Statement/v1 envelope")
+    parser.add_argument("--emit-dsse", type=Path, help="Wrap an Evidence Pack JSON inside an unsigned DSSE envelope (application/vnd.in-toto+json) ready for Witness/Cosign signing")
     parser.add_argument("--json", action="store_true", dest="json_out", help="Emit findings as JSON")
     parser.add_argument(
         "--fail-on",
@@ -1011,20 +1034,21 @@ def main() -> int:
 
     if args.emit_intoto:
         pack = json.loads(args.emit_intoto.read_text(encoding="utf-8"))
-        raw_digest = (
-            pack.get("modelArtifact", {}).get("sha256Digest")
-            or pack.get("managedApiConfig", {}).get("configSnapshotHash")
-            or pack.get("lifecycleControlGates", {}).get("cp8_releaseDecisionGate", {}).get("boundToCp9Digest", "")
-        )
-        hex_digest = raw_digest.removeprefix("sha256:")
-        subj_name = pack.get("metadata", {}).get("releaseId") or args.emit_intoto.stem
-        stmt = {
-            "_type": "https://in-toto.io/Statement/v1",
-            "subject": [{"name": str(subj_name), "digest": {"sha256": hex_digest}}],
-            "predicateType": "https://mhaghighian.github.io/MLSecOps/attestation/evidence-pack/v1",
-            "predicate": pack,
+        print(json.dumps(build_intoto_statement(pack, args.emit_intoto.stem), indent=2))
+        return 0
+
+    if args.emit_dsse:
+        import base64
+
+        pack = json.loads(args.emit_dsse.read_text(encoding="utf-8"))
+        stmt = build_intoto_statement(pack, args.emit_dsse.stem)
+        payload_bytes = json.dumps(stmt, separators=(",", ":"), sort_keys=True).encode("utf-8")
+        envelope = {
+            "payloadType": "application/vnd.in-toto+json",
+            "payload": base64.b64encode(payload_bytes).decode("ascii"),
+            "signatures": [],
         }
-        print(json.dumps(stmt, indent=2))
+        print(json.dumps(envelope, indent=2))
         return 0
 
     pins = _load_pins(args.pins)
