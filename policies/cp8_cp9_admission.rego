@@ -194,17 +194,21 @@ deny contains msg if {
 	msg := sprintf("HIGH [Ch.5/CP9]: weak hash algorithm %v on component %v; use SHA-256+", [h.alg, component.name])
 }
 
-deny contains msg if {
-	has_non_empty_text(input, ["metadata", "systemScope"])
-	input.metadata.systemScope != "Managed-API"
-	is_sha256_prefixed(input.modelArtifact.sha256Digest)
+ml_component_sha256_hashes contains lower(h.content) if {
 	some component in input.components
 	component.type == "machine-learning-model"
 	some h in component.hashes
 	upper(trim_space(h.alg)) == "SHA-256"
+}
+
+deny contains msg if {
+	has_non_empty_text(input, ["metadata", "systemScope"])
+	input.metadata.systemScope != "Managed-API"
+	is_sha256_prefixed(input.modelArtifact.sha256Digest)
+	count(ml_component_sha256_hashes) > 0
 	expected := trim_prefix(input.modelArtifact.sha256Digest, "sha256:")
-	lower(h.content) != expected
-	msg := sprintf("CRITICAL [Ch.5/CP9]: ML component %v SHA-256 (%v) does not match modelArtifact digest (%v)", [component.name, h.content, expected])
+	not expected in ml_component_sha256_hashes
+	msg := sprintf("CRITICAL [Ch.5/CP9]: no machine-learning-model component SHA-256 matches modelArtifact digest (%v)", [expected])
 }
 
 # Appendix E.1.7: local OCI runner TCP endpoint must not be exposed without network isolation.

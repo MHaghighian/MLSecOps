@@ -178,7 +178,14 @@ test_deny_supply_chain_components_and_case_unreadable if {
 	some m2 in main.deny with input as bad
 	contains(m2, "HIGH [Ch.5/CP9]: weak hash algorithm")
 	some m3 in main.deny with input as bad
-	contains(m3, "CRITICAL [Ch.5/CP9]: ML component")
+	contains(m3, "CRITICAL [Ch.5/CP9]: no machine-learning-model component SHA-256 matches modelArtifact digest")
+
+	# Multi-model BOMs (primary LLM matching modelArtifact + companion embedding model) must pass cleanly.
+	multi_ok := object.union(base_pack, {"components": [
+		{"name": "primary-llm", "type": "machine-learning-model", "hashes": [{"alg": "SHA-256", "content": hash_a}]},
+		{"name": "embedding-bge", "type": "machine-learning-model", "hashes": [{"alg": "SHA-256", "content": hash_b}]},
+	]})
+	main.allow with input as multi_ok
 }
 
 test_deny_dmr_exposed_and_raw_prompt_telemetry if {

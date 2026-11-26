@@ -40,7 +40,7 @@ test_deny_unpinned_and_trust_remote_code_and_plain_secret if {
 	bad := object.union(base_deploy, {"spec": {"template": {"spec": {"containers": [{
 		"name": "vllm",
 		"image": "vllm/vllm-openai:latest",
-		"args": ["--model", "org/m", "--trust-remote-code"],
+		"args": ["--model", "org/m", "--trust-remote-code", "--api-key", "hf_abcdefghijklmnopqrstuvwxyz123456"],
 		"env": [{"name": "HF_TOKEN", "value": "hf_plaintext_secret"}],
 		"resources": {"limits": {"memory": "16Gi"}},
 		"securityContext": {
@@ -55,6 +55,27 @@ test_deny_unpinned_and_trust_remote_code_and_plain_secret if {
 	contains(m2, "CRITICAL [Ch.5/16]: container \"vllm\" passes --trust-remote-code")
 	some m3 in k8s.deny with input as bad
 	contains(m3, "CRITICAL [Ch.5/16]: container \"vllm\" hardcodes sensitive env")
+	some m4 in k8s.deny with input as bad
+	contains(m4, "exposes hardcoded token literal in command/args")
+}
+
+test_deny_container_overrides_pod_security if {
+	bad := object.union(base_deploy, {"spec": {"template": {"spec": {"containers": [{
+		"name": "vllm",
+		"image": pinned_img,
+		"resources": {"limits": {"memory": "16Gi"}},
+		"securityContext": {
+			"runAsUser": 0,
+			"allowPrivilegeEscalation": false,
+			"readOnlyRootFilesystem": true,
+			"seccompProfile": {"type": "Unconfined"},
+			"capabilities": {"drop": ["ALL"]},
+		},
+	}]}}}})
+	some m_root in k8s.deny with input as bad
+	contains(m_root, "runAsNonRoot=true")
+	some m_sec in k8s.deny with input as bad
+	contains(m_sec, "seccompProfile")
 }
 
 test_deny_host_escape_surfaces if {

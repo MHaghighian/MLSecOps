@@ -36,20 +36,38 @@ is_digest_pinned(image) if {
 
 has_run_as_non_root if {
 	pod_spec.securityContext.runAsNonRoot == true
+	not any_container_runs_as_root
 } else if {
 	count(all_containers) > 0
 	every c in all_containers {
 		c.securityContext.runAsNonRoot == true
+		object.get(c.securityContext, "runAsUser", 1000) != 0
 	}
+}
+
+any_container_runs_as_root if {
+	some c in all_containers
+	c.securityContext.runAsNonRoot == false
+} else if {
+	some c in all_containers
+	c.securityContext.runAsUser == 0
+} else if {
+	pod_spec.securityContext.runAsUser == 0
 }
 
 has_seccomp_profile if {
 	pod_spec.securityContext.seccompProfile.type in {"RuntimeDefault", "Localhost"}
+	not any_container_disables_seccomp
 } else if {
 	count(all_containers) > 0
 	every c in all_containers {
 		c.securityContext.seccompProfile.type in {"RuntimeDefault", "Localhost"}
 	}
+}
+
+any_container_disables_seccomp if {
+	some c in all_containers
+	c.securityContext.seccompProfile.type == "Unconfined"
 }
 
 drops_all_capabilities(c) if {
@@ -84,7 +102,7 @@ deny contains msg if {
 	msg := sprintf("CRITICAL [Ch.5/16]: container %q enables %s=%v", [c.name, env.name, env.value])
 }
 
-# Ch.16: reject plaintext secret literals in container env (require valueFrom.secretKeyRef).
+# Ch.16: reject plaintext secret literals in container env or CLI command/args tokens.
 deny contains msg if {
 	input.kind in workload_kinds
 	some c in all_containers
@@ -95,6 +113,15 @@ deny contains msg if {
 	count(trim_space(val)) > 0
 	not env.valueFrom
 	msg := sprintf("CRITICAL [Ch.5/16]: container %q hardcodes sensitive env %q inline instead of valueFrom", [c.name, env.name])
+}
+
+deny contains msg if {
+	input.kind in workload_kinds
+	some c in all_containers
+	some token in array.concat(object.get(c, "command", []), object.get(c, "args", []))
+	is_string(token)
+	regex.match("(sk-(?:proj-)?[A-Za-z0-9_-]{20,}|hf_[A-Za-z0-9]{20,}|ghp_[A-Za-z0-9]{20,}|AKIA[0-9A-Z]{16})", token)
+	msg := sprintf("CRITICAL [Ch.5/16]: container %q exposes hardcoded token literal in command/args", [c.name])
 }
 
 # Ch.16: reject host namespace breakouts and hostPath mounts.

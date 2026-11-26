@@ -2,35 +2,43 @@
 """Fast, zero-dependency static security scanner for MCP manifests/configs and ML model artifacts.
 
 Detects 2025-2026 MLSecOps attack surfaces without loading multi-GB model weights into memory:
-  1. Invisible Unicode Tag / Bidi / zero-width smuggling in MCP schemas, prompts, and metadata.
-  2. MCP tool poisoning, credential-exfil directives, Shadow MCP unpinned runners, SSRF, cleartext transport, and inline secrets.
-  3. Canonical SHA-256 MCP tools/list pinning & rug-pull drift detection.
-  4. Header-first model serialization audit: extension-spoofed Pickle payloads, ZIP CRC-32 parser discrepancies
-     (CVE-2025-10155 class), path-traversal ZIP entries, and Safetensors/GGUF header integrity checks.
+  1. Invisible Unicode Tag / Bidi / zero-width smuggling (preserving legitimate ZWNJ/ZWJ) & NFKC homoglyph evasion.
+  2. MCP tool poisoning, credential-exfil directives, Shadow MCP unpinned runners, obfuscated SSRF, cleartext transport, and inline secrets.
+  3. Canonical SHA-256 MCP tools/list pinning & rug-pull drift detection (mcpServers + VS Code servers).
+  4. Header-first model serialization audit: pickletools opcode disassembly (Protocol 0-5 STACK_GLOBAL/EOP),
+     ZIP CRC-32 anomalies (CVE-2025-10155), path-traversal ZIP entries, TorchScript code/*.py, Keras Lambda, and Safetensors/GGUF checks.
 """
 from __future__ import annotations
 
 import argparse
 import hashlib
+import io
+import ipaddress
 import json
+import pickletools
 import re
 import struct
 import sys
+import unicodedata
 import zipfile
 from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Any
+from urllib.parse import urlsplit
 
-# Invisible Tag block (U+E0000..U+E007F), Bidi overrides/isolates, zero-width controls.
-_STEGO_RE = re.compile(r"[\U000E0000-\U000E007F\u202A-\u202E\u2066-\u2069\u200B-\u200F\u2060]")
+# Smuggling chars: Unicode Tag block (U+E0000..U+E007F), Bidi overrides/isolates, ZWSP/LRM/RLM/WJ/BOM-in-text.
+# Intentionally preserves U+200C (ZWNJ) and U+200D (ZWJ) used in legitimate Persian/Arabic/Emoji text.
+_STEGO_RE = re.compile(r"[\U000E0000-\U000E007F\u202A-\u202E\u2066-\u2069\u200B\u200E\u200F\u2060\uFEFF]")
+_STRIP_INVIS_RE = re.compile(r"[\U000E0000-\U000E007F\u200B-\u200F\u202A-\u202E\u2060\u2066-\u2069\uFEFF]")
 
 _TOOL_POISON_RE = re.compile(
     r"(?is)"
     r"(?:<\s*/?\s*important\b[^>]*>)"
     r"|(?:ignore\s+(?:all\s+)?(?:previous|prior)\s+instructions)"
+    r"|(?:override\s+(?:the\s+)?system\s+prompt)"
     r"|(?:do\s+not\s+(?:tell|mention|show|inform)\s+(?:the\s+)?user)"
     r"|(?:before\s+(?:calling|invoking|using)\s+any\s+other\s+tool)"
-    r"|(?:~/\.ssh|/etc/(?:passwd|shadow)|\.aws/credentials|\bid_rsa\b)"
+    r"|(?:~/\.ssh|/etc/(?:passwd|shadow)|\.aws/credentials|\.kube/config|\.(?:npmrc|pypirc)\b|\bid_rsa\b)"
     r"|(?:\b(?:curl|wget)\b[^\n]*(?:https?://|\|)|/dev/tcp/|\bnc\s+-e\b)"
 )
 
@@ -39,18 +47,47 @@ _SECRET_LITERAL_RE = re.compile(
 )
 
 _SSRF_HOST_RE = re.compile(r"(?i)(?:169\.254\.169\.254|100\.100\.100\.200|metadata\.google\.internal|fd00:ec2::254)")
+_URL_IN_TEXT_RE = re.compile(r"(?i)\b(?:https?|wss?)://[^\s\"'<>]+")
 _CLEARTEXT_REMOTE_RE = re.compile(r"(?i)^(?:http|ws)://(?!(?:localhost|127\.0\.0\.1|\[::1\])(?::|/|$))")
 _SHELL_META_RE = re.compile(r"(?:&&|\|\||[;`|]|\$\()")
 _UNPINNED_NPX_RE = re.compile(r"^(@[^/]+/)?[A-Za-z0-9._-]+$")
 _UNPINNED_UVX_RE = re.compile(r"^[A-Za-z0-9._-]+$")
 
-# Dangerous Pickle module/opcode signatures scanned only in small leading windows (<64 KB).
-_DANGEROUS_PICKLE_RE = re.compile(
-    rb"(?:posix|nt|os|subprocess|builtins|pty|socket|webbrowser|codecs|commands)\n(?:system|popen|Popen|run|call|check_output|eval|exec|__import__|getoutput)"
-    rb"|(?:builtins|__builtin__)\x94?(?:eval|exec|__import__|getattr)"
-)
-_PICKLE_MAGIC_RE = re.compile(rb"^\x80[\x02-\x05]")
+_DANGEROUS_MODULES = {
+    "posix",
+    "nt",
+    "os",
+    "subprocess",
+    "builtins",
+    "__builtin__",
+    "pty",
+    "socket",
+    "webbrowser",
+    "codecs",
+    "commands",
+    "importlib",
+    "operator",
+    "sys",
+}
+_DANGEROUS_ATTRS = {
+    "system",
+    "popen",
+    "Popen",
+    "run",
+    "call",
+    "check_output",
+    "eval",
+    "exec",
+    "__import__",
+    "getattr",
+    "__subclasses__",
+    "attrgetter",
+    "methodcaller",
+    "decode",
+}
+_TORCHSCRIPT_DANGEROUS_RE = re.compile(r"(?m)\b(?:os\.system|subprocess\.|__import__|eval\s*\(|exec\s*\(|socket\.socket)\b")
 _HEADER_READ_BYTES = 65_536
+_MAX_METADATA_ENTRY_BYTES = 2 * 1024 * 1024
 _MAX_SAFETENSORS_HEADER = 100 * 1024 * 1024
 
 
@@ -71,11 +108,47 @@ def scan_unicode_smuggling(text: str) -> list[str]:
             hits.append("unicode-tag")
         elif (0x202A <= cp <= 0x202E or 0x2066 <= cp <= 0x2069) and "bidi-override" not in hits:
             hits.append("bidi-override")
-        elif (0x200B <= cp <= 0x200F or cp == 0x2060) and "zero-width" not in hits:
+        elif cp in (0x200B, 0x200E, 0x200F, 0x2060, 0xFEFF) and "zero-width" not in hits:
             hits.append("zero-width")
         if len(hits) == 3:
             break
     return hits
+
+
+def _normalize_for_keyword_scan(text: str) -> str:
+    """Strip invisible chars and fold NFKC homoglyphs before pattern matching."""
+    stripped = _STRIP_INVIS_RE.sub("", text)
+    return unicodedata.normalize("NFKC", stripped)
+
+
+def _has_ssrf_target(text: str) -> bool:
+    """Detect both literal metadata hostnames and decimal/hex/IPv4-mapped SSRF URLs."""
+    if _SSRF_HOST_RE.search(text):
+        return True
+    for m in _URL_IN_TEXT_RE.finditer(text):
+        try:
+            host = urlsplit(m.group(0)).hostname
+        except ValueError:
+            continue
+        if not host:
+            continue
+        addr: ipaddress.IPv4Address | ipaddress.IPv6Address | None = None
+        try:
+            addr = ipaddress.ip_address(host)
+        except ValueError:
+            # Handle decimal (2852039166) or hex (0xa9fea9fe) integer IPv4 hosts.
+            try:
+                num = int(host, 0) if host.lower().startswith("0x") else (int(host, 10) if host.isdigit() else -1)
+                if 0 <= num <= 0xFFFFFFFF:
+                    addr = ipaddress.IPv4Address(num)
+            except ValueError:
+                addr = None
+        if addr is not None:
+            if isinstance(addr, ipaddress.IPv6Address) and addr.ipv4_mapped:
+                addr = addr.ipv4_mapped
+            if addr.is_link_local or addr.is_unspecified:
+                return True
+    return False
 
 
 def _iter_strings(obj: Any, prefix: str = "") -> list[tuple[str, str]]:
@@ -104,11 +177,20 @@ def canonical_tools_hash(tools: list[dict[str, Any]]) -> str:
     return hashlib.sha256(payload.encode("utf-8")).hexdigest()
 
 
+def _mcp_server_maps(doc: dict[str, Any]) -> list[tuple[str, dict[str, Any]]]:
+    """Support both Claude/Cursor `mcpServers` and VS Code `servers` schemas."""
+    out: list[tuple[str, dict[str, Any]]] = []
+    for key in ("mcpServers", "servers"):
+        mapping = doc.get(key)
+        if isinstance(mapping, dict):
+            out.append((key, mapping))
+    return out
+
+
 def extract_mcp_server_hashes(doc: dict[str, Any]) -> dict[str, str]:
     """Extract canonical SHA-256 hashes for any server declaring a `tools` array."""
     hashes: dict[str, str] = {}
-    servers = doc.get("mcpServers")
-    if isinstance(servers, dict):
+    for _, servers in _mcp_server_maps(doc):
         for name, cfg in servers.items():
             if isinstance(cfg, dict) and isinstance(cfg.get("tools"), list):
                 hashes[str(name)] = canonical_tools_hash(cfg["tools"])
@@ -132,18 +214,17 @@ def _check_stdio_command(cmd: str, args: list[Any], server_label: str, findings:
 
     base = Path(cmd_l).name
     pkg_tokens = [a for a in arg_strs if a and not a.startswith("-")]
-    if base in {"npx", "npx.cmd"} and pkg_tokens:
-        pkg = pkg_tokens[0]
-        # Allow local paths or git URLs only if pinned; flag bare unversioned registry package names.
-        if _UNPINNED_NPX_RE.match(pkg):
-            findings.append(
-                Finding("HIGH", "MCP09-SHADOW-01", server_label, f"Unpinned npx package {pkg!r} enables supply-chain drift")
-            )
+    if base in {"npx", "npx.cmd"}:
+        for pkg in pkg_tokens:
+            if _UNPINNED_NPX_RE.match(pkg):
+                findings.append(
+                    Finding("HIGH", "MCP09-SHADOW-01", server_label, f"Unpinned npx package {pkg!r} enables supply-chain drift")
+                )
+                break
     elif base == "uvx" and pkg_tokens:
-        pkg = pkg_tokens[0]
-        if _UNPINNED_UVX_RE.match(pkg):
+        if _UNPINNED_UVX_RE.match(pkg_tokens[0]):
             findings.append(
-                Finding("HIGH", "MCP09-SHADOW-01", server_label, f"Unpinned uvx tool {pkg!r}; pin @version or ==version")
+                Finding("HIGH", "MCP09-SHADOW-01", server_label, f"Unpinned uvx tool {pkg_tokens[0]!r}; pin @version or ==version")
             )
 
 
@@ -157,7 +238,8 @@ def scan_mcp_document(doc: dict[str, Any], target: str, pinned_hashes: dict[str,
             findings.append(
                 Finding("CRITICAL", "MCP-UNI-01", f"{target}:{jpath}", f"Hidden Unicode/Bidi control sequence ({kinds})")
             )
-        if _TOOL_POISON_RE.search(text):
+        normalized = _normalize_for_keyword_scan(text)
+        if _TOOL_POISON_RE.search(normalized):
             findings.append(
                 Finding("CRITICAL", "MCP-POISON-01", f"{target}:{jpath}", "Suspected tool-poisoning directive or credential-exfil pattern")
             )
@@ -165,7 +247,7 @@ def scan_mcp_document(doc: dict[str, Any], target: str, pinned_hashes: dict[str,
             findings.append(
                 Finding("CRITICAL", "MCP-SEC-01", f"{target}:{jpath}", "Inline API token or credential literal detected")
             )
-        if _SSRF_HOST_RE.search(text):
+        if _has_ssrf_target(normalized):
             findings.append(
                 Finding("CRITICAL", "MCP-SSRF-01", f"{target}:{jpath}", "Cloud metadata / SSRF target address detected")
             )
@@ -175,12 +257,11 @@ def scan_mcp_document(doc: dict[str, Any], target: str, pinned_hashes: dict[str,
                 Finding("HIGH", "MCP-TLS-01", f"{target}:{jpath}", f"Cleartext remote MCP endpoint {text!r}")
             )
 
-    servers = doc.get("mcpServers")
-    if isinstance(servers, dict):
+    for map_key, servers in _mcp_server_maps(doc):
         for name, cfg in servers.items():
             if not isinstance(cfg, dict):
                 continue
-            label = f"{target}:mcpServers.{name}"
+            label = f"{target}:{map_key}.{name}"
             cmd = cfg.get("command")
             if isinstance(cmd, str) and cmd.strip():
                 args = cfg.get("args") if isinstance(cfg.get("args"), list) else []
@@ -215,8 +296,64 @@ def scan_mcp_document(doc: dict[str, Any], target: str, pinned_hashes: dict[str,
     return findings
 
 
+def _inspect_pickle_opcodes(blob: bytes) -> str | None:
+    """Disassemble pickle opcodes via stdlib pickletools (Protocol 0-5, zero execution)."""
+    recent_strings: list[str] = []
+    try:
+        for opcode, arg, _pos in pickletools.genops(io.BytesIO(blob)):
+            op_name = opcode.name
+            if op_name in {"GLOBAL", "INST"} and isinstance(arg, str):
+                mod, _, attr = arg.partition(" ")
+                if not attr:
+                    mod, _, attr = arg.partition("\n")
+                if mod.split(".")[0] in _DANGEROUS_MODULES or attr in _DANGEROUS_ATTRS:
+                    return f"{op_name} {arg!r}"
+            elif op_name in {"UNICODE", "SHORT_BINUNICODE", "BINUNICODE", "STRING", "BINSTRING", "SHORT_BINSTRING"} and isinstance(arg, str):
+                recent_strings.append(arg)
+                if len(recent_strings) > 4:
+                    recent_strings.pop(0)
+            elif op_name == "STACK_GLOBAL" and len(recent_strings) >= 2:
+                mod, attr = recent_strings[-2], recent_strings[-1]
+                if mod.split(".")[0] in _DANGEROUS_MODULES or attr in _DANGEROUS_ATTRS:
+                    return f"STACK_GLOBAL({mod}.{attr})"
+            elif op_name in {"EXT1", "EXT2", "EXT4"}:
+                return f"{op_name} extension registry lookup"
+    except Exception:
+        # Fallback if a pickle stream ends right past the read window after pushing suspicious globals.
+        for s in recent_strings:
+            if s in _DANGEROUS_MODULES or s in _DANGEROUS_ATTRS:
+                return f"partial-stream reference {s!r}"
+    return None
+
+
+def _looks_like_pickle(head: bytes) -> bool:
+    """Verify leading bytes represent a valid Pickle protocol header + opcodes."""
+    if len(head) >= 2 and head[0] == 0x80 and 2 <= head[1] <= 5:
+        return True
+    if head.startswith((b"c", b"(dp", b"}q", b"]q", b"\x89", b"I")):
+        try:
+            ops = [op.name for op, _, _ in zip(pickletools.genops(io.BytesIO(head[:256])), range(3))]
+            return bool(ops)
+        except Exception:
+            return False
+    return False
+
+
+def _has_keras_lambda(node: Any) -> bool:
+    stack = [node]
+    while stack:
+        cur = stack.pop()
+        if isinstance(cur, dict):
+            if cur.get("class_name") == "Lambda":
+                return True
+            stack.extend(cur.values())
+        elif isinstance(cur, list):
+            stack.extend(cur)
+    return False
+
+
 def _inspect_zip_archive(path: Path) -> list[Finding]:
-    """Inspect ZIP headers & central directory without unpacking multi-GB weight tensors."""
+    """Inspect ZIP headers & lightweight code/pickle/config entries without unpacking multi-GB weights."""
     findings: list[Finding] = []
     target = str(path)
     try:
@@ -232,7 +369,6 @@ def _inspect_zip_archive(path: Path) -> list[Finding]:
                         Finding("HIGH", "MODEL-ZIP-03", f"{target}:{info.filename}", "Encrypted ZIP entry hides payload from scanners")
                     )
 
-                # Compare local header CRC-32 against central directory CRC (CVE-2025-10155 parser-discrepancy defense).
                 raw.seek(info.header_offset)
                 local_hdr = raw.read(30)
                 if len(local_hdr) == 30 and local_hdr[:4] == b"PK\x03\x04":
@@ -247,18 +383,32 @@ def _inspect_zip_archive(path: Path) -> list[Finding]:
                             )
                         )
 
-                if norm.lower().endswith((".pkl", ".pickle")):
+                low = norm.lower()
+                if low.endswith((".pkl", ".pickle")):
                     with zf.open(info, "r") as member:
-                        head = member.read(_HEADER_READ_BYTES)
-                    if _DANGEROUS_PICKLE_RE.search(head):
+                        head = member.read(_MAX_METADATA_ENTRY_BYTES)
+                    hit = _inspect_pickle_opcodes(head)
+                    if hit:
                         findings.append(
-                            Finding(
-                                "CRITICAL",
-                                "MODEL-PKL-02",
-                                f"{target}:{info.filename}",
-                                "Archived pickle references executable module callables (os/subprocess/eval)",
-                            )
+                            Finding("CRITICAL", "MODEL-PKL-02", f"{target}:{info.filename}", f"Archived pickle dangerous opcode: {hit}")
                         )
+                elif low.endswith(".py") and info.file_size <= _MAX_METADATA_ENTRY_BYTES:
+                    with zf.open(info, "r") as member:
+                        src = member.read(_MAX_METADATA_ENTRY_BYTES).decode("utf-8", errors="replace")
+                    if _TORCHSCRIPT_DANGEROUS_RE.search(src):
+                        findings.append(
+                            Finding("CRITICAL", "MODEL-CODE-01", f"{target}:{info.filename}", "Embedded archive Python code invokes system/exec primitives")
+                        )
+                elif Path(low).name == "config.json" and info.file_size <= _MAX_METADATA_ENTRY_BYTES:
+                    try:
+                        with zf.open(info, "r") as member:
+                            cfg = json.loads(member.read(_MAX_METADATA_ENTRY_BYTES).decode("utf-8"))
+                        if _has_keras_lambda(cfg):
+                            findings.append(
+                                Finding("HIGH", "MODEL-KERAS-LAMBDA", f"{target}:{info.filename}", "Keras Lambda layer embeds arbitrary code execution risk")
+                            )
+                    except Exception:
+                        pass
     except zipfile.BadZipFile as exc:
         findings.append(Finding("CRITICAL", "MODEL-ZIP-BAD", target, f"Corrupt or non-standard ZIP archive: {exc}"))
     return findings
@@ -275,10 +425,9 @@ def scan_model_artifact(path: Path) -> list[Finding]:
         head = f.read(_HEADER_READ_BYTES)
 
     is_zip = head.startswith(b"PK\x03\x04")
-    has_pickle_magic = bool(_PICKLE_MAGIC_RE.match(head)) and any(op in head[:512] for op in (b"\x93", b"R", b"c", b"\x81", b"\x92"))
-    has_ascii_pickle = head.startswith(b"c") and b"\n" in head[:256] and (has_pickle_magic or _DANGEROUS_PICKLE_RE.search(head) is not None)
+    has_pickle = (not is_zip) and _looks_like_pickle(head)
 
-    if ext in {".safetensors", ".gguf", ".onnx"} and (is_zip or has_pickle_magic or has_ascii_pickle):
+    if ext in {".safetensors", ".gguf", ".onnx"} and (is_zip or has_pickle):
         findings.append(
             Finding("CRITICAL", "MODEL-SPOOF-01", target, f"Extension spoofing: {ext} file begins with Pickle/ZIP serialization bytes")
         )
@@ -287,11 +436,16 @@ def scan_model_artifact(path: Path) -> list[Finding]:
         findings.extend(_inspect_zip_archive(path))
         return findings
 
-    if has_pickle_magic or has_ascii_pickle or ext in {".pkl", ".pickle", ".dill"}:
-        if _DANGEROUS_PICKLE_RE.search(head):
-            findings.append(
-                Finding("CRITICAL", "MODEL-PKL-01", target, "Pickle stream contains dangerous callable/module opcode imports")
-            )
+    if has_pickle or ext in {".pkl", ".pickle", ".dill"}:
+        # Read up to 2 MB on standalone pickle files to close padding-evasion offsets while keeping scan bounded.
+        if size > len(head) and size <= _MAX_METADATA_ENTRY_BYTES:
+            head = path.read_bytes()
+        elif size > len(head):
+            with path.open("rb") as f:
+                head = f.read(_MAX_METADATA_ENTRY_BYTES)
+        hit = _inspect_pickle_opcodes(head)
+        if hit:
+            findings.append(Finding("CRITICAL", "MODEL-PKL-01", target, f"Dangerous Pickle opcode chain detected: {hit}"))
         elif ext in {".pkl", ".pickle", ".dill"}:
             findings.append(
                 Finding("HIGH", "MODEL-PKL-LEGACY", target, "Unsafe executable serialization format; prefer Safetensors or GGUF")
@@ -320,7 +474,8 @@ def scan_model_artifact(path: Path) -> list[Finding]:
             return findings
         if isinstance(meta.get("__metadata__"), dict):
             for k, val in _iter_strings(meta["__metadata__"], "__metadata__"):
-                if _STEGO_RE.search(val) or _TOOL_POISON_RE.search(val):
+                norm_val = _normalize_for_keyword_scan(val)
+                if _STEGO_RE.search(val) or _TOOL_POISON_RE.search(norm_val):
                     findings.append(
                         Finding("HIGH", "MODEL-ST-META", f"{target}:{k}", "Suspicious hidden text or prompt directive in __metadata__")
                     )
