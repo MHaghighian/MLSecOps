@@ -78,5 +78,7 @@ jobs:
           rm -f conftest "${archive}"
           echo "$RUNNER_TEMP" >> "$GITHUB_PATH"
 
-      - name: Run full repository & policy verification suite
-        run: python scripts/verify_repo.py --require-conftest --with-mkdocs
+      - name: Run full repository, AI scanner, & policy verification suite
+        run: |
+          python scripts/verify_repo.py --require-conftest --with-mkdocs
+          python scripts/ai_security_scan.py --mcp schemas/examples/evidence-pack.example.json --fail-on HIGH

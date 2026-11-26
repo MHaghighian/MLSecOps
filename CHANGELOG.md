@@ -4,8 +4,14 @@ All notable changes to the MLSecOps Reference Model & Practical Guide are docume
 
 ## [Unreleased]
 
+### Added
+
+- **`scripts/ai_security_scan.py` & `tests/test_ai_security_scan.py`** — fast zero-dependency O(header)/O(N) static security scanner covering invisible Unicode Tag / Bidi smuggling, MCP tool poisoning & credential exfil directives, Shadow MCP unpinned `npx`/`uvx`/shell execution, SSRF/cleartext endpoints, canonical `mcpSchemaHashes` pinning/rug-pull verification, extension-spoofed Pickle headers, ZIP CRC-32 anomalies (`CVE-2025-10155` pattern), and Safetensors/GGUF header integrity.
+- **Deeper Rego & K8s detection rules** — `policies/cp8_cp9_admission.rego` now enforces `sharedResponsibilityRecord` owners, `CP7` quantitative gates (`agentMisalignmentScore <= 0.15`, `redTeamPhasesCompleted >= 4`), `dataProvenance` PII/backup-revocation, `localRunnerConfig` TCP isolation (`E.1.7`), `runtimeTelemetry.rawPromptLoggingDisabled`, case-insensitive `aisbom:unreadable`, CycloneDX `components` SHA-256 cross-check vs `modelArtifact` + weak-hash denial (`MD5`/`SHA-1`), OWASP `ASI02`/`ASI03` `intentGateEnabled`, `ASI06` `memoryProvenanceVerified`, capped MCP sampling, and SSRF/cleartext/shadowed `serverName` checks; `policies/k8s/inference_workload.rego` adds `--trust-remote-code`, plaintext env secrets, `hostNetwork`/`hostPID`/`hostIPC`/`hostPath`, `seccompProfile`, `readOnlyRootFilesystem`, and `resources.limits.memory`.
+
 ### Changed
 
+- **QA & performance refactoring** — refactored `scripts/verify_repo.py` to single-pass HTML parsing (~2x fewer BeautifulSoup passes), pre-normalized `.mmd` lookup, strict stdlib RFC-3339 `date-time` checking, automated `tests/` discovery, and added `minLength`/`timestamp` pattern + `runtimeAgentConfig` `ASI02`/`ASI06`/MCP transport fields in `schemas/evidence-pack.schema.json`.
 - **Repo root cleanup** — removed `promotion/` (Medium draft out of scope for the reference model tree); moved Search Console assets from `seo/` to `.github/seo/` (updated Pages/`prepare_pages`/`inject_google_verification`/manifest/`RELEASING.md`); ignore local `_log_*/` build leftovers.
 
 ## [1.4.0] — 2026-11-25

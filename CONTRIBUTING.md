@@ -55,6 +55,7 @@ python -m pip install -r requirements-pages.txt
 python .github/prepare_pages.py
 mkdocs build --strict
 python scripts/verify_repo.py --with-mkdocs
+python scripts/ai_security_scan.py --mcp schemas/examples/evidence-pack.example.json
 ```
 
 GitHub Actions runs the same MkDocs build on pull requests and on `main` (see `.github/workflows/docs-check.yml`).

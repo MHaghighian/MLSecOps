@@ -167,7 +167,8 @@ MLSecOps/
 ├── policies/             # OPA / Conftest Policy-as-Code samples
 ├── schemas/              # Machine-readable Evidence Pack JSON Schema
 ├── references/           # Complementary alignment docs (e.g. AARM)
-├── scripts/              # DOCX build (build-docx.py, mermaid_to_png.py)
+├── scripts/              # Build & security checks (build-docx.py, verify_repo.py, ai_security_scan.py, mermaid_to_png.py, generate_release_manifest.py)
+├── tests/                # Non-redundant unit tests for security scanners & verification tooling
 ├── dist/                 # Local DOCX output (gitignored)
 ├── GETTING-STARTED.md    # Role-based reading paths
 ├── CITATION.cff          # Citation metadata (DOI)
