@@ -150,6 +150,38 @@ deny contains msg if {
 	msg := sprintf("CRITICAL [Ch.16]: volume %q mounts hostPath (container escape risk)", [vol.name])
 }
 
+deny contains msg if {
+	input.kind in workload_kinds
+	some c in all_containers
+	some port in object.get(c, "ports", [])
+	port.hostPort
+	msg := sprintf("HIGH [Ch.16]: container %q binds hostPort %v (bypasses gateway/NetworkPolicy)", [c.name, port.hostPort])
+}
+
+# Ch.16: reject unauthenticated vLLM inference containers and direct LoadBalancer/NodePort exposure.
+vllm_auth_configured(c) if {
+	some env in object.get(c, "env", [])
+	upper(env.name) == "VLLM_API_KEY"
+} else if {
+	some token in array.concat(object.get(c, "command", []), object.get(c, "args", []))
+	is_string(token)
+	contains(lower(token), "--api-key")
+}
+
+deny contains msg if {
+	input.kind in workload_kinds
+	some c in object.get(pod_spec, "containers", [])
+	contains(lower(object.get(c, "image", "")), "vllm")
+	not vllm_auth_configured(c)
+	msg := sprintf("HIGH [Ch.16]: vLLM container %q must configure VLLM_API_KEY or --api-key auth", [c.name])
+}
+
+deny contains msg if {
+	input.kind == "Service"
+	input.spec.type in {"LoadBalancer", "NodePort"}
+	msg := sprintf("HIGH [Ch.16]: Service %q uses %s (do not expose inference pods without gateway/WAF)", [object.get(input.metadata, "name", "<unnamed>"), input.spec.type])
+}
+
 # Ch.16: Pod Security Standards restricted — non-root, seccomp, privilege boundaries, read-only rootfs, dropped caps.
 deny contains msg if {
 	input.kind in workload_kinds

@@ -540,6 +540,14 @@ def scan_model_artifact(path: Path) -> list[Finding]:
                         Finding("CRITICAL", "MODEL-GGUF-SSTI", target, "Binary GGUF header metadata embeds Jinja2 SSTI payload (CVE-2024-34359 class)")
                     )
 
+    elif ext == ".onnx":
+        # CVE-2024-5187 class: external_data.location path traversal inside ONNX protobuf tensor metadata.
+        onnx_sample = path.read_bytes() if size <= _MAX_METADATA_ENTRY_BYTES else head
+        if b"location" in onnx_sample and re.search(rb"location[\x00-\x20\"'=:]{1,8}(?:\.\.[\\/]|/etc/|/root/|C:\\\\)", onnx_sample, re.I):
+            findings.append(
+                Finding("CRITICAL", "MODEL-ONNX-TRAV", target, "ONNX external_data location contains path-traversal sequence (CVE-2024-5187 class)")
+            )
+
     return findings
 
 

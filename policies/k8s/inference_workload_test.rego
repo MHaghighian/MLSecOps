@@ -20,6 +20,7 @@ base_deploy := {
 				"containers": [{
 					"name": "vllm",
 					"image": pinned_img,
+					"env": [{"name": "VLLM_API_KEY", "valueFrom": {"secretKeyRef": {"name": "inference-api-key", "key": "VLLM_API_KEY"}}}],
 					"resources": {"limits": {"cpu": "4", "memory": "16Gi"}},
 					"securityContext": {
 						"allowPrivilegeEscalation": false,
@@ -76,6 +77,27 @@ test_deny_container_overrides_pod_security if {
 	contains(m_root, "runAsNonRoot=true")
 	some m_sec in k8s.deny with input as bad
 	contains(m_sec, "seccompProfile")
+}
+
+test_deny_exposure_and_unauthenticated_vllm if {
+	bad_svc := {
+		"apiVersion": "v1",
+		"kind": "Service",
+		"metadata": {"name": "vllm-public"},
+		"spec": {"type": "LoadBalancer"},
+	}
+	some m_svc in k8s.deny with input as bad_svc
+	contains(m_svc, "LoadBalancer")
+
+	bad_port := object.union(base_deploy, {"spec": {"template": {"spec": {"containers": [{
+		"name": "vllm",
+		"image": pinned_img,
+		"ports": [{"hostPort": 8000}],
+	}]}}}})
+	some m_auth in k8s.deny with input as bad_port
+	contains(m_auth, "VLLM_API_KEY")
+	some m_hp in k8s.deny with input as bad_port
+	contains(m_hp, "hostPort")
 }
 
 test_deny_host_escape_surfaces if {

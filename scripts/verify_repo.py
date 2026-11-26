@@ -46,7 +46,15 @@ def check_workflows_and_encoding() -> None:
     for p in no_bom_paths:
         if p.read_bytes().startswith(b"\xef\xbb\xbf"):
             raise AssertionError(f"Unexpected UTF-8 BOM in {p.relative_to(ROOT)}")
-    print("OK encoding: no UTF-8 BOM in code/policy/schema/test files")
+
+    citation = yaml.safe_load((ROOT / "CITATION.cff").read_text(encoding="utf-8"))
+    mkdocs_txt = (ROOT / "mkdocs.yml").read_text(encoding="utf-8")
+    m_ver_match = re.search(r"(?m)^extra:\s*\n(?:[ \t]+[^\n]*\n)*?[ \t]+version:\s*([^\s#]+)", mkdocs_txt)
+    c_ver = str(citation.get("version", "")).strip()
+    m_ver = m_ver_match.group(1).strip("'\"") if m_ver_match else ""
+    if not c_ver or c_ver != m_ver:
+        raise AssertionError(f"Version drift: CITATION.cff={c_ver!r} vs mkdocs.yml={m_ver!r}")
+    print(f"OK encoding & version sync ({c_ver}): no UTF-8 BOM")
 
 
 def check_evidence_pack_schema() -> None:
