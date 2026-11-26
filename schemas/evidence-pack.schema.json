@@ -24,6 +24,7 @@
     },
     "serialNumber": {
       "type": "string",
+      "minLength": 1,
       "description": "Optional urn:uuid serial for the pack instance"
     },
     "version": {
@@ -34,7 +35,11 @@
       "type": "object",
       "required": ["timestamp", "systemScope", "sharedResponsibilityRecord"],
       "properties": {
-        "timestamp": { "type": "string", "format": "date-time" },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(Z|[+-]\\d{2}:\\d{2})$"
+        },
         "systemScope": {
           "type": "string",
           "enum": ["Classical-ML", "LLM-RAG", "Agentic-MCP", "Multimodal-Edge", "Managed-API"]
@@ -44,10 +49,10 @@
           "type": "object",
           "required": ["modelOwner", "platformOwner", "socOwner"],
           "properties": {
-            "modelOwner": { "type": "string" },
-            "platformOwner": { "type": "string" },
-            "ospoOwner": { "type": "string" },
-            "socOwner": { "type": "string" }
+            "modelOwner": { "type": "string", "minLength": 1 },
+            "platformOwner": { "type": "string", "minLength": 1 },
+            "ospoOwner": { "type": "string", "minLength": 1 },
+            "socOwner": { "type": "string", "minLength": 1 }
           }
         }
       }
@@ -58,17 +63,17 @@
         "type": "object",
         "required": ["name", "type"],
         "properties": {
-          "name": { "type": "string" },
-          "type": { "type": "string" },
-          "version": { "type": "string" },
+          "name": { "type": "string", "minLength": 1 },
+          "type": { "type": "string", "minLength": 1 },
+          "version": { "type": "string", "minLength": 1 },
           "hashes": {
             "type": "array",
             "items": {
               "type": "object",
               "required": ["alg", "content"],
               "properties": {
-                "alg": { "type": "string" },
-                "content": { "type": "string" }
+                "alg": { "type": "string", "minLength": 1 },
+                "content": { "type": "string", "minLength": 1 }
               }
             }
           },
@@ -78,7 +83,7 @@
               "type": "object",
               "required": ["name", "value"],
               "properties": {
-                "name": { "type": "string" },
+                "name": { "type": "string", "minLength": 1 },
                 "value": { "type": "string" }
               }
             }
@@ -99,10 +104,10 @@
       "type": "object",
       "description": "Required instead of modelArtifact when systemScope is Managed-API",
       "properties": {
-        "provider": { "type": "string" },
-        "deploymentId": { "type": "string" },
-        "region": { "type": "string" },
-        "apiVersion": { "type": "string" },
+        "provider": { "type": "string", "minLength": 1 },
+        "deploymentId": { "type": "string", "minLength": 1 },
+        "region": { "type": "string", "minLength": 1 },
+        "apiVersion": { "type": "string", "minLength": 1 },
         "configSnapshotHash": {
           "type": "string",
           "pattern": "^sha256:[a-f0-9]{64}$"
@@ -113,8 +118,8 @@
       "type": "object",
       "description": "Optional Ch.4/Ch.7/IR 8596 data and RAG index lineage evidence",
       "properties": {
-        "datasetVersion": { "type": "string" },
-        "lineageUri": { "type": "string" },
+        "datasetVersion": { "type": "string", "minLength": 1 },
+        "lineageUri": { "type": "string", "minLength": 1 },
         "piiScanResult": { "type": "string", "enum": ["PASS", "FAIL"] },
         "vectorIndexVersionHash": {
           "type": "string",
@@ -131,8 +136,8 @@
           "type": "string",
           "pattern": "^sha256:[a-f0-9]{64}$"
         },
-        "modelRegistry": { "type": "string" },
-        "engineVersion": { "type": "string" },
+        "modelRegistry": { "type": "string", "minLength": 1 },
+        "engineVersion": { "type": "string", "minLength": 1 },
         "tcpHostExposed": { "type": "boolean" },
         "networkIsolated": { "type": "boolean" }
       }
@@ -159,7 +164,7 @@
           "required": ["status"],
           "properties": {
             "status": { "type": "string", "enum": ["PASS", "BLOCK"] },
-            "serializationScanner": { "type": "string" },
+            "serializationScanner": { "type": "string", "minLength": 1 },
             "unreadableArtifactsDetected": { "type": "boolean" },
             "redTeamPhasesCompleted": {
               "type": "integer",
@@ -174,7 +179,7 @@
           "required": ["decision", "approverRole", "boundToCp9Digest"],
           "properties": {
             "decision": { "type": "string", "enum": ["APPROVED", "REJECTED"] },
-            "approverRole": { "type": "string" },
+            "approverRole": { "type": "string", "minLength": 1 },
             "boundToCp9Digest": {
               "type": "string",
               "pattern": "^sha256:[a-f0-9]{64}$",
@@ -218,13 +223,21 @@
       "properties": {
         "killSwitchEnabled": { "type": "boolean" },
         "scopedCredentialsRequired": { "type": "boolean" },
+        "intentGateEnabled": { "type": "boolean" },
+        "memoryStoreEnabled": { "type": "boolean" },
+        "memoryProvenanceVerified": { "type": "boolean" },
+        "delegationDepthMax": { "type": "integer", "minimum": 0, "maximum": 10 },
+        "samplingEnabled": { "type": "boolean" },
+        "samplingBudgetCapped": { "type": "boolean" },
         "mcpTools": {
           "type": "array",
           "items": {
             "type": "object",
             "required": ["serverName", "currentSchemaHash"],
             "properties": {
-              "serverName": { "type": "string" },
+              "serverName": { "type": "string", "minLength": 1 },
+              "transport": { "type": "string", "enum": ["stdio", "https", "http", "wss", "ws"] },
+              "endpoint": { "type": "string", "minLength": 1 },
               "currentSchemaHash": {
                 "type": "string",
                 "pattern": "^[a-f0-9]{64}$"

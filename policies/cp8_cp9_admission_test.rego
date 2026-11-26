@@ -31,6 +31,8 @@ base_pack := {
 		"cp7_adversarialAndRedTeamGate": {
 			"status": "PASS",
 			"unreadableArtifactsDetected": false,
+			"redTeamPhasesCompleted": 6,
+			"agentMisalignmentScore": 0.03,
 		},
 		"cp8_releaseDecisionGate": {
 			"decision": "APPROVED",
@@ -51,8 +53,14 @@ base_pack := {
 	"runtimeAgentConfig": {
 		"killSwitchEnabled": true,
 		"scopedCredentialsRequired": true,
+		"intentGateEnabled": true,
+		"memoryStoreEnabled": true,
+		"memoryProvenanceVerified": true,
+		"samplingEnabled": false,
 		"mcpTools": [{
 			"serverName": "payments-mcp",
+			"transport": "https",
+			"endpoint": "https://mcp.internal.example/payments",
 			"currentSchemaHash": hash_a,
 		}],
 	},
@@ -78,169 +86,146 @@ test_deny_missing_system_scope if {
 	"CRITICAL [Metadata]: missing or empty metadata.systemScope" in main.deny with input as pack
 }
 
-test_deny_empty_system_scope if {
-	pack := object.union(base_pack, {"metadata": {"systemScope": "   "}})
+test_deny_missing_owner_metadata if {
+	pack := object.union(base_pack, {"metadata": {"sharedResponsibilityRecord": {"socOwner": "  "}}})
 	not main.allow with input as pack
-	"CRITICAL [Metadata]: missing or empty metadata.systemScope" in main.deny with input as pack
+	"HIGH [Metadata]: missing sharedResponsibilityRecord.socOwner" in main.deny with input as pack
 }
 
-test_deny_cp4_blocked if {
-	pack := object.union(base_pack, {"lifecycleControlGates": {"cp4_dataAndRagAclGate": {"status": "BLOCK"}}})
+test_deny_cp4_and_pii_and_backup_revocation if {
+	pack := object.union(base_pack, {
+		"lifecycleControlGates": {"cp4_dataAndRagAclGate": {"status": "BLOCK"}},
+		"dataProvenance": {
+			"piiScanResult": "FAIL",
+			"vectorIndexVersionHash": digest_a,
+			"backupRevocationVerified": false,
+		},
+	})
 	not main.allow with input as pack
 	"CRITICAL [CP4]: data/RAG ACL gate status is not PASS" in main.deny with input as pack
+	"CRITICAL [CP4/Ch.4]: dataProvenance.piiScanResult is FAIL" in main.deny with input as pack
+	"HIGH [Ch.4/Ch.7]: RAG vector index backup/snapshot revocation verification failed" in main.deny with input as pack
 }
 
-test_deny_cp7_blocked if {
-	pack := object.union(base_pack, {"lifecycleControlGates": {"cp7_adversarialAndRedTeamGate": {"status": "BLOCK"}}})
+test_deny_cp7_thresholds_and_block if {
+	pack := object.union(base_pack, {"lifecycleControlGates": {"cp7_adversarialAndRedTeamGate": {
+		"status": "BLOCK",
+		"redTeamPhasesCompleted": 2,
+		"agentMisalignmentScore": 0.42,
+	}}})
 	not main.allow with input as pack
 	"CRITICAL [CP7]: security validation gate status is not PASS" in main.deny with input as pack
+	some m1 in main.deny with input as pack
+	contains(m1, "HIGH [CP7/Ch.8]: agentMisalignmentScore")
+	some m2 in main.deny with input as pack
+	contains(m2, "HIGH [CP7/Ch.12]: redTeamPhasesCompleted")
 }
 
-test_deny_missing_bound_to_cp9_digest if {
-	pack := json.remove(base_pack, ["lifecycleControlGates/cp8_releaseDecisionGate/boundToCp9Digest"])
-	not main.allow with input as pack
-	"CRITICAL [CP8->CP9]: missing cp8_releaseDecisionGate.boundToCp9Digest" in main.deny with input as pack
-}
+test_deny_cp8_cp9_digest_failures if {
+	missing_bound := json.remove(base_pack, ["lifecycleControlGates/cp8_releaseDecisionGate/boundToCp9Digest"])
+	"CRITICAL [CP8->CP9]: missing cp8_releaseDecisionGate.boundToCp9Digest" in main.deny with input as missing_bound
 
-test_deny_invalid_digest_format_placeholder if {
-	pack := object.union(base_pack, {
+	bad_fmt := object.union(base_pack, {
 		"modelArtifact": {"sha256Digest": "latest"},
 		"lifecycleControlGates": {"cp8_releaseDecisionGate": {"boundToCp9Digest": "latest"}},
 	})
-	not main.allow with input as pack
-	some msg in main.deny with input as pack
-	contains(msg, "is not a valid sha256:<64-hex> digest")
-}
+	some fmt_msg in main.deny with input as bad_fmt
+	contains(fmt_msg, "is not a valid sha256:<64-hex> digest")
 
-test_deny_non_managed_missing_model_digest if {
-	pack := json.remove(base_pack, ["modelArtifact/sha256Digest"])
-	not main.allow with input as pack
-	"CRITICAL [CP9]: missing modelArtifact.sha256Digest for non-managed deployment" in main.deny with input as pack
-}
+	mismatch := object.union(base_pack, {"modelArtifact": {"sha256Digest": digest_b}})
+	some m_msg in main.deny with input as mismatch
+	startswith(m_msg, "CRITICAL [CP8->CP9]: model digest")
 
-test_deny_non_managed_digest_mismatch if {
-	pack := object.union(base_pack, {"modelArtifact": {"sha256Digest": digest_b}})
-	not main.allow with input as pack
-	some msg in main.deny with input as pack
-	startswith(msg, "CRITICAL [CP8->CP9]: model digest")
-}
-
-test_deny_managed_api_missing_config_hash if {
-	pack := object.union(base_pack, {"metadata": {"systemScope": "Managed-API"}})
-	not main.allow with input as pack
-	"CRITICAL [CP9]: missing managedApiConfig.configSnapshotHash for Managed-API deployment" in main.deny with input as pack
-}
-
-test_deny_managed_api_digest_mismatch if {
-	pack := object.union(base_pack, {
+	managed_mismatch := object.union(base_pack, {
 		"metadata": {"systemScope": "Managed-API"},
 		"managedApiConfig": {"configSnapshotHash": digest_b},
 	})
-	not main.allow with input as pack
-	some msg in main.deny with input as pack
-	startswith(msg, "CRITICAL [CP8->CP9]: managed config digest")
+	some mg_msg in main.deny with input as managed_mismatch
+	startswith(mg_msg, "CRITICAL [CP8->CP9]: managed config digest")
 }
 
-test_deny_cp8_not_approved if {
-	pack := object.union(base_pack, {"lifecycleControlGates": {"cp8_releaseDecisionGate": {"decision": "REJECTED"}}})
-	not main.allow with input as pack
-	"CRITICAL [CP8]: release decision is not APPROVED" in main.deny with input as pack
+test_deny_missing_digests_per_scope if {
+	nm_missing := json.remove(base_pack, ["modelArtifact/sha256Digest"])
+	"CRITICAL [CP9]: missing modelArtifact.sha256Digest for non-managed deployment" in main.deny with input as nm_missing
+
+	mg_missing := object.union(base_pack, {"metadata": {"systemScope": "Managed-API"}})
+	"CRITICAL [CP9]: missing managedApiConfig.configSnapshotHash for Managed-API deployment" in main.deny with input as mg_missing
 }
 
-test_deny_cp9_not_verified if {
-	pack := json.remove(base_pack, ["cryptographicProvenance/cp9_checkpointVerified"])
-	not main.allow with input as pack
-	"CRITICAL [CP9]: integrity/provenance checkpoint not verified" in main.deny with input as pack
+test_deny_provenance_and_signature_placeholder if {
+	bad := object.union(base_pack, {
+		"lifecycleControlGates": {"cp8_releaseDecisionGate": {"decision": "REJECTED"}},
+		"cryptographicProvenance": {"cp9_checkpointVerified": false, "signatureMethod": "N/A"},
+	})
+	"CRITICAL [CP8]: release decision is not APPROVED" in main.deny with input as bad
+	"CRITICAL [CP9]: integrity/provenance checkpoint not verified" in main.deny with input as bad
+	some m in main.deny with input as bad
+	contains(m, "placeholder cryptographicProvenance.signatureMethod")
 }
 
-test_deny_placeholder_signature_method if {
-	pack := object.union(base_pack, {"cryptographicProvenance": {"signatureMethod": "none"}})
-	not main.allow with input as pack
-	some msg in main.deny with input as pack
-	contains(msg, "placeholder cryptographicProvenance.signatureMethod")
-}
-
-test_deny_unreadable_component if {
-	pack := object.union(base_pack, {"components": [{
+test_deny_supply_chain_components_and_case_unreadable if {
+	bad := object.union(base_pack, {"components": [{
 		"name": "bad.safetensors",
-		"properties": [{"name": "aisbom:unreadable", "value": "true"}],
+		"type": "machine-learning-model",
+		"hashes": [
+			{"alg": "MD5", "content": "deadbeef"},
+			{"alg": "SHA-256", "content": hash_b},
+		],
+		"properties": [{"name": "aisbom:unreadable", "value": "TRUE"}],
 	}]})
-	not main.allow with input as pack
-	some msg in main.deny with input as pack
-	contains(msg, "CRITICAL [Ch.5]: unreadable")
+	some m1 in main.deny with input as bad
+	contains(m1, "CRITICAL [Ch.5]: unreadable")
+	some m2 in main.deny with input as bad
+	contains(m2, "HIGH [Ch.5/CP9]: weak hash algorithm")
+	some m3 in main.deny with input as bad
+	contains(m3, "CRITICAL [Ch.5/CP9]: ML component")
 }
 
-test_deny_cp7_unreadable_artifacts if {
-	pack := object.union(base_pack, {"lifecycleControlGates": {"cp7_adversarialAndRedTeamGate": {"unreadableArtifactsDetected": true}}})
-	not main.allow with input as pack
-	"CRITICAL [Ch.5/CP7]: unreadableArtifactsDetected is true" in main.deny with input as pack
+test_deny_dmr_exposed_and_raw_prompt_telemetry if {
+	bad := object.union(base_pack, {
+		"localRunnerConfig": {"tcpHostExposed": true, "networkIsolated": false},
+		"runtimeTelemetry": {"rawPromptLoggingDisabled": false},
+	})
+	"CRITICAL [E.1.7]: localRunnerConfig exposes TCP endpoint without network isolation" in main.deny with input as bad
+	"HIGH [Ch.4/10]: runtimeTelemetry.rawPromptLoggingDisabled must not be false" in main.deny with input as bad
 }
 
-test_deny_unpinned_mcp09 if {
-	pack := object.union(base_pack, {"runtimeAgentConfig": {"mcpTools": [{
-		"serverName": "shadow-mcp",
-		"currentSchemaHash": hash_a,
-	}]}})
-	not main.allow with input as pack
-	some msg in main.deny with input as pack
-	contains(msg, "CRITICAL [Ch.8 MCP09]: unpinned MCP server shadow-mcp")
+test_deny_mcp_security_controls if {
+	bad := object.union(base_pack, {"runtimeAgentConfig": {"mcpTools": [
+		{"serverName": "payments-mcp", "transport": "http", "endpoint": "http://169.254.169.254/latest", "currentSchemaHash": hash_b},
+		{"serverName": "PAYMENTS-MCP ", "transport": "https", "endpoint": "https://x.example", "currentSchemaHash": "bad"},
+		{"serverName": "shadow-mcp", "currentSchemaHash": hash_a},
+	]}})
+	some m1 in main.deny with input as bad
+	contains(m1, "CRITICAL [Ch.8 MCP09]: unpinned MCP server shadow-mcp")
+	some m2 in main.deny with input as bad
+	contains(m2, "HIGH [Ch.8 MCP09]: duplicate or whitespace/case-conflicting")
+	some m3 in main.deny with input as bad
+	contains(m3, "CRITICAL [Ch.8 MCP]: schema hash drift for server payments-mcp")
+	some m4 in main.deny with input as bad
+	contains(m4, "CRITICAL [Ch.8 MCP]: remote MCP server payments-mcp uses cleartext transport")
+	some m5 in main.deny with input as bad
+	contains(m5, "CRITICAL [Ch.8 MCP SSRF]")
 }
 
-test_deny_missing_mcp_current_schema_hash if {
-	pack := object.union(base_pack, {"runtimeAgentConfig": {"mcpTools": [{"serverName": "payments-mcp"}]}})
-	not main.allow with input as pack
-	some msg in main.deny with input as pack
-	contains(msg, "CRITICAL [Ch.8 MCP]: missing currentSchemaHash")
-}
-
-test_deny_invalid_mcp_hash_format if {
-	pack := object.union(base_pack, {"runtimeAgentConfig": {"mcpTools": [{
-		"serverName": "payments-mcp",
-		"currentSchemaHash": "not-hex",
-	}]}})
-	not main.allow with input as pack
-	some msg in main.deny with input as pack
-	contains(msg, "is not a valid 64-hex SHA-256 hash")
-}
-
-test_deny_mcp_schema_drift if {
-	pack := object.union(base_pack, {"runtimeAgentConfig": {"mcpTools": [{
-		"serverName": "payments-mcp",
-		"currentSchemaHash": hash_b,
-	}]}})
-	not main.allow with input as pack
-	some msg in main.deny with input as pack
-	contains(msg, "CRITICAL [Ch.8 MCP]: schema hash drift for server payments-mcp")
-}
-
-test_deny_agentic_missing_kill_switch if {
-	pack := json.remove(base_pack, ["runtimeAgentConfig/killSwitchEnabled"])
-	not main.allow with input as pack
-	"HIGH [Ch.8]: Agentic-MCP deploy requires killSwitchEnabled=true" in main.deny with input as pack
-}
-
-test_deny_agentic_missing_scoped_credentials if {
-	pack := json.remove(base_pack, ["runtimeAgentConfig/scopedCredentialsRequired"])
-	not main.allow with input as pack
-	"HIGH [Ch.8]: Agentic-MCP deploy requires scopedCredentialsRequired=true" in main.deny with input as pack
-}
-
-test_deny_cross_model_kv_reuse_unguarded if {
-	pack := object.union(base_pack, {"inferenceConfig": {
-		"crossModelKvCacheReuse": true,
-		"kvAlignmentControlActive": false,
-		"tenantKvPartitioned": false,
-	}})
-	not main.allow with input as pack
-	some msg in main.deny with input as pack
-	contains(msg, "HIGH [Ch.7/16]: cross-model KV cache reuse")
-}
-
-test_allow_cross_model_kv_reuse_when_aligned if {
-	pack := object.union(base_pack, {"inferenceConfig": {
-		"crossModelKvCacheReuse": true,
-		"kvAlignmentControlActive": true,
-		"tenantKvPartitioned": false,
-	}})
-	main.allow with input as pack
+test_deny_agentic_asi_and_sampling_and_kv if {
+	bad := object.union(base_pack, {
+		"inferenceConfig": {"crossModelKvCacheReuse": true, "kvAlignmentControlActive": false, "tenantKvPartitioned": false},
+		"runtimeAgentConfig": {
+			"killSwitchEnabled": false,
+			"scopedCredentialsRequired": false,
+			"intentGateEnabled": false,
+			"memoryStoreEnabled": true,
+			"memoryProvenanceVerified": false,
+			"samplingEnabled": true,
+			"samplingBudgetCapped": false,
+		},
+	})
+	"HIGH [Ch.8]: Agentic-MCP deploy requires killSwitchEnabled=true" in main.deny with input as bad
+	"HIGH [Ch.8]: Agentic-MCP deploy requires scopedCredentialsRequired=true" in main.deny with input as bad
+	"HIGH [Ch.8 ASI02/ASI03]: Agentic-MCP deploy requires intentGateEnabled=true" in main.deny with input as bad
+	"HIGH [Ch.8 ASI06]: persistent agent memory requires memoryProvenanceVerified=true" in main.deny with input as bad
+	"HIGH [Ch.8 MCP]: MCP samplingEnabled requires samplingBudgetCapped=true" in main.deny with input as bad
+	some mkv in main.deny with input as bad
+	contains(mkv, "HIGH [Ch.7/16]: cross-model KV cache reuse")
 }

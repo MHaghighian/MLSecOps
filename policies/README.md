@@ -1,12 +1,12 @@
 # Policy-as-Code samples (OPA / Conftest)
 
-Executable examples for controls described in Chapters 6, 8, 12, and 16.
+Executable examples for controls described in Chapters 4, 5, 6, 7, 8, 10, 12, and 16.
 
 | File | Purpose |
 |------|---------|
-| [`cp8_cp9_admission.rego`](cp8_cp9_admission.rego) | Enforce blocking gates (`CP4`/`CP7`/`CP8`), bind `CP8↔CP9` SHA-256 digests (`modelArtifact` or `Managed-API` `managedApiConfig`), reject missing `systemScope`/`boundToCp9Digest`/placeholder `signatureMethod`, flag unreadable binaries, block unpinned (`MCP09`)/missing/drifted MCP hashes, require `Agentic-MCP` kill-switch + scoped credentials, and guard cross-model KV reuse |
-| [`cp8_cp9_admission_test.rego`](cp8_cp9_admission_test.rego) | Rego unit tests covering allow/deny and fail-closed edge cases (`conftest verify`) |
-| [`k8s/`](k8s/README.md) | Kubernetes inference Pod/Deployment hardening (`package mlsecops.k8s` — digest-pinned `@sha256:` images, non-root `restricted` PSS, `allowPrivilegeEscalation: false`, drop `ALL` caps, `automountServiceAccountToken: false`) |
+| [`cp8_cp9_admission.rego`](cp8_cp9_admission.rego) | Enforce blocking gates (`CP4`/`CP7`/`CP8` + quantitative `agentMisalignmentScore`/`redTeamPhasesCompleted`), bind `CP8↔CP9` SHA-256 digests (`modelArtifact` or `Managed-API` `managedApiConfig`), cross-check CycloneDX ML `components` SHA-256 & reject weak hashes (`MD5`/`SHA-1`), guard `dataProvenance` PII & backup revocation, flag unisolated `localRunnerConfig` (`E.1.7`), enforce `runtimeTelemetry.rawPromptLoggingDisabled`, block unpinned (`MCP09`)/shadowed/cleartext/SSRF/drifted MCP configs, require `Agentic-MCP` kill-switch, scoped credentials, Intent Gate (`ASI02`/`ASI03`), memory provenance (`ASI06`), and capped MCP sampling, plus KV reuse isolation |
+| [`cp8_cp9_admission_test.rego`](cp8_cp9_admission_test.rego) | Non-redundant Rego unit tests covering allow/deny and fail-closed edge cases (`conftest verify`) |
+| [`k8s/`](k8s/README.md) | Kubernetes inference Pod/Deployment hardening (`package mlsecops.k8s` — digest-pinned `@sha256:` images, disallow `--trust-remote-code` & plaintext `env` secrets, block `hostNetwork`/`hostPID`/`hostIPC`/`hostPath`, enforce `restricted` PSS `runAsNonRoot` + `seccompProfile` + `readOnlyRootFilesystem` + drop `ALL` caps + `resources.limits.memory` + `automountServiceAccountToken: false`) |
 | [`testdata/`](testdata/evidence-pack.fail-digest.json) | Pass/fail Evidence Pack fixtures (`evidence-pack.fail-digest.json`, [`evidence-pack.fail-unpinned-mcp.json`](testdata/evidence-pack.fail-unpinned-mcp.json)) |
 
 **Run locally**
@@ -20,6 +20,9 @@ conftest test --policy policies policies/testdata/evidence-pack.fail-digest.json
 conftest test --policy policies policies/testdata/evidence-pack.fail-unpinned-mcp.json
 conftest test --policy policies/k8s --namespace mlsecops.k8s policies/k8s/testdata/inference-pass.yaml
 conftest test --policy policies/k8s --namespace mlsecops.k8s policies/k8s/testdata/inference-fail.yaml
+
+# Optional static scan for MCP manifests (Unicode/Bidi, tool poisoning, Shadow MCP, canonical pins) & model headers:
+python scripts/ai_security_scan.py --mcp path/to/mcp.json --model path/to/weights/
 ```
 
 > `cp8_cp9_admission.rego` uses Conftest's default `package main` so `conftest test --policy policies ...` evaluates rules without extra namespace flags, while `policies/k8s/` uses `package mlsecops.k8s` so Evidence Pack checks and Kubernetes manifest checks never collide.

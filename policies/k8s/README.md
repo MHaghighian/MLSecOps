@@ -1,15 +1,16 @@
 # Kubernetes Inference Workload Policy (OPA / Conftest)
 
-Executable Kubernetes admission sample implementing **Chapter 16** and **Appendix E.7.3** Pod/Deployment controls (`Pod`, `Deployment`, `StatefulSet`, `DaemonSet`, `Job`, `CronJob`).
+Executable Kubernetes admission sample implementing **Chapters 3, 5, 16**, and **Appendix E.7.3** Pod/Deployment controls (`Pod`, `Deployment`, `StatefulSet`, `DaemonSet`, `Job`, `CronJob`).
 
 Uses `package mlsecops.k8s` so Evidence Pack checks (`conftest test --policy policies ...`, which run `package main`) and Kubernetes manifest checks never collide when Conftest loads `policies/` recursively.
 
 ## Controls enforced
 
 - **Digest-pinned images (`CP 9`):** deny `:latest` or unpinned tags missing `@sha256:<64-hex>`
-- **Non-root (`restricted` PSS):** enforce `securityContext.runAsNonRoot: true`
-- **Least privilege:** deny `privileged: true`, require `allowPrivilegeEscalation: false`, require `capabilities.drop: ["ALL"]`
-- **Token minimization:** require `automountServiceAccountToken: false`
+- **Supply-chain & secret hygiene (`Ch.5/16`):** reject `--trust-remote-code` / `TRUST_REMOTE_CODE`, and forbid plaintext secrets (`HF_TOKEN`, `VLLM_API_KEY`, `*_API_KEY`, `*_TOKEN`, `*_SECRET`) instead of `valueFrom`
+- **Node & host isolation (`Ch.16`):** deny `hostNetwork`, `hostPID`, `hostIPC`, and `hostPath` volume mounts
+- **Restricted Pod Security Standards (`Ch.16`):** enforce `runAsNonRoot: true`, `seccompProfile` (`RuntimeDefault`/`Localhost`), `allowPrivilegeEscalation: false`, `capabilities.drop: ["ALL"]`, `readOnlyRootFilesystem: true`, and forbid `privileged: true`
+- **Compute hijacking & token minimization (`Ch.3/16`):** require `resources.limits.memory` and `automountServiceAccountToken: false`
 
 ## Run locally
 

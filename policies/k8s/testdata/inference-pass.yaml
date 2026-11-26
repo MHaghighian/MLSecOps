@@ -22,8 +22,26 @@ spec:
       containers:
         - name: vllm
           image: ghcr.io/example/vllm-openai@sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+          env:
+            - name: VLLM_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: inference-api-key
+                  key: VLLM_API_KEY
+          resources:
+            limits:
+              cpu: "4"
+              memory: "16Gi"
           securityContext:
             allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
             capabilities:
               drop:
                 - ALL
+          volumeMounts:
+            - name: tmp-cache
+              mountPath: /tmp
+      volumes:
+        - name: tmp-cache
+          emptyDir:
+            medium: Memory

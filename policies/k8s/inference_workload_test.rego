@@ -13,12 +13,17 @@ base_deploy := {
 		"template": {
 			"spec": {
 				"automountServiceAccountToken": false,
-				"securityContext": {"runAsNonRoot": true},
+				"securityContext": {
+					"runAsNonRoot": true,
+					"seccompProfile": {"type": "RuntimeDefault"},
+				},
 				"containers": [{
 					"name": "vllm",
 					"image": pinned_img,
+					"resources": {"limits": {"cpu": "4", "memory": "16Gi"}},
 					"securityContext": {
 						"allowPrivilegeEscalation": false,
+						"readOnlyRootFilesystem": true,
 						"capabilities": {"drop": ["ALL"]},
 					},
 				}],
@@ -31,34 +36,60 @@ test_valid_deployment_passes if {
 	count(k8s.deny) == 0 with input as base_deploy
 }
 
-test_deny_unpinned_image_tag if {
+test_deny_unpinned_and_trust_remote_code_and_plain_secret if {
 	bad := object.union(base_deploy, {"spec": {"template": {"spec": {"containers": [{
 		"name": "vllm",
 		"image": "vllm/vllm-openai:latest",
+		"args": ["--model", "org/m", "--trust-remote-code"],
+		"env": [{"name": "HF_TOKEN", "value": "hf_plaintext_secret"}],
+		"resources": {"limits": {"memory": "16Gi"}},
 		"securityContext": {
 			"allowPrivilegeEscalation": false,
+			"readOnlyRootFilesystem": true,
 			"capabilities": {"drop": ["ALL"]},
 		},
 	}]}}}})
-	some msg in k8s.deny with input as bad
-	contains(msg, "CRITICAL [Ch.16/CP9]: container")
+	some m1 in k8s.deny with input as bad
+	contains(m1, "CRITICAL [Ch.16/CP9]: container")
+	some m2 in k8s.deny with input as bad
+	contains(m2, "CRITICAL [Ch.5/16]: container \"vllm\" passes --trust-remote-code")
+	some m3 in k8s.deny with input as bad
+	contains(m3, "CRITICAL [Ch.5/16]: container \"vllm\" hardcodes sensitive env")
 }
 
-test_deny_missing_non_root_and_sa_token if {
-	bad := json.remove(base_deploy, [
-		"spec/template/spec/securityContext/runAsNonRoot",
-		"spec/template/spec/automountServiceAccountToken",
-	])
-	"HIGH [Ch.16]: Deployment \"llm-inference\" must enforce securityContext.runAsNonRoot=true" in k8s.deny with input as bad
-	"HIGH [Ch.16]: Deployment \"llm-inference\" must set automountServiceAccountToken=false on inference workloads" in k8s.deny with input as bad
+test_deny_host_escape_surfaces if {
+	bad := object.union(base_deploy, {"spec": {"template": {"spec": {
+		"hostNetwork": true,
+		"hostPID": true,
+		"volumes": [{"name": "sock", "hostPath": {"path": "/var/run/docker.sock"}}],
+	}}}})
+	some m1 in k8s.deny with input as bad
+	contains(m1, "hostNetwork=true")
+	some m2 in k8s.deny with input as bad
+	contains(m2, "hostPID=true")
+	some m3 in k8s.deny with input as bad
+	contains(m3, "mounts hostPath")
 }
 
-test_deny_privilege_escalation_and_missing_cap_drop if {
-	bad := object.union(base_deploy, {"spec": {"template": {"spec": {"containers": [{
-		"name": "vllm",
-		"image": pinned_img,
-		"securityContext": {},
-	}]}}}})
-	"HIGH [Ch.16]: container \"vllm\" must set securityContext.allowPrivilegeEscalation=false" in k8s.deny with input as bad
-	"HIGH [Ch.16]: container \"vllm\" must drop ALL capabilities" in k8s.deny with input as bad
+test_deny_pss_restricted_and_limits_gaps if {
+	bad := {
+		"apiVersion": "apps/v1",
+		"kind": "Deployment",
+		"metadata": {"name": "unsafe-deploy"},
+		"spec": {"template": {"spec": {"containers": [{
+			"name": "vllm",
+			"image": pinned_img,
+			"securityContext": {},
+		}]}}},
+	}
+	some m_root in k8s.deny with input as bad
+	contains(m_root, "runAsNonRoot=true")
+	some m_sec in k8s.deny with input as bad
+	contains(m_sec, "seccompProfile")
+	some m_ro in k8s.deny with input as bad
+	contains(m_ro, "readOnlyRootFilesystem=true")
+	some m_lim in k8s.deny with input as bad
+	contains(m_lim, "resources.limits.memory")
+	some m_sa in k8s.deny with input as bad
+	contains(m_sa, "automountServiceAccountToken=false")
 }

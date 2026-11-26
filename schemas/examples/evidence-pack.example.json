@@ -68,11 +68,22 @@
   "runtimeAgentConfig": {
     "killSwitchEnabled": true,
     "scopedCredentialsRequired": true,
+    "intentGateEnabled": true,
+    "memoryStoreEnabled": true,
+    "memoryProvenanceVerified": true,
+    "delegationDepthMax": 2,
+    "samplingEnabled": false,
     "mcpTools": [
       {
         "serverName": "payments-mcp",
+        "transport": "https",
+        "endpoint": "https://mcp.internal.example/payments",
         "currentSchemaHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
       }
     ]
+  },
+  "runtimeTelemetry": {
+    "siemFeedActive": true,
+    "rawPromptLoggingDisabled": true
   }
 }
