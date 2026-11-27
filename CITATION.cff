@@ -8,10 +8,10 @@ authors:
 doi: 10.5281/zenodo.21206780
 repository-code: "https://github.com/MHaghighian/MLSecOps"
 url: "https://doi.org/10.5281/zenodo.21206780"
-repository-artifact: "https://github.com/MHaghighian/MLSecOps/releases/tag/v1.4.0"
+repository-artifact: "https://github.com/MHaghighian/MLSecOps/releases/tag/v1.5.0"
 license: CC-BY-SA-4.0
-version: 1.4.0
-date-released: 2026-11-25
+version: 1.5.0
+date-released: 2026-11-27
 keywords:
   - MLSecOps
   - MLSecOps reference model
@@ -28,8 +28,8 @@ preferred-citation:
     - family-names: Haghighian
       given-names: Moslem
   title: "MLSecOps Reference Model & Practical Guide"
-  version: 1.4.0
+  version: 1.5.0
   year: 2026
   doi: 10.5281/zenodo.21206780
   url: "https://doi.org/10.5281/zenodo.21206780"
-  notes: "Independent open-source MLSecOps reference model and practical guide. Not an official industry standard. Citing concept DOI 10.5281/zenodo.21206780 until a version-specific Zenodo DOI is minted for v1.4.0."
+  notes: "Independent open-source MLSecOps reference model and practical guide. Not an official industry standard. Citing concept DOI 10.5281/zenodo.21206780 until a version-specific Zenodo DOI is minted for v1.5.0."

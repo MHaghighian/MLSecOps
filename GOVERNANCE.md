@@ -36,7 +36,7 @@ Actors and system actions: [DESIGN.md](DESIGN.md).
 
 - **Major (x.0):** First stable release or structural revision (e.g. v1.0.0 lifecycle model frozen).
 - **Minor (0.x):** Content updates, mapping fixes, Appendix E improvements.
-- **Current release:** v1.4.0 — Markdown source, machine-readable schemas (`schemas/`), OPA/Conftest policies (`policies/` + `policies/k8s/`), zero-dependency static MCP/model scanner & QA tooling (`scripts/` + `tests/`), and documentation site; optional DOCX/PDF via CI or `scripts/build-docx.py`.
+- **Current release:** v1.5.0 — Markdown source, machine-readable schemas & `in-toto`/DSSE envelopes (`schemas/`), OPA/Conftest & Witness policies (`policies/`), zero-dependency static MCP/model scanner, controlled benchmark & QA tooling (`scripts/` + `tests/`), standards conformance tables (`references/`), and documentation site; optional DOCX/PDF via CI or `scripts/build-docx.py`.
 
 Document versions in [README.md](README.md), [CHANGELOG.md](CHANGELOG.md), and [RELEASE_NOTES.md](RELEASE_NOTES.md). Release process: [RELEASING.md](RELEASING.md). Integrity: [RELEASE-INTEGRITY.md](RELEASE-INTEGRITY.md).
 

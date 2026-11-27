@@ -28,9 +28,9 @@
     "dpTrainingApplied": false
   },
   "conformanceProfile": {
-    "profileVersion": "1.4.0",
+    "profileVersion": "1.5.0",
     "targetLevel": 2,
-    "controlIds": ["MLS-CP-01", "MLS-CP-02", "MLS-CP-03", "MLS-CP-04", "MLS-TR-01", "MLS-TR-02"]
+    "controlIds": ["MLS-CP-01", "MLS-CP-02", "MLS-DT-01", "MLS-SC-01", "MLS-TR-01", "MLS-TR-02"]
   },
   "dataProvenance": {
     "datasetVersion": "curated-pretrain-plus-dpo-2026-11",

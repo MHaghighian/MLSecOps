@@ -58,6 +58,7 @@ LINK_REWRITES = {
     ".github/workflows/": "https://github.com/MHaghighian/MLSecOps/tree/main/.github/workflows/",
     "releases/v1.3.0-RELEASE-BODY.md": "https://github.com/MHaghighian/MLSecOps/blob/main/releases/v1.3.0-RELEASE-BODY.md",
     "releases/v1.4.0-RELEASE-BODY.md": "https://github.com/MHaghighian/MLSecOps/blob/main/releases/v1.4.0-RELEASE-BODY.md",
+    "releases/v1.5.0-RELEASE-BODY.md": "https://github.com/MHaghighian/MLSecOps/blob/main/releases/v1.5.0-RELEASE-BODY.md",
     "scripts/README.md": "https://github.com/MHaghighian/MLSecOps/blob/main/scripts/README.md",
     "../scripts/README.md": "https://github.com/MHaghighian/MLSecOps/blob/main/scripts/README.md",
     "scripts/ai_security_scan.py": "https://github.com/MHaghighian/MLSecOps/blob/main/scripts/ai_security_scan.py",
@@ -120,7 +121,7 @@ def main() -> None:
 
 **Open-source MLSecOps reference model and practical guide for AI security, LLM/RAG, agentic AI, and secure MLOps.**
 
-**v1.4.0** — lifecycle control model (`CP 1–10`), machine-readable Evidence Pack schema, OPA/Conftest Policy-as-Code suites (Evidence Pack + Kubernetes workloads), zero-dependency static MCP/model scanner (`scripts/ai_security_scan.py`), and Secure-by-Design blueprints across data, training, deployment, runtime, SOC, and governance.
+**v1.5.0** — lifecycle control model (`CP 1–10`), machine-readable Evidence Pack schema + `in-toto` v1 / DSSE envelopes, OPA/Conftest Policy-as-Code + Witness/Archivista suites, zero-dependency static MCP/model scanner (`scripts/ai_security_scan.py`), controlled evaluation benchmark, `MLS-*` conformance profile, ISO/IEC 27090:2026 baseline, and Secure-by-Design blueprints across data, pretraining (`E.1.8`), deployment, runtime, SOC, and governance.
 
 [GitHub repository](https://github.com/MHaghighian/MLSecOps) · [mhsec.me](https://mhsec.me) · [Getting Started](getting-started.md) · [Zenodo DOI](https://doi.org/10.5281/zenodo.21206780) · [OpenSSF Best Practices](https://www.bestpractices.dev/projects/15668)
 

@@ -1,8 +1,8 @@
 # Releasing the MLSecOps Reference Model & Practical Guide
 
-Checklist for maintainers publishing **v1.4.0** and later versions.
+Checklist for maintainers publishing **v1.5.0** and later versions.
 
-**Current release:** v1.4.0 (2026-11-25)
+**Current release:** v1.5.0 (2026-11-27)
 
 Pre-built **DOCX** (and **PDF** when conversion succeeds) are attached automatically by the **Handbook Artifacts** workflow (`.github/workflows/handbook-artifacts.yml`) when a `v*.*.*` tag is pushed, or via that workflow’s `workflow_dispatch`. Readers can still build locally with `scripts/build-docx.py --render-mermaid` if needed.
 
@@ -29,26 +29,25 @@ The **Create Release** workflow generates `SHA256SUMS` and a cosign keyless sign
 
 ---
 
-## v1.4.0 release checklist
+## v1.5.0 release checklist
 
 ### Pre-release (content & verification)
 
-- [x] Reference Model identity, `schemas/`, `policies/` (`CP4`/`CP7`/`CP8`/`CP9` + `policies/k8s/`), `scripts/ai_security_scan.py`, `scripts/verify_repo.py`, `tests/`, and Appendix `E.1.7` / `E.4` updates
-- [x] Repository root cleanup (Search Console files under `.github/seo/`, out-of-scope `promotion/` removed)
-- [x] Version strings synced to `v1.4.0` (`CITATION.cff`, `mkdocs.yml`, `.github/prepare_pages.py`, docs, chapters)
+- [x] `ISO/IEC 27090:2026` primary standards elevation, `MLS-*` Conformance Profile (`references/STANDARDS-ALIGNMENT.md`), `in-toto` v1 / DSSE / Witness / Archivista (`schemas/`, `policies/witness/`, `references/INTOTO-WITNESS-ARCHIVISTA.md`), `Pretraining-Distributed` (`E.1.8`), hardened `scripts/ai_security_scan.py`, and controlled benchmark (`scripts/eval_benchmark.py` / `references/EVALUATION-BENCHMARK.md`)
+- [x] Version strings synced to `v1.5.0` (`CITATION.cff`, `mkdocs.yml`, `.github/prepare_pages.py`, docs, chapters)
 - [ ] Run `python scripts/verify_repo.py --require-conftest --with-mkdocs` and confirm 0 findings from `ai_security_scan.py` before tagging
 
 ### Git
 
 - [ ] Push `main` with DCO-signed commits (`git push origin main`)
-- [ ] `git tag -s v1.4.0 -m "MLSecOps Reference Model & Practical Guide v1.4.0"`
-- [ ] `git push origin v1.4.0`
+- [ ] `git tag -s v1.5.0 -m "MLSecOps Reference Model & Practical Guide v1.5.0"`
+- [ ] `git push origin v1.5.0`
 
 ### GitHub Release
 
-1. Create release from tag **v1.4.0** (integrity assets via Create Release workflow; handbook DOCX/PDF attached to draft via Handbook Artifacts workflow)
-2. Title: **MLSecOps v1.4.0 — MLSecOps Reference Model & Practical Guide**
-3. Body: [releases/v1.4.0-RELEASE-BODY.md](releases/v1.4.0-RELEASE-BODY.md)
+1. Create release from tag **v1.5.0** (integrity assets via Create Release workflow; handbook DOCX/PDF attached to draft via Handbook Artifacts workflow)
+2. Title: **MLSecOps v1.5.0 — MLSecOps Reference Model & Practical Guide**
+3. Body: [releases/v1.5.0-RELEASE-BODY.md](releases/v1.5.0-RELEASE-BODY.md)
 4. Verify `SHA256SUMS` + `SHA256SUMS.sigstore.json` and handbook assets on the draft release, then click **Publish release**.
 
 ### Zenodo
@@ -187,6 +186,7 @@ After each release:
 | `v1.2.1` | Restore inline Mermaid diagrams + MkDocs Mermaid render |
 | `v1.3.0` | NIST Cyber AI Profile (IR 8596 iprd) mapping, release-gate/privacy/nav integrity, OpenSSF baseline-2 |
 | `v1.4.0` | Reference Model & Practical Guide identity, CycloneDX 1.6/1.7 Evidence Pack schemas (`schemas/`), OPA/Conftest policies (`CP4`/`CP7`/`CP8`/`CP9` + `policies/k8s/`), zero-dep static MCP/model scanner (`scripts/ai_security_scan.py` + `tests/`), DMR/Vector DB revocation, hardened CI/QA/release workflows |
+| `v1.5.0` | ISO/IEC 27090:2026 primary baseline, `MLS-*` Conformance Profile + OWASP AISVS/MAESTRO/ISO 42001/ATLAS crosswalks, `in-toto` v1 + DSSE + Witness + Archivista, `Pretraining-Distributed` (`E.1.8`), deepened pickle/GGUF/ZIP/ONNX/MCP09 scanner, and controlled benchmark (`eval_benchmark.py`) |
 | `v2.0.0` | Lifecycle model or major structural change |
 
 Document every release in [CHANGELOG.md](CHANGELOG.md).
@@ -198,7 +198,7 @@ Document every release in [CHANGELOG.md](CHANGELOG.md).
 ```bash
 # From repository root
 python scripts/build-docx.py --render-mermaid
-# Output: dist/MLSecOps-Reference-Model-v1.4.0.docx
+# Output: dist/MLSecOps-Reference-Model-v1.5.0.docx
 ```
 
 The build uses Pandoc with the Word **reference template** (`scripts/templates/reference.docx`, or auto-download from the v1.0.0 Release DOCX). Diagram PNGs are taken from `assets/diagrams/`; missing PNGs can be rendered from `assets/diagrams/source/*.mmd` with `--render-mermaid`. Export PDF from Word or Pandoc if required. Do not commit large binaries to `main`.

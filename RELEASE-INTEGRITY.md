@@ -8,7 +8,7 @@ For each official release (from the Create Release workflow / [RELEASING.md](REL
 
 | Asset | Purpose |
 |-------|---------|
-| Git tag (e.g. `v1.4.0`) | Immutable pointer to the release commit |
+| Git tag (e.g. `v1.5.0`) | Immutable pointer to the release commit |
 | `SHA256SUMS` | Cryptographic hashes of release-relevant paths (`chapters-en/`, `assets/`, `schemas/`, `policies/`, `references/`, `releases/`, `scripts/`, `tests/`, `.github/`, root docs) |
 | `SHA256SUMS.sigstore.json` or `.asc` | Cosign keyless bundle or maintainer GPG detached signature over `SHA256SUMS` |
 
@@ -20,7 +20,7 @@ For each official release (from the Create Release workflow / [RELEASING.md](REL
 
 ```bash
 git fetch --tags
-git checkout v1.4.0
+git checkout v1.5.0
 python scripts/generate_release_manifest.py --verify SHA256SUMS
 ```
 

@@ -4,6 +4,8 @@ All notable changes to the MLSecOps Reference Model & Practical Guide are docume
 
 ## [Unreleased]
 
+## [1.5.0] — 2026-11-27
+
 ### Added
 
 - **Standards Conformance Profile (`MLS-*`), `in-toto` v1 / DSSE / Witness / Archivista & Controlled Benchmark** — added formal machine-verifiable `conformanceProfile` (`MLS-*` control IDs across Levels 1–3) to `schemas/evidence-pack.schema.json`; wrapped Evidence Packs in canonical `https://in-toto.io/Statement/v1` + **DSSE (`application/vnd.in-toto+json`)** via `schemas/mlsecops-attestation.v1.schema.json`, `schemas/dsse-envelope.v1.schema.json`, `--emit-intoto`, `--emit-dsse`, and `schemas/examples/intoto/` samples; added **Witness** (`in-toto/witness`) & **Archivista** (`in-toto/archivista`) policy/workflow ([`policies/witness/`](policies/witness/README.md) & [`references/INTOTO-WITNESS-ARCHIVISTA.md`](references/INTOTO-WITNESS-ARCHIVISTA.md)); added full cross-walks to `OWASP AISVS v1.0 (C1–C12)`, `CSA MAESTRO (L1–L7)`, `MITRE ATLAS`, `ISO/IEC 42001`, and `NIST AI RMF` in [`references/STANDARDS-ALIGNMENT.md`](references/STANDARDS-ALIGNMENT.md); extended scope to distributed `DDP`/`FSDP`/`RLHF`/`DPO` pretraining clusters in `Appendix E.1.8` + `trainingClusterConfig` + Rego rules; and added `scripts/eval_benchmark.py` + [`references/EVALUATION-BENCHMARK.md`](references/EVALUATION-BENCHMARK.md) (`11/11` adversarial recall, `0/5` FPR, `0.909 ms` median latency, `7/7` policy accuracy on deterministic CVE-pattern & benign/multilingual fixtures).

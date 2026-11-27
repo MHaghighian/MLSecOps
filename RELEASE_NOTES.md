@@ -4,6 +4,30 @@ Official releases: [GitHub Releases](https://github.com/MHaghighian/MLSecOps/rel
 
 ---
 
+## v1.5.0 — 2026-11-27
+
+**ISO/IEC 27090:2026 Primary Baseline + `MLS-*` Conformance Profile + `in-toto` / DSSE / Witness / Archivista + Pretraining (`E.1.8`) + Static Scanner & Controlled Benchmark** — elevates **ISO/IEC 27090:2026** as the primary technical AI security baseline, introduces the machine-verifiable `MLS-*` Conformance Profile (`Levels 1–3`) with clause-level cross-walks (`OWASP AISVS C1–C12`, `CSA MAESTRO L1–L7`, `ISO/IEC 42001`, `NIST AI RMF`, `MITRE ATLAS`), wraps Evidence Packs in `in-toto` Statement v1 + **DSSE (`application/vnd.in-toto+json`)** alongside **Witness** & **Archivista** provenance workflows, adds distributed pretraining & RLHF/DPO cluster coverage (`Appendix E.1.8`), and ships the hardened `scripts/ai_security_scan.py` static scanner + deterministic `scripts/eval_benchmark.py` benchmark.
+
+**DOI:** concept [10.5281/zenodo.21206780](https://doi.org/10.5281/zenodo.21206780) (version DOI updates after Zenodo deposit)
+
+| Format | Link |
+|--------|------|
+| Source (ZIP) | [Source code (zip)](https://github.com/MHaghighian/MLSecOps/archive/refs/tags/v1.5.0.zip) |
+| Markdown / Schemas / Policies / References / Scripts | `chapters-en/`, `schemas/`, `policies/`, `references/`, `scripts/`, `tests/` in this repository |
+| Site | https://mhaghighian.github.io/MLSecOps/ |
+| Maintainer | https://mhsec.me |
+| Word / PDF | Attached via Handbook Artifacts workflow on release tags (or `python scripts/build-docx.py --render-mermaid`) |
+
+### Highlights
+
+- **ISO/IEC 27090:2026 primary standards elevation:** aligns threats, compromises, tradeoffs (`Clauses 5–7`, `Annexes A–C`), and chapters primarily to ISO/IEC 27090:2026 while positioning OWASP AI Exchange as an open implementation companion and adding an honest framework comparison + limitations section to `README.md`
+- **Formal Conformance Profile (`MLS-*`) & Cross-Walks (`references/STANDARDS-ALIGNMENT.md`):** Levels 1–3 control IDs (`MLS-CP-*`, `MLS-DT-*`, `MLS-SC-*`, `MLS-AG-*`, `MLS-RT-*`, `MLS-TR-*`) enforced via JSON Schema & Rego, plus clause-level tables for `OWASP AISVS v1.0 (C1–C12)`, `CSA MAESTRO (L1–L7)`, `MITRE ATLAS`, `ISO/IEC 42001`, and `NIST AI RMF`
+- **`in-toto` v1, DSSE, Witness & Archivista (`schemas/` + `policies/witness/` + `references/INTOTO-WITNESS-ARCHIVISTA.md`):** `mlsecops-attestation.v1.schema.json`, `dsse-envelope.v1.schema.json`, `--emit-intoto` / `--emit-dsse`, DSSEv1 PAE helper, Base64 OPA Rego Witness policy template (`git`, `material`, `product`, `command-run`), and private Archivista GraphQL/upload provenance patterns
+- **Distributed Pretraining & Alignment (`Appendix E.1.8`):** `Pretraining-Distributed` scope and `trainingClusterConfig` enforcing collective fabric isolation (`NCCL`/`RoCE`), worker attestation, signed intermediate checkpoints, RLHF/DPO preference provenance, gradient clipping, and SFT-to-DPO validation gates
+- **Deepened static scanner, K8s/Rego gates & controlled benchmark (`scripts/eval_benchmark.py`):** Pickle VM stack/memo disassembly (`CVE-2025-10157`), ZIP differential/CRC checks (`CVE-2025-1945`/`CVE-2025-10156`), bounded GGUF KV SSTI (`CVE-2024-34359`), varint ONNX traversal (`CVE-2024-5187`), Unicode/NFKC/SSRF/MCP09 checks, hardened `policies/k8s/inference_workload.rego`, and reproducible controlled evaluation (`11/11` recall, `0/5` FPR, `7/7` policy accuracy)
+
+---
+
 ## v1.4.0 — 2026-11-25
 
 **Reference Model identity + Policy-as-Code + Evidence Pack schema + Static Scanner** — positions the project as an independent **MLSecOps Reference Model & Practical Guide**, adds CycloneDX 1.6/1.7 Evidence Pack schemas (`schemas/`), OPA/Conftest policies (`policies/` + `policies/k8s/`), a zero-dependency static MCP/model header scanner (`scripts/ai_security_scan.py` + `tests/`), documents Vector DB backup/snapshot revocation and Docker Model Runner (`E.1.7`), automates CI schema/Conftest/QA verification and DOCX/PDF release artifacts, and aligns docs/links/diagrams across the repository.
